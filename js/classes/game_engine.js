@@ -1,5 +1,6 @@
 /**
  * The Game Engine contains all entities, and puts them all through the update-render loop. It is also responsible for tracking user input.
+ * @author Seth Ladd (original), Chris Marriott (modified), Devin Peevy (modified)
  */
 class GameEngine {
     /**

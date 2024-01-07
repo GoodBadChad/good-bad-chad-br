@@ -35,17 +35,17 @@ class Chad {
 
     /** This will be Chad's height ON THE CANVAS. */
     static get SCALED_HEIGHT() {
-        return Entity.SCALE * Entity.HEIGHT;
+        return Chad.SCALE * Chad.HEIGHT;
     };
 
     /** This will be Chad's width ON THE CANVAS. */
     static get SCALED_WIDTH() {
-        return Entity.SCALE * Entity.WIDTH;
+        return Chad.SCALE * Chad.WIDTH;
     };
 
     /** The filepath to Chad's spritesheet. */
     static get SPRITESHEET() {
-        return "./sprites/";
+        return "./sprites/chad.js";
     };
 
     /** The width, in pixels, of Chad ON THE SPRITESHEET. */
