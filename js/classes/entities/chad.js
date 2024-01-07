@@ -60,7 +60,7 @@ class Chad {
 
     /** Draw Chad on the canvas. */
     draw() {
-        this.animations[facing][action].drawFrame();
+        this.animations[this.facing][this.action].drawFrame();
     };
 
     /** Called by the constructor. Fills up the animations array. */
