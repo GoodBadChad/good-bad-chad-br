@@ -21,9 +21,6 @@ class GameEngine {
 
         /** The timer tells you how long it's been since the last tick! */
         this.timer = new Timer();
-
-        // Start listening for user input.
-        this.startInput();
     };
     
     /**
@@ -36,6 +33,7 @@ class GameEngine {
 
     /** This method is actually going to control the update-render loop that is at the heart of any game. */
     start() {
+        this.startInput();
         this.running = true;
         const gameLoop = () => {
             this.loop();
@@ -63,7 +61,7 @@ class GameEngine {
             }
         }
         // Update Chad, who is not a regular entity.
-        CHAD.update();
+        // CHAD.update();
         // Update the camera, which is not a regular entity.
         CAMERA.update();
 
@@ -87,7 +85,7 @@ class GameEngine {
             this.entities[i].draw();
         }
         // Draw Chad, who is not a regular entity.
-        CHAD.draw();
+        //CHAD.draw();
     };
 
     /**

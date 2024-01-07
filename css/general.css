@@ -1,0 +1,18 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    align-content: center;
+}
+
+#game-world {
+    width: min(90vw, 90vh);
+    height: min(90vw, 90vh);
+    margin: auto;
+    background: #333333;
+}

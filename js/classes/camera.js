@@ -17,8 +17,8 @@ class Camera {
     update() {
         // (1) Put the wizard in the middle of the camera.
         const HALF_SCREEN = 512;
-        this.x = WIZARD.x - HALF_SCREEN;
-        this.y = WIZARD.y - HALF_SCREEN;
+        this.x = CHAD.x - HALF_SCREEN;
+        this.y = CHAD.y - HALF_SCREEN;
 
         // (2) IF you screwed up, correct it!
         const MAX_POS = 8026; // (MapSize = 9050) - (ScreenSize = 1024)

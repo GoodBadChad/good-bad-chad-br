@@ -11,5 +11,5 @@ const CHAD = new Chad();
 // Download assets and start the game.
 ASSET_MGR.downloadAll(() => {
 	// load the first level here.
-	gameEngine.start();
+	GAME.start();
 });
