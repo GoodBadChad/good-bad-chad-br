@@ -10,6 +10,8 @@ CTX.imageSmoothingEnabled = false;
 
 // Queue asset downloads here:
 ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
+ASSET_MGR.queueDownload(Snake.SPRITESHEET);
+ASSET_MGR.queueDownload(Slime.SPRITESHEET);
 
 // Download assets and start the game.
 ASSET_MGR.downloadAll(() => {
