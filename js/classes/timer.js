@@ -1,5 +1,7 @@
-// This game shell was happily modified from Googler Seth Ladd's "Bad Aliens" game and his Google IO talk in 2011
-/** The timer is going to track the amount of time since the last clock tick. */
+/** 
+ * The timer is going to track the amount of time since the last clock tick. 
+ * @author Seth Ladd
+ */
 class Timer {
     constructor() {
         this.gameTime = 0;
@@ -7,6 +9,9 @@ class Timer {
         this.lastTimestamp = 0;
     };
 
+    /** Ticks the clock.
+     * @returns the time (in seconds) since the last clock tick.
+     */
     tick() {
         const current = Date.now();
         const delta = (current - this.lastTimestamp) / 1000;

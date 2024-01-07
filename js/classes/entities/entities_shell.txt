@@ -63,4 +63,4 @@ class Entity {
         this.animations["left"] = [];
         this.animations["right"] = [];
     };
-}
+};
