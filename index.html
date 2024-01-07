@@ -1,17 +1,23 @@
-﻿
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <title>Game Project Title Goes Here</title>
-  
-    <script type="text/javascript" src="./assetmanager.js"></script>
-    <script type="text/javascript" src="./timer.js"></script>
-    <script type="text/javascript" src="./gameengine.js"></script>
-    <script type="text/javascript" src="./util.js"></script>
-    <script type="text/javascript" src="./main.js"></script>
-</head>
-<body>
-    <canvas id="gameWorld" width="1024" height="768" style="background: white; border: 1px solid black" tabindex="0" autofocus></canvas>
-</body>
+    <head>
+        <title> Devin Peevy Animation Assignment</title>
+        <!-- Scripts containing info/functions for classes. -->
+        <script type="text/javascript" src="./js/scripts/util.js"></script>
+        <!-- Put classes here! -->
+        <script type="text/javascript" src="./js/classes/game_engine.js"></script>
+        <script type="text/javascript" src="./js/classes/timer.js"></script>
+        <script type="text/javascript" src="./js/classes/asset_manager.js"></script>
+        <script type="text/javascript" src="./js/classes/animator.js"></script>
+    </head>
+    <body>
+        <!-- 
+        NOTE: the width and height of this is unique.
+        It refers not to the size on the window, but the amount of visible (GAME) pixels visible on the screen.
+        Actual pixel height of the canvas is set in CSS.
+        -->
+        <canvas width="1024" id="game-world"></canvas>
+        <!-- Load the main script. -->
+        <script type="text/javascript" src="./js/scripts/main.js"></script>
+    </body>
 </html>

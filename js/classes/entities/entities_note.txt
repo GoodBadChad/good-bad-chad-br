@@ -1,0 +1,66 @@
+// SHELL FOR AN ENTITY. UPDATE AS WE GO.
+class Entity {
+    constructor() {
+        /** The x position of the Entity (in the game world). */
+        this.x = ;
+        /** The y position of the Entity (in the game world). */
+        this.y = ;
+        /** An associative array of the animations for this Entity. Arranged [facing][action]. */
+        this.animations = [];
+        this.loadAnimations();
+        /** What way is the Entity looking? */
+        this.facing = "left"; // "left", "right"
+        /** What is the Entity doing? */
+        this.action = "idle";
+        /** Used to check for collisions with other applicable entities. */
+        this.boundingBox = new BoundingBox();
+        /** Used to check how to deal with collisions with other applicable entities. */
+        this.lastBoundingBox = this.boundingBox;
+    };
+
+    /** The height, in pixels, of the sprite ON THE SPRITESHEET. */
+    static get HEIGHT() {
+
+    };
+
+    /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
+    static get SCALE() {
+
+    };
+
+    /** This will be the height of the Entity ON THE CANVAS. */
+    static get SCALED_HEIGHT() {
+        return Entity.SCALE * Entity.HEIGHT;
+    };
+
+    /** This will be the width of the Entity ON THE CANVAS. */
+    static get SCALED_WIDTH() {
+        return Entity.SCALE * Entity.WIDTH;
+    };
+
+    /** The filepath to the spritesheet of the Entity. */
+    static get SPRITESHEET() {
+        return "./sprites/";
+    };
+
+    /** The width, in pixels, of the sprite ON THE SPRITESHEET. */
+    static get WIDTH() {
+
+    };
+    
+    /** Change what the entity is doing and where it is. */
+    update() {
+
+    };
+
+    /** Draw the entity on the canvas. */
+    draw() {
+        this.animations[facing][action].drawFrame();
+    };
+
+    /** Called by the constructor. Fills up the animations array. */
+    loadAnimations() {
+        this.animations["left"] = [];
+        this.animations["right"] = [];
+    };
+}
