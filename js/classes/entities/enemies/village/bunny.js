@@ -64,7 +64,7 @@ class Bunny {
         return 27;
     };
     
-    /** Change what the entity is doing and where it is. */
+    /** Change what the Bunny is doing and where it is. */
     update() {
         // WHAT SHOULD HIS CONDITIONS BE?
 
@@ -86,7 +86,7 @@ class Bunny {
         }
     };
 
-    /** Draw the entity on the canvas. */
+    /** Draw the Bunny on the canvas. */
     draw() {
         this.animations[this.facing][this.action].drawFrame(this.x, this.y, Bunny.SCALE);
     };
