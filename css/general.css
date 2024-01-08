@@ -11,8 +11,8 @@ body {
 }
 
 #game-world {
-    width: min(90vw, 90vh);
-    height: min(90vw, 90vh);
+    width: multiply(95vh, 16 / 9);
+    height: 95vh;
     margin: auto;
     background: #333333;
 }

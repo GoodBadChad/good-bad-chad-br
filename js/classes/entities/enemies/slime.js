@@ -73,7 +73,7 @@ class Slime {
 
     /** 
      * A constant for the type field.
-     * @returns the offset (in types) of the Evil Slime sprites from the top.
+     * @returns How many types of slimes are above Evil on the spritesheet
      */
     static get EVIL() {
         return 4;
