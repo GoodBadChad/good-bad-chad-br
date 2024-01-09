@@ -12,11 +12,13 @@ CTX.imageSmoothingEnabled = false;
 ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
 ASSET_MGR.queueDownload(Snake.SPRITESHEET);
 ASSET_MGR.queueDownload(Slime.SPRITESHEET);
+ASSET_MGR.queueDownload(Bird.SPRITESHEET);
 
 // Download assets and start the game.
 ASSET_MGR.downloadAll(() => {
 	// load the first level here.
-	bunnySimulation();
+	//bunnySimulation();
+	birdSimulation();
 	// Start the game
 	GAME.start();
 });
