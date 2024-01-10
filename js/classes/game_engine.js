@@ -22,8 +22,10 @@ class GameEngine {
 
         /** The timer tells you how long it's been since the last tick! */
         this.timer = new Timer();
+
+        this.lang = "english";
     };
-    
+
     /**
      * This adds a new entity to the entities array.
      * @param {Object} entity The entity (sprite) that you want to add to the Game.
@@ -94,7 +96,7 @@ class GameEngine {
      * to interaction with either the WASD keys or arrows.
      */
     startInput() {
-        
+
         CANVAS.addEventListener("keydown", (e) => {
             switch (e.code) {
                 case "KeyA":
