@@ -4,7 +4,8 @@ const ASSET_MGR = new AssetManager();
 const CANVAS = document.getElementById("game-world");
 const CTX = CANVAS.getContext("2d");
 const CAMERA = new Camera();
-const CHAD = new Chad();
+const CHAD = new PapaChad(50, 50, true);
+const DIMENSION = new Dimension(Dimension.PLAYGROUND);
 
 CTX.imageSmoothingEnabled = false;
 
@@ -12,6 +13,8 @@ CTX.imageSmoothingEnabled = false;
 ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
 ASSET_MGR.queueDownload(Snake.SPRITESHEET);
 ASSET_MGR.queueDownload(Slime.SPRITESHEET);
+ASSET_MGR.queueDownload(PapaChad.SPRITESHEET); // includes mama chad
+ASSET_MGR.queueDownload(Block.SPRITESHEET);
 ASSET_MGR.queueDownload(Bird.SPRITESHEET);
 
 // Download assets and start the game.
