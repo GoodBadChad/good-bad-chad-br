@@ -57,18 +57,43 @@ class PapaChad {
     
     /** Change what Papa Chad is doing and where it is. */
     update() {
-        // Update his condition!
-        this.action = "walking";
-        // Update his position based on condition!
-        if (this.action === "walking") {
-            const mult = this.facing === "left" ? -1 : 1;
-            this.x += mult * PapaChad.SPEED * GAME.clockTick;
-            if (this.x > CANVAS.width) {
-                this.x -= CANVAS.width;
-            } else if (this.x < 0) {
-                this.x += CANVAS.width;
-            }
+        // Papa Chad is listening for user input to determine his movement.
+        // This is a temporary thing, while we have an incomplete chad. I am using him to test the camera and worldbuilding.
+        // TODO: remove this and update to how he should be.
+        let xVelocity = 0;
+        let yVelocity = 0;
+        if (GAME.up) {
+            yVelocity -= PapaChad.SPEED * PapaChad.SCALE;
+            this.action = "walking";
         }
+        if (GAME.down) {
+            yVelocity += PapaChad.SPEED * PapaChad.SCALE;
+            this.action = "walking";
+        }
+        if (GAME.left) {
+            xVelocity -= PapaChad.SPEED * PapaChad.SCALE;
+            this.facing = "left";
+            this.action = "walking";
+        }
+        if (GAME.right) {
+            xVelocity += PapaChad.SPEED * PapaChad.SCALE;
+            this.facing = "right";
+            this.action = "walking";
+        }
+        if (!(GAME.up || GAME.down || GAME.right || GAME.left)) {
+            this.action = "idle";
+        }
+        // Trigonometry:
+        if (xVelocity && yVelocity) {
+            let xMult = xVelocity > 0 ? 1 : -1;
+            let yMult = yVelocity > 0 ? 1 : -1;
+            const perpSpeed = PapaChad.SPEED / Math.cos(Math.PI / 4);
+            xVelocity = xMult * perpSpeed;
+            yVelocity = yMult * perpSpeed;
+        }
+        // Actually adjust position
+        this.x += xVelocity;
+        this.y += yVelocity;
     };
 
     /** Draw Papa Chad on the canvas. */
