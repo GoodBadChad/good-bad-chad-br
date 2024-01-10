@@ -1,6 +1,7 @@
 /**
  * This class is used to manage Assets (just sprites, for now).
  * It will download the assets and store them (in its cache) for use by other classes.
+ * @author Seth Ladd (original), Chris Marriott (modified), Devin Peevy (modified again)
  */
 class AssetManager {
     constructor() {
