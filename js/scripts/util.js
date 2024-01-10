@@ -1,4 +1,4 @@
-/** Creates an alias for requestAnimationFrame for backwards compatibility */
+/** Creates an alias for requestAnimationFrame for backwards compatibility. */
 window.requestAnimFrame = (() => {
     return window.requestAnimationFrame ||
         window.webkitRequestAnimationFrame ||
