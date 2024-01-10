@@ -6,10 +6,19 @@ const CTX = CANVAS.getContext("2d");
 const CAMERA = new Camera();
 const CHAD = new Chad();
 
+CTX.imageSmoothingEnabled = false;
+
 // Queue asset downloads here:
+ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
+ASSET_MGR.queueDownload(Snake.SPRITESHEET);
+ASSET_MGR.queueDownload(Slime.SPRITESHEET);
+ASSET_MGR.queueDownload(Bird.SPRITESHEET);
 
 // Download assets and start the game.
 ASSET_MGR.downloadAll(() => {
 	// load the first level here.
-	gameEngine.start();
+	//bunnySimulation();
+	birdSimulation();
+	// Start the game
+	GAME.start();
 });
