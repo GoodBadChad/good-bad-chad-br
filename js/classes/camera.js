@@ -13,25 +13,22 @@ class Camera {
     };
 
     /**
-     * This is going to update the x and y values according to the position of the GreenWizard.
+     * This is going to update the x and y values according to Chad's position.
      */
     update() {
-        // (1) Put the wizard in the middle of the camera.
-        const HALF_SCREEN = 512;
-        this.x = CHAD.x - HALF_SCREEN;
-        this.y = CHAD.y - HALF_SCREEN;
-
-        // (2) IF you screwed up, correct it!
-        const MAX_POS = 8026; // (MapSize = 9050) - (ScreenSize = 1024)
-        if (this.x < 0) {
-            this.x = 0;
-        } else if (this.x > MAX_POS) {
-            this.x = MAX_POS;
-        }
-        if (this.y < 0) {
-            this.y = 0;
-        } else if (this.y > MAX_POS) {
-            this.y = MAX_POS;
-        }
+        // We want the camera to not go off the screen, but focus on chad in the direct center where possible.
+        // Therefore:
+        const median = (x, y, z) => {
+            // TODO: not important but there's definitely a better way to do this.
+            if ((x >= y && x <= z) || (x <= y && x >= z)) {
+                return x;
+            }
+            if ((y >= x && y <= z) || (y <= x && y >= z)) {
+                return y;
+            }
+            return z;
+        };
+        this.x = median(DIMENSION.MIN_X, DIMENSION.MAX_X - CANVAS.width, CHAD.x - CANVAS.width / 2);
+        this.y = median(DIMENSION.MIN_Y, DIMENSION.MAX_Y - CANVAS.height, CHAD.y - CANVAS.height / 2);
     };
 };

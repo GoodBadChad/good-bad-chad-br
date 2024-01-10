@@ -1,10 +1,13 @@
 ﻿<!DOCTYPE html>
 <html>
     <head>
-        <title> Devin Peevy Animation Assignment</title>
+        <title>the birds</title>
         <!-- Scripts containing info/functions for classes. -->
         <script type="text/javascript" src="./js/scripts/util.js"></script>
         <script type="text/javascript" src="./js/scripts/bunny_script.js"></script>
+        <script type="text/javascript" src="./js/scripts/bird_script.js"></script>
+        <script type="text/javascript" src="./js/scripts/dialog.js"></script>
+        <script type="text/javascript" src="./js/scripts/dialogTest.js"></script>
         <!-- Put classes here! -->
         <script type="text/javascript" src="./js/classes/game_engine.js"></script>
         <script type="text/javascript" src="./js/classes/timer.js"></script>
@@ -12,11 +15,16 @@
         <script type="text/javascript" src="./js/classes/animator.js"></script>
         <script type="text/javascript" src="./js/classes/camera.js"></script>
         <script type="text/javascript" src="./js/classes/bounding_box.js"></script>
+        <script type="text/javascript" src="./js/classes/dimension.js"></script>
+ 
         <!-- Entities: -->
+        <script type="text/javascript" src="./js/classes/entities/background/blocks.js"></script>
         <script type="text/javascript" src="./js/classes/entities/chad.js"></script>
         <script type="text/javascript" src="./js/classes/entities/enemies/village/bunny.js"></script>
         <script type="text/javascript" src="./js/classes/entities/enemies/slime.js"></script>
         <script type="text/javascript" src="./js/classes/entities/enemies/village/snake.js"></script>
+        <script type="text/javascript" src="./js/classes/entities/npc/parents.js"></script>
+        <script type="text/javascript" src="./js/classes/entities/background/village/bird.js"></script>
         <!-- CSS: -->
         <link rel="stylesheet" href="./css/general.css" />
     </head>
@@ -26,8 +34,9 @@
         It refers not to the size on the window, but the amount of visible (GAME) pixels visible on the screen.
         Actual pixel height of the canvas is set in CSS.
         -->
-        <canvas height="540" width="960" id="game-world"></canvas>
-        <!-- Load the main script. -->
-        <script type="text/javascript" src="./js/scripts/main.js"></script>
-    </body>
+    <canvas height="540" width="960" id="game-world"></canvas>
+    <!-- Load the main script. -->
+    <script type="text/javascript" src="./js/scripts/main.js"></script>
+</body>
+
 </html>
