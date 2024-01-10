@@ -6,4 +6,6 @@ const bunnySimulation = () => {
     GAME.addEntity(new Slime(300, 300, Slime.FROST));
     GAME.addEntity(new Slime(400, 400, Slime.MAGMA));
     GAME.addEntity(new Slime(500, 500, Slime.EVIL));
+    GAME.addEntity(new PapaChad(0, 0, false));
+    GAME.addEntity(new PapaChad(0, PapaChad.SCALED_HEIGHT, true));
 };
