@@ -15,11 +15,13 @@ ASSET_MGR.queueDownload(Snake.SPRITESHEET);
 ASSET_MGR.queueDownload(Slime.SPRITESHEET);
 ASSET_MGR.queueDownload(PapaChad.SPRITESHEET); // includes mama chad
 ASSET_MGR.queueDownload(Block.SPRITESHEET);
+ASSET_MGR.queueDownload(Bird.SPRITESHEET);
 
 // Download assets and start the game.
 ASSET_MGR.downloadAll(() => {
 	// load the first level here.
-	loadPlaygroundDimension();
+	//bunnySimulation();
+	birdSimulation();
 	// Start the game
 	GAME.start();
 });
