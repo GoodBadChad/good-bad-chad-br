@@ -2,6 +2,7 @@
  * The Camera is going to be updated according to the wizard's position, doing its best to keep
  * the wizard in the center of the camera while respecting the boundaries of the map.
  * The Camera itself is not an entity, but it IS going to be updated after the rest of them.
+ * @author Devin Peevy 
  */
 class Camera {
     constructor () {
@@ -17,8 +18,8 @@ class Camera {
     update() {
         // (1) Put the wizard in the middle of the camera.
         const HALF_SCREEN = 512;
-        this.x = WIZARD.x - HALF_SCREEN;
-        this.y = WIZARD.y - HALF_SCREEN;
+        this.x = CHAD.x - HALF_SCREEN;
+        this.y = CHAD.y - HALF_SCREEN;
 
         // (2) IF you screwed up, correct it!
         const MAX_POS = 8026; // (MapSize = 9050) - (ScreenSize = 1024)
