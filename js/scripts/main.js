@@ -17,6 +17,7 @@ ASSET_MGR.queueDownload(Slime.SPRITESHEET);
 ASSET_MGR.downloadAll(() => {
 	// load the first level here.
 	bunnySimulation();
+	// dialogTest();
 	// Start the game
 	GAME.start();
 });
