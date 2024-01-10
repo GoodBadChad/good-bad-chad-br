@@ -4,11 +4,19 @@
         <title> Devin Peevy Animation Assignment</title>
         <!-- Scripts containing info/functions for classes. -->
         <script type="text/javascript" src="./js/scripts/util.js"></script>
+        <script type="text/javascript" src="./js/scripts/bunny_script.js"></script>
         <!-- Put classes here! -->
         <script type="text/javascript" src="./js/classes/game_engine.js"></script>
         <script type="text/javascript" src="./js/classes/timer.js"></script>
         <script type="text/javascript" src="./js/classes/asset_manager.js"></script>
         <script type="text/javascript" src="./js/classes/animator.js"></script>
+        <script type="text/javascript" src="./js/classes/camera.js"></script>
+        <script type="text/javascript" src="./js/classes/bounding_box.js"></script>
+        <!-- Entities: -->
+        <script type="text/javascript" src="./js/classes/entities/chad.js"></script>
+        <script type="text/javascript" src="./js/classes/entities/enemies/village/bunny.js"></script>
+        <!-- CSS: -->
+        <link rel="stylesheet" href="./css/general.css" />
     </head>
     <body>
         <!-- 
@@ -16,7 +24,7 @@
         It refers not to the size on the window, but the amount of visible (GAME) pixels visible on the screen.
         Actual pixel height of the canvas is set in CSS.
         -->
-        <canvas width="1024" id="game-world"></canvas>
+        <canvas height="1024" width="1024" id="game-world"></canvas>
         <!-- Load the main script. -->
         <script type="text/javascript" src="./js/scripts/main.js"></script>
     </body>

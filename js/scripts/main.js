@@ -6,10 +6,15 @@ const CTX = CANVAS.getContext("2d");
 const CAMERA = new Camera();
 const CHAD = new Chad();
 
+CTX.imageSmoothingEnabled = false;
+
 // Queue asset downloads here:
+ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
 
 // Download assets and start the game.
 ASSET_MGR.downloadAll(() => {
 	// load the first level here.
-	gameEngine.start();
+	bunnySimulation();
+	// Start the game
+	GAME.start();
 });

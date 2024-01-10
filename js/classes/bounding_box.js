@@ -1,6 +1,7 @@
 /**
  * This class creates bounding boxes, which are used to check for collisions within the gameplay.
  * The collisions will include blocking movement (like running into a wall), taking damage (either the player or an enemy), etc.
+ * @author Chris Marriott, Devin Peevy
  */
 class BoundingBox {
     /**
