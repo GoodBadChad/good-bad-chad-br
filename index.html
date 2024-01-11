@@ -4,10 +4,22 @@
         <title>the birds</title>
         <!-- Scripts containing info/functions for classes. -->
         <script type="text/javascript" src="./js/scripts/util.js"></script>
+        <!-- 
+        NOTE: 
+        The dimension and dialog scripts are dynamic - the src will change throughout the game.
+        When Dimension.loadDimension() is called, it will change the src of this
+        script and then call the unique loadDimension() method defined within the 
+        new script, as well as adjust the dialog array.
+        -->
+        <script id="dimension-script" type="text/javascript" src=""></script>
+        <script id="dialog-script" type="text/javascript" src=""></script>
+        <!-- 
+        These scripts will all be deleted: 
         <script type="text/javascript" src="./js/scripts/bunny_script.js"></script>
         <script type="text/javascript" src="./js/scripts/bird_script.js"></script>
         <script type="text/javascript" src="./js/scripts/dialog.js"></script>
         <script type="text/javascript" src="./js/scripts/dialogTest.js"></script>
+        -->
         <!-- Put classes here! -->
         <script type="text/javascript" src="./js/classes/game_engine.js"></script>
         <script type="text/javascript" src="./js/classes/timer.js"></script>
