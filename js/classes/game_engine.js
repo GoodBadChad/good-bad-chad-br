@@ -34,6 +34,11 @@ class GameEngine {
         this.entities.push(entity);
     };
 
+    /** This is going to clear all of the entities so that a new set can be placed in. */
+    clearEntities() {
+        this.entities = [];
+    }
+
     /** This method is actually going to control the update-render loop that is at the heart of any game. */
     start() {
         this.startInput();
