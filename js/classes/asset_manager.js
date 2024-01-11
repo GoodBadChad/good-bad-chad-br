@@ -1,7 +1,7 @@
 /**
  * This class is used to manage Assets (just sprites, for now).
  * It will download the assets and store them (in its cache) for use by other classes.
- * @author Seth Ladd (original), Chris Marriott (modified), Devin Peevy (modified again)
+ * @author Seth Ladd (original), Chris Marriott (modified), Devin Peevy (added JSDoc, modified)
  */
 class AssetManager {
     constructor() {
@@ -66,6 +66,14 @@ class AssetManager {
      */
     getAsset(path) {
         return this.cache[path];
+    };
+
+    /**
+     * This method clears the cache so that new assets can be downloaded, and the AssetManager will not be
+     * bogged up with unnecessary images.
+     */
+    clearCache() {
+        this.cache = [];
     };
 };
 
