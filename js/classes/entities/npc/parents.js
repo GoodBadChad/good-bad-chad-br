@@ -3,7 +3,7 @@
  * Otherwise he stands still in his idle position and offers dialog options to Chad.
  */
 class PapaChad {
-    constructor(x, y, isLeft) {
+    constructor(x, y) {
         /** The x position of the Papa Chad (in the game world). */
         this.x = x;
         /** The y position of the Papa Chad (in the game world). */
@@ -12,7 +12,7 @@ class PapaChad {
         this.animations = [];
         this.loadAnimations();
         /** What way is the Papa Chad looking? */
-        this.facing = isLeft ? "left" : "right";
+        this.facing = "right";
         /** What is the Papa Chad doing? */
         this.action = "idle";
         /** Used to check for collisions with other applicable entities. */
@@ -92,13 +92,13 @@ class PapaChad {
             yVelocity = yMult * perpSpeed;
         }
         // Actually adjust position
-        this.x += xVelocity;
-        this.y += yVelocity;
+        this.x += xVelocity * GAME.clockTick;
+        this.y += yVelocity * GAME.clockTick;
     };
 
     /** Draw Papa Chad on the canvas. */
     draw() {
-        this.animations[this.facing][this.action].drawFrame(this.x, this.y, PapaChad.SCALE);
+        this.animations[this.facing][this.action].drawFrame(this.x - CAMERA.x, this.y - CAMERA.y, PapaChad.SCALE);
     };
 
     /** Called by the constructor. Fills up the animations array. */
