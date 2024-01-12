@@ -14,8 +14,3 @@ window.requestAnimFrame = (() => {
             window.setTimeout(callback, 1000 / 60);
         });
 })();
-
-const TAGS = {
-    DIMENSION_TAG: document.getElementById("dimension-script"),
-    DIALOG_TAG: document.getElementById("dialog-script");
-};
