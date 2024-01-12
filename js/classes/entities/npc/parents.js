@@ -16,9 +16,13 @@ class PapaChad {
         /** What is the Papa Chad doing? */
         this.action = "idle";
         /** Used to check for collisions with other applicable entities. */
-        this.boundingBox = new BoundingBox();
+        this.boundingBox = new BoundingBox(this.x, this.y, PapaChad.WIDTH, PapaChad.HEIGHT);
         /** Used to check how to deal with collisions with other applicable entities. */
         this.lastBoundingBox = this.boundingBox;
+
+        this.yVelocity = 0;
+
+        //this.findDirection();
     };
 
     /** The height, in pixels, of the sprite ON THE SPRITESHEET. */
@@ -54,22 +58,53 @@ class PapaChad {
     static get WIDTH() {
         return 29;
     };
+
+    // /**
+    //  * determine the direction that Papa Chad is traveling in
+    //  */
+    // findDirection() {
+    //     if (this.x > this.lastBoundingBox.x) {
+    //         this.facing = "right";
+    //     } else if (this.x < this.lastBoundingBox.x) {
+    //         this.facing = "left";
+    //     } else if (this.y > this.lastBoundingBox.y) {
+    //         this.facing = "down";
+    //     } else if (this.y < this.lastBoundingBox.y) {
+    //         this.facing = "up";
+    //     }
+    // } 
+    // Nathan: I don't think facing is ever anything but left or right. used to tell which sprite to draw. - Devin
+
     
     /** Change what Papa Chad is doing and where it is. */
     update() {
+        // determine the direction papaChad is traveling in
+        // this.findDirection();
+
+        // Update condition!
+
+        this.yVelocity += PHYSICS.GRAVITY_ACC * GAME.clockTick;
+        this.yVelocity = Math.min(PHYSICS.TERMINAL_VELOCITY, this.yVelocity);
+        
+        // Update position!
+        this.y += this.yVelocity;
+        if (this.y > DIMENSION.MAX_Y) {
+            this.y -= DIMENSION.MAX_Y;
+        }
+        
         // Papa Chad is listening for user input to determine his movement.
         // This is a temporary thing, while we have an incomplete chad. I am using him to test the camera and worldbuilding.
         // TODO: remove this and update to how he should be.
         let xVelocity = 0;
         let yVelocity = 0;
-        if (GAME.up) {
-            yVelocity -= PapaChad.SPEED * PapaChad.SCALE;
-            this.action = "walking";
-        }
-        if (GAME.down) {
-            yVelocity += PapaChad.SPEED * PapaChad.SCALE;
-            this.action = "walking";
-        }
+        // if (GAME.up) {
+        //     yVelocity -= PapaChad.SPEED * PapaChad.SCALE;
+        //     this.action = "walking";
+        // }
+        // if (GAME.down) {
+        //     yVelocity += PapaChad.SPEED * PapaChad.SCALE;
+        //     this.action = "walking";
+        // }
         if (GAME.left) {
             xVelocity -= PapaChad.SPEED * PapaChad.SCALE;
             this.facing = "left";
@@ -94,6 +129,46 @@ class PapaChad {
         // Actually adjust position
         this.x += xVelocity * GAME.clockTick;
         this.y += yVelocity * GAME.clockTick;
+        
+        // Update Bounding Box!
+        this.lastBoundingBox = this.boundingBox;
+        this.boundingBox = new BoundingBox(this.x, this.y, PapaChad.SCALED_WIDTH, PapaChad.SCALED_HEIGHT);
+
+        // Check for collisions!
+        GAME.entities.forEach((entity) => {
+            // Does entity have a bounding box? Do they even collide?
+            if (entity.boundingBox && this.boundingBox.collide(entity.boundingBox)) {
+                // Is the entity a block?
+                if (entity instanceof Block) {
+                    // Are we falling downward through a block?
+                    if (yVelocity > 0
+                        && this.boundingBox.bottom > entity.boundingBox.top) {
+                        this.y = entity.boundingBox.top - PapaChad.SCALED_HEIGHT - .5;
+                        this.yVelocity = 0;
+                    }
+                    // Are we jumping through the bottom of a block?
+                    if (yVelocity < 0
+                        && this.boundingBox.top < entity.boundingBox.bottom) {
+                        this.y = entity.boundingBox.bottom;
+                    }
+
+                    // Are we walking right through the left of a block?
+                    if (xVelocity > 0
+                        && this.boundingBox.right > entity.boundingBox.left) {
+                        this.x = entity.boundingBox.left - PapaChad.SCALED_WIDTH;
+                    }
+
+                    // Are we walking left through the right of a block?
+                    if (xVelocity < 0
+                        && this.boundingBox.left < entity.boundingBox.right) {
+                        
+                        this.x = entity.boundingBox.right - PapaChad.SCALED
+                    }
+                }
+
+                
+            }
+        });
     };
 
     /** Draw Papa Chad on the canvas. */
