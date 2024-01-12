@@ -1,11 +1,20 @@
 ﻿<!DOCTYPE html>
 <html>
     <head>
-        <title>the birds</title>
+        <title>The Good, The Bad, and Chad!</title>
         <!-- Scripts containing info/functions for classes. -->
         <script type="text/javascript" src="./js/scripts/util.js"></script>
-        <script type="text/javascript" src="./js/scripts/bunny_script.js"></script>
-        <script type="text/javascript" src="./js/scripts/bird_script.js"></script>
+        <!-- Scripts containing dialog-building methods. -->
+        <script type="text/javascript" src="./js/scripts/dialog/playground_dialog.js"></script>
+        <!-- Scripts containing dimension-building methods. -->
+        <script type="text/javascript" src="./js/scripts/dimension/playground_dimension.js"></script>
+        <!-- 
+            These scripts will all be deleted: 
+            <script type="text/javascript" src="./js/scripts/bunny_script.js"></script>
+            <script type="text/javascript" src="./js/scripts/bird_script.js"></script>
+            <script type="text/javascript" src="./js/scripts/dialog.js"></script>
+            <script type="text/javascript" src="./js/scripts/dialogTest.js"></script>
+        -->
         <!-- Put classes here! -->
         <script type="text/javascript" src="./js/classes/game_engine.js"></script>
         <script type="text/javascript" src="./js/classes/timer.js"></script>
@@ -14,6 +23,7 @@
         <script type="text/javascript" src="./js/classes/camera.js"></script>
         <script type="text/javascript" src="./js/classes/bounding_box.js"></script>
         <script type="text/javascript" src="./js/classes/dimension.js"></script>
+ 
         <!-- Entities: -->
         <script type="text/javascript" src="./js/classes/entities/background/blocks.js"></script>
         <script type="text/javascript" src="./js/classes/entities/chad.js"></script>
@@ -25,13 +35,17 @@
         <!-- CSS: -->
         <link rel="stylesheet" href="./css/general.css" />
     </head>
+
     <body>
         <!-- 
-        NOTE: the width and height of this is unique.
-        It refers not to the size on the window, but the amount of visible (GAME) pixels visible on the screen.
-        Actual pixel height of the canvas is set in CSS.
+            NOTE: 
+            the width and height of this is unique.
+            It refers not to the size on the window, but the amount of visible (GAME) pixels visible on the screen.
+            For in game reference, these are identified as CAMERA.WIDTH and CAMERA.HEIGHT.
+            Actual pixel height of the canvas is set in CSS.
+            If you change it here, change it in camera.js as well.
         -->
-        <canvas height="540" width="960" id="game-world"></canvas>
+        <canvas height="1080" width="1920" id="game-world" tabindex="0" autofocus></canvas>
         <!-- Load the main script. -->
         <script type="text/javascript" src="./js/scripts/main.js"></script>
     </body>
