@@ -87,6 +87,6 @@ class Block {
 
     /** Draw the entity on the canvas. */
     draw() {
-        this.animator.drawFrame(this.x, this.y, Block.SCALE);
+        this.animator.drawFrame(this.x - CAMERA.x, this.y - CAMERA.y, Block.SCALE);
     };
 };
