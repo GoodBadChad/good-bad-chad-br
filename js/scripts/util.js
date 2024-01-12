@@ -14,3 +14,16 @@ window.requestAnimFrame = (() => {
             window.setTimeout(callback, 1000 / 60);
         });
 })();
+
+/**
+ * Physics constants
+ * 
+ * --Units--
+ * Position: pixels
+ * Velocity: pixels/second
+ * Acceleration: pixels/second^2
+ */
+const PHYSICS = {
+    GRAVITY_ACC : 10,
+    TERMINAL_VELOCITY: 25
+};

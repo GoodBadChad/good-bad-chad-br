@@ -22,9 +22,7 @@ class Block {
         /** What is the Block doing? */
         this.action = "idle";
         /** Used to check for collisions with other applicable entities. */
-        this.boundingBox = new BoundingBox();
-        /** Used to check how to deal with collisions with other applicable entities. */
-        this.lastBoundingBox = this.boundingBox;
+        this.boundingBox = new BoundingBox(this.x, this.y, Block.SCALED_SIZE, Block.SCALED_SIZE);
     };
 
     // TYPES:
@@ -77,12 +75,7 @@ class Block {
     
     /** Change what the entity is doing and where it is. */
     update() {
-        if (this.inPosition) {
-            this.y += Math.min(5, this.destY - this.y);
-            if (this.destY === this.y) {
-                this.inPosition = true;
-            }
-        }
+        
     };
 
     /** Draw the entity on the canvas. */
