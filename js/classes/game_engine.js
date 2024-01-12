@@ -5,12 +5,14 @@
 class GameEngine {
     /**
      * This constructs a new GameEngine, initializing some necessary parameters.
+     * @param {boolean} isSpanish ¿Debería estar en español este juego?
      */
-    constructor() {
+    constructor(isSpanish) {
+        /** ¿Está el juego en español? */
+        this.spanish = isSpanish ?? false;
         /** Everything that will be updated and drawn each frame. 
          *  Note: This does not include the WIZARD, which is a global parameter. */
         this.entities = [];
-
         /** Is the user pressing S key? */
         this.down = false;
         /** Is the user pressing the W key? */
@@ -22,8 +24,6 @@ class GameEngine {
 
         /** The timer tells you how long it's been since the last tick! */
         this.timer = new Timer();
-
-        this.lang = "english";
     };
 
     /**
@@ -33,6 +33,11 @@ class GameEngine {
     addEntity(entity) {
         this.entities.push(entity);
     };
+
+    /** This is going to clear all of the entities so that a new set can be placed in. */
+    clearEntities() {
+        this.entities = [];
+    }
 
     /** This method is actually going to control the update-render loop that is at the heart of any game. */
     start() {
@@ -64,7 +69,7 @@ class GameEngine {
             }
         }
         // Update Chad, who is not a regular entity.
-        // CHAD.update();
+        CHAD.update();
         // Update the camera, which is not a regular entity.
         CAMERA.update();
 
@@ -82,13 +87,14 @@ class GameEngine {
     draw() {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
         CTX.clearRect(0, 0, CANVAS.width, CANVAS.height);
-
+        CTX.fillStyle = "#00ff00";
+        CTX.fillRect(DIMENSION.MIN_X - CAMERA.x, DIMENSION.MIN_Y - CAMERA.y, DIMENSION.BLOCK_WIDTH * Block.SCALED_SIZE, DIMENSION.BLOCK_HEIGHT * Block.SCALED_SIZE);
         // Draw entities from first to last.
         for (let i = 0; i < this.entities.length; i++) {
             this.entities[i].draw();
         }
         // Draw Chad, who is not a regular entity.
-        //CHAD.draw();
+        CHAD.draw();
     };
 
     /**
