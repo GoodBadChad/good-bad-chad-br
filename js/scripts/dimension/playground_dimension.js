@@ -13,6 +13,7 @@
  * @author Devin Peevy
  */
 const loadPlaygroundDimension = () => {
+    // Load the dialog.
     loadPlaygroundDialog();
     /**
      * This is going to queue only the spritesheets which i need for my dimension.
@@ -27,12 +28,25 @@ const loadPlaygroundDimension = () => {
      * @author Devin Peevy 
      */
     const loadEntities = () => {
-        // Add all entities to game.
-        GAME.addEntity(new Block(-1, -1, Block.DIRT));
-        // Place Chad so my camera is good.
-        CHAD.x = 0;
-        CHAD.y = 0;
+        let left = true;
+        for (let i = -22; i <= 25; i += 5) {
+            if (left) {
+                for (let j = -1; j >= -25; j--) {
+                    GAME.addEntity(new Block(j, i, Block.DIRT));
+                }
+                left = false;
+            } else {
+                for (let j = 0; j <= 25; j++) {
+                    GAME.addEntity(new Block(j, i, Block.DIRT));
+                }
+                left = true;
+            }
+        }
+
+        CHAD.x = -3 * Block.SCALED_SIZE;
+        CHAD.y = -25 * Block.SCALED_SIZE;
     };
+
     queueDimensionalAssets();
     ASSET_MGR.downloadAll(() => {
         loadEntities();
