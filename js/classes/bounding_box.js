@@ -11,7 +11,10 @@ class BoundingBox {
      * @param {number} height The height of the bounding box.
      */
     constructor(x, y, width, height) {
-        Object.assign(this, { x, y, width, height });
+        /** The width of the box. */
+        this.width = width;
+        /** The height of the box. */
+        this.height = height;
         /** The x coordinate of the left boundary of the box. */
         this.left = x;
         /** The x coordinate of the  right boundary of the box. */

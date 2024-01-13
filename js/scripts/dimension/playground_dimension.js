@@ -28,26 +28,23 @@ const loadPlaygroundDimension = () => {
      * @author Devin Peevy 
      */
     const loadEntities = () => {
-        // Add all entities to game.
-        //GAME.addEntity(new Block(-1, -1, Block.DIRT));
-        for (i = -15; i < -10; i++) {
-            GAME.addEntity(new Block(i, 0, Block.DIRT));
+        let left = true;
+        for (let i = -22; i <= 25; i += 5) {
+            if (left) {
+                for (let j = -1; j >= -25; j--) {
+                    GAME.addEntity(new Block(j, i, Block.DIRT));
+                }
+                left = false;
+            } else {
+                for (let j = 0; j <= 25; j++) {
+                    GAME.addEntity(new Block(j, i, Block.DIRT));
+                }
+                left = true;
+            }
         }
-        for (i = 10; i < 15; i++) {
-            GAME.addEntity(new Block(i, 0, Block.DIRT));
-        }
-        for (i = -10; i < -5; i++) {
-            GAME.addEntity(new Block(i, 5, Block.DIRT));
-        }
-        for (i = 5; i < 10; i++) {
-            GAME.addEntity(new Block(i, 5, Block.DIRT));
-        }
-        for (i = -15; i < 15; i++) {
-            GAME.addEntity(new Block(i, 10, Block.DIRT));
-        }
-        // Place Chad so my camera is good.
-        CHAD.x = 0;
-        CHAD.y = 10 * Block.SCALED_SIZE;
+
+        CHAD.x = -3 * Block.SCALED_SIZE;
+        CHAD.y = -25 * Block.SCALED_SIZE;
     };
 
     queueDimensionalAssets();
