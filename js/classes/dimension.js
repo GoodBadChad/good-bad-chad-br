@@ -87,7 +87,7 @@ class Dimension {
             0,      // SNOWY
             0,      // LAVA
             0];     // TOWER
-        return blockWidths[this.dimension] * Block.SCALED_SIZE;
+        return blockWidths[this.dimension];
     }
 
     get BLOCK_HEIGHT() {
@@ -102,7 +102,7 @@ class Dimension {
             0,      // SNOWY
             0,      // LAVA
             0];     // TOWER
-        return blockHeights[this.dimension]
+        return blockHeights[this.dimension];
     }
 
     get MAX_X() {
@@ -111,6 +111,14 @@ class Dimension {
 
     get MAX_Y() {
         return this.MIN_Y + Block.SCALED_SIZE * this.BLOCK_HEIGHT;
+    }
+
+    get WIDTH() {
+        return this.BLOCK_WIDTH * Block.SCALED_SIZE;
+    }
+
+    get HEIGHT() {
+        return this.BLOCK_HEIGHT * Block.SCALED_SIZE;
     }
 
     // IDs:
