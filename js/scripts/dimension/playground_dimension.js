@@ -28,26 +28,30 @@ const loadPlaygroundDimension = () => {
      * @author Devin Peevy 
      */
     const loadEntities = () => {
-        // Add all entities to game.
-        //GAME.addEntity(new Block(-1, -1, Block.DIRT));
-        for (i = -15; i < -10; i++) {
-            GAME.addEntity(new Block(i, 0, Block.DIRT));
+        let left = true;
+        for (let i = -22; i <= 25; i += 5) {
+            if (left) {
+                for (let j = -1; j >= -25; j--) {
+                    GAME.addEntity(new Block(j, i, Block.DIRT));
+                }
+                left = false;
+            } else {
+                for (let j = 0; j <= 25; j++) {
+                    GAME.addEntity(new Block(j, i, Block.DIRT));
+                }
+                left = true;
+            }
         }
-        for (i = 10; i < 15; i++) {
-            GAME.addEntity(new Block(i, 0, Block.DIRT));
+        // Surround the border of the dimension.
+        for (let i = -25; i < 25; i++) {
+            GAME.addEntity(new Block(i, -25, Block.LAVA_ROCK));
+            GAME.addEntity(new Block(i, 24, Block.SNOWY_DIRT));
+            GAME.addEntity(new Block(-25, i, Block.ICE));
+            GAME.addEntity(new Block(24, i, Block.SNOWY_ICE));
         }
-        for (i = -10; i < -5; i++) {
-            GAME.addEntity(new Block(i, 5, Block.DIRT));
-        }
-        for (i = 5; i < 10; i++) {
-            GAME.addEntity(new Block(i, 5, Block.DIRT));
-        }
-        for (i = -15; i < 15; i++) {
-            GAME.addEntity(new Block(i, 10, Block.DIRT));
-        }
-        // Place Chad so my camera is good.
-        CHAD.x = 0;
-        CHAD.y = 10 * Block.SCALED_SIZE;
+        GAME.addEntity(new Portal(10, -10, Dimension.LAVA));
+        CHAD.x = -3 * Block.SCALED_SIZE;
+        CHAD.y = -20 * Block.SCALED_SIZE;
     };
 
     queueDimensionalAssets();

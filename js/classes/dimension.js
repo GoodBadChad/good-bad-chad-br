@@ -11,7 +11,7 @@ class Dimension {
      */
     constructor(dimension) {
         // Did we try and pass an illegal argument?
-        if (dimension % 1 !== 0 || dimension > 7 || dimension < 0) {
+        if (dimension % 1 !== 0 || dimension > 6 || dimension < 0) {
             throw new Error("Illegal dimension parameter passed in. Try Dimension.PLAYGROUND, .VILLAGE, .WOODS, .FACTORY, .SNOWY, .LAVA, or .TOWER");
         } else {
             this.dimension = dimension;
@@ -30,12 +30,12 @@ class Dimension {
         
         // TODO: fill in
         const loadMethods = [
-            loadPlaygroundDimension,  // Playground
+            loadPlaygroundDimension,    // Playground
             null,                       // Village
             null,                       // Woods
             null,                       // Factory
             null,                       // Snowy
-            null,                       // Lava
+            loadLavaDimension,          // Lava
             null                        // Tower
         ];
         loadMethods[this.dimension]();
@@ -85,9 +85,9 @@ class Dimension {
             0,      // WOODS
             0,      // FACTORY
             0,      // SNOWY
-            0,      // LAVA
+            400,      // LAVA
             0];     // TOWER
-        return blockWidths[this.dimension] * Block.SCALED_SIZE;
+        return blockWidths[this.dimension];
     }
 
     get BLOCK_HEIGHT() {
@@ -100,9 +100,9 @@ class Dimension {
             0,      // WOODS
             0,      // FACTORY
             0,      // SNOWY
-            0,      // LAVA
+            1_000,      // LAVA
             0];     // TOWER
-        return blockHeights[this.dimension]
+        return blockHeights[this.dimension];
     }
 
     get MAX_X() {
@@ -111,6 +111,14 @@ class Dimension {
 
     get MAX_Y() {
         return this.MIN_Y + Block.SCALED_SIZE * this.BLOCK_HEIGHT;
+    }
+
+    get WIDTH() {
+        return this.BLOCK_WIDTH * Block.SCALED_SIZE;
+    }
+
+    get HEIGHT() {
+        return this.BLOCK_HEIGHT * Block.SCALED_SIZE;
     }
 
     // IDs:

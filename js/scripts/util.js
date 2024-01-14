@@ -24,6 +24,17 @@ window.requestAnimFrame = (() => {
  * Acceleration: pixels/second^2
  */
 const PHYSICS = {
-    GRAVITY_ACC : 10,
-    TERMINAL_VELOCITY: 25
+    GRAVITY_ACC : 900
+};
+
+/**
+ * @param {BoundingBox} collider The bounding box doing the colliding.
+ * @param {BoundingBox} collidee The bounding box that is being collided with.
+ * @returns a "Collision" object which contains the corners and vertices of COLLIDEE which are being invaded by COLLIDER.
+ */
+const getCollisionType = (collider, collidee) => {
+    const vertices = [];
+    if (this.x)
+
+    return {corners: corners, vertices: vertices};
 };

@@ -11,7 +11,10 @@ class BoundingBox {
      * @param {number} height The height of the bounding box.
      */
     constructor(x, y, width, height) {
-        Object.assign(this, { x, y, width, height });
+        /** The width of the box. */
+        this.width = width;
+        /** The height of the box. */
+        this.height = height;
         /** The x coordinate of the left boundary of the box. */
         this.left = x;
         /** The x coordinate of the  right boundary of the box. */
@@ -23,11 +26,51 @@ class BoundingBox {
     };
 
     /**
-     * This method checks for the collision between two bounding boxes.
-     * @param {BoundingBox} other The bounding box which we are comparing to check for a collision.
-     * @returns true if the two bounding boxes intersect; else false.
+     * This method returns a code corresponding to the type of collision that it is.
+     * @returns an object containing the sides which are being collided with; false if no collision.
+     * @param {BoundingBox} other the bounding box which you are checking for collision with this.
      */
     collide(other) {
-        return (this.top < other.bottom) && (this.left < other.right) && (this.bottom > other.top) && (this.right > other.left);
+        // Are we colliding at all?
+        if (!((this.top < other.bottom) && (this.left < other.right) && (this.bottom > other.top) && (this.right > other.left))) {
+            return false;
+        }
+
+        // Which sides are we interfering with?
+        let t, l, b, r = false;
+        // top?
+        if (
+            this.bottom > other.top 
+            && this.top < other.top 
+            && (this.right > other.left || this.left < other.right)
+        ) {
+            t = true;
+        }
+        // bottom?
+        if (
+            this.top < other.bottom 
+            && this.bottom > other.bottom 
+            && (this.right > other.left || this.left < other.right)
+        ) {
+            b = true;
+        }
+        // left?
+        if (
+            this.right > other.left 
+            && this.left < other.left 
+            && (this.bottom > other.top || this.top < other.bottom)
+        ) {
+            l = true;
+        }
+        // right?
+        if (
+            this.left < other.right 
+            && this.right > other.right 
+            && (this.bottom > other.top || this.top < other.bottom)
+        ) {
+            r = true;
+        }
+
+        return { left: l, right: r, top: t, bottom: b };
     };
 };
