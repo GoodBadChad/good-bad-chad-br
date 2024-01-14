@@ -28,6 +28,9 @@ class DialogBubble {
         this.scale = this.findBubbleSize();
     };
 
+    /**
+     * @returns The y position of the sprite ON THE SPRITESHEET.
+     */
     pickSprite() {
         // pick the sprite based on the type of dialog bubble
         switch (this.type) {
@@ -66,9 +69,6 @@ class DialogBubble {
         }
     }
 
-    /**
-     * Update the dialog bubble. Will need to stick to the speaker's position.
-     */
     update() {
         this.x = this.speaker.x;
         this.y = this.speaker.y-10;
@@ -98,14 +98,17 @@ class DialogBubble {
         return "./sprites/text-bubble.png";
     };
 
+    /** The width, in pixels, of the sprite ON THE SPRITESHEET. */
     static get WIDTH() {
         return 100;
     };
 
+    /** The height, in pixels, of the sprite ON THE SPRITESHEET. */
     static get HEIGHT() {
         return 70;
     };
 
+    /** The x position of the sprite ON THE SPRITESHEET. */
     static get X_START() {
         return 0;
     }
