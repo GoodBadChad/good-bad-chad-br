@@ -27,3 +27,7 @@ const PHYSICS = {
     GRAVITY_ACC : 10,
     TERMINAL_VELOCITY: 25
 };
+
+const FONT = {
+    VT323_NORMAL: "16px Arial" // TODO: Change this to our special font we picked out (VT323)
+};
