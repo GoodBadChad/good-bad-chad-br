@@ -1,6 +1,7 @@
 /**
  * Papa Chad is a mostly idle entity who must be able to walk for the tutorial.
  * Otherwise he stands still in his idle position and offers dialog options to Chad.
+ * @author Devin, Nathan, Trae, Caleb
  */
 class PapaChad {
     constructor(x, y) {
@@ -21,6 +22,8 @@ class PapaChad {
         this.lastBoundingBox = this.boundingBox;
 
         this.yVelocity = 0;
+
+        this.name = "Papa Chad"; // turn this into a constant via static getter?
 
         //this.findDirection();
     };
@@ -59,28 +62,9 @@ class PapaChad {
         return 29;
     };
 
-    // /**
-    //  * determine the direction that Papa Chad is traveling in
-    //  */
-    // findDirection() {
-    //     if (this.x > this.lastBoundingBox.x) {
-    //         this.facing = "right";
-    //     } else if (this.x < this.lastBoundingBox.x) {
-    //         this.facing = "left";
-    //     } else if (this.y > this.lastBoundingBox.y) {
-    //         this.facing = "down";
-    //     } else if (this.y < this.lastBoundingBox.y) {
-    //         this.facing = "up";
-    //     }
-    // } 
-    // Nathan: I don't think facing is ever anything but left or right. used to tell which sprite to draw. - Devin
-
     
     /** Change what Papa Chad is doing and where it is. */
     update() {
-        // determine the direction papaChad is traveling in
-        // this.findDirection();
-
         // Update condition!
 
         this.yVelocity += PHYSICS.GRAVITY_ACC * GAME.clockTick;
