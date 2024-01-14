@@ -6,24 +6,26 @@
 class DialogBubble {
 
     /**
+     * @param {string} speaker The speaker object (should be an npc or enemy). We will use the both the speaker's name AND their x and y position to determine where to draw the bubble.
      * @param {string} text The text to be displayed in the dialog bubble.
      * @param {string} type The type of dialog bubble. DialogBubble.NORMAL, .THOUGHT, or .SHOUT.
-     * @param {string} speaker The speaker object (should be an npc or enemy). We will use the both the speaker's name AND their x and y position to determine where to draw the bubble.
      */
-    constructor(text, type, speaker) {
-        if (type !== DialogBubbleType.NORMAL && type !== DialogBubbleType.THOUGHT && type !== DialogBubbleType.SHOUT) {
-            throw new Error("Invalid DialogBubble type: try DialogBubble.NORMAL, .THOUGHT, or .SHOUT.");
-        }
+    constructor(speaker, text, type) {
         if (false) { // TODO: check if speaker is not an npc or enemy
             throw new Error("Invalid DialogBubble speaker: speaker must be an npc or enemy.");
         }
+        if (type !== DialogBubbleType.NORMAL && type !== DialogBubbleType.THOUGHT && type !== DialogBubbleType.SHOUT) {
+            throw new Error("Invalid DialogBubble type: try DialogBubble.NORMAL, .THOUGHT, or .SHOUT.");
+        }
 
+        this.speaker = speaker;
         this.text = text;
         this.type = type;
-        this.speaker = speaker;
 
-        this.yStart = pickSprite();
-        this.scale = findBubbleSize();
+        this.removedFromWorld = false;
+
+        this.yStart = this.pickSprite();
+        this.scale = this.findBubbleSize();
     };
 
     pickSprite() {
@@ -32,10 +34,16 @@ class DialogBubble {
             case DialogBubbleType.NORMAL:
                 return 0;
             case DialogBubbleType.THOUGHT:
-                return 200;
+                return 80;
             case DialogBubbleType.SHOUT:
-                return 400;
+                return 160;
+            default:
+                return 0;
         }
+    }
+
+    remove() {
+        this.removedFromWorld = true;
     }
 
     /** 
@@ -63,13 +71,13 @@ class DialogBubble {
      */
     update() {
         this.x = this.speaker.x;
-        this.y = this.speaker.y-50;
+        this.y = this.speaker.y-10;
     }
 
     draw() {
         // draw the dialog bubble
         CTX.drawImage(ASSET_MGR.getAsset(DialogBubble.SPRITESHEET),
-            X_START + DialogBubble.WIDTH, this.yStart,
+            DialogBubble.X_START + DialogBubble.WIDTH, this.yStart,
             DialogBubble.WIDTH, DialogBubble.HEIGHT,
             this.x, this.y,
             DialogBubble.WIDTH * this.scale, DialogBubble.HEIGHT * this.scale);
@@ -91,11 +99,11 @@ class DialogBubble {
     };
 
     static get WIDTH() {
-        return 29;
+        return 100;
     };
 
     static get HEIGHT() {
-        return 49;
+        return 70;
     };
 
     static get X_START() {

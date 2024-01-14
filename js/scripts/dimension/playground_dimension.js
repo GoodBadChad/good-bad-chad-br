@@ -22,6 +22,7 @@ const loadPlaygroundDimension = () => {
     const queueDimensionalAssets = () => {
         ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
         ASSET_MGR.queueDownload(Block.SPRITESHEET);
+        ASSET_MGR.queueDownload(DialogBubble.SPRITESHEET);
     };
     /** 
      * This is going to add all of the entities to the GAME so that they are ready to be drawn. 
@@ -42,6 +43,9 @@ const loadPlaygroundDimension = () => {
                 left = true;
             }
         }
+
+        GAME.addEntity(new DialogBubble(CHAD, "Greetings and salutations! I'm the one and only Papa Chad!", DialogBubbleType.NORMAL));
+        console.log("Added dialog bubble.");
 
         CHAD.x = -3 * Block.SCALED_SIZE;
         CHAD.y = -25 * Block.SCALED_SIZE;

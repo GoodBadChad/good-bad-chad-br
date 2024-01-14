@@ -66,10 +66,6 @@ class PapaChad {
 
     /** Change what Papa Chad is doing and where it is. */
     update() {
-        // NOTE: this entire method will be moved to Chad as soon as we have his spritesheet ready.
-    
-    /** Change what Papa Chad is doing and where it is. */
-    update() {
         // Update condition!
 
         this.yVelocity += PHYSICS.GRAVITY_ACC * GAME.clockTick;
