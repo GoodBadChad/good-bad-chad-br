@@ -49,7 +49,7 @@ const loadPlaygroundDimension = () => {
             GAME.addEntity(new Block(-25, i, Block.ICE));
             GAME.addEntity(new Block(24, i, Block.SNOWY_ICE));
         }
-
+        GAME.addEntity(new Portal(10, -10, Dimension.LAVA));
         CHAD.x = -3 * Block.SCALED_SIZE;
         CHAD.y = -20 * Block.SCALED_SIZE;
     };
