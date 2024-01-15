@@ -42,9 +42,16 @@ const loadPlaygroundDimension = () => {
                 left = true;
             }
         }
-
+        // Surround the border of the dimension.
+        for (let i = -25; i < 25; i++) {
+            GAME.addEntity(new Block(i, -25, Block.LAVA_ROCK));
+            GAME.addEntity(new Block(i, 24, Block.SNOWY_DIRT));
+            GAME.addEntity(new Block(-25, i, Block.ICE));
+            GAME.addEntity(new Block(24, i, Block.SNOWY_ICE));
+        }
+        GAME.addEntity(new Portal(10, -10, Dimension.LAVA));
         CHAD.x = -3 * Block.SCALED_SIZE;
-        CHAD.y = -25 * Block.SCALED_SIZE;
+        CHAD.y = -20 * Block.SCALED_SIZE;
     };
 
     queueDimensionalAssets();
