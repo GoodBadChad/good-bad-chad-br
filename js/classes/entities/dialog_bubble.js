@@ -5,7 +5,7 @@
 class DialogBubble {
 
     /**
-     * @param {string} speaker The speaker object (should be an npc or enemy). We will use the both the speaker's name AND their x and y position to determine where to draw the bubble.
+     * @param {string} speaker The speaker object (should be an npc or enemy).
      * @param {string} text The text to be displayed in the dialog bubble.
      * @param {string} type The type of dialog bubble. DialogBubble.NORMAL, .THOUGHT, or .SHOUT.
      */
@@ -14,19 +14,29 @@ class DialogBubble {
             throw new Error("Invalid DialogBubble type: try DialogBubble.NORMAL, .THOUGHT, or .SHOUT.");
         }
 
+        /** The speaker object (should be an npc or enemy). */
         this.speaker = speaker;
+
+        /** The text to be displayed in the dialog bubble. */
         this.text = text;
+
+        /** The type of dialog bubble. DialogBubble.NORMAL, .THOUGHT, or .SHOUT. */
         this.type = type;
 
+        /** Whether or not this DialogBubble has been removed from the world. */
         this.removedFromWorld = false;
 
+        /** The y position of the sprite ON THE SPRITESHEET. */
         this.yStart = this.pickSprite();
 
-        /** we only apply scale to the width */
+        /** scale of bubble, but only applied to the width */
         this.scale = this.findBubbleSize();
 
+        /** The x position of the sprite ON THE SPRITESHEET. */
         this.x = CTX.canvas.width / 2 - DialogBubble.WIDTH * this.scale / 2; // center
-        this.y = CTX.canvas.height - (DialogBubble.HEIGHT - 50) * this.scale;  // bottom
+
+        /** The y position of the sprite ON THE SPRITESHEET. */
+        this.y = CTX.canvas.height - (DialogBubble.HEIGHT - 50) * this.scale; // bottom
     };
 
     /**
@@ -46,6 +56,9 @@ class DialogBubble {
         }
     }
 
+    /**
+     * Removes this DialogBubble from the world.
+     */
     remove() {
         this.removedFromWorld = true;
     }
@@ -70,13 +83,12 @@ class DialogBubble {
         }
     }
 
+    /**
+     * Updates the x and y position of the dialog bubble.
+     */
     update() {
         // this.x = this.speaker.x;
         // this.y = this.speaker.y-10;
-
-        // put the dialog bubble at the bottom center of the screen
-        this.x = CTX.canvas.width / 2 - DialogBubble.WIDTH * this.scale / 2;
-        this.y = CTX.canvas.height - (DialogBubble.HEIGHT - 50) * this.scale;
     }
 
     draw() {
@@ -99,7 +111,7 @@ class DialogBubble {
         // read in the text and draw it line by line
         let lines = this.text.split("\n");
         for (let i = 0; i < lines.length; i++) {
-            CTX.fillText(lines[i], this.x + 10, this.y - 100 + (i * 20));
+            CTX.fillText(lines[i], this.x + 10, this.y - 110 + (i * 20));
         }
     }
 
@@ -122,7 +134,6 @@ class DialogBubble {
     static get X_START() {
         return 0;
     }
-
 };
 
 
