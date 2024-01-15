@@ -103,125 +103,42 @@ class PapaChad {
             // Does entity even have a BB?
             if (entity.boundingBox) {
                 // Are they even colliding?
-                let collision = this.boundingBox.collide(entity.boundingBox);
-                if (collision) {
-                    // NOTE: the collision object tells us which sides of entity
-                    //       we are colliding with.
+                if (this.boundingBox.collide(entity.boundingBox)) {
                     if (entity instanceof Block) {
-                        // This is how much we have moved since last frame.
-                        const movementVector = { deltaX : this.boundingBox.left - this.lastBoundingBox.left, deltaY : this.boundingBox.top - this.lastBoundingBox.top };
-                        if (movementVector.deltaX && movementVector.deltaY) {
-                            // We are moving in both planes.
-                            // This is where it is tricky.
-                            // Are we only touching one side, or touching 3? This is simple.
-                            if (
-                                ((collision.top && !collision.bottom) || (collision.bottom && !collision.top)) // colliding with EITHER bottom OR top
-                                && ((collision.right && collision.left) || (!collision.right && !collision.left)) // colliding with BOTH/NEITHER side.
-                            ) {
-                                // We are falling onto the top OR jumping into the bottom.
-                                this.y = movementVector.deltaY > 0 ? entity.y - PapaChad.SCALED_HEIGHT : entity.boundingBox.bottom;
-                                this.yVelocity = 0;
-                            }
-                            else if (
-                                ((collision.right && !collision.left) || (collision.left && !collision.right)) //colliding with EITHER left or right.
-                                && ((collision.top && collision.bottom) || (!collision.top && !collision.bottom)) // colliding with BOTH/NEITHER top/bottom
-                            ) {
-                                // We are walking into the side of a block.
-                                this.x = movementVector.deltaX > 0 ? entity.x - PapaChad.SCALED_WIDTH : entity.boundingBox.right;
-                            }
 
-                            // Now we know that we are touching two sides - intersecting with a single corner.
-                            // We also know that we are moving in both planes.
-                            // This is the super tricky stuff!
+                        // Is there overlap with the block on the x or y-axes?
+                        const isOverlapX = this.lastBoundingBox.left < entity.boundingBox.right 
+                            && this.lastBoundingBox.right > entity.boundingBox.left;
+                        const isOverlapY = this.lastBoundingBox.bottom > entity.boundingBox.top
+                            && this.lastBoundingBox.top < entity.boundingBox.bottom;
 
-                            // Are we moving off the end of a block? This is simple:
-                            else if (
-                                (movementVector.deltaX > 0 && collision.right) // moving right off the right edge
-                                || (movementVector.deltaX < 0 && collision.left)) // moving left off the left edge
-                            {
-                                // Just push yourself back up/down!
-                                this.y = movementVector.deltaY > 0 ? entity.y - PapaChad.SCALED_HEIGHT : entity.boundingBox.bottom;
-                                this.yVelocity = 0;
-                            }
-                            // We can do the same for the sides:
-                            else if (
-                                (movementVector.deltaY > 0 && collision.bottom)
-                                || (movementVector.deltaY < 0 && collision.top)
-                            ) {
-                                // Push yourself back over to the side!
-                                this.x = movementVector.deltaX > 0 ? entity.x - PapaChad.SCALED_WIDTH : entity.boundingBox.bottom;
-                            }
-                            // Now, we know we are hitting a single corner AND moving INTO the block, in both directions.
-                            // The best thing i can do now is draw a line from the corner that is doing the invading, and find out which
-                            // edge it would have naturally landed on, having followed its true path.
-                            else if (movementVector.deltaX > 0) {
-                                if (movementVector.deltaY > 0) {
-                                    // We're moving down and right, hitting TL corner.
-                                    // Recall point slope form: (y-y1) = m(x-x1).
-                                    const m = movementVector.deltaY / movementVector.deltaX;
-                                    const yAtLeft = m * (entity.x - this.x) + this.y;
-                                    if (yAtLeft > entity.y) {
-                                        // push him to the top
-                                        this.y = entity.y - PapaChad.SCALED_HEIGHT;
-                                        this.yVelocity = 0;
-                                    } else {
-                                        //push him to the left.
-                                        this.x = entity.x - PapaChad.SCALED_WIDTH;
-                                    }
-                                } else {
-                                    // We're moving up and right, hitting BL corner.
-                                    // Recall point slope form: (y-y1) = m(x-x1).
-                                    const m = movementVector.deltaY / movementVector.deltaX;
-                                    const yAtLeft = m * (entity.x - this.x) + this.y;
-                                    if (yAtLeft < entity.boundingBox.bottom) {
-                                        // push him to the bottom.
-                                        this.y = entity.boundingBox.bottom;
-                                        this.yVelocity = 0;
-                                    } else {
-                                        //push him to the left.
-                                        this.x = entity.x - PapaChad.SCALED_WIDTH;
-                                    }
-                                }
-                            } else {
-                                // if (movementVector.deltaY > 0) {
-                                //     // We're moving down and left, hitting TR corner.
-                                //     // Recall point slope form: (y-y1) = m(x-x1).
-                                //     const m = movementVector.deltaY / movementVector.deltaX;
-                                //     const yAtRight = m * (entity.x - this.x) + this.y;
-                                //     if (yAtRight > entity.y) {
-                                //         // push him to the top.
-                                //         this.y = entity.y - PapaChad.SCALED_WIDTH;
-                                //         this.yVelocity = 0;
-                                //     } else {
-                                //         //push him to the right;
-                                //         this.x = entity.boundingBox.right;
-                                //     }
-                                // } else {
-                                //     // We're moving up and left, hitting BR corner.
-                                //     // Recall point slope form: (y-y1) = m(x-x1).
-                                //     const m = movementVector.deltaY / movementVector.deltaX;
-                                //     const yAtRight = m * (entity.x - this.x) + this.y;
-                                //     if (yAtRight < entity.y) {
-                                //         // push him to the bottom.
-                                //         this.y = entity.boundingBox.bottom;
-                                //         this.yVelocity = 0;
-                                //     } else {
-                                //         //push him to the right;
-                                //         this.x = entity.boundingBox.right;
-                                //     }
-                                // }
-                            }
-                        } else if (movementVector.deltaY) {
-                            // We are only moving vertically - we are either jumping through the bottom of a block, or falling through the top.
-                            this.y = movementVector.deltaY > 0 ? entity.y - PapaChad.SCALED_HEIGHT : entity.boundingBox.bottom;
+                        if (isOverlapX
+                            && this.lastBoundingBox.bottom <= entity.boundingBox.top
+                            && this.boundingBox.bottom > entity.boundingBox.top) {
+                            // We are colliding with the top.
+
+                            this.y = entity.boundingBox.top - PapaChad.SCALED_HEIGHT;
                             this.yVelocity = 0;
-                        } else if (movementVector.deltaX) {
-                            // We are only moving horizontally - we are walking through the size of a block.
-                            this.x = movementVector.deltaX > 0 ? entity.x - PapaChad.SCALED_WIDTH : entity.boundingBox.right;
-                        } else {
-                            // We haven't moved at all, and yet we're still colliding? This is weird.
-                            console.log("We haven't moved since last frame, yet we're colliding with a block. Something is wrong.");
+                        } else if (isOverlapY
+                            && this.lastBoundingBox.right <= entity.boundingBox.left
+                            && this.boundingBox.right > entity.boundingBox.left) {
+                            // We are colliding with the left side.
+
+                            this.x = entity.boundingBox.left - PapaChad.SCALED_WIDTH;
+                        } else if (isOverlapY
+                            && this.lastBoundingBox.left >= entity.boundingBox.right
+                            && this.boundingBox.left < entity.boundingBox.right) {
+                            // We are colliding with the right side.
+
+                            this.x = entity.boundingBox.right;
+                        } else if (isOverlapX
+                            && this.lastBoundingBox.top >= entity.boundingBox.bottom
+                            && this.boundingBox.top < entity.boundingBox.bottom) {
+                            // We are colliding with the bottom.
+
+                            this.y = entity.boundingBox.bottom;
                         }
+                        
                     }
                     if (entity instanceof Portal) {
                         const dim = DIMENSION.dimension === entity.dimension ? Dimension.VILLAGE : entity.dimension;
