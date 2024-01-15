@@ -1,6 +1,7 @@
 /**
  * Papa Chad is a mostly idle entity who must be able to walk for the tutorial.
  * Otherwise he stands still in his idle position and offers dialog options to Chad.
+ * @author Devin, Nathan, Trae, Caleb
  */
 class PapaChad {
     constructor(x, y) {
@@ -23,6 +24,8 @@ class PapaChad {
         this.xVelocity = 0;
         /** The velocity at which PapaChad is moving in the y direction. */
         this.yVelocity = 0;
+
+        this.name = "Papa Chad"; // turn this into a constant via static getter?
 
         //this.findDirection();
     };
@@ -63,7 +66,16 @@ class PapaChad {
 
     /** Change what Papa Chad is doing and where it is. */
     update() {
-        // NOTE: this entire method will be moved to Chad as soon as we have his spritesheet ready.
+        // Update condition!
+
+        this.yVelocity += PHYSICS.GRAVITY_ACC * GAME.clockTick;
+        this.yVelocity = Math.min(PHYSICS.TERMINAL_VELOCITY, this.yVelocity);
+        
+        // Update position!
+        this.y += this.yVelocity;
+        if (this.y > DIMENSION.MAX_Y) {
+            this.y -= DIMENSION.MAX_Y;
+        }
         
         // Step 1: Listen for user input.
         // for now, just left and right

@@ -22,6 +22,7 @@ const loadPlaygroundDimension = () => {
     const queueDimensionalAssets = () => {
         ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
         ASSET_MGR.queueDownload(Block.SPRITESHEET);
+        ASSET_MGR.queueDownload(DialogBubble.SPRITESHEET);
         ASSET_MGR.queueDownload(Projectile.SPRITESHEET);
     };
     /** 
@@ -43,6 +44,10 @@ const loadPlaygroundDimension = () => {
                 left = true;
             }
         }
+
+        GAME.addEntity(new DialogBubble(CHAD, "Greetings and salutations! I'm the one and only Papa Chad!", DialogBubble.NORMAL));
+        console.log("Added dialog bubble.");
+
         // Surround the border of the dimension.
         for (let i = -25; i < 25; i++) {
             GAME.addEntity(new Block(i, -25, Block.LAVA_ROCK));
