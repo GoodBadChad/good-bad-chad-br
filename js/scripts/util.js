@@ -24,7 +24,7 @@ window.requestAnimFrame = (() => {
  * Acceleration: pixels/second^2
  */
 const PHYSICS = {
-    GRAVITY_ACC : 15,
+    GRAVITY_ACC : 900,
     TERMINAL_VELOCITY: 25
 };
 
