@@ -64,6 +64,27 @@ class DialogBubble {
     }
 
     /** 
+     * A constant for the type field. 
+     */
+    static get NORMAL() {
+        return 1;
+    }
+
+    /** 
+     * A constant for the type field. 
+     */
+    static get SHOUT() {
+        return 2;
+    };
+
+    /** 
+     * A constant for the type field. 
+    */
+    static get THOUGHT() {
+        return 3;
+    };
+
+    /** 
      * based off length of text, determine the size of the box.
      * - don't need this yet, as we only have one size
     */
@@ -136,13 +157,3 @@ class DialogBubble {
     }
 };
 
-
-/**
- * The type of dialog bubble. NORMAL, THOUGHT, or SHOUT.
- * - currently only NORMAL is implemented.
- */
-const DialogBubbleType = {
-    NORMAL: 'normal',
-    THOUGHT: 'thought',
-    SHOUT: 'shout'
-};
