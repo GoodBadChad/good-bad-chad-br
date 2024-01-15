@@ -105,7 +105,7 @@ class PapaChad {
                 // Are they even colliding?
                 if (this.boundingBox.collide(entity.boundingBox)) {
                     if (entity instanceof Block) {
-
+                        
                         // Is there overlap with the block on the x or y-axes?
                         const isOverlapX = this.lastBoundingBox.left < entity.boundingBox.right 
                             && this.lastBoundingBox.right > entity.boundingBox.left;
@@ -138,7 +138,6 @@ class PapaChad {
 
                             this.y = entity.boundingBox.bottom;
                         }
-                        
                     }
                     if (entity instanceof Portal) {
                         const dim = DIMENSION.dimension === entity.dimension ? Dimension.VILLAGE : entity.dimension;
