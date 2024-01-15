@@ -41,5 +41,6 @@ const getCollisionType = (collider, collidee) => {
 }
 
 const FONT = {
-    VT323_NORMAL: "16px Arial" // TODO: Change this to our special font we picked out (VT323)
+    VT323_NORMAL: "16px Arial", // TODO: Change this to our special font we picked out (VT323)
+    VT323_HEADER: "24px Arial" // TODO: Change this to our special font we picked out (VT323)
 };
