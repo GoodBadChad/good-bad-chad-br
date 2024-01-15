@@ -5,10 +5,10 @@
 class GameEngine {
     /**
      * This constructs a new GameEngine, initializing some necessary parameters.
-     * @param {boolean} isSpanish ¿Debería estar en español este juego?
+     * @param {boolean} isSpanish ¿Debería estar en español este juego? Default: false.
      */
     constructor(isSpanish) {
-        /** ¿Está el juego en español? */
+        /** ¿Está el juego en español? Default: false. */
         this.spanish = isSpanish ?? false;
         /** Everything that will be updated and drawn each frame. 
          *  Note: This does not include the WIZARD, which is a global parameter. */
@@ -117,6 +117,9 @@ class GameEngine {
                 case "KeyW":
                     this.up = true;
                     break;
+                case "Space":
+                    this.space = true;
+                    break;
             }
         }, false);
 
@@ -134,6 +137,9 @@ class GameEngine {
                 case "KeyW":
                     this.up = false;
                     break;
+                case "Space":
+                    this.space = false;
+                    break;d
             }
         }, false);
     };
