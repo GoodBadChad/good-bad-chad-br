@@ -12,6 +12,16 @@ class Camera {
         this.y = 0;
     };
 
+    /** The width (in pixels) of the Camera's visible domain. */
+    static get WIDTH() {
+        return 1920;
+    };
+
+    /** The height (in pixels) of the Camera's visible domain. */
+    static get HEIGHT() {
+        return 1080;
+    };
+
     /**
      * This is going to update the x and y values according to Chad's position.
      */
@@ -28,7 +38,7 @@ class Camera {
             }
             return z;
         };
-        this.x = median(DIMENSION.MIN_X, DIMENSION.MAX_X - CANVAS.width, CHAD.x - CANVAS.width / 2);
-        this.y = median(DIMENSION.MIN_Y, DIMENSION.MAX_Y - CANVAS.height, CHAD.y - CANVAS.height / 2);
+        this.x = median(DIMENSION.MIN_X, DIMENSION.MAX_X - Camera.WIDTH, CHAD.x - Camera.WIDTH / 2);
+        this.y = median(DIMENSION.MIN_Y, DIMENSION.MAX_Y - Camera.HEIGHT, CHAD.y - Camera.HEIGHT / 2);
     };
 };
