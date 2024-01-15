@@ -90,6 +90,10 @@ class PapaChad {
             this.facing = "right";
             this.xVelocity += PapaChad.SPEED;
         }
+        if (GAME.space) {
+            this.action = "idle";
+            this.yVelocity = -300;
+        }
         if (!(GAME.right || GAME.left)) {
             this.action = "idle";
         }
@@ -108,19 +112,54 @@ class PapaChad {
         
         // Step 4: Have we collided with anything?
         GAME.entities.forEach((entity) => {
-            // Does entity even have a BB? Are they even colliding?
-            if (entity.boundingBox && entity.boundingBox.collide(this.boundingBox)) {
-                // Is entity a block?
-                if (entity instanceof Block) {
-                    // Are we falling?
-                    if (this.yVelocity > 0) {
-                        if (this.lastBoundingBox.bottom < entity.boundingBox.top) {
+            // Does entity even have a BB?
+            if (entity.boundingBox) {
+                // Are they even colliding?
+                if (this.boundingBox.collide(entity.boundingBox)) {
+                    if (entity instanceof Block) {
+                        
+                        // Is there overlap with the block on the x or y-axes?
+                        const isOverlapX = this.lastBoundingBox.left < entity.boundingBox.right 
+                            && this.lastBoundingBox.right > entity.boundingBox.left;
+                        const isOverlapY = this.lastBoundingBox.bottom > entity.boundingBox.top
+                            && this.lastBoundingBox.top < entity.boundingBox.bottom;
+
+                        if (isOverlapX
+                            && this.lastBoundingBox.bottom <= entity.boundingBox.top
+                            && this.boundingBox.bottom > entity.boundingBox.top) {
+                            // We are colliding with the top.
+
+                            this.y = entity.boundingBox.top - PapaChad.SCALED_HEIGHT;
                             this.yVelocity = 0;
-                            this.y = entity.y - PapaChad.SCALED_HEIGHT - .01;
+                        } else if (isOverlapY
+                            && this.lastBoundingBox.right <= entity.boundingBox.left
+                            && this.boundingBox.right > entity.boundingBox.left) {
+                            // We are colliding with the left side.
+
+                            this.x = entity.boundingBox.left - PapaChad.SCALED_WIDTH;
+                        } else if (isOverlapY
+                            && this.lastBoundingBox.left >= entity.boundingBox.right
+                            && this.boundingBox.left < entity.boundingBox.right) {
+                            // We are colliding with the right side.
+
+                            this.x = entity.boundingBox.right;
+                        } else if (isOverlapX
+                            && this.lastBoundingBox.top >= entity.boundingBox.bottom
+                            && this.boundingBox.top < entity.boundingBox.bottom) {
+                            // We are colliding with the bottom.
+
+                            this.y = entity.boundingBox.bottom;
                         }
                     }
+                    if (entity instanceof Portal) {
+                        const dim = DIMENSION.dimension === entity.dimension ? Dimension.VILLAGE : entity.dimension;
+                        DIMENSION = new Dimension(dim);
+                        DIMENSION.loadDimension();
+                    }
                 }
+                // There's no collision - don't do anything!
             }
+            // There's no bounding box, so who gives a shrek?
         });
 
         // Step 5: Now that your position is actually figured out, draw your correct bounding box.

@@ -20,7 +20,7 @@ CTX.imageSmoothingEnabled = false;
  * THE FOLLOWING CONSTRUCTOR DOES A LOT MORE THAN MEETS THE EYE!
  * It is actually going to set up GAME and ASSET_MGR for us!
  */
-const DIMENSION = new Dimension(Dimension.PLAYGROUND);
+let DIMENSION = new Dimension(Dimension.PLAYGROUND);
 
 // So...
 GAME.start();
