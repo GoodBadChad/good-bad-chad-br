@@ -57,7 +57,7 @@ class Slingshot {
                 this.isHidden = true;
 
                 // create a projectile and launch it in the direction of the mouse
-                let projectile = new Projectile(Ammo.BOMB, this.x, this.y, GAME.mouseX, GAME.mouseY);
+                let projectile = new Projectile(Projectile.BOMB, this.x, this.y, GAME.mouseX, GAME.mouseY);
 
                 resolve();
             }, 1000);
