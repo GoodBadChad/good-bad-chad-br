@@ -23,7 +23,10 @@ const loadPlaygroundDimension = () => {
         ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
         ASSET_MGR.queueDownload(Block.SPRITESHEET);
         ASSET_MGR.queueDownload(Projectile.SPRITESHEET);
+        ASSET_MGR.queueDownload(DialogBubble.SPRITESHEET);
+        ASSET_MGR.queueDownload(Crosshair.SPRITESHEET);
     };
+
     /** 
      * This is going to add all of the entities to the GAME so that they are ready to be drawn. 
      * @author Devin Peevy 
@@ -52,6 +55,8 @@ const loadPlaygroundDimension = () => {
         }
         GAME.addEntity(new Portal(10, -10, Dimension.LAVA));
         GAME.addEntity(new Projectile(Projectile.BOMB, -192, -1280, 200, -1280));
+        GAME.addEntity(new DialogBubble(CHAD, "Hello, I am Papa Chad", DialogBubble.NORMAL));
+        GAME.addEntity(new Crosshair());
         CHAD.x = -3 * Block.SCALED_SIZE;
         CHAD.y = -20 * Block.SCALED_SIZE;
     };
