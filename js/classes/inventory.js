@@ -5,44 +5,44 @@
 class Inventory {
 
     constructor() {
-        this.ammoList = [] // ammo should have a name and an amount
+        this.ammoList = [] // ammo should have a type and an amount
         
-        this.addAmmo(Ammo.STONE, "infinite");
-        this.switchToAmmo(Ammo.STONE);
+        this.addAmmo(Projectile.STONE, "infinite");
+        this.switchToAmmo(Projectile.STONE);
     }
 
     /**
-     * @param {number} name The name of the ammo to add to the inventory.
+     * @param {number} type The type of the ammo to add to the inventory.
      * @param {number} amount The amount of ammo to add to the inventory.
      */
-    addAmmo(name, amount) {
-        this.ammoList.push({name: name, amount: amount});
+    addAmmo(type, amount) {
+        this.ammoList.push({type: type, amount: amount});
     }
 
     /**
-     * @returns {Array} A map of all the ammo in the inventory.
+     * @returns {Array} An array of all the ammo in the inventory.
      */
     getAllAmmo() {
         return this.ammoList;
     }
 
     /**
-     * @param {string} name The name of the ammo to get.
+     * @param {number} type The type of the ammo to get.
      * @returns {Object} The ammo with the given name.
      */
-    getAmmo(name) {
+    getAmmo(type) {
         for (let i = 0; i < this.ammoList.length; i++) {
-            if (this.ammoList[i].name == name) {
+            if (this.ammoList[i].type == type) {
                 return this.ammoList[i];
             }
         }
     }
     
     /**
-     * @param {string} name The name of the ammo to switch to.
+     * @param {number} type The type of the ammo to switch to.
      */
-    switchToAmmo(name) {
-        this.currentAmmo = this.getAmmo(name);
+    switchToAmmo(type) {
+        this.currentAmmo = this.getAmmo(type);
     }
 
     /**
@@ -52,6 +52,13 @@ class Inventory {
         if (this.currentAmmo.amount != "infinite") {
             this.currentAmmo.amount--;
         }
+    }
+
+    /**
+     * @returns {Object} The current ammo.
+     */
+    getCurrentAmmo() {
+        return this.currentAmmo;
     }
 
 

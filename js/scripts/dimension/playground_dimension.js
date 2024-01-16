@@ -25,8 +25,7 @@ const loadPlaygroundDimension = () => {
         ASSET_MGR.queueDownload(Projectile.SPRITESHEET);
         ASSET_MGR.queueDownload(DialogBubble.SPRITESHEET);
         ASSET_MGR.queueDownload(Crosshair.SPRITESHEET);
-        // load the font
-        ASSET_MGR.queueDownload("./fonts/VT323-Regular.ttf");
+        ASSET_MGR.queueDownload(Slingshot.SPRITESHEET);
     };
 
     /** 
@@ -56,9 +55,11 @@ const loadPlaygroundDimension = () => {
             GAME.addEntity(new Block(24, i, Block.SNOWY_ICE));
         }
         GAME.addEntity(new Portal(10, -10, Dimension.LAVA));
-        GAME.addEntity(new Projectile(Projectile.BOMB, -192, -1280, 200, -1280));
+        // GAME.addEntity(new Projectile(Projectile.BOMB, -192, -1280, 200, -1280));
         GAME.addEntity(new DialogBubble(CHAD, "Greetings! I am the one and only Papa Chad", DialogBubble.NORMAL));
         GAME.addEntity(new Crosshair());
+        GAME.addEntity(new Slingshot());
+
         CHAD.x = -3 * Block.SCALED_SIZE;
         CHAD.y = -20 * Block.SCALED_SIZE;
     };
