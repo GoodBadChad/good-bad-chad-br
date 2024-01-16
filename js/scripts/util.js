@@ -24,8 +24,7 @@ window.requestAnimFrame = (() => {
  * Acceleration: pixels/second^2
  */
 const PHYSICS = {
-    GRAVITY_ACC : 900,
-    TERMINAL_VELOCITY: 25
+    GRAVITY_ACC : 900
 };
 
 /**
@@ -38,6 +37,4 @@ const getCollisionType = (collider, collidee) => {
     if (this.x)
 
     return {corners: corners, vertices: vertices};
-const FONT = {
-    VT323_NORMAL: "16px Arial" // TODO: Change this to our special font we picked out (VT323)
 };

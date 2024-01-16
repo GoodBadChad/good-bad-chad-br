@@ -1,6 +1,6 @@
 /**
  * The Game Engine contains all entities, and puts them all through the update-render loop. It is also responsible for tracking user input.
- * @author Seth Ladd (original), Chris Marriott (modified), Devin Peevy (modified)
+ * @author Seth Ladd (original), Chris Marriott (modified), Devin Peevy (modified), Nathan Hinthorne (modified)
  */
 class GameEngine {
     /**
@@ -21,6 +21,15 @@ class GameEngine {
         this.right = false;
         /** Is the user pressing the A key? */
         this.left = false;
+        /** Is the user pressing the mouse button? */
+        this.mouseDown = false;
+        /** Is the user releasing the mouse button? */
+        this.mouseUp = false;
+        /** Where is the x coordinate of the user's mouse? */
+        this.mouseX = 0;
+        /** Where is the y coordinate of the user's mouse? */
+        this.mouseY = 0;
+
 
         /** The timer tells you how long it's been since the last tick! */
         this.timer = new Timer();
@@ -103,6 +112,22 @@ class GameEngine {
      */
     startInput() {
 
+        CANVAS.addEventListener("mousedown", (e) => {
+            this.mouseDown = true;
+            this.mouseUp = false;
+        });
+
+        CANVAS.addEventListener("mouseup", (e) => {
+            this.mouseUp = true;
+            this.mouseDown = false;
+            console.log("mouse clicked at (" + Math.round(this.mouseX) + ", " + Math.round(this.mouseY) + ")");
+        });
+
+        CANVAS.addEventListener("mousemove", (e) => {
+            this.mouseX = e.clientX - CANVAS.getBoundingClientRect().left;
+            this.mouseY = e.clientY - CANVAS.getBoundingClientRect().top;
+        });
+
         CANVAS.addEventListener("keydown", (e) => {
             switch (e.code) {
                 case "KeyA":
@@ -116,6 +141,9 @@ class GameEngine {
                     break;
                 case "KeyW":
                     this.up = true;
+                    break;
+                case "Space":
+                    this.space = true;
                     break;
             }
         }, false);
@@ -134,6 +162,9 @@ class GameEngine {
                 case "KeyW":
                     this.up = false;
                     break;
+                case "Space":
+                    this.space = false;
+                    break;d
             }
         }, false);
     };

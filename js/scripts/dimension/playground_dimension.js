@@ -22,6 +22,7 @@ const loadPlaygroundDimension = () => {
     const queueDimensionalAssets = () => {
         ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
         ASSET_MGR.queueDownload(Block.SPRITESHEET);
+        ASSET_MGR.queueDownload(Projectile.SPRITESHEET);
     };
     /** 
      * This is going to add all of the entities to the GAME so that they are ready to be drawn. 
@@ -42,9 +43,17 @@ const loadPlaygroundDimension = () => {
                 left = true;
             }
         }
-
+        // Surround the border of the dimension.
+        for (let i = -25; i < 25; i++) {
+            GAME.addEntity(new Block(i, -25, Block.LAVA_ROCK));
+            GAME.addEntity(new Block(i, 24, Block.SNOWY_DIRT));
+            GAME.addEntity(new Block(-25, i, Block.ICE));
+            GAME.addEntity(new Block(24, i, Block.SNOWY_ICE));
+        }
+        GAME.addEntity(new Portal(10, -10, Dimension.LAVA));
+        GAME.addEntity(new Projectile(Projectile.BOMB, -192, -1280, 200, -1280));
         CHAD.x = -3 * Block.SCALED_SIZE;
-        CHAD.y = -25 * Block.SCALED_SIZE;
+        CHAD.y = -20 * Block.SCALED_SIZE;
     };
 
     queueDimensionalAssets();
