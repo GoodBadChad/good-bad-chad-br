@@ -7,6 +7,8 @@ class Crosshair {
         this.x = GAME.mouseX;
         this.y = GAME.mouseY;
         this.isHidden = false;
+
+        /** The starting y position of the spritesheet*/
         this.startY = 0;
     }
 
@@ -23,6 +25,7 @@ class Crosshair {
 
     draw() {
         if (!this.isHidden) {
+            document.body.style.cursor = 'none';
             CTX.drawImage(
                 ASSET_MGR.getAsset(Crosshair.SPRITESHEET),
                 0, this.startY,
@@ -31,6 +34,9 @@ class Crosshair {
                 this.y - (Crosshair.HEIGHT * Crosshair.SCALE) / 2,
                 Crosshair.WIDTH * Crosshair.SCALE,
                 Crosshair.HEIGHT * Crosshair.SCALE);
+        } else {
+            document.body.style.cursor = 'default';
+            // document.body.style.cursor = url("cursor.png");
         }
     }
 
@@ -47,6 +53,6 @@ class Crosshair {
     }
 
     static get SCALE() {
-        return 5;
+        return 3;
     }
 }
