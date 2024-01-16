@@ -48,7 +48,7 @@ class Bird {
     update() {
         this.x += this.dirX * Bird.SPEED;
         this.y += this.dirY * Bird.SPEED;
-        console.log(this.y);
+       
         if (this.x <= -this.actualWidth() || this.x >= this.maxX) {
             this.reset();
         }

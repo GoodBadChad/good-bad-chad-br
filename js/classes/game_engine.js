@@ -117,6 +117,9 @@ class GameEngine {
                 case "KeyW":
                     this.up = true;
                     break;
+                case "Space":
+                    this.space = true;
+                    break;
             }
         }, false);
 
@@ -134,6 +137,9 @@ class GameEngine {
                 case "KeyW":
                     this.up = false;
                     break;
+                case "Space":
+                    this.space = false;
+                    break;d
             }
         }, false);
     };
