@@ -27,6 +27,12 @@ const PHYSICS = {
     GRAVITY_ACC : 900
 };
 
+
+const FONT = {
+    VT323_NORMAL: "16px Ariel",
+    VT323_HEADER: "24px Ariel"
+};
+
 /**
  * @param {BoundingBox} collider The bounding box doing the colliding.
  * @param {BoundingBox} collidee The bounding box that is being collided with.

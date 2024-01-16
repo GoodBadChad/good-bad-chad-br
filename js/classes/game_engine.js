@@ -124,8 +124,11 @@ class GameEngine {
         });
 
         CANVAS.addEventListener("mousemove", (e) => {
-            this.mouseX = e.clientX - CANVAS.getBoundingClientRect().left;
-            this.mouseY = e.clientY - CANVAS.getBoundingClientRect().top;
+            const rect = CANVAS.getBoundingClientRect();
+            const scaleX = CANVAS.width / rect.width;
+            const scaleY = CANVAS.height / rect.height;
+            this.mouseX = (e.clientX - rect.left) * scaleX;
+            this.mouseY = (e.clientY - rect.top) * scaleY;
         });
 
         CANVAS.addEventListener("keydown", (e) => {
