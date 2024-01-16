@@ -29,7 +29,7 @@ const PHYSICS = {
 
 
 const FONT = {
-    VT323_NORMAL: "16px Ariel",
+    VT323_NORMAL: "20px Ariel",
     VT323_HEADER: "24px Ariel"
 };
 
