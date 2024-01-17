@@ -88,6 +88,20 @@ class PapaChad {
             this.action = "idle";
         }
 
+
+        // this is for the slingshot
+        if (GAME.mouseDown) {
+            // determine if mouse is to the right or left of Chad
+            // remember, the mouse is in screen coordinates, not world coordinates
+            const mouseX = GAME.mouseX + CAMERA.x;
+            if (mouseX > this.x) {
+                this.facing = "right";
+            } else {
+                this.facing = "left";
+            }
+        }
+
+
         // Step 2: Account for gravity, which is always going to push you downward.
         this.yVelocity += PHYSICS.GRAVITY_ACC * GAME.clockTick;
 
