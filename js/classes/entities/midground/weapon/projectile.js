@@ -74,8 +74,8 @@ class Projectile {
                 ACTION: () => {
                     console.log("boom");
                 },
-                SPEED: 30,
-                WEIGHT: 0.1,
+                SPEED: 15,
+                WEIGHT: 0.05,
                 SIZE: 13
             },
             [Projectile.WOOD]: {
@@ -160,6 +160,11 @@ class Projectile {
     update() {
         if (this.isTargetSet()) {
             this.yVelocity += PHYSICS.GRAVITY_ACC * GAME.clockTick * this.weight;
+          
+            if (this.yVelocity > PHYSICS.TERMINAL_VELOCITY) {
+                this.yVelocity = PHYSICS.TERMINAL_VELOCITY;
+            } 
+          
             this.x += this.dirX * this.speed;
             this.y += this.dirY * this.speed + this.yVelocity;
 
