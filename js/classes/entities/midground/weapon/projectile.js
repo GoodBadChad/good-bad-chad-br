@@ -64,8 +64,8 @@ class Projectile {
                 ACTION: () => {
                     console.log("boom");
                 },
-                SPEED: 30,
-                WEIGHT: 0.1
+                SPEED: 15,
+                WEIGHT: 0.05
             },
             [Projectile.WOOD]: {
                 ACTION: () => {
@@ -110,6 +110,16 @@ class Projectile {
 
     update() {
         this.yVelocity += PHYSICS.GRAVITY_ACC * GAME.clockTick * this.weight;
+
+        
+        // I put this here because the bomb seemed to be falling unrealisticly fast when launching it downwards -Nathan
+        //--------------------------------------- 
+        // account for terminal velocity
+        if (this.yVelocity > PHYSICS.TERMINAL_VELOCITY) {
+            this.yVelocity = PHYSICS.TERMINAL_VELOCITY;
+        }
+        //---------------------------------------
+
         this.x += this.dirX * this.speed;
         this.y += this.dirY * this.speed + this.yVelocity;
 

@@ -11,6 +11,8 @@ const CTX = CANVAS.getContext("2d");
 const CAMERA = new Camera();
 /** Our Hero! Centered in Camera. */
 const CHAD = new PapaChad(0, 0, true);
+/** The inventory of the player. */
+const INVENTORY = new Inventory();
 /** DYNAMIC_SCRIPTS.dialog and .dimension are used to not load unnecessary data. */
 const DYNAMIC_SCRIPTS = {"dialog": null, "dimension": null};
 
