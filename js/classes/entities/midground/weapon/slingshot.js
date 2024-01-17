@@ -19,95 +19,87 @@ class Slingshot {
         this.startY = 0;
     }
 
-    findRotation(mouseX, mouseY) {
+    findRotation() {
         this.isHidden = false;
         this.startX = 0; // slingshot charging frame
 
         // position the image near Chad's hand
-        this.y = CHAD.y - 10;
+        this.y = CHAD.y + 15;
         if (CHAD.facing == "right") {
-            this.x = CHAD.x + 10;
+            this.x = CHAD.x + 80;
             this.startY = 0; // slingshot facing right frame
         } else if (CHAD.facing == "left") {
-            this.x = CHAD.x - 10;
-            this.startY = 29; // slingshot facing left frame
+            this.x = CHAD.x - 80;
+            // this.startY = 29; // slingshot facing left frame
         }
 
         // find the angle in radians from the x axis to the mouse
-        let deltaX = GAME.mouseX - this.x; 
-        let deltaY = GAME.mouseY - this.y;
+        let deltaX = GAME.mouseX - (this.x + CAMERA.x); 
+        let deltaY = GAME.mouseY - (this.y + CAMERA.y);
         let theta = Math.atan2(deltaY, deltaX);
         this.rotation = theta;
+
+        console.log("rotation: " + " (" + this.rotation * 180 / Math.PI + " degrees)");
     }
 
-    fireSlingshot(mouseX, mouseY) {
-        console.log("slingshot is firing");
+    fireSlingshot() {
         this.isFiring = true;
         this.startX = 26; // slingshot firing frame
 
         INVENTORY.decreaseAmmo();
         let ammo = INVENTORY.getCurrentAmmo();
 
-        // trigger an async operation that will create a projectile and launch it in the direction of the mouse.
-        return new Promise((resolve) => {
+        // create a projectile and launch it in the direction of the mouse
+        let start = {x : Math.round(this.x), y : Math.round(this.y)};
+        let end = {x : Math.round(GAME.mouseX + CAMERA.x), y : Math.round(GAME.mouseY + CAMERA.y)};
+        GAME.addEntity(new Projectile(Projectile.STONE, start.x, start.y, end.x, end.y));
+        // console.log("slingshot fired from (" + start.x + ", " + start.y + ") to (" + end.x + ", " + end.y + ")");
+
+        // trigger an async operation that will erase the slingshot after it fires
+        setTimeout(() => {
+            this.isFiring = false;
+            this.isHidden = true;
             
-            setTimeout(() => {
-                console.log("slingshot finished firing");
-                this.isFiring = false;
-                this.isHidden = true;
-
-                // create a projectile and launch it in the direction of the mouse
-                let projectile = new Projectile(Projectile.BOMB, this.x, this.y, GAME.mouseX, GAME.mouseY);
-
-                resolve();
-            }, 1000);
-        });
+        }, 1000);
     }
 
 
     update() {
         if (GAME.mouseDown) {
-            this.findRotation(GAME.mouseX, GAME.mouseY);
+            this.findRotation();
         } else if (GAME.mouseUp) {
-            this.fireSlingshot(GAME.mouseX, GAME.mouseY);
+            this.fireSlingshot();
         }
     }
 
 
     draw() {
         if (!this.isHidden) {
-            GAME.ctx.save();
-            GAME.ctx.translate(this.x, this.y);
-            GAME.ctx.rotate(this.rotation);
-            GAME.ctx.drawImage(
-                ASSET_MGR.getAsset(this.SPRITESHEET),
-                this.startX,
-                this.startY,
-                Slingshot.WIDTH,
-                Slingshot.HEIGHT,
-                -(Slingshot.WIDTH * Slingshot.SCALE) / 2,
-                -(Slingshot.HEIGHT * Slingshot.SCALE) / 2,
+            CTX.drawImage(
+                ASSET_MGR.getAsset(Slingshot.SPRITESHEET),
+                this.startX, this.startY,
+                Slingshot.WIDTH, Slingshot.HEIGHT,
+                this.x - CAMERA.x,
+                this.y - CAMERA.y,
                 Slingshot.WIDTH * Slingshot.SCALE,
-                Slingshot.HEIGHT * Slingshot.SCALE
-            );
-            GAME.ctx.restore();
+                Slingshot.HEIGHT * Slingshot.SCALE);
         }
     }
 
-    get SPRITESHEET() {
+    static get SPRITESHEET() {
         return "./sprites/slingshot.png";
     }
 
-    get WIDTH() {
+    static get WIDTH() {
         return 26;
     }
 
-    get HEIGHT() {
+    static get HEIGHT() {
         return 29;
     }
 
-    get SCALE() {
-        return 3;
+    static get SCALE() {
+        return 2.5;
     }
 
 };

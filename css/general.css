@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'vt323';
+    src: url('../font/vt323/VT323-Regular.ttf') format('truetype');
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -8,6 +13,7 @@ body {
     height: 100vh;
     display: flex;
     align-content: center;
+    font-family: 'vt323', fallback;
 }
 
 #game-world {
