@@ -10,10 +10,6 @@ class DialogBubble {
      * @param {string} type The type of dialog bubble. DialogBubble.NORMAL, .THOUGHT, or .SHOUT.
      */
     constructor(speaker, text, type) {
-        if (type !== DialogBubbleType.NORMAL && type !== DialogBubbleType.THOUGHT && type !== DialogBubbleType.SHOUT) {
-            throw new Error("Invalid DialogBubble type: try DialogBubble.NORMAL, .THOUGHT, or .SHOUT.");
-        }
-
         /** The speaker object (should be an npc or enemy). */
         this.speaker = speaker;
 
@@ -45,11 +41,11 @@ class DialogBubble {
     pickSprite() {
         // pick the sprite based on the type of dialog bubble
         switch (this.type) {
-            case DialogBubbleType.NORMAL:
+            case DialogBubble.NORMAL:
                 return 0;
-            case DialogBubbleType.THOUGHT:
+            case DialogBubble.THOUGHT:
                 return 80;
-            case DialogBubbleType.SHOUT:
+            case DialogBubble.SHOUT:
                 return 160;
             default:
                 return 160;

@@ -24,6 +24,8 @@ class PapaChad {
         /** The velocity at which PapaChad is moving in the y direction. */
         this.yVelocity = 0;
 
+        this.name = "Papa Chad";
+
         //this.findDirection();
     };
 
