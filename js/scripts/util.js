@@ -24,11 +24,11 @@ window.requestAnimFrame = (() => {
  * Acceleration: pixels/second^2
  */
 const PHYSICS = {
-    GRAVITY_ACC : 900
+    GRAVITY_ACC : 900,
+    TERMINAL_VELOCITY : 200 // currently only being applied to projectiles
 };
 
-
-const FONT = {
-    VT323_NORMAL: "16px Arial",
-    VT323_HEADER: "24px Arial"
+const FONT = { // NOTE: the "vt323" part below is not what's assigning the vt323 font. It's the CSS file. I kept this here for reference.
+    VT323_NORMAL: "20px vt323",
+    VT323_HEADER: "24px vt323"
 };

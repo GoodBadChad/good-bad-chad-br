@@ -89,6 +89,10 @@ class GameEngine {
                 this.entities.splice(i, 1);
             }
         }
+
+        if (this.mouseUp) {
+            this.mouseUp = false;
+        }
     };
 
     /**
@@ -172,7 +176,7 @@ class GameEngine {
                     break;
                 case "Space":
                     this.space = false;
-                    break;d
+                    break;
             }
         }, false);
     };

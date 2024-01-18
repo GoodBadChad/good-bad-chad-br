@@ -11,6 +11,8 @@ const CTX = CANVAS.getContext("2d");
 const CAMERA = new Camera();
 /** Our Hero! Centered in Camera. */
 const CHAD = new PapaChad(0, 0, true);
+/** The inventory of the player. */
+const INVENTORY = new Inventory();
 
 // Minor details
 CTX.imageSmoothingEnabled = false;

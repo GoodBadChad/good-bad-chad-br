@@ -35,8 +35,8 @@ class Crosshair {
                 Crosshair.WIDTH * Crosshair.SCALE,
                 Crosshair.HEIGHT * Crosshair.SCALE);
         } else {
-            document.body.style.cursor = 'default';
-            // document.body.style.cursor = url("cursor.png");
+            // document.body.style.cursor = 'default';
+            // document.body.style.cursor = url("../sprites/font/vt323/VT323-Regular.ttf.png");
         }
     }
 
