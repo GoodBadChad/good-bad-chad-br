@@ -5,7 +5,7 @@
  * @author Devin Peevy
  */
 class Dimension {
-    
+
     /**
      * @param {number} dimension The id of the Dimension which you want to load. Dimension.PLAYGROUND, .VILLAGE, .WOODS, .FACTORY, .SNOWY, .LAVA, or .TOWER.
      */
@@ -27,11 +27,11 @@ class Dimension {
         // First we want to clear all entities and the cache.
         GAME.clearEntities();
         ASSET_MGR.clearCache();
-        
+
         // TODO: fill in
         const loadMethods = [
             loadPlaygroundDimension,    // Playground
-            null,                       // Village
+            loadVillageDimension,       // Village
             null,                       // Woods
             null,                       // Factory
             null,                       // Snowy
@@ -81,7 +81,7 @@ class Dimension {
         // The width, in BLOCKS! of your world.
         const blockWidths = [
             50,     // PLAYGROUND
-            0,      // VILLAGE
+            250,      // VILLAGE
             0,      // WOODS
             0,      // FACTORY
             0,      // SNOWY
@@ -96,7 +96,7 @@ class Dimension {
         // The height, in BLOCKS! of your world.
         const blockHeights = [
             50,     // PLAYGROUND
-            0,      // VILLAGE
+            50,      // VILLAGE
             0,      // WOODS
             0,      // FACTORY
             0,      // SNOWY
