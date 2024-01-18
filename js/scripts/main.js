@@ -13,10 +13,25 @@ const CAMERA = new Camera();
 const CHAD = new PapaChad(0, 0, true);
 /** The inventory of the player. */
 const INVENTORY = new Inventory();
-/** DYNAMIC_SCRIPTS.dialog and .dimension are used to not load unnecessary data. */
-const DYNAMIC_SCRIPTS = {"dialog": null, "dimension": null};
 
+// Minor details
 CTX.imageSmoothingEnabled = false;
+const debugButton = document.getElementById("debug");
+debugButton.addEventListener("click", () => {
+	if (debugButton.checked) {
+		GAME.debug = true;
+	} else {
+		GAME.debug = false;
+	}
+});
+const spanishButton = document.getElementById("spanish");
+spanishButton.addEventListener("click", () => {
+	if (spanishButton.checked) {
+		GAME.spanish = true;
+	} else {
+		GAME.spanish = false;
+	}
+});
 
 /*
  * THE FOLLOWING CONSTRUCTOR DOES A LOT MORE THAN MEETS THE EYE!

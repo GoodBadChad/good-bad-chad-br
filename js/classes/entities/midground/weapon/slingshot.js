@@ -34,7 +34,7 @@ class Slingshot {
         }
 
         // find the angle in radians from the x axis to the mouse
-        let deltaX = GAME.mouseX - (this.x + CAMERA.x); 
+        let deltaX = GAME.mouseX - (this.x + CAMERA.x);
         let deltaY = GAME.mouseY - (this.y + CAMERA.y);
         let theta = Math.atan2(deltaY, deltaX);
         this.rotation = theta;
@@ -50,8 +50,8 @@ class Slingshot {
         let ammo = INVENTORY.getCurrentAmmo();
 
         // create a projectile and launch it in the direction of the mouse
-        let start = {x : Math.round(this.x), y : Math.round(this.y)};
-        let end = {x : Math.round(GAME.mouseX + CAMERA.x), y : Math.round(GAME.mouseY + CAMERA.y)};
+        let start = { x: Math.round(this.x), y: Math.round(this.y) };
+        let end = { x: Math.round(GAME.mouseX + CAMERA.x), y: Math.round(GAME.mouseY + CAMERA.y) };
         GAME.addEntity(new Projectile(Projectile.STONE, start.x, start.y, end.x, end.y));
         // console.log("slingshot fired from (" + start.x + ", " + start.y + ") to (" + end.x + ", " + end.y + ")");
 
@@ -59,7 +59,7 @@ class Slingshot {
         setTimeout(() => {
             this.isFiring = false;
             this.isHidden = true;
-            
+
         }, 1000);
     }
 
