@@ -122,7 +122,7 @@ class PapaChad {
                 this.canDoubleJump = true;
             }
         }
-        console.log(CHAD.yVelocity)
+        // console.log(CHAD.yVelocity)
         if (!this.isOnGround && CHAD.yVelocity >= 0) {
             if (this.hasDoubleJumped) {
                 this.canDoubleJump = false;
