@@ -29,18 +29,6 @@ const PHYSICS = {
 
 
 const FONT = {
-    VT323_NORMAL: "16px Ariel",
-    VT323_HEADER: "24px Ariel"
-};
-
-/**
- * @param {BoundingBox} collider The bounding box doing the colliding.
- * @param {BoundingBox} collidee The bounding box that is being collided with.
- * @returns a "Collision" object which contains the corners and vertices of COLLIDEE which are being invaded by COLLIDER.
- */
-const getCollisionType = (collider, collidee) => {
-    const vertices = [];
-    if (this.x)
-
-    return {corners: corners, vertices: vertices};
+    VT323_NORMAL: "16px Arial",
+    VT323_HEADER: "24px Arial"
 };
