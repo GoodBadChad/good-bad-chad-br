@@ -21,6 +21,8 @@
         <script type="text/javascript" src="./js/classes/timer.js"></script>
         <!-- Entities: -->
         <!-- Background: -->
+        <script type="text/javascript" src="./js/classes/entities/background/factory/gear.js"></script>
+
         <script type="text/javascript" src="./js/classes/entities/background/village/bird.js"></script>
         <!-- Midground: -->
         <script type="text/javascript" src="./js/classes/entities/midground/block.js"></script>
@@ -68,7 +70,15 @@
             Actual pixel height of the canvas is set in CSS.
             If you change it here, change it in camera.js as well.
         -->
-        <canvas height="1080" width="1920" id="game-world" tabindex="0" autofocus></canvas>
+        <div id="container">
+            <canvas height="1080" width="1920" id="game-world" tabindex="0" autofocus></canvas>
+        </div>
+        
+        <label for="debug">Debug</label>
+        <input type="checkbox" id="debug" name="debug" />
+        <label for="spanish">Spanish</label>
+        <input type="checkbox" id="spanish" name="spanish" />
+        
         <!-- Load the main script. -->
         <script type="text/javascript" src="./js/scripts/main.js"></script>
     </body>
