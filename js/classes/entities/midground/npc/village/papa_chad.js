@@ -81,6 +81,7 @@ class PapaChad {
     /** Change what Papa Chad is doing and where it is. */
     update() {
         this.canDoubleJump = false;
+        this.hasDoubleJumped = false;
 
         // NOTE: this entire method will be moved to Chad as soon as we have his spritesheet ready.
 
@@ -101,7 +102,6 @@ class PapaChad {
             this.action = "jumping";
             this.yVelocity = this.MAX_FIRST_JUMP_VEL;
             this.isOnGround = false;
-            this.hasDoubleJumped = false;
         }
         // Gets change in y from when CHAD left ground to current.
         let deltaHeight = Math.abs(Math.abs(CHAD.y) - Math.abs(this.lastY));
@@ -117,15 +117,26 @@ class PapaChad {
             // this.lastY = CHAD.y;
         }
 
-        if (deltaHeight >= 20) {
-            if (GAME.space && this.canDoubleJump) {
-                this.action = "jumping";
-                this.yVelocity = this.MAX_SECOND_JUMP_VEL;
-                this.isOnGround = false;
-                this.canDoubleJump = false;
-                this.hasDoubleJumped = true;
+        // if (!this.isOnGround) {
+        //     if (this.hasDoubleJumped) {
+        //         this.canDoubleJump = false;
+        //     } else {
+        //         this.canDoubleJump = true;
+        //     }
+        // }
+        if (GAME.space && this.canDoubleJump) {
+            this.action = "jumping";
+            this.yVelocity = this.MAX_SECOND_JUMP_VEL;
+            this.isOnGround = false;
+            this.canDoubleJump = false;
+            this.hasDoubleJumped = true;
+        } else {
+            if (GAME.space) {
+                console.log("CHAD " + Math.abs(CHAD.y));
+                console.log("LAST Y " + Math.abs(this.lastY));
             }
         }
+
 
         // this is for the slingshot
         if (GAME.mouseDown) {
