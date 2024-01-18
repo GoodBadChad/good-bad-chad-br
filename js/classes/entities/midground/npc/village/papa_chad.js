@@ -79,6 +79,11 @@ class PapaChad {
         return -600;
     }
 
+    /** The mulitiplier that allows CHAD to run. */
+    get SPRINT_MULTIPLIER() {
+        return 0.5;
+    }
+
     /** Change what Papa Chad is doing and where it is. */
     update() {
         this.canDoubleJump = false;
@@ -88,17 +93,26 @@ class PapaChad {
         // NOTE: this entire method will be moved to Chad as soon as we have his spritesheet ready.
 
         // Step 1: Listen for user input.
-        // for now, just left and right
         this.xVelocity = 0;
         if (GAME.left) {
             this.action = "walking";
             this.facing = "left";
             this.xVelocity -= PapaChad.SPEED;
+            if (GAME.shift) {
+                this.action = "running";
+                this.facing = "left";
+                this.xVelocity -= PapaChad.SPEED * this.SPRINT_MULTIPLIER;
+            }
         }
         if (GAME.right) {
             this.action = "walking";
             this.facing = "right";
             this.xVelocity += PapaChad.SPEED;
+            if (GAME.shift) {
+                this.action = "running";
+                this.facing = "right";
+                this.xVelocity += PapaChad.SPEED * this.SPRINT_MULTIPLIER;
+            }
         }
         if (GAME.space && this.isOnGround) {
             this.action = "jumping";
@@ -108,13 +122,7 @@ class PapaChad {
         }
         // Gets change in y from when CHAD left ground to current.
         let deltaHeight = Math.abs(CHAD.y - this.prevYPosOnGround);
-        // For debugging use the following code block and comment out the yVelocity change for double jump.
-        // if (GAME.space) {
-        //     console.log(deltaHeight);
-        //     console.log("CHAD Y " + CHAD.y);
-        //     console.log("LAST GROUNDED Y " + this.prevYPosOnGround);
-        // }
-        // Currently the jump barrier is 132 and the max first jump height is 137
+
         if (!this.isOnGround && deltaHeight >= Math.abs(this.FIRST_JUMP_VELOCITY / 5) + 32) {
             if (this.hasDoubleJumped) {
                 this.canDoubleJump = false;
@@ -122,7 +130,6 @@ class PapaChad {
                 this.canDoubleJump = true;
             }
         }
-        // console.log(CHAD.yVelocity)
         if (!this.isOnGround && CHAD.yVelocity >= 0) {
             if (this.hasDoubleJumped) {
                 this.canDoubleJump = false;
@@ -137,7 +144,6 @@ class PapaChad {
             this.canDoubleJump = false;
             this.hasDoubleJumped = true;
         }
-
 
         // this is for the slingshot
         if (GAME.mouseDown) {
@@ -250,12 +256,23 @@ class PapaChad {
             PapaChad.SPRITESHEET,
             PapaChad.WIDTH, 0,
             PapaChad.WIDTH, PapaChad.HEIGHT,
-            6, 1 / 6);
+            6, 1 / 12);
         this.animations["right"]["walking"] = new Animator(
             PapaChad.SPRITESHEET,
             PapaChad.WIDTH, PapaChad.HEIGHT,
             PapaChad.WIDTH, PapaChad.HEIGHT,
-            6, 1 / 6);
+            6, 1 / 12);
+
+        this.animations["left"]["running"] = new Animator(
+            PapaChad.SPRITESHEET,
+            PapaChad.WIDTH, 0,
+            PapaChad.WIDTH, PapaChad.HEIGHT,
+            6, 1 / 18);
+        this.animations["right"]["running"] = new Animator(
+            PapaChad.SPRITESHEET,
+            PapaChad.WIDTH, PapaChad.HEIGHT,
+            PapaChad.WIDTH, PapaChad.HEIGHT,
+            6, 1 / 18);
 
         this.animations["left"]["jumping"] = new Animator(
             PapaChad.SPRITESHEET,

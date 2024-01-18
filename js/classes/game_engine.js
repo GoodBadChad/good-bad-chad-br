@@ -20,6 +20,8 @@ class GameEngine {
         this.right = false;
         /** Is the user pressing the A key? */
         this.left = false;
+        /** Is the user pressing the shift key? */
+        this.shift = false;
         /** Is the user pressing the mouse button? */
         this.mouseDown = false;
         /** Is the user releasing the mouse button? */
@@ -157,6 +159,9 @@ class GameEngine {
                 case "Space":
                     this.space = true;
                     break;
+                case "ShiftLeft":
+                    this.shift = true;
+                    break;
             }
         }, false);
 
@@ -176,6 +181,9 @@ class GameEngine {
                     break;
                 case "Space":
                     this.space = false;
+                    break;
+                case "ShiftLeft":
+                    this.shift = false;
                     break;
             }
         }, false);
@@ -204,7 +212,7 @@ class GameEngine {
         const minY = DIMENSION.MIN_Y + 18;
         let gameY = minY;
         for (let blockX = DIMENSION.MIN_BLOCK_X; blockX <= DIMENSION.MAX_BLOCK_X; blockX += 5) {
-            for (let blockY = DIMENSION.MIN_BLOCK_Y ; blockY <= DIMENSION.MAX_BLOCK_Y; blockY += 5) {
+            for (let blockY = DIMENSION.MIN_BLOCK_Y; blockY <= DIMENSION.MAX_BLOCK_Y; blockY += 5) {
                 let pt = "(" + blockX + ", " + blockY + ")";
                 CTX.fillText(pt, gameX - CAMERA.x, gameY - CAMERA.y, Block.SCALED_SIZE);
                 gameY += Block.SCALED_SIZE * 5;
@@ -212,6 +220,6 @@ class GameEngine {
             gameX += Block.SCALED_SIZE * 5;
             gameY = minY;
         }
-        
+
     };
 };
