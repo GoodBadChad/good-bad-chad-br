@@ -171,7 +171,7 @@ class GameEngine {
                     break;
                 case "Space":
                     this.space = false;
-                    break;d
+                    break;
             }
         }, false);
     };

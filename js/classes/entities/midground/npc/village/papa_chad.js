@@ -6,6 +6,8 @@ class PapaChad {
     constructor(x, y) {
         this.isOnGround = false;
         this.canDoubleJump = false;
+        this.hasDoubleJumped = false;
+        this.lastY = 0;
         /** The x position of the Papa Chad (in the game world). */
         this.x = x;
         /** The y position of the Papa Chad (in the game world). */
@@ -68,8 +70,12 @@ class PapaChad {
         return 29;
     };
 
-    static get MAX_JUMP_COUNT() {
-        return 2;
+    get MAX_SECOND_JUMP_VEL() {
+        return -600;
+    }
+
+    get MAX_FIRST_JUMP_VEL() {
+        return -500
     }
 
     /** Change what Papa Chad is doing and where it is. */
@@ -93,25 +99,33 @@ class PapaChad {
         }
         if (GAME.space && this.isOnGround) {
             this.action = "jumping";
-            this.yVelocity = -300;
+            this.yVelocity = this.MAX_FIRST_JUMP_VEL;
             this.isOnGround = false;
-            this.canDoubleJump = true;
+            this.hasDoubleJumped = false;
         }
-        // if (GAME.space && !this.isOnGround) {
-        //     this.action = "jumping";
-        //     this.yVelocity = -50;
-        //     this.isOnGround = false;
-        //     this.canDoubleJump = true;
-        // }
+        // Gets change in y from when CHAD left ground to current.
+        let deltaHeight = Math.abs(Math.abs(CHAD.y) - Math.abs(this.lastY));
+        // When deltaheight is big enough chad can jump again
+        // 20 is the min deltaHeight that you can double jump from.
+        console.log(deltaHeight);
+        if (!this.isOnGround && deltaHeight >= Math.abs(this.MAX_FIRST_JUMP_VEL / 5) + 32) {
+            if (this.hasDoubleJumped) {
+                this.canDoubleJump = false;
+            } else {
+                this.canDoubleJump = true;
+            }
+            // this.lastY = CHAD.y;
+        }
 
-        // if (GAME.space && !this.isOnGround && this.canDoubleJump) {
-        //     this.action = "idle";
-        //     this.yVelocity = -1000;
-        //     this.isOnGround = false;
-        //     console.log("After first jump" + PapaChad.jumpCount);
-        //     this.canDoubleJump = false;
-        // } else {
-        // }
+        if (deltaHeight >= 20) {
+            if (GAME.space && this.canDoubleJump) {
+                this.action = "jumping";
+                this.yVelocity = this.MAX_SECOND_JUMP_VEL;
+                this.isOnGround = false;
+                this.canDoubleJump = false;
+                this.hasDoubleJumped = true;
+            }
+        }
 
         // this is for the slingshot
         if (GAME.mouseDown) {
@@ -164,6 +178,7 @@ class PapaChad {
                             this.yVelocity = 0;
                             // ON_GROUND(true);
                             this.isOnGround = true;
+                            this.lastY = CHAD.y;
                         } else if (isOverlapY
                             && this.lastBoundingBox.right <= entity.boundingBox.left
                             && this.boundingBox.right > entity.boundingBox.left) {
