@@ -4,6 +4,8 @@
  */
 class PapaChad {
     constructor(x, y) {
+        this.isOnGround = false;
+        this.canDoubleJump = false;
         /** The x position of the Papa Chad (in the game world). */
         this.x = x;
         /** The y position of the Papa Chad (in the game world). */
@@ -25,6 +27,9 @@ class PapaChad {
         this.yVelocity = 0;
 
         this.name = "Papa Chad";
+
+
+
 
         //this.findDirection();
     };
@@ -63,10 +68,16 @@ class PapaChad {
         return 29;
     };
 
+    static get MAX_JUMP_COUNT() {
+        return 2;
+    }
+
     /** Change what Papa Chad is doing and where it is. */
     update() {
+        this.canDoubleJump = false;
+
         // NOTE: this entire method will be moved to Chad as soon as we have his spritesheet ready.
-        
+
         // Step 1: Listen for user input.
         // for now, just left and right
         this.xVelocity = 0;
@@ -80,14 +91,27 @@ class PapaChad {
             this.facing = "right";
             this.xVelocity += PapaChad.SPEED;
         }
-        if (GAME.space) {
-            this.action = "idle";
+        if (GAME.space && this.isOnGround) {
+            this.action = "jumping";
             this.yVelocity = -300;
+            this.isOnGround = false;
+            this.canDoubleJump = true;
         }
-        if (!(GAME.right || GAME.left)) {
-            this.action = "idle";
-        }
+        // if (GAME.space && !this.isOnGround) {
+        //     this.action = "jumping";
+        //     this.yVelocity = -50;
+        //     this.isOnGround = false;
+        //     this.canDoubleJump = true;
+        // }
 
+        // if (GAME.space && !this.isOnGround && this.canDoubleJump) {
+        //     this.action = "idle";
+        //     this.yVelocity = -1000;
+        //     this.isOnGround = false;
+        //     console.log("After first jump" + PapaChad.jumpCount);
+        //     this.canDoubleJump = false;
+        // } else {
+        // }
 
         // this is for the slingshot
         if (GAME.mouseDown) {
@@ -99,6 +123,9 @@ class PapaChad {
             } else {
                 this.facing = "left";
             }
+        }
+        if (!(GAME.right || GAME.left)) {
+            this.action = "idle";
         }
 
 
@@ -113,7 +140,8 @@ class PapaChad {
         }
         this.lastBoundingBox = this.boundingBox;
         this.boundingBox = new BoundingBox(this.x, this.y, PapaChad.SCALED_WIDTH, PapaChad.SCALED_HEIGHT);
-        
+        this.isOnGround = false;
+
         // Step 4: Have we collided with anything?
         GAME.entities.forEach((entity) => {
             // Does entity even have a BB?
@@ -121,9 +149,9 @@ class PapaChad {
                 // Are they even colliding?
                 if (this.boundingBox.collide(entity.boundingBox)) {
                     if (entity instanceof Block) {
-                        
+
                         // Is there overlap with the block on the x or y-axes?
-                        const isOverlapX = this.lastBoundingBox.left < entity.boundingBox.right 
+                        const isOverlapX = this.lastBoundingBox.left < entity.boundingBox.right
                             && this.lastBoundingBox.right > entity.boundingBox.left;
                         const isOverlapY = this.lastBoundingBox.bottom > entity.boundingBox.top
                             && this.lastBoundingBox.top < entity.boundingBox.bottom;
@@ -132,9 +160,10 @@ class PapaChad {
                             && this.lastBoundingBox.bottom <= entity.boundingBox.top
                             && this.boundingBox.bottom > entity.boundingBox.top) {
                             // We are colliding with the top.
-
                             this.y = entity.boundingBox.top - PapaChad.SCALED_HEIGHT;
                             this.yVelocity = 0;
+                            // ON_GROUND(true);
+                            this.isOnGround = true;
                         } else if (isOverlapY
                             && this.lastBoundingBox.right <= entity.boundingBox.left
                             && this.boundingBox.right > entity.boundingBox.left) {
@@ -151,7 +180,6 @@ class PapaChad {
                             && this.lastBoundingBox.top >= entity.boundingBox.bottom
                             && this.boundingBox.top < entity.boundingBox.bottom) {
                             // We are colliding with the bottom.
-
                             this.y = entity.boundingBox.bottom;
                         }
                     }
@@ -190,7 +218,7 @@ class PapaChad {
             0, PapaChad.HEIGHT,
             PapaChad.WIDTH, PapaChad.HEIGHT,
             1, 1);
-        
+
         this.animations["left"]["walking"] = new Animator(
             PapaChad.SPRITESHEET,
             PapaChad.WIDTH, 0,
@@ -201,5 +229,17 @@ class PapaChad {
             PapaChad.WIDTH, PapaChad.HEIGHT,
             PapaChad.WIDTH, PapaChad.HEIGHT,
             6, 1 / 6);
+
+        this.animations["left"]["jumping"] = new Animator(
+            PapaChad.SPRITESHEET,
+            0, 0,
+            PapaChad.WIDTH, PapaChad.HEIGHT,
+            1, 1);
+        this.animations["right"]["jumping"] = new Animator(
+            PapaChad.SPRITESHEET,
+            0, PapaChad.HEIGHT,
+            PapaChad.WIDTH, PapaChad.HEIGHT,
+            1, 1);
+
     };
 };
