@@ -12,13 +12,16 @@ class PapaChad {
         this.canDoubleJump = false;
         /** Checks if CHAD has double jumped. */
         this.hasDoubleJumped = false;
+        /** Checks if CHAD can dash. */
         this.canDash = false;
+        /** Checks if CHAD has dashed. */
         this.hasDashed = false;
+        /** Checks if CHAD is dashing. */
         this.isDashing = false;
         /** Gets the the y position of CHAD from the last time he was on the ground. */
         this.prevYPosOnGround = 0;
-        /** Gets the the x position of CHAD from the last time he was on the ground. */
-        this.prevXPosOnGround = 0;
+        /** Gets the the x position of CHAD from the origin of where he started dashing. */
+        this.xDashAnchoredOrigin = 0;
         /** The x position of the Papa Chad (in the game world). */
         this.x = x;
         /** The y position of the Papa Chad (in the game world). */
@@ -98,38 +101,37 @@ class PapaChad {
         return 250;
     }
 
+    /**
+     * Performs the dash action.
+     * @parameter direction that CHAD is facing.
+     * @parameter negator, used to negate the velocity
+     */
     dashAction = (direction, negator) => {
         if (!this.isDashing) {
-            this.prevXPosOnGround = CHAD.x;
+            this.xDashAnchoredOrigin = CHAD.x;
             this.isDashing = true
         }
         this.action = "dash";
         this.facing = direction;
         this.xVelocity += negator * PapaChad.SPEED * this.DASH_MULTIPLIER;
-        let deltaX = Math.abs(CHAD.x - this.prevXPosOnGround);
-        let deltaXNotAbs = CHAD.x - this.prevXPosOnGround;
-        console.log("CHAD " + Math.abs(CHAD.x));
-        // console.log("Last x from dash origin " + Math.abs(this.prevXPosOnGround));
-        console.log("lastX d" + Math.abs(this.prevXPosOnGround));
+        let deltaX = Math.abs(CHAD.x - this.xDashAnchoredOrigin);
         if (deltaX >= this.DASH_BARRIER) {
             this.canDash = false;
             this.hasDashed = true;
             this.isDashing = false;
-        }
-        else if (direction == "left") {
-            if (Math.abs(CHAD.x) < Math.abs(this.prevXPosOnGround)) {
+        } else if (direction == "left") {
+            if (Math.abs(CHAD.x) < Math.abs(this.xDashAnchoredOrigin)) {
                 this.canDash = false;
                 this.hasDashed = true;
                 this.isDashing = false;
             }
         } else if (direction == "right") {
-            if (Math.abs(CHAD.x) > Math.abs(this.prevXPosOnGround)) {
+            if (Math.abs(CHAD.x) > Math.abs(this.xDashAnchoredOrigin)) {
                 this.canDash = false;
                 this.hasDashed = true;
                 this.isDashing = false;
             }
-        }
-        else {
+        } else {
             this.canDash = true;
             this.hasDashed = false;
             this.isDashing = true;
@@ -153,11 +155,11 @@ class PapaChad {
 
             this.canDash = true;
             this.hasDashed = false;
-            // console.log("X on ground" + this.prevXPosOnGround)
+            // console.log("X on ground" + this.xDashAnchoredOrigin)
         }
 
         if (!this.isOnGround && GAME.keyX && this.canDash && !this.hasDashed) {
-            PapaChad.prevXPosOnGround = CHAD.x;
+            PapaChad.xDashAnchoredOrigin = CHAD.x;
 
         }
         if (GAME.left) {
