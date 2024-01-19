@@ -33,7 +33,7 @@ const loadPlaygroundDimension = () => {
 
     /** 
      * This is going to add all of the entities to the GAME so that they are ready to be drawn. 
-     * @author Devin Peevy 
+     * @author Devin Peevy, Caleb Krauter
      */
     const loadEntities = () => {
         // Surround the border of the dimension.
