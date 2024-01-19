@@ -12,8 +12,13 @@ class PapaChad {
         this.canDoubleJump = false;
         /** Checks if CHAD has double jumped. */
         this.hasDoubleJumped = false;
+        this.canDash = false;
+        this.hasDashed = false;
+        this.isDashing = false;
         /** Gets the the y position of CHAD from the last time he was on the ground. */
         this.prevYPosOnGround = 0;
+        /** Gets the the x position of CHAD from the last time he was on the ground. */
+        this.prevXPosOnGround = 0;
         /** The x position of the Papa Chad (in the game world). */
         this.x = x;
         /** The y position of the Papa Chad (in the game world). */
@@ -83,6 +88,56 @@ class PapaChad {
     get SPRINT_MULTIPLIER() {
         return 0.5;
     }
+    /** The mulitiplier that allows CHAD to run. */
+    get DASH_MULTIPLIER() {
+        return 3.5;
+    }
+
+    /** The barrier that limits the length of the longest dash. */
+    get DASH_BARRIER() {
+        return 250;
+    }
+
+    dashAction = (direction, negator) => {
+        if (!this.isDashing) {
+            this.prevXPosOnGround = CHAD.x;
+            this.isDashing = true
+        }
+        this.action = "dash";
+        this.facing = direction;
+        this.xVelocity += negator * PapaChad.SPEED * this.DASH_MULTIPLIER;
+        let deltaX = Math.abs(CHAD.x - this.prevXPosOnGround);
+        let deltaXNotAbs = CHAD.x - this.prevXPosOnGround;
+        console.log("CHAD " + Math.abs(CHAD.x));
+        // console.log("Last x from dash origin " + Math.abs(this.prevXPosOnGround));
+        console.log("lastX d" + Math.abs(this.prevXPosOnGround));
+        if (deltaX >= this.DASH_BARRIER) {
+            this.canDash = false;
+            this.hasDashed = true;
+            this.isDashing = false;
+        }
+        else if (direction == "left") {
+            if (Math.abs(CHAD.x) < Math.abs(this.prevXPosOnGround)) {
+                this.canDash = false;
+                this.hasDashed = true;
+                this.isDashing = false;
+            }
+        } else if (direction == "right") {
+            if (Math.abs(CHAD.x) > Math.abs(this.prevXPosOnGround)) {
+                this.canDash = false;
+                this.hasDashed = true;
+                this.isDashing = false;
+            }
+        }
+        else {
+            this.canDash = true;
+            this.hasDashed = false;
+            this.isDashing = true;
+
+
+        }
+
+    }
 
     /** Change what Papa Chad is doing and where it is. */
     update() {
@@ -94,25 +149,51 @@ class PapaChad {
 
         // Step 1: Listen for user input.
         this.xVelocity = 0;
+        if (this.isOnGround) {
+
+            this.canDash = true;
+            this.hasDashed = false;
+            // console.log("X on ground" + this.prevXPosOnGround)
+        }
+
+        if (!this.isOnGround && GAME.keyX && this.canDash && !this.hasDashed) {
+            PapaChad.prevXPosOnGround = CHAD.x;
+
+        }
         if (GAME.left) {
             this.action = "walking";
             this.facing = "left";
             this.xVelocity -= PapaChad.SPEED;
-            if (GAME.shift) {
+            if (GAME.shiftLeft) {
                 this.action = "running";
                 this.facing = "left";
                 this.xVelocity -= PapaChad.SPEED * this.SPRINT_MULTIPLIER;
             }
+            if (GAME.keyX && GAME.left && !this.isOnGround && this.canDash && !this.hasDashed) {
+                this.dashAction("left", -1);
+            }
+
         }
         if (GAME.right) {
             this.action = "walking";
             this.facing = "right";
             this.xVelocity += PapaChad.SPEED;
-            if (GAME.shift) {
+            if (GAME.shiftLeft) {
                 this.action = "running";
                 this.facing = "right";
                 this.xVelocity += PapaChad.SPEED * this.SPRINT_MULTIPLIER;
             }
+            if (GAME.keyX && GAME.right && !this.isOnGround && this.canDash && !this.hasDashed) {
+                this.dashAction("right", 1);
+            }
+
+        }
+        // Prevents continuing a dash after lifting the dash key.
+        if (!GAME.keyX && !this.isOnGround && this.isDashing) {
+            this.canDash = false;
+            this.hasDashed = true;
+            this.isDashing = false;
+
         }
         if (GAME.space && this.isOnGround) {
             this.action = "jumping";
@@ -273,6 +354,18 @@ class PapaChad {
             PapaChad.WIDTH, PapaChad.HEIGHT,
             PapaChad.WIDTH, PapaChad.HEIGHT,
             6, 1 / 18);
+
+        this.animations["left"]["dash"] = new Animator(
+            PapaChad.SPRITESHEET,
+            PapaChad.WIDTH, 0,
+            PapaChad.WIDTH, PapaChad.HEIGHT,
+            6, 1 / 18);
+        this.animations["right"]["dash"] = new Animator(
+            PapaChad.SPRITESHEET,
+            PapaChad.WIDTH, PapaChad.HEIGHT,
+            PapaChad.WIDTH, PapaChad.HEIGHT,
+            6, 1 / 18);
+
 
         this.animations["left"]["jumping"] = new Animator(
             PapaChad.SPRITESHEET,

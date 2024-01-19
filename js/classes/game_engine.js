@@ -1,6 +1,6 @@
 /**
  * The Game Engine contains all entities, and puts them all through the update-render loop. It is also responsible for tracking user input.
- * @author Seth Ladd (original), Chris Marriott (modified), Devin Peevy (modified), Nathan Hinthorne (modified)
+ * @author Seth Ladd (original), Chris Marriott (modified), Devin Peevy (modified), Nathan Hinthorne (modified), Caleb Krauter (modified)
  */
 class GameEngine {
     /**
@@ -20,8 +20,10 @@ class GameEngine {
         this.right = false;
         /** Is the user pressing the A key? */
         this.left = false;
-        /** Is the user pressing the shift key? */
-        this.shift = false;
+        /** Is the user pressing the left shift key? */
+        this.shiftLeft = false;
+        /** Is the user pressing the left X key key? */
+        this.keyX = false;
         /** Is the user pressing the mouse button? */
         this.mouseDown = false;
         /** Is the user releasing the mouse button? */
@@ -160,7 +162,10 @@ class GameEngine {
                     this.space = true;
                     break;
                 case "ShiftLeft":
-                    this.shift = true;
+                    this.shiftLeft = true;
+                    break;
+                case "KeyX":
+                    this.keyX = true;
                     break;
             }
         }, false);
@@ -183,7 +188,10 @@ class GameEngine {
                     this.space = false;
                     break;
                 case "ShiftLeft":
-                    this.shift = false;
+                    this.shiftLeft = false;
+                    break;
+                case "KeyX":
+                    this.keyX = false;
                     break;
             }
         }, false);
