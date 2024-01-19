@@ -10,8 +10,7 @@ class GameEngine {
     constructor(isSpanish) {
         /** ¿Está el juego en español? Default: false. */
         this.spanish = isSpanish ?? false;
-        /** Everything that will be updated and drawn each frame. 
-         *  Note: This does not include the WIZARD, which is a global parameter. */
+        /** Everything that will be updated and drawn each frame. */
         this.entities = [];
         /** Is the user pressing S key? */
         this.down = false;
@@ -33,6 +32,8 @@ class GameEngine {
 
         /** The timer tells you how long it's been since the last tick! */
         this.timer = new Timer();
+        /** Are we currently debugging? */
+        this.debug = false;
     };
 
     /**
@@ -106,6 +107,10 @@ class GameEngine {
         for (let i = 0; i < this.entities.length; i++) {
             this.entities[i].draw();
         }
+        // If we're debugging, draw the grid.
+        if (this.debug) {
+            this.drawGrid();
+        }
         // Draw Chad, who is not a regular entity.
         CHAD.draw();
     };
@@ -171,8 +176,42 @@ class GameEngine {
                     break;
                 case "Space":
                     this.space = false;
-                    break;d
+                    break;
             }
         }, false);
+    };
+
+    drawGrid() {
+        CTX.strokeStyle = "white";
+        CTX.strokeWeight = 1;
+        // Draw the grid.
+        for (let x = DIMENSION.MIN_X; x <= DIMENSION.MAX_X; x += Block.SCALED_SIZE) {
+            for (let y = DIMENSION.MIN_Y; y <= DIMENSION.MAX_Y; y += Block.SCALED_SIZE) {
+                CTX.beginPath();
+                CTX.moveTo(DIMENSION.MIN_X - CAMERA.x, y - CAMERA.y);
+                CTX.lineTo(DIMENSION.MAX_X - CAMERA.x, y - CAMERA.y);
+                CTX.stroke();
+
+                CTX.beginPath();
+                CTX.moveTo(x - CAMERA.x, DIMENSION.MIN_Y - CAMERA.y);
+                CTX.lineTo(x - CAMERA.x, DIMENSION.MAX_Y - CAMERA.y);
+                CTX.stroke();
+            }
+        }
+        CTX.fillStyle = "red";
+        CTX.font = FONT.VT323_NORMAL;
+        let gameX = DIMENSION.MIN_X + 5;
+        const minY = DIMENSION.MIN_Y + 18;
+        let gameY = minY;
+        for (let blockX = DIMENSION.MIN_BLOCK_X; blockX <= DIMENSION.MAX_BLOCK_X; blockX += 5) {
+            for (let blockY = DIMENSION.MIN_BLOCK_Y ; blockY <= DIMENSION.MAX_BLOCK_Y; blockY += 5) {
+                let pt = "(" + blockX + ", " + blockY + ")";
+                CTX.fillText(pt, gameX - CAMERA.x, gameY - CAMERA.y, Block.SCALED_SIZE);
+                gameY += Block.SCALED_SIZE * 5;
+            }
+            gameX += Block.SCALED_SIZE * 5;
+            gameY = minY;
+        }
+        
     };
 };
