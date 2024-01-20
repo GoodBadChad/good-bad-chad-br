@@ -1,16 +1,15 @@
 class Portal {
-    constructor(blockX, blockY, dimension) {
-        this.x = blockX * Block.SCALED_SIZE;
-        this.y = blockY * Block.SCALED_SIZE;
-        this.width = Block.SCALED_SIZE;
-        this.height = Block.SCALED_SIZE * 2;
+    constructor(blockPos, dimension) {
+        this.pos = Vector.blockToWorldSpace(blockPos);
+        this.size = new Vector(Block.SCALED_SIZE, Block.SCALED_SIZE * 2);
         this.dimension = dimension;
-        this.boundingBox = new BoundingBox(this.x, this.y, this.width, this.height);
+        this.boundingBox = new BoundingBox(this.pos, this.size);
     };
 
     draw() {
         CTX.fillStyle = "#ff0000";
-        CTX.fillRect(this.x - CAMERA.x, this.y - CAMERA.y, this.width, this.height);
+        const canvasPos = Vector.worldToCanvasSpace(this.pos);
+        CTX.fillRect(canvasPos.x, canvasPos.y, this.size.x, this.size.y);
     };
 
     update() {

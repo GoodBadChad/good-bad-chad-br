@@ -109,4 +109,13 @@ const loadVillageDimension = () => {
         //         }
 
         //     }
-        // }
+        GAME.addEntity(new Portal(new Vector(5, DIMENSION.BLOCK_HEIGHT - 2), Dimension.PLAYGROUND));
+        CHAD.x = 0;
+        CHAD.y = 0;
+    };
+
+    queueDimensionalAssets();
+    ASSET_MGR.downloadAll(() => {
+        loadEntities();
+    });
+};

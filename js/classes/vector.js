@@ -100,13 +100,23 @@ class Vector {
     };
 
     /**
+     * Round the provided Vector's fields.
+     * 
+     * @param {Vector} v the Vector to round
+     * @returns {Vector} a Vector with integer field values
+     */
+    static round(v) {
+        return new Vector(Math.round(v.x), Math.round(v.y));
+    }
+
+    /**
      * Translates the Vector from world coordinates to canvas coordinates.
      * 
      * @param v the Vector to translate
      * @returns {Vector} a new instance translated to canvas coordinates
      */
     static worldToCanvasSpace(v) {
-        return new Vector(v.x - CAMERA.x, v.y - CAMERA.y);
+        return new Vector(v.x - CAMERA.pos.x, v.y - CAMERA.pos.y);
     };
 
     /**
@@ -116,7 +126,7 @@ class Vector {
      * @returns {Vector} a new instance translated to world coordinates
      */
     static canvasToWorldSpace(v) {
-        return new Vector(v.x + CAMERA.x, v.y + CAMERA.y);
+        return new Vector(v.x + CAMERA.pos.x, v.y + CAMERA.pos.y);
     };
 
     /**

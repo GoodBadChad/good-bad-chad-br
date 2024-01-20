@@ -2,14 +2,11 @@
 class Chad {
     /**
      * 
-     * @param {number} x The y position of Chad (in the game world).
-     * @param {number} y The x position of Chad (in the game world).
+     * @param {Vector} pos The y position of Chad (in the game world).
      */
-    constructor(x, y) {
-        /** The x position of Chad (in the game world). */
-        this.x = x;
-        /** The y position of Chad (in the game world). */
-        this.y = y;
+    constructor(pos) {
+        /** The position of Chad (in the game world). */
+        this.pos = pos;
         /** An associative array of Chad's animations. Arranged [facing][action]. */
         this.animations = [];
         this.loadAnimations();
@@ -23,8 +20,8 @@ class Chad {
         this.lastBoundingBox = this.boundingBox;
     };
 
-    /** The height, in pixels, of Chad's sprite ON THE SPRITESHEET. */
-    static get HEIGHT() {
+    /** The size, in pixels, of Chad's sprite ON THE SPRITESHEET. */
+    static get SIZE() {
 
     };
 
@@ -33,24 +30,14 @@ class Chad {
 
     };
 
-    /** This will be Chad's height ON THE CANVAS. */
-    static get SCALED_HEIGHT() {
-        return Chad.SCALE * Chad.HEIGHT;
-    };
-
-    /** This will be Chad's width ON THE CANVAS. */
-    static get SCALED_WIDTH() {
-        return Chad.SCALE * Chad.WIDTH;
+    /** This will be Chad's size ON THE CANVAS. */
+    static get SCALED_SIZE() {
+        return Vector.multiply(Chad.SIZE, Chad.SCALE);
     };
 
     /** The filepath to Chad's spritesheet. */
     static get SPRITESHEET() {
         return "./sprites/chad.js";
-    };
-
-    /** The width, in pixels, of Chad ON THE SPRITESHEET. */
-    static get WIDTH() {
-
     };
     
     /** Change what Chad is doing and where he is. */
