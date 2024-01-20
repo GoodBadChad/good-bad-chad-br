@@ -124,12 +124,11 @@ class AssetManager {
         const audio = this.cache[path];
         audio.currentTime = 0;
 
+        audio.play();
         if (loop) {
             audio.addEventListener("ended", () => {
                 audio.play();
             });
-        } else {
-            audio.play();
         }
     };
 

@@ -78,10 +78,15 @@ const loadPlaygroundDimension = () => {
         // NOTE: we can't activate music until the user has interacted with the canvas. (this issue is inherent to HTML5)
         //  If listening for a click is the only way to activate music, that's fine. 
         //  Our game's START button in the final version can be the trigger.
-        document.body.addEventListener('click', () => {
-            ASSET_MGR.playAudio("./music/starting_off_2_sample.wav", false);
+        let playMusic = () => {
+            ASSET_MGR.playAudio("./music/starting_off_2_sample.wav", true);
             ASSET_MGR.adjustVolume(0.5);
-        });
+        
+            // delete the event listener so that the music doesn't restart when the user clicks again
+            document.body.removeEventListener('click', playMusic);
+        };
+        
+        document.body.addEventListener('click', playMusic);
 
         GAME.addEntity(new DialogBubble(CHAD, "Hey pal! My name's Papa Chad", DialogBubble.NORMAL));
         GAME.addEntity(new Crosshair());
