@@ -29,6 +29,14 @@ const loadPlaygroundDimension = () => {
         ASSET_MGR.queueDownload(DialogBubble.SPRITESHEET);
         ASSET_MGR.queueDownload(Crosshair.SPRITESHEET);
         ASSET_MGR.queueDownload(Slingshot.SPRITESHEET);
+
+        // queue music
+        ASSET_MGR.queueDownload("./music/starting_off_2_sample.wav");
+
+        // queue sound effects
+        ASSET_MGR.queueDownload("./sfx/temp_jump.wav");
+        ASSET_MGR.queueDownload("./sfx/slingshot_launch.wav");
+
     };
 
     /** 
@@ -60,7 +68,6 @@ const loadPlaygroundDimension = () => {
                     default:
                         break;
                 }
-
             }
         }
 
@@ -68,11 +75,18 @@ const loadPlaygroundDimension = () => {
         GAME.addEntity(new Portal(10, -10, Dimension.LAVA));
         GAME.addEntity(new Portal(10, -15, Dimension.VILLAGE));
 
-        // GAME.addEntity(new Projectile(Projectile.BOMB, -192, -1280, 200, -1280));
-        GAME.addEntity(new DialogBubble(CHAD, "Greetings! I am the one and only Papa Chad", DialogBubble.NORMAL));
+        // NOTE: we can't activate music until the user has interacted with the canvas. (this issue is inherent to HTML5)
+        //  If listening for a click is the only way to activate music, that's fine. 
+        //  Our game's START button in the final version can be the trigger.
+        document.body.addEventListener('click', () => {
+            ASSET_MGR.playAudio("./music/starting_off_2_sample.wav", false);
+            ASSET_MGR.adjustVolume(0.5);
+        });
+
+        GAME.addEntity(new DialogBubble(CHAD, "Hey pal! My name's Papa Chad", DialogBubble.NORMAL));
         GAME.addEntity(new Crosshair());
         GAME.addEntity(new Slingshot());
-
+ 
         CHAD.x = -3 * Block.SCALED_SIZE;
         CHAD.y = -20 * Block.SCALED_SIZE;
     };

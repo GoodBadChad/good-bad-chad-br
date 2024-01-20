@@ -101,6 +101,7 @@ class PapaChad {
             this.xVelocity += PapaChad.SPEED;
         }
         if (GAME.space && this.isOnGround) {
+            ASSET_MGR.playAudio("./sfx/temp_jump.wav");
             this.action = "jumping";
             this.yVelocity = this.FIRST_JUMP_VELOCITY;
             this.isOnGround = false;
@@ -131,6 +132,7 @@ class PapaChad {
             }
         }
         if (GAME.space && this.canDoubleJump) {
+            ASSET_MGR.playAudio("./sfx/temp_jump.wav");
             this.action = "jumping";
             this.yVelocity = this.SECOND_JUMP_VELOCITY;
             this.isOnGround = false;
@@ -142,7 +144,6 @@ class PapaChad {
         // this is for the slingshot
         if (GAME.mouseDown) {
             // determine if mouse is to the right or left of Chad
-            // remember, the mouse is in screen coordinates, not world coordinates
             const mouseX = GAME.mouseX + CAMERA.x;
             if (mouseX > this.x) {
                 this.facing = "right";

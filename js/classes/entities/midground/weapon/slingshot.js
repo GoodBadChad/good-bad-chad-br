@@ -19,7 +19,7 @@ class Slingshot {
         this.startY = 0;
     }
 
-    findRotation() {
+    findRotation() { 
         this.isHidden = false;
         this.startX = 0; // slingshot charging frame
 
@@ -39,10 +39,13 @@ class Slingshot {
         let theta = Math.atan2(deltaY, deltaX);
         this.rotation = theta;
 
+        //TODO: swap animation frames based on rotation
+
         console.log("rotation: " + " (" + this.rotation * 180 / Math.PI + " degrees)");
     }
 
     fireSlingshot() {
+        ASSET_MGR.playAudio("./sfx/slingshot_launch.wav", false);
         this.isFiring = true;
         this.startX = 26; // slingshot firing frame
 
@@ -67,6 +70,7 @@ class Slingshot {
     update() {
         if (GAME.mouseDown) {
             this.findRotation();
+            this.isHidden = false;
         } else if (GAME.mouseUp) {
             this.fireSlingshot();
         }
