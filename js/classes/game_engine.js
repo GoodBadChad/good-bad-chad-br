@@ -28,10 +28,11 @@ class GameEngine {
         this.mouseDown = false;
         /** Is the user releasing the mouse button? */
         this.mouseUp = false;
-        /** Where is the x coordinate of the user's mouse? */
-        this.mouseX = 0;
-        /** Where is the y coordinate of the user's mouse? */
-        this.mouseY = 0;
+        // /** Where is the x coordinate of the user's mouse? */
+        // this.mouseX = 0;
+        // /** Where is the y coordinate of the user's mouse? */
+        // this.mouseY = 0;
+        this.mousePos = new Vector(0, 0);
 
 
         /** The timer tells you how long it's been since the last tick! */
@@ -106,7 +107,7 @@ class GameEngine {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
         CTX.clearRect(0, 0, CANVAS.width, CANVAS.height);
         CTX.fillStyle = "#00ff00";
-        CTX.fillRect(DIMENSION.MIN_X - CAMERA.x, DIMENSION.MIN_Y - CAMERA.y, DIMENSION.BLOCK_WIDTH * Block.SCALED_SIZE, DIMENSION.BLOCK_HEIGHT * Block.SCALED_SIZE);
+        CTX.fillRect(DIMENSION.MIN_X - CAMERA.pos.x, DIMENSION.MIN_Y - CAMERA.pos.y, DIMENSION.BLOCK_WIDTH * Block.SCALED_SIZE, DIMENSION.BLOCK_HEIGHT * Block.SCALED_SIZE);
         // Draw entities from first to last.
         for (let i = 0; i < this.entities.length; i++) {
             this.entities[i].draw();
@@ -133,15 +134,16 @@ class GameEngine {
         CANVAS.addEventListener("mouseup", (e) => {
             this.mouseUp = true;
             this.mouseDown = false;
-            console.log("mouse clicked at (" + Math.round(this.mouseX) + ", " + Math.round(this.mouseY) + ")");
+            console.log("mouse clicked at (" + Math.round(this.mousePos.x) + ", " + Math.round(this.mousePos.y) + ")");
         });
 
         CANVAS.addEventListener("mousemove", (e) => {
             const rect = CANVAS.getBoundingClientRect();
             const scaleX = CANVAS.width / rect.width;
             const scaleY = CANVAS.height / rect.height;
-            this.mouseX = (e.clientX - rect.left) * scaleX;
-            this.mouseY = (e.clientY - rect.top) * scaleY;
+            // this.mouseX = (e.clientX - rect.left) * scaleX;
+            // this.mouseY = (e.clientY - rect.top) * scaleY;
+            this.mousePos = new Vector((e.clientX - rect.left) * scaleX, (e.clientY - rect.top) * scaleY);
         });
 
         CANVAS.addEventListener("keydown", (e) => {
@@ -204,13 +206,13 @@ class GameEngine {
         for (let x = DIMENSION.MIN_X; x <= DIMENSION.MAX_X; x += Block.SCALED_SIZE) {
             for (let y = DIMENSION.MIN_Y; y <= DIMENSION.MAX_Y; y += Block.SCALED_SIZE) {
                 CTX.beginPath();
-                CTX.moveTo(DIMENSION.MIN_X - CAMERA.x, y - CAMERA.y);
-                CTX.lineTo(DIMENSION.MAX_X - CAMERA.x, y - CAMERA.y);
+                CTX.moveTo(DIMENSION.MIN_X - CAMERA.pos.x, y - CAMERA.pos.y);
+                CTX.lineTo(DIMENSION.MAX_X - CAMERA.pos.x, y - CAMERA.pos.y);
                 CTX.stroke();
 
                 CTX.beginPath();
-                CTX.moveTo(x - CAMERA.x, DIMENSION.MIN_Y - CAMERA.y);
-                CTX.lineTo(x - CAMERA.x, DIMENSION.MAX_Y - CAMERA.y);
+                CTX.moveTo(x - CAMERA.pos.x, DIMENSION.MIN_Y - CAMERA.pos.y);
+                CTX.lineTo(x - CAMERA.pos.x, DIMENSION.MAX_Y - CAMERA.pos.y);
                 CTX.stroke();
             }
         }
@@ -222,7 +224,7 @@ class GameEngine {
         for (let blockX = DIMENSION.MIN_BLOCK_X; blockX <= DIMENSION.MAX_BLOCK_X; blockX += 5) {
             for (let blockY = DIMENSION.MIN_BLOCK_Y; blockY <= DIMENSION.MAX_BLOCK_Y; blockY += 5) {
                 let pt = "(" + blockX + ", " + blockY + ")";
-                CTX.fillText(pt, gameX - CAMERA.x, gameY - CAMERA.y, Block.SCALED_SIZE);
+                CTX.fillText(pt, gameX - CAMERA.pos.x, gameY - CAMERA.pos.y, Block.SCALED_SIZE);
                 gameY += Block.SCALED_SIZE * 5;
             }
             gameX += Block.SCALED_SIZE * 5;

@@ -6,15 +6,12 @@
 class Slime {
     // TODO: edit the Slime spritesheet so that idle is first, making the walking animation flow better.
     /**
-     * @param {number} x The x position at which the Slime should start.
-     * @param {number} y The y position at which the Slime should start.
+     * @param {Vector} pos The position at which the Slime should start.
      * @param {number} type The type of Slime that should be generated. Slime.SAP, .POLLUTED, .FROST, .MAGMA, or .EVIL.
      */
-    constructor(x, y, type) {
-        /** The x position of the Slime (in the game world). */
-        this.x = x;
-        /** The y position of the Slime (in the game world). */
-        this.y = y;
+    constructor(pos, type) {
+        /** The position of the Slime (in the game world). */
+        this.pos = pos;
 
         // Did we pass in a type? Is it valid?
         if (type && (type % 1 !== 0 || type < 0 || type > 4)) {
@@ -80,9 +77,9 @@ class Slime {
     };
 
     /** The height, in pixels, of the Slime ON THE SPRITESHEET. */
-    static get HEIGHT() {
-        return 21;
-    };
+    static get SIZE() {
+        return new Vector(29, 21);
+    }
 
     /** How much bigger should the Slime be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {
@@ -90,15 +87,20 @@ class Slime {
         return 3;
     };
 
-    /** This will be the height of the Slime ON THE CANVAS. */
-    static get SCALED_HEIGHT() {
-        return Slime.SCALE * Slime.HEIGHT;
-    };
+    // /** This will be the height of the Slime ON THE CANVAS. */
+    // static get SCALED_HEIGHT() {
+    //     return Slime.SCALE * Slime.HEIGHT;
+    // };
 
-    /** This will be the width of the Slime ON THE CANVAS. */
-    static get SCALED_WIDTH() {
-        return Slime.SCALE * Slime.WIDTH;
-    };
+    // /** This will be the width of the Slime ON THE CANVAS. */
+    // static get SCALED_WIDTH() {
+    //     return Slime.SCALE * Slime.WIDTH;
+    // };
+
+    /** This will be the size of the Slime ON THE CANVAS. */
+    static get SCALED_SIZE() {
+        return Vector.multiply(Slime.SIZE, Slime.SCALE);
+    }
 
     static get SPEED() {
         return Slime.SCALE * 30;
@@ -108,11 +110,6 @@ class Slime {
     static get SPRITESHEET() {
         // TODO: make Slime death sprite.
         return "./sprites/slimes.png";
-    };
-
-    /** The width, in pixels, of the Slime ON THE SPRITESHEET. */
-    static get WIDTH() {
-        return 29;
     };
     
     /** Change what the Slime is doing and where it is. */
@@ -133,13 +130,13 @@ class Slime {
         // HOW SHOULD WE MOVE HIM BASED ON HIS CONDITIONS?
         const mult = (this.facing === "left") ? -1 : 1;
         if (this.action === "moving") {
-            this.x += mult * Slime.SPEED * GAME.clockTick;
+            this.pos = Vector.add(this.pos, new Vector(mult * Slime.SPEED * GAME.clockTick, 0));
         }
     };
 
     /** Draw the Slime on the canvas. */
     draw() {
-        this.animations[this.facing][this.action].drawFrame(this.x, this.y, Slime.SCALE);
+        this.animations[this.facing][this.action].drawFrame(this.pos, Slime.SCALE);
     };
 
     /** Called by the constructor. Fills up the animations array. */
@@ -150,25 +147,25 @@ class Slime {
         // Idle Animations
         this.animations["right"]["idle"] = new Animator(
             Slime.SPRITESHEET,
-            Slime.WIDTH, this.type * 2 * Slime.HEIGHT,
-            Slime.WIDTH, Slime.HEIGHT,
+            new Vector(Slime.SIZE.x, this.type * 2 * Slime.SIZE.y),
+            Slime.SIZE,
             1, 1);
         this.animations["left"]["idle"] = new Animator(
             Slime.SPRITESHEET,
-            Slime.WIDTH, this.type * 2 * Slime.HEIGHT + Slime.HEIGHT,
-            Slime.WIDTH, Slime.HEIGHT,
+            new Vector(Slime.SIZE.x, this.type * 2 * Slime.SIZE.y + Slime.SIZE.y),
+            Slime.SIZE,
             1, 1);
         
         // Moving animations
         this.animations["right"]["moving"] = new Animator(
             Slime.SPRITESHEET,
-            0, this.type * 2 * Slime.HEIGHT,
-            Slime.WIDTH, Slime.HEIGHT,
+            new Vector(0, this.type * 2 * Slime.SIZE.y),
+            Slime.SIZE,
             4, 0.25);
         this.animations["left"]["moving"] = new Animator(
             Slime.SPRITESHEET,
-            0, this.type * 2 * Slime.HEIGHT + Slime.HEIGHT,
-            Slime.WIDTH, Slime.HEIGHT,
+            new Vector(0, this.type * 2 * Slime.SIZE.y + Slime.SIZE.y),
+            Slime.SIZE,
             4, 0.25);
         
     };

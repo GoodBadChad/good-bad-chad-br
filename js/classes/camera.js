@@ -6,10 +6,7 @@
  */
 class Camera {
     constructor () {
-        /** The x coordinate of the top left corner of the visible playing field. */
-        this.x = 0;
-        /** The y coordinate of the top left corner of the visible playing field. */
-        this.y = 0;
+        this.pos = new Vector(0, 0);
     };
 
     /** The width (in pixels) of the Camera's visible domain. */
@@ -38,7 +35,8 @@ class Camera {
             }
             return z;
         };
-        this.x = median(DIMENSION.MIN_X, DIMENSION.MAX_X - Camera.WIDTH, CHAD.x - Camera.WIDTH / 2);
-        this.y = median(DIMENSION.MIN_Y, DIMENSION.MAX_Y - Camera.HEIGHT, CHAD.y - Camera.HEIGHT / 2);
+        const x = median(DIMENSION.MIN_X, DIMENSION.MAX_X - Camera.WIDTH, CHAD.pos.x - Camera.WIDTH / 2);
+        const y = median(DIMENSION.MIN_Y, DIMENSION.MAX_Y - Camera.HEIGHT, CHAD.pos.y - Camera.HEIGHT / 2);
+        this.pos = new Vector(x, y);
     };
 };
