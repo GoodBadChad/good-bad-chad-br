@@ -3,7 +3,7 @@ const loadVillageDimension = () => {
     loadPlaygroundDialog();
     /**
      * This is going to queue only the spritesheets which i need for my dimension.
-     * @author Devin Peevy
+     * @author Devin Peevy, Caleb Krauter
      */
     const queueDimensionalAssets = () => {
         ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
