@@ -37,7 +37,7 @@ spanishButton.addEventListener("click", () => {
  * THE FOLLOWING CONSTRUCTOR DOES A LOT MORE THAN MEETS THE EYE!
  * It is actually going to set up GAME and ASSET_MGR for us!
  */
-let DIMENSION = new Dimension(Dimension.VILLAGE);
+let DIMENSION = new Dimension(Dimension.PLAYGROUND);
 
 // So...
 GAME.start();
