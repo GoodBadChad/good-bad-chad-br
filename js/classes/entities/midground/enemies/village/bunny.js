@@ -5,14 +5,11 @@
  */
 class Bunny {
     /**
-     * @param {number} x The x position at which the Bunny should start.
-     * @param {number} y The y position at which the Bunny should start.
+     * @param {Vector} pos The position at which the Bunny should start.
      */
-    constructor(x, y) {
-        /** The x position of the Bunny (in the game world). */
-        this.x = x;
-        /** The y position of the Bunny (in the game world). */
-        this.y = y;
+    constructor(pos) {
+        /** The position of the Bunny (in the game world). */
+        this.pos = pos;
         /** An associative array of the animations for this Bunny. Arranged [facing][action]. */
         this.animations = [];
         this.loadAnimations();
@@ -21,17 +18,17 @@ class Bunny {
         /** What is the Bunny doing? */
         this.action = "idle";
         /** Used to check for collisions with other applicable entities. */
-        this.boundingBox = new BoundingBox();
+        //this.boundingBox = new BoundingBox();
         /** Used to check how to deal with collisions with other applicable entities. */
-        this.lastBoundingBox = this.boundingBox;
+        //this.lastBoundingBox = this.boundingBox;
         this.elapsedTime = 0;
         this.hops = 0;
     };
 
-    /** The height, in pixels, of the Bunny ON THE SPRITESHEET. */
-    static get HEIGHT() {
-        return 24;
-    };
+    /** The size, in pixels, of the Bunny ON THE SPRITESHEET. */
+    static get SIZE() {
+        return new Vector(24, 27);
+    }
 
     /** How much bigger should the Bunny be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {
@@ -39,15 +36,9 @@ class Bunny {
         return 5;
     };
 
-    /** This will be the height of the Bunny ON THE CANVAS. */
-    static get SCALED_HEIGHT() {
-        return Bunny.SCALE * Bunny.HEIGHT;
-    };
-
-    /** This will be the width of the Bunny ON THE CANVAS. */
-    static get SCALED_WIDTH() {
-        return Bunny.SCALE * Bunny.WIDTH;
-    };
+    static get SCALED_SIZE() {
+        return Vector.multiply(Bunny.SIZE, Bunny.SCALE);
+    }
 
     static get SPEED() {
         return Bunny.SCALE * 30;
@@ -58,16 +49,10 @@ class Bunny {
         // TODO: make bunny death sprite.
         return "./sprites/bunny.png";
     };
-
-    /** The width, in pixels, of the Bunny ON THE SPRITESHEET. */
-    static get WIDTH() {
-        return 27;
-    };
     
     /** Change what the Bunny is doing and where it is. */
     update() {
         // WHAT SHOULD HIS CONDITIONS BE?
-
         // He's gonna (wait 0.5s, jump) x2, turn, repeat.
         if (this.elapsedTime % 1 < 0.5) {
             this.action = "idle";
@@ -82,13 +67,13 @@ class Bunny {
         // HOW SHOULD WE MOVE HIM BASED ON HIS CONDITIONS?
         const mult = (this.facing === "left") ? -1 : 1;
         if (this.action === "hopping") {
-            this.x += mult * Bunny.SPEED * GAME.clockTick;
+            this.pos = Vector.add(this.pos, new Vector(mult * Bunny.SPEED * GAME.clockTick, 0));
         }
     };
 
     /** Draw the Bunny on the canvas. */
     draw() {
-        this.animations[this.facing][this.action].drawFrame(this.x, this.y, Bunny.SCALE);
+        this.animations[this.facing][this.action].drawFrame(this.pos, Bunny.SCALE);
     };
 
     /** Called by the constructor. Fills up the animations array. */
@@ -98,26 +83,26 @@ class Bunny {
 
         this.animations["left"]["idle"] = new Animator(
             Bunny.SPRITESHEET,
-            0, 0,
-            Bunny.WIDTH, Bunny.HEIGHT,
+            new Vector(0, 0),
+            Bunny.SIZE,
             1, 1);
         this.animations["right"]["idle"] = new Animator(
             Bunny.SPRITESHEET,
-            0, Bunny.HEIGHT,
-            Bunny.WIDTH, Bunny.HEIGHT,
+            new Vector(0, Bunny.SIZE.y),
+            Bunny.SIZE,
             1, 1);
         
         // HOPPING ANIMATIONS
         // (it takes him 0.5s to hop)
         this.animations["left"]["hopping"] = new Animator(
             Bunny.SPRITESHEET,
-            Bunny.WIDTH, 0,
-            Bunny.WIDTH, Bunny.HEIGHT,
+            new Vector(Bunny.SIZE.x, 0),
+            Bunny.SIZE,
             4, 0.125);
         this.animations["right"]["hopping"] = new Animator(
             Bunny.SPRITESHEET,
-            Bunny.WIDTH, Bunny.HEIGHT,
-            Bunny.WIDTH, Bunny.HEIGHT,
+            Bunny.SIZE,
+            Bunny.SIZE,
             4, 0.125);
         
     };
