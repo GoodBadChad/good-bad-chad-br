@@ -1,17 +1,16 @@
 /**
  * The Game Engine contains all entities, and puts them all through the update-render loop. It is also responsible for tracking user input.
- * @author Seth Ladd (original), Chris Marriott (modified), Devin Peevy (modified)
+ * @author Seth Ladd (original), Chris Marriott (modified), Devin Peevy (modified), Nathan Hinthorne (modified)
  */
 class GameEngine {
     /**
      * This constructs a new GameEngine, initializing some necessary parameters.
-     * @param {boolean} isSpanish ¿Debería estar en español este juego?
+     * @param {boolean} isSpanish ¿Debería estar en español este juego? Default: false.
      */
     constructor(isSpanish) {
-        /** ¿Está el juego en español? */
+        /** ¿Está el juego en español? Default: false. */
         this.spanish = isSpanish ?? false;
-        /** Everything that will be updated and drawn each frame. 
-         *  Note: This does not include the WIZARD, which is a global parameter. */
+        /** Everything that will be updated and drawn each frame. */
         this.entities = [];
         /** Is the user pressing S key? */
         this.down = false;
@@ -21,9 +20,20 @@ class GameEngine {
         this.right = false;
         /** Is the user pressing the A key? */
         this.left = false;
+        /** Is the user pressing the mouse button? */
+        this.mouseDown = false;
+        /** Is the user releasing the mouse button? */
+        this.mouseUp = false;
+        /** Where is the x coordinate of the user's mouse? */
+        this.mouseX = 0;
+        /** Where is the y coordinate of the user's mouse? */
+        this.mouseY = 0;
+
 
         /** The timer tells you how long it's been since the last tick! */
         this.timer = new Timer();
+        /** Are we currently debugging? */
+        this.debug = false;
     };
 
     /**
@@ -79,6 +89,10 @@ class GameEngine {
                 this.entities.splice(i, 1);
             }
         }
+
+        if (this.mouseUp) {
+            this.mouseUp = false;
+        }
     };
 
     /**
@@ -93,6 +107,10 @@ class GameEngine {
         for (let i = 0; i < this.entities.length; i++) {
             this.entities[i].draw();
         }
+        // If we're debugging, draw the grid.
+        if (this.debug) {
+            this.drawGrid();
+        }
         // Draw Chad, who is not a regular entity.
         CHAD.draw();
     };
@@ -102,6 +120,25 @@ class GameEngine {
      * to interaction with either the WASD keys or arrows.
      */
     startInput() {
+
+        CANVAS.addEventListener("mousedown", (e) => {
+            this.mouseDown = true;
+            this.mouseUp = false;
+        });
+
+        CANVAS.addEventListener("mouseup", (e) => {
+            this.mouseUp = true;
+            this.mouseDown = false;
+            console.log("mouse clicked at (" + Math.round(this.mouseX) + ", " + Math.round(this.mouseY) + ")");
+        });
+
+        CANVAS.addEventListener("mousemove", (e) => {
+            const rect = CANVAS.getBoundingClientRect();
+            const scaleX = CANVAS.width / rect.width;
+            const scaleY = CANVAS.height / rect.height;
+            this.mouseX = (e.clientX - rect.left) * scaleX;
+            this.mouseY = (e.clientY - rect.top) * scaleY;
+        });
 
         CANVAS.addEventListener("keydown", (e) => {
             switch (e.code) {
@@ -116,6 +153,9 @@ class GameEngine {
                     break;
                 case "KeyW":
                     this.up = true;
+                    break;
+                case "Space":
+                    this.space = true;
                     break;
             }
         }, false);
@@ -134,7 +174,44 @@ class GameEngine {
                 case "KeyW":
                     this.up = false;
                     break;
+                case "Space":
+                    this.space = false;
+                    break;
             }
         }, false);
+    };
+
+    drawGrid() {
+        CTX.strokeStyle = "white";
+        CTX.strokeWeight = 1;
+        // Draw the grid.
+        for (let x = DIMENSION.MIN_X; x <= DIMENSION.MAX_X; x += Block.SCALED_SIZE) {
+            for (let y = DIMENSION.MIN_Y; y <= DIMENSION.MAX_Y; y += Block.SCALED_SIZE) {
+                CTX.beginPath();
+                CTX.moveTo(DIMENSION.MIN_X - CAMERA.x, y - CAMERA.y);
+                CTX.lineTo(DIMENSION.MAX_X - CAMERA.x, y - CAMERA.y);
+                CTX.stroke();
+
+                CTX.beginPath();
+                CTX.moveTo(x - CAMERA.x, DIMENSION.MIN_Y - CAMERA.y);
+                CTX.lineTo(x - CAMERA.x, DIMENSION.MAX_Y - CAMERA.y);
+                CTX.stroke();
+            }
+        }
+        CTX.fillStyle = "red";
+        CTX.font = FONT.VT323_NORMAL;
+        let gameX = DIMENSION.MIN_X + 5;
+        const minY = DIMENSION.MIN_Y + 18;
+        let gameY = minY;
+        for (let blockX = DIMENSION.MIN_BLOCK_X; blockX <= DIMENSION.MAX_BLOCK_X; blockX += 5) {
+            for (let blockY = DIMENSION.MIN_BLOCK_Y ; blockY <= DIMENSION.MAX_BLOCK_Y; blockY += 5) {
+                let pt = "(" + blockX + ", " + blockY + ")";
+                CTX.fillText(pt, gameX - CAMERA.x, gameY - CAMERA.y, Block.SCALED_SIZE);
+                gameY += Block.SCALED_SIZE * 5;
+            }
+            gameX += Block.SCALED_SIZE * 5;
+            gameY = minY;
+        }
+        
     };
 };

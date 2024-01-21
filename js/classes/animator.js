@@ -16,7 +16,20 @@ class Animator {
      * @param {number} frameDuration The amount of time (in SECONDS!) between each change in frame.
      */
     constructor(spritesheet, xStart, yStart, width, height, frameCount, frameDuration) {
-        Object.assign(this, { spritesheet, xStart, yStart, width, height, frameCount, frameDuration });
+        /** The path to the spritesheet that this specific Animator instance is going to be working with. */
+        this.spritesheet = spritesheet;
+        /** The starting x position (on the SPRITESHEET!) of the first sprite of the animation. */
+        this.xStart = xStart;
+        /** The starting y position (on the SPRITESHEET!) of the first sprite of the animation. */
+        this.yStart = yStart;
+        /** The width in pixels of the sprites in this animation. */
+        this.width = width;
+        /** The height in pixels of the sprites in this animation. */
+        this.height = height;
+        /** The number of frames that are included in this animation. */
+        this.frameCount = frameCount;
+        /** The amount of time (in SECONDS!) between each change in frame. */
+        this.frameDuration = frameDuration;
         /** The amount of time which has elapsed since animation started. */
         this.elapsedTime = 0;
         /** The total amount of time that it takes to finish a single runthrough of an animation (no repeats!). */
