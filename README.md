@@ -1,6 +1,9 @@
 # Web Game
 "The Good The Bad and CHAD" is a single player story driven rpg, platformer adventure game written in JavaScript.
 
+# Story Synopsis
+You are CHAD - ripped, courageous, charming, and very full of yourself. Your whole life changes when you are asked to investigate some weird noises in a cave, and are thrust into an interdimensional adventure to stop an evil wizard with nothing but a slingshot and your trusty wooden sword! You must save the multiverse in order to save your peaceful village. Are you up for the task? And if you are, will you still be the same when you return?
+
 # Run Locally
 Run the game through local host from the index.html file.
 
