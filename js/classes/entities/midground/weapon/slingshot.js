@@ -6,53 +6,53 @@ class Slingshot {
     constructor() {
         this.isHidden = true;
 
-        this.x = CHAD.x + 10; // temp values
-        this.y = CHAD.y - 10; // temp values
+        this.pos = Vector.add(CHAD.pos, new Vector(10, -10)); // temp value
 
         this.isFiring = false;
         this.rotation = 0;
 
-        /** The starting x position of the spritesheet */
-        this.startX = 0;
-
-        /** The starting y position of the spritesheet*/
-        this.startY = 0;
+        this.start = new Vector(0, 0);
     }
 
     findRotation() {
         this.isHidden = false;
-        this.startX = 0; // slingshot charging frame
 
         // position the image near Chad's hand
-        this.y = CHAD.y + 15;
+        let x;
+        let startY = this.start.y;
         if (CHAD.facing == "right") {
-            this.x = CHAD.x + 80;
-            this.startY = 0; // slingshot facing right frame
+            x = CHAD.pos.x + 80;
+            startY = 0; // slingshot facing right frame
         } else if (CHAD.facing == "left") {
-            this.x = CHAD.x - 80;
-            // this.startY = 29; // slingshot facing left frame
+            x = CHAD.pos.x - 80;
+            // startY = 29; // slingshot facing left frame
         }
+        this.pos = new Vector(x, CHAD.pos.y + 15);
+        this.start = new Vector(0, startY);
 
         // find the angle in radians from the x axis to the mouse
-        let deltaX = GAME.mouseX - (this.x + CAMERA.x);
-        let deltaY = GAME.mouseY - (this.y + CAMERA.y);
-        let theta = Math.atan2(deltaY, deltaX);
+        const delta = Vector.worldToCanvasSpace(Vector.subtract(GAME.mousePos, this.pos));
+        // There is an undefined value here so I commented this out - CK
+        // console.log(GAME.mouse);
+        let theta = Math.atan2(delta.y, delta.x);
         this.rotation = theta;
+        // There is an undefined value here so I commented this out - CK
 
-        console.log("rotation: " + " (" + this.rotation * 180 / Math.PI + " degrees)");
+        // console.log("rotation: " + " (" + this.rotation * 180 / Math.PI + " degrees)");
     }
 
     fireSlingshot() {
         this.isFiring = true;
-        this.startX = 26; // slingshot firing frame
+        //this.startX = 26; // slingshot firing frame
 
         INVENTORY.decreaseAmmo();
         let ammo = INVENTORY.getCurrentAmmo();
 
         // create a projectile and launch it in the direction of the mouse
-        let start = { x: Math.round(this.x), y: Math.round(this.y) };
-        let end = { x: Math.round(GAME.mouseX + CAMERA.x), y: Math.round(GAME.mouseY + CAMERA.y) };
-        GAME.addEntity(new Projectile(Projectile.STONE, start.x, start.y, end.x, end.y));
+        GAME.addEntity(new Projectile(
+            Projectile.STONE,
+            Vector.round(this.pos),
+            Vector.round(Vector.canvasToWorldSpace(GAME.mousePos))));
         // console.log("slingshot fired from (" + start.x + ", " + start.y + ") to (" + end.x + ", " + end.y + ")");
 
         // trigger an async operation that will erase the slingshot after it fires
@@ -77,12 +77,12 @@ class Slingshot {
         if (!this.isHidden) {
             CTX.drawImage(
                 ASSET_MGR.getAsset(Slingshot.SPRITESHEET),
-                this.startX, this.startY,
-                Slingshot.WIDTH, Slingshot.HEIGHT,
-                this.x - CAMERA.x,
-                this.y - CAMERA.y,
-                Slingshot.WIDTH * Slingshot.SCALE,
-                Slingshot.HEIGHT * Slingshot.SCALE);
+                this.start.x, this.start.y,
+                Slingshot.SIZE.x, Slingshot.SIZE.y,
+                this.pos.x - CAMERA.pos.x,
+                this.pos.y - CAMERA.pos.y,
+                Slingshot.SIZE.x * Slingshot.SCALE,
+                Slingshot.SIZE.y * Slingshot.SCALE);
         }
     }
 
@@ -90,12 +90,8 @@ class Slingshot {
         return "./sprites/slingshot.png";
     }
 
-    static get WIDTH() {
-        return 26;
-    }
-
-    static get HEIGHT() {
-        return 29;
+    static get SIZE() {
+        return new Vector(26, 29);
     }
 
     static get SCALE() {

@@ -29,11 +29,12 @@ const loadPlaygroundDimension = () => {
         ASSET_MGR.queueDownload(DialogBubble.SPRITESHEET);
         ASSET_MGR.queueDownload(Crosshair.SPRITESHEET);
         ASSET_MGR.queueDownload(Slingshot.SPRITESHEET);
+        ASSET_MGR.queueDownload(Snake.SPRITESHEET);
     };
 
     /** 
      * This is going to add all of the entities to the GAME so that they are ready to be drawn. 
-     * @author Devin Peevy 
+     * @author Devin Peevy, Caleb Krauter
      */
     const loadEntities = () => {
         // Surround the border of the dimension.
@@ -41,19 +42,20 @@ const loadPlaygroundDimension = () => {
             for (let j = 0; j < 50; j++) {
                 // GAME.addEntity(new Block(i, j, Block.DIRT));a
 
+                const pos = new Vector(j - 25, i - 25);
                 switch (tileMap[i][j]) {
                     case 4:
                         console.log(4);
-                        GAME.addEntity(new Block(j - 25, i - 25, Block.LAVA_ROCK));
+                        GAME.addEntity(new Block(pos, Block.LAVA_ROCK));
                         break;
                     case 3:
-                        GAME.addEntity(new Block(j - 25, i - 25, Block.SNOWY_ICE));
+                        GAME.addEntity(new Block(pos, Block.SNOWY_ICE));
                         break;
                     case 2:
-                        GAME.addEntity(new Block(j - 25, i - 25, Block.SNOWY_DIRT));
+                        GAME.addEntity(new Block(pos, Block.SNOWY_DIRT));
                         break;
                     case 1:
-                        GAME.addEntity(new Block(j - 25, i - 25, Block.DIRT));
+                        GAME.addEntity(new Block(pos, Block.DIRT));
                         break;
                     case 0:
                         break;
@@ -65,16 +67,18 @@ const loadPlaygroundDimension = () => {
         }
 
         tileMap[30][30] = 4;
-        GAME.addEntity(new Portal(10, -10, Dimension.LAVA));
-        GAME.addEntity(new Portal(10, -15, Dimension.VILLAGE));
+        GAME.addEntity(new Portal(new Vector(10, -10), Dimension.LAVA));
+        GAME.addEntity(new Portal(new Vector(10, -15), Dimension.VILLAGE));
+        GAME.addEntity(new Snake(new Vector(-3 * Block.SCALED_SIZE, -20 * Block.SCALED_SIZE)));
 
         // GAME.addEntity(new Projectile(Projectile.BOMB, -192, -1280, 200, -1280));
         GAME.addEntity(new DialogBubble(CHAD, "Greetings! I am the one and only Papa Chad", DialogBubble.NORMAL));
         GAME.addEntity(new Crosshair());
         GAME.addEntity(new Slingshot());
 
-        CHAD.x = -3 * Block.SCALED_SIZE;
-        CHAD.y = -20 * Block.SCALED_SIZE;
+        // CHAD.x = -3 * Block.SCALED_SIZE;
+        // CHAD.y = -20 * Block.SCALED_SIZE;
+        CHAD.pos = Vector.blockToWorldSpace(new Vector(-3, -20));
     };
 
     queueDimensionalAssets();
