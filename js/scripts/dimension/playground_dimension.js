@@ -1,3 +1,4 @@
+
 /** 
  * The purpose of this script is to load the Playground Dimension.
  * The Playground dimension is used for developers to test things out.
@@ -6,19 +7,21 @@
  *  - feel free to add/modify your own methods, as well as comment out/move those of others.
  *  - please DO NOT delete the methods of others without permission.
  *  - please DO delete your own methods that are no longer relevant.
- */
+*/
 
 /**
  * Loads the playground dimension.
- * @author Devin Peevy
- */
+ * @author Devin Peevy, Caleb Krauter
+*/
 const loadPlaygroundDimension = () => {
+
+    let tileMap = playGroundTileMap();
     // Load the dialog.
     loadPlaygroundDialog();
     /**
      * This is going to queue only the spritesheets which i need for my dimension.
      * @author Devin Peevy
-     */
+    */
     const queueDimensionalAssets = () => {
         ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
         ASSET_MGR.queueDownload(Block.SPRITESHEET);
@@ -26,6 +29,14 @@ const loadPlaygroundDimension = () => {
         ASSET_MGR.queueDownload(DialogBubble.SPRITESHEET);
         ASSET_MGR.queueDownload(Crosshair.SPRITESHEET);
         ASSET_MGR.queueDownload(Slingshot.SPRITESHEET);
+
+        // queue music
+        ASSET_MGR.queueDownload("./music/starting_off_2_sample.wav");
+
+        // queue sound effects
+        ASSET_MGR.queueDownload("./sfx/temp_jump.wav");
+        ASSET_MGR.queueDownload("./sfx/slingshot_launch.wav");
+
     };
 
     /** 
@@ -33,33 +44,53 @@ const loadPlaygroundDimension = () => {
      * @author Devin Peevy 
      */
     const loadEntities = () => {
-        let left = true;
-        for (let i = -22; i <= 25; i += 5) {
-            if (left) {
-                for (let j = -1; j >= -25; j--) {
-                    GAME.addEntity(new Block(j, i, Block.DIRT));
+        // Surround the border of the dimension.
+        for (let i = 0; i < 50; i++) {
+            for (let j = 0; j < 50; j++) {
+                // GAME.addEntity(new Block(i, j, Block.DIRT));a
+
+                switch (tileMap[i][j]) {
+                    case 4:
+                        console.log(4);
+                        GAME.addEntity(new Block(j - 25, i - 25, Block.LAVA_ROCK));
+                        break;
+                    case 3:
+                        GAME.addEntity(new Block(j - 25, i - 25, Block.SNOWY_ICE));
+                        break;
+                    case 2:
+                        GAME.addEntity(new Block(j - 25, i - 25, Block.SNOWY_DIRT));
+                        break;
+                    case 1:
+                        GAME.addEntity(new Block(j - 25, i - 25, Block.DIRT));
+                        break;
+                    case 0:
+                        break;
+                    default:
+                        break;
                 }
-                left = false;
-            } else {
-                for (let j = 0; j <= 25; j++) {
-                    GAME.addEntity(new Block(j, i, Block.DIRT));
-                }
-                left = true;
             }
         }
-        // Surround the border of the dimension.
-        for (let i = -25; i < 25; i++) {
-            GAME.addEntity(new Block(i, -25, Block.LAVA_ROCK));
-            GAME.addEntity(new Block(i, 24, Block.SNOWY_DIRT));
-            GAME.addEntity(new Block(-25, i, Block.ICE));
-            GAME.addEntity(new Block(24, i, Block.SNOWY_ICE));
-        }
+
+        tileMap[30][30] = 4;
         GAME.addEntity(new Portal(10, -10, Dimension.LAVA));
-        // GAME.addEntity(new Projectile(Projectile.BOMB, -192, -1280, 200, -1280));
-        GAME.addEntity(new DialogBubble(CHAD, "Greetings! I am the one and only Papa Chad", DialogBubble.NORMAL));
+        GAME.addEntity(new Portal(10, -15, Dimension.VILLAGE));
+
+        // NOTE: we can't activate music until the user has interacted with the canvas. (this issue is inherent to HTML5)
+        //  If listening for a click is the only way to activate music, that's fine. 
+        //  Our game's START button in the final version can be the trigger.
+        let playMusic = () => {
+            ASSET_MGR.playAudio("./music/starting_off_2_sample.wav", 0.1, true);
+        
+            // delete the event listener so that the music doesn't restart when the user clicks again
+            document.body.removeEventListener('click', playMusic);
+        };
+        
+        document.body.addEventListener('click', playMusic);
+
+        GAME.addEntity(new DialogBubble(CHAD, "Hey pal! My name's Papa Chad", DialogBubble.NORMAL));
         GAME.addEntity(new Crosshair());
         GAME.addEntity(new Slingshot());
-
+ 
         CHAD.x = -3 * Block.SCALED_SIZE;
         CHAD.y = -20 * Block.SCALED_SIZE;
     };

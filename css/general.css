@@ -9,6 +9,10 @@
 }
 
 body {
+    text-align: center;
+}
+
+#container {
     width: 100vw;
     height: 100vh;
     display: flex;
@@ -21,4 +25,5 @@ body {
     height: 95vh;
     margin: auto;
     background: #333333;
+    display: block;
 }
