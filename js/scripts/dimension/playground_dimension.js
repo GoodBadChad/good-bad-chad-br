@@ -79,8 +79,7 @@ const loadPlaygroundDimension = () => {
         //  If listening for a click is the only way to activate music, that's fine. 
         //  Our game's START button in the final version can be the trigger.
         let playMusic = () => {
-            ASSET_MGR.playAudio("./music/starting_off_2_sample.wav", true);
-            ASSET_MGR.adjustVolume(0.5);
+            ASSET_MGR.playAudio("./music/starting_off_2_sample.wav", 0.1, true);
         
             // delete the event listener so that the music doesn't restart when the user clicks again
             document.body.removeEventListener('click', playMusic);

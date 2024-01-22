@@ -117,12 +117,14 @@ class AssetManager {
     /**
      * This method plays the audio associated with the given path.
      * @param {string} path The filepath of the audio you are trying to play.
+     * @param {number} volume The volume to which you want to set the audio.
      * @param {boolean} loop True if you want the audio to loop, false otherwise.
      */
-    playAudio(path, loop) {
+    playAudio(path, volume, loop) {
         loop ?? (loop = false);
         const audio = this.cache[path];
         audio.currentTime = 0;
+        audio.volume = volume;
 
         audio.play();
         if (loop) {

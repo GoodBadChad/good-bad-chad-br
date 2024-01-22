@@ -45,7 +45,7 @@ class Slingshot {
     }
 
     fireSlingshot() {
-        ASSET_MGR.playAudio("./sfx/slingshot_launch.wav", false);
+        ASSET_MGR.playAudio("./sfx/slingshot_launch.wav", 0.2);
         this.isFiring = true;
         this.startX = 26; // slingshot firing frame
 
