@@ -9,7 +9,7 @@ class Camera {
         this.pos = new Vector(0, 0);
     };
 
-    /** @returns {Vector} The size of the Camera and the Canvas, in pixels. */
+    /** The size of the Camera and the Canvas, in pixels. */
     static get SIZE() {
         return new Vector(1920, 1080);
     };
