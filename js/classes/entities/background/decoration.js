@@ -10,14 +10,17 @@ class Decoration {
      * corner.
      * 
      * @param {string} type the type of Decoration to construct (must be a key to Decoration.PROPERTY_TABLE)
-     * @param {Vector} pos the position of the bottom left corner of the Decoration (in world space) 
+     * @param {Vector} bottomLeftPos the position of the bottom left corner of the Decoration (in world space)
+     * @throws {Error} if type is not a valid Decoration type
      */
-    constructor(type, pos) {
+    constructor(type, bottomLeftPos) {
+        Decoration.checkType(type);
+
         const properties = Decoration.PROPERTY_TABLE[type];
         const size = properties.SIZE;
 
         this.scale = properties.SCALE;
-        this.pos = new Vector(pos.x, pos.y - size.y * this.scale);
+        this.pos = new Vector(bottomLeftPos.x, bottomLeftPos.y - size.y * this.scale);
         this.animator = new Animator(properties.SPRITESHEET, properties.SPRITESHEET_START_POS, 
             size, properties.FRAME_COUNT, properties.FRAME_DURATION);
     };
@@ -61,16 +64,32 @@ class Decoration {
     };
 
     /**
+     * Checks if the passed type is a valid Decoration and throws an error otherwise. Not intended
+     * for use outside of the Decoration class.
+     * 
+     * @param {string} type the type to check
+     * @throws {Error} if type is not a valid Decoration type.
+     */
+    static checkType(type) {
+        if (!Decoration.PROPERTY_TABLE[type]) {
+            throw new Error(type + " is not a valid Decoration type. Please use a key from" 
+                + " Decoration.PROPERTY_TABLE.");
+        }
+    };
+
+    /**
      * Returns the path to the spritesheet file for the given Decoration. Convenient for loading its 
      * spritesheet.
      * 
      * @param {string} type the type of Decoration to get the spritesheet path for (must be a key to 
      *      Decoration.PROPERTY_TABLE)
      * @returns {string} the file path to the spritesheet
+     * @throws {Error} if type is not a valid Decoration type.
      */
     static getSpritesheet(type) {
+        Decoration.checkType(type);
         return Decoration.PROPERTY_TABLE[type].SPRITESHEET;
-    }
+    };
 
     /**
      * Decoration update method. Does nothing.
@@ -84,5 +103,5 @@ class Decoration {
      */
     draw() {
         this.animator.drawFrame(Vector.worldToCanvasSpace(this.pos), this.scale);
-    }
+    };
 };
