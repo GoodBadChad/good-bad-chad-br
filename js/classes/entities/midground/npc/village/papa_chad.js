@@ -181,6 +181,7 @@ class PapaChad {
             this.isDashing = false;
         }
         if (GAME.space && this.isOnGround) {
+            ASSET_MGR.playAudio("./sfx/temp_jump.wav", 0.2);
             this.action = "jumping";
             yVelocity = this.FIRST_JUMP_VELOCITY;
             this.isOnGround = false;
@@ -205,6 +206,7 @@ class PapaChad {
             }
         }
         if (GAME.space && this.canDoubleJump) {
+            ASSET_MGR.playAudio("./sfx/temp_jump.wav", 0.2);
             this.action = "jumping";
             yVelocity = this.SECOND_JUMP_VELOCITY;
             this.isOnGround = false;
@@ -235,14 +237,6 @@ class PapaChad {
 
         // Step 3: Now move.
         this.pos = Vector.add(this.pos, Vector.multiply(this.velocity, GAME.clockTick));
-        
-        // This code probably shouldn't be in the game anymore,
-        // but I translated it to Zones and leave it up to you Caleb:
-
-        // if (this.pos.y > ZONE.MAX_PT.y) {
-        //     this.pos = Vector.subtract(this.pos, new Vector(0, ZONE.MAX_PT.y));
-        // }
-        
         this.lastBoundingBox = this.boundingBox;
         this.boundingBox = new BoundingBox(this.pos, PapaChad.SCALED_SIZE);
         this.isOnGround = false;
@@ -290,14 +284,6 @@ class PapaChad {
                             this.pos = new Vector(this.pos.x, entity.boundingBox.bottom);
                         }
                     }
-
-                    // CALEB: leave this out, for now, until I modify Portals to work with Zones.
-
-                    // if (entity instanceof Portal) {
-                    //     const dim = DIMENSION.dimension === entity.dimension ? Dimension.VILLAGE : entity.dimension;
-                    //     DIMENSION = new Dimension(dim);
-                    //     DIMENSION.loadDimension();
-                    // }
                 }
                 // There's no collision - don't do anything!
             }

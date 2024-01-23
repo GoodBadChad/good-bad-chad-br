@@ -51,7 +51,7 @@ class Zone {
      * @returns {Vector} The minimum (x, y) coordinate visible in this Zone.
      */
     get MIN_PT() {
-        return Vector.multiply(this.MIN_BLOCK, Block.SCALED_SIZE);
+        return Vector.blockToWorldSpace(this.MIN_BLOCK);
     };
 
     /**
@@ -61,7 +61,7 @@ class Zone {
         // I want to actually be able to SEE the final block (not just touch its top left corner). 
         // Therefore:
         const ones = new Vector(1, 1);
-        return Vector.multiply(Vector.add(this.MAX_BLOCK, ones), Block.SCALED_SIZE);
+        return Vector.blockToWorldSpace(Vector.add(this.MAX_BLOCK, ones));
     };
 
     // I am not sure if we are actually going to need the following two getters, but I include them just in case:
@@ -72,7 +72,7 @@ class Zone {
     get BLOCK_SIZE() {
         // We gotta include an extra block to account for 0.
         const ones = new Vector(1, 1);
-        return Vector.add(new Vector(this.MAX_BLOCK.x - this.MIN_BLOCK.x, this.MAX_BLOCK.y - this.MIN_BLOCK.y), ones);
+        return Vector.add(Vector.subtract(this.MAX_BLOCK, this.MIN_BLOCK), ones);
     };
 
     /**
@@ -101,7 +101,7 @@ class Zone {
             (B)     Keep it alphabetized.
             (C)     Match the naming style for your load method! load<Dimension><ZoneName>
             (D)     Add as many zones to the playground as you want! Avoid adding temporary Zones to real Dimensions.
-            (E)     Be sure that your load function is defined in the proper script and imported into the head of index.html.
+            (E)     Be sure that your load function is defined in the proper script, and that said script is imported into the head of index.html.
          */
 
         return {
