@@ -33,32 +33,16 @@ spanishButton.addEventListener("click", () => {
 	}
 });
 
-/*
- * THE FOLLOWING CONSTRUCTOR DOES A LOT MORE THAN MEETS THE EYE!
- * It is actually going to set up GAME and ASSET_MGR for us!
- */
-let DIMENSION = new Dimension(Dimension.PLAYGROUND);
+// /*
+//  * THE FOLLOWING CONSTRUCTOR DOES A LOT MORE THAN MEETS THE EYE!
+//  * It is actually going to set up GAME and ASSET_MGR for us!
+//  */
+// let DIMENSION = new Dimension(Dimension.PLAYGROUND);
 
-// So...
+// Set the current ZONE to be the first one we encounter - village.main.
+let ZONE = Zone.getZones().village.main;
+// Load all assets, add all entities, place CHAD...
+ZONE.load();
+
+// Now we're ready!
 GAME.start();
-
-// TODO: change this to load whatever we want AT THE VERY BEGINNING OF THE GAME
-
-/*
-If we go through with my implementation, this stuff isn't necessary.
-// Queue asset downloads here:
-
-ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
-ASSET_MGR.queueDownload(Snake.SPRITESHEET);
-ASSET_MGR.queueDownload(Slime.SPRITESHEET);
-ASSET_MGR.queueDownload(PapaChad.SPRITESHEET); // includes mama chad
-ASSET_MGR.queueDownload(Block.SPRITESHEET);
-ASSET_MGR.queueDownload(Bird.SPRITESHEET);
-
-// Download assets and start the game.
-ASSET_MGR.downloadAll(() => {
-	// Load the dimension here.
-	// Start the game
-	GAME.start();
-});
-*/

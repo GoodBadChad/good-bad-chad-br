@@ -61,7 +61,7 @@ class Zone {
         // I want to actually be able to SEE the final block (not just touch its top left corner). 
         // Therefore:
         const ones = new Vector(1, 1);
-        return Vector.multiply(Vector.add(this.MAX_BLOCK, ones));
+        return Vector.multiply(Vector.add(this.MAX_BLOCK, ones), Block.SCALED_SIZE);
     };
 
     // I am not sure if we are actually going to need the following two getters, but I include them just in case:
@@ -127,7 +127,7 @@ class Zone {
             },
             village: {
                 canyon:         new Zone(zeros, defaultMaxBlock, loadVillageCanyon),
-                field:          new Zone(zeros, defaultMaxBlock, loadVillageMain),
+                field:          new Zone(zeros, defaultMaxBlock, loadVillageField),
                 insideCave:     new Zone(zeros, defaultMaxBlock, loadVillageInsideCave),
                 main:           new Zone(zeros, defaultMaxBlock, loadVillageMain),
                 mountain:       new Zone(zeros, defaultMaxBlock, loadVillageMountain),
