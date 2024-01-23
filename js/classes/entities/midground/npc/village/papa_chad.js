@@ -12,10 +12,18 @@ class PapaChad {
         this.canDoubleJump = false;
         /** Checks if CHAD has double jumped. */
         this.hasDoubleJumped = false;
+        /** Checks if CHAD can dash. */
+        this.canDash = false;
+        /** Checks if CHAD has dashed. */
+        this.hasDashed = false;
+        /** Checks if CHAD is dashing. */
+        this.isDashing = false;
         /** Gets the the y position of CHAD from the last time he was on the ground. */
         this.prevYPosOnGround = 0;
         /** The position of the Papa Chad (in the game world). */
         this.pos = pos;
+        /** Gets the the x position of CHAD from the origin of where he started dashing. */
+        this.xDashAnchoredOrigin = 0;
         /** An associative array of the animations for this Papa Chad. Arranged [facing][action]. */
         this.animations = [];
         this.loadAnimations();
@@ -66,6 +74,20 @@ class PapaChad {
         return -600;
     }
 
+    /** The mulitiplier that allows CHAD to run. */
+    get SPRINT_MULTIPLIER() {
+        return 0.5;
+    }
+    /** The mulitiplier that allows CHAD to run. */
+    get DASH_MULTIPLIER() {
+        return 3.5;
+    }
+
+    /** The barrier that limits the length of the longest dash. */
+    get DASH_BARRIER() {
+        return 250;
+    }
+
     /** Change what Papa Chad is doing and where it is. */
     update() {
         this.canDoubleJump = false;
@@ -75,18 +97,88 @@ class PapaChad {
         // NOTE: this entire method will be moved to Chad as soon as we have his spritesheet ready.
 
         // Step 1: Listen for user input.
-        // for now, just left and right
+        if (this.isOnGround) {
+            this.canDash = true;
+            this.hasDashed = false;
+        }
+
+        if (!this.isOnGround && GAME.keyX && this.canDash && !this.hasDashed) {
+            PapaChad.xDashAnchoredOrigin = CHAD.pos.x;
+
+        }
+
         let xVelocity = 0;
         let yVelocity = this.velocity.y;
         if (GAME.left) {
             this.action = "walking";
             this.facing = "left";
             xVelocity -= PapaChad.SPEED;
+            if (GAME.shiftLeft) {
+                this.action = "running";
+                this.facing = "left";
+                xVelocity -= PapaChad.SPEED * this.SPRINT_MULTIPLIER;
+            }
+            if (GAME.keyX && GAME.left && !this.isOnGround && this.canDash && !this.hasDashed) {
+                console.log("Should be dashing");
+                if (!this.isDashing) {
+                    this.xDashAnchoredOrigin = CHAD.pos.x;
+                    this.isDashing = true
+                }
+                this.action = "dash";
+                xVelocity -= PapaChad.SPEED * this.DASH_MULTIPLIER;
+                let deltaX = Math.abs(CHAD.pos.x - this.xDashAnchoredOrigin);
+                console.log("last x " + this.xDashAnchoredOrigin);
+                if (deltaX >= this.DASH_BARRIER) {
+                    console.log
+                    this.canDash = false;
+                    this.hasDashed = true;
+                    this.isDashing = false;
+                } else {
+                    this.canDash = true;
+                    this.hasDashed = false;
+                    this.isDashing = true;
+
+
+                }
+
+            }
         }
         if (GAME.right) {
             this.action = "walking";
             this.facing = "right";
+
             xVelocity += PapaChad.SPEED;
+            if (GAME.shiftLeft) {
+                this.action = "running";
+                this.facing = "right";
+                xVelocity += PapaChad.SPEED * this.SPRINT_MULTIPLIER;
+            }
+            if (GAME.keyX && GAME.right && !this.isOnGround && this.canDash && !this.hasDashed) {
+                if (!this.isDashing) {
+                    this.xDashAnchoredOrigin = CHAD.pos.x;
+                    this.isDashing = true
+                }
+                this.action = "dash";
+                xVelocity += PapaChad.SPEED * this.DASH_MULTIPLIER;
+                let deltaX = Math.abs(CHAD.pos.x - this.xDashAnchoredOrigin);
+                if (deltaX >= this.DASH_BARRIER) {
+                    console.log
+                    this.canDash = false;
+                    this.hasDashed = true;
+                    this.isDashing = false;
+                } else {
+                    this.canDash = true;
+                    this.hasDashed = false;
+                    this.isDashing = true;
+                }
+            }
+
+        }
+        // Prevents continuing a dash after lifting the dash key.
+        if (!GAME.keyX && !this.isOnGround && this.isDashing) {
+            this.canDash = false;
+            this.hasDashed = true;
+            this.isDashing = false;
         }
         if (GAME.space && this.isOnGround) {
             this.action = "jumping";
@@ -96,13 +188,7 @@ class PapaChad {
         }
         // Gets change in y from when CHAD left ground to current.
         let deltaHeight = Math.abs(CHAD.pos.y - this.prevYPosOnGround);
-        // For debugging use the following code block and comment out the yVelocity change for double jump.
-        // if (GAME.space) {
-        //     console.log(deltaHeight);
-        //     console.log("CHAD Y " + CHAD.y);
-        //     console.log("LAST GROUNDED Y " + this.prevYPosOnGround);
-        // }
-        // Currently the jump barrier is 132 and the max first jump height is 137
+
         if (!this.isOnGround && deltaHeight >= Math.abs(this.FIRST_JUMP_VELOCITY / 5) + 32) {
             if (this.hasDoubleJumped) {
                 this.canDoubleJump = false;
@@ -110,7 +196,7 @@ class PapaChad {
                 this.canDoubleJump = true;
             }
         }
-        // console.log(CHAD.yVelocity)
+
         if (!this.isOnGround && yVelocity >= 0) {
             if (this.hasDoubleJumped) {
                 this.canDoubleJump = false;
@@ -125,7 +211,6 @@ class PapaChad {
             this.canDoubleJump = false;
             this.hasDoubleJumped = true;
         }
-
 
         // this is for the slingshot
         if (GAME.mouseDown) {
@@ -145,7 +230,7 @@ class PapaChad {
 
         // Step 2: Account for gravity, which is always going to push you downward.
         yVelocity += PHYSICS.GRAVITY_ACC * GAME.clockTick;
-        
+
         this.velocity = new Vector(xVelocity, yVelocity);
 
         // Step 3: Now move.
@@ -175,12 +260,12 @@ class PapaChad {
                             && this.lastBoundingBox.bottom <= entity.boundingBox.top
                             && this.boundingBox.bottom > entity.boundingBox.top) {
                             // We are colliding with the top.
-                            
+
                             this.pos = new Vector(this.pos.x, entity.boundingBox.top - PapaChad.SCALED_SIZE.y);
                             this.velocity = new Vector(this.velocity.x, 0);
                             // ON_GROUND(true);
                             this.isOnGround = true;
-                            this.prevYPosOnGround = CHAD.y;
+                            this.prevYPosOnGround = CHAD.pos.y;
                         } else if (isOverlapY
                             && this.lastBoundingBox.right <= entity.boundingBox.left
                             && this.boundingBox.right > entity.boundingBox.left) {
@@ -240,12 +325,34 @@ class PapaChad {
             PapaChad.SPRITESHEET,
             new Vector(PapaChad.SIZE.x, 0),
             PapaChad.SIZE,
-            6, 1 / 6);
+            6, 1 / 12);
         this.animations["right"]["walking"] = new Animator(
             PapaChad.SPRITESHEET,
             PapaChad.SIZE,
             PapaChad.SIZE,
-            6, 1 / 6);
+            6, 1 / 12);
+
+        this.animations["left"]["running"] = new Animator(
+            PapaChad.SPRITESHEET,
+            new Vector(PapaChad.SIZE.x, 0),
+            PapaChad.SIZE,
+            6, 1 / 18);
+        this.animations["right"]["running"] = new Animator(
+            PapaChad.SPRITESHEET,
+            PapaChad.SIZE,
+            PapaChad.SIZE,
+            6, 1 / 18);
+
+        this.animations["left"]["dash"] = new Animator(
+            PapaChad.SPRITESHEET,
+            new Vector(PapaChad.SIZE.x, 0),
+            PapaChad.SIZE,
+            6, 1 / 18);
+        this.animations["right"]["dash"] = new Animator(
+            PapaChad.SPRITESHEET,
+            PapaChad.SIZE,
+            PapaChad.SIZE,
+            6, 1 / 18);
 
         this.animations["left"]["jumping"] = new Animator(
             PapaChad.SPRITESHEET,

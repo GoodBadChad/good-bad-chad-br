@@ -32,11 +32,13 @@ class Slingshot {
 
         // find the angle in radians from the x axis to the mouse
         const delta = Vector.worldToCanvasSpace(Vector.subtract(GAME.mousePos, this.pos));
-        console.log(GAME.mouse);
+        // There is an undefined value here so I commented this out - CK
+        // console.log(GAME.mouse);
         let theta = Math.atan2(delta.y, delta.x);
         this.rotation = theta;
+        // There is an undefined value here so I commented this out - CK
 
-        console.log("rotation: " + " (" + this.rotation * 180 / Math.PI + " degrees)");
+        // console.log("rotation: " + " (" + this.rotation * 180 / Math.PI + " degrees)");
     }
 
     fireSlingshot() {
@@ -48,8 +50,8 @@ class Slingshot {
 
         // create a projectile and launch it in the direction of the mouse
         GAME.addEntity(new Projectile(
-            Projectile.STONE, 
-            Vector.round(this.pos), 
+            Projectile.STONE,
+            Vector.round(this.pos),
             Vector.round(Vector.canvasToWorldSpace(GAME.mousePos))));
         // console.log("slingshot fired from (" + start.x + ", " + start.y + ") to (" + end.x + ", " + end.y + ")");
 
