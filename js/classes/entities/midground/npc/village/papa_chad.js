@@ -181,6 +181,7 @@ class PapaChad {
             this.isDashing = false;
         }
         if (GAME.space && this.isOnGround) {
+            ASSET_MGR.playAudio("./sfx/temp_jump.wav", 0.2);
             this.action = "jumping";
             yVelocity = this.FIRST_JUMP_VELOCITY;
             this.isOnGround = false;
@@ -205,6 +206,7 @@ class PapaChad {
             }
         }
         if (GAME.space && this.canDoubleJump) {
+            ASSET_MGR.playAudio("./sfx/temp_jump.wav", 0.2);
             this.action = "jumping";
             yVelocity = this.SECOND_JUMP_VELOCITY;
             this.isOnGround = false;

@@ -14,7 +14,7 @@ class Slingshot {
         this.start = new Vector(0, 0);
     }
 
-    findRotation() {
+    findRotation() { 
         this.isHidden = false;
 
         // position the image near Chad's hand
@@ -38,10 +38,13 @@ class Slingshot {
         this.rotation = theta;
         // There is an undefined value here so I commented this out - CK
 
-        // console.log("rotation: " + " (" + this.rotation * 180 / Math.PI + " degrees)");
+        //TODO: swap animation frames based on rotation
+
+        console.log("rotation: " + " (" + this.rotation * 180 / Math.PI + " degrees)");
     }
 
     fireSlingshot() {
+        ASSET_MGR.playAudio("./sfx/slingshot_launch.wav", 0.2);
         this.isFiring = true;
         //this.startX = 26; // slingshot firing frame
 
@@ -67,6 +70,7 @@ class Slingshot {
     update() {
         if (GAME.mouseDown) {
             this.findRotation();
+            this.isHidden = false;
         } else if (GAME.mouseUp) {
             this.fireSlingshot();
         }
