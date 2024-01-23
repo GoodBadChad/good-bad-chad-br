@@ -2,16 +2,16 @@
  * A Dimension holds data necessary for the six dimensions through which Chad travels.
  * There is also a PLAYGROUND dimension for developer testing.
  * The only ways in which a Dimension should be used is (1) construction (when Chad collides with a portal)
- * @author Devin Peevy
+ * @author Devin Peevy, Caleb Krauter (modified)
  */
 class Dimension {
-    
+
     /**
      * @param {number} dimension The id of the Dimension which you want to load. Dimension.PLAYGROUND, .VILLAGE, .WOODS, .FACTORY, .SNOWY, .LAVA, or .TOWER.
      */
     constructor(dimension) {
         // Did we try and pass an illegal argument?
-        if (dimension % 1 !== 0 || dimension > 7 || dimension < 0) {
+        if (dimension % 1 !== 0 || dimension > 6 || dimension < 0) {
             throw new Error("Illegal dimension parameter passed in. Try Dimension.PLAYGROUND, .VILLAGE, .WOODS, .FACTORY, .SNOWY, .LAVA, or .TOWER");
         } else {
             this.dimension = dimension;
@@ -27,14 +27,15 @@ class Dimension {
         // First we want to clear all entities and the cache.
         GAME.clearEntities();
         ASSET_MGR.clearCache();
-        
+
+        // TODO: fill in
         const loadMethods = [
-            loadPlaygroundDimension,  // Playground
-            null,                       // Village
+            loadPlaygroundDimension,    // Playground
+            loadVillageDimension,       // Village
             null,                       // Woods
             null,                       // Factory
             null,                       // Snowy
-            null,                       // Lava
+            loadLavaDimension,          // Lava
             null                        // Tower
         ];
         loadMethods[this.dimension]();
@@ -80,13 +81,13 @@ class Dimension {
         // The width, in BLOCKS! of your world.
         const blockWidths = [
             50,     // PLAYGROUND
-            0,      // VILLAGE
+            250,      // VILLAGE
             0,      // WOODS
             0,      // FACTORY
             0,      // SNOWY
-            0,      // LAVA
+            400,      // LAVA
             0];     // TOWER
-        return blockWidths[this.dimension] * Block.SCALED_SIZE;
+        return blockWidths[this.dimension];
     }
 
     get BLOCK_HEIGHT() {
@@ -95,13 +96,13 @@ class Dimension {
         // The height, in BLOCKS! of your world.
         const blockHeights = [
             50,     // PLAYGROUND
-            0,      // VILLAGE
+            50,      // VILLAGE
             0,      // WOODS
             0,      // FACTORY
             0,      // SNOWY
-            0,      // LAVA
+            1_000,      // LAVA
             0];     // TOWER
-        return blockHeights[this.dimension]
+        return blockHeights[this.dimension];
     }
 
     get MAX_X() {
@@ -110,6 +111,14 @@ class Dimension {
 
     get MAX_Y() {
         return this.MIN_Y + Block.SCALED_SIZE * this.BLOCK_HEIGHT;
+    }
+
+    get WIDTH() {
+        return this.BLOCK_WIDTH * Block.SCALED_SIZE;
+    }
+
+    get HEIGHT() {
+        return this.BLOCK_HEIGHT * Block.SCALED_SIZE;
     }
 
     // IDs:

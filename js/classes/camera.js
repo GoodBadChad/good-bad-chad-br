@@ -6,20 +6,12 @@
  */
 class Camera {
     constructor () {
-        /** The x coordinate of the top left corner of the visible playing field. */
-        this.x = 0;
-        /** The y coordinate of the top left corner of the visible playing field. */
-        this.y = 0;
+        this.pos = new Vector(0, 0);
     };
 
-    /** The width (in pixels) of the Camera's visible domain. */
-    static get WIDTH() {
-        return 1920;
-    };
-
-    /** The height (in pixels) of the Camera's visible domain. */
-    static get HEIGHT() {
-        return 1080;
+    /** @returns {Vector} The size of the Camera and the Canvas, in pixels. */
+    static get SIZE() {
+        return new Vector(1920, 1080);
     };
 
     /**
@@ -38,7 +30,20 @@ class Camera {
             }
             return z;
         };
-        this.x = median(DIMENSION.MIN_X, DIMENSION.MAX_X - Camera.WIDTH, CHAD.x - Camera.WIDTH / 2);
-        this.y = median(DIMENSION.MIN_Y, DIMENSION.MAX_Y - Camera.HEIGHT, CHAD.y - Camera.HEIGHT / 2);
+        // This is where the Camera is if it can be perfectly centered on CHAD.
+        const centeredOnChad = new Vector(
+            CHAD.pos.x + (PapaChad.SIZE.x / 2) - (Camera.SIZE.x / 2),
+            CHAD.pos.y + (PapaChad.SIZE.y / 2) - (Camera.SIZE.y / 2));
+
+        // This is where the Camera is if it is at the lower right corner of the Zone.
+        const maxPos = new Vector(ZONE.MAX_PT.x - Camera.SIZE.x, ZONE.MAX_PT.y - Camera.SIZE.y);
+
+        // This is where the Camera is if it is at the upper right corner of the Zone.
+        const minPos = new Vector(ZONE.MIN_PT.x, ZONE.MIN_PT.y);
+
+        const x = median(centeredOnChad.x, maxPos.x, minPos.x);
+        const y = median(centeredOnChad.y, maxPos.y, minPos.y);
+
+        this.pos = new Vector(x, y);
     };
 };

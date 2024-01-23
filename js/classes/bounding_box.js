@@ -5,21 +5,19 @@
  */
 class BoundingBox {
     /**
-     * @param {number} x The x coordinate of the top left of the bounding box.
-     * @param {number} y The y coordinate of the top left of the bounding box.
-     * @param {number} width The width of the bounding box.
-     * @param {number} height The height of the bounding box.
+     * @param {Vector} pos The position of the top left corner of the bounding box.
+     * @param {Vector} size The size of the bounding box.
      */
-    constructor(x, y, width, height) {
-        Object.assign(this, { x, y, width, height });
+    constructor(pos, size) {
+        this.size = size;
         /** The x coordinate of the left boundary of the box. */
-        this.left = x;
+        this.left = pos.x;
         /** The x coordinate of the  right boundary of the box. */
-        this.right = x + width;
+        this.right = pos.x + size.x;
         /** The y coordinate of the top boundary of the box. */
-        this.top = y;
+        this.top = pos.y;
         /** The y coordinate of the bottom boundary of the box. */
-        this.bottom = y + height;
+        this.bottom = pos.y + size.y;
     };
 
     /**
