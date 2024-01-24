@@ -181,6 +181,7 @@ class PapaChad {
             this.isDashing = false;
         }
         if (GAME.space && this.isOnGround) {
+            ASSET_MGR.playAudio("./sfx/temp_jump.wav", 0.2);
             this.action = "jumping";
             yVelocity = this.FIRST_JUMP_VELOCITY;
             this.isOnGround = false;
@@ -205,6 +206,7 @@ class PapaChad {
             }
         }
         if (GAME.space && this.canDoubleJump) {
+            ASSET_MGR.playAudio("./sfx/temp_jump.wav", 0.2);
             this.action = "jumping";
             yVelocity = this.SECOND_JUMP_VELOCITY;
             this.isOnGround = false;
@@ -235,9 +237,6 @@ class PapaChad {
 
         // Step 3: Now move.
         this.pos = Vector.add(this.pos, Vector.multiply(this.velocity, GAME.clockTick));
-        if (this.pos.y > DIMENSION.MAX_Y) {
-            this.pos = Vector.subtract(this.pos, new Vector(0, DIMENSION.BLOCK_HEIGHT * Block.SCALED_SIZE));
-        }
         this.lastBoundingBox = this.boundingBox;
         this.boundingBox = new BoundingBox(this.pos, PapaChad.SCALED_SIZE);
         this.isOnGround = false;
@@ -284,11 +283,6 @@ class PapaChad {
                             // We are colliding with the bottom.
                             this.pos = new Vector(this.pos.x, entity.boundingBox.bottom);
                         }
-                    }
-                    if (entity instanceof Portal) {
-                        const dim = DIMENSION.dimension === entity.dimension ? Dimension.VILLAGE : entity.dimension;
-                        DIMENSION = new Dimension(dim);
-                        DIMENSION.loadDimension();
                     }
                 }
                 // There's no collision - don't do anything!
