@@ -1,4 +1,7 @@
-// Declare constants shared by all other classes and scripts.
+/** @author Devin Peevy */
+
+// (1) Declare constants shared by all other classes and scripts:
+
 /** The GameEngine overseeing the update-render loop and containing all entities. */
 const GAME = new GameEngine();
 /** The AssetManager which contains all images and music. */
@@ -14,8 +17,14 @@ const CHAD = new PapaChad(new Vector(0, 0));
 /** The inventory of the player. */
 const INVENTORY = new Inventory();
 
-// Minor details
+// (2) Minor details:
+
+// Game looks bad if we try to smooth. Hard lines = good.
 CTX.imageSmoothingEnabled = false;
+
+/*
+DEBUG MODE: draws a grid on the screen and labels every block which has x, y % 5 === 0.
+*/
 const debugButton = document.getElementById("debug");
 debugButton.addEventListener("click", () => {
 	if (debugButton.checked) {
@@ -24,6 +33,10 @@ debugButton.addEventListener("click", () => {
 		GAME.debug = false;
 	}
 });
+
+/*
+SPANISH MODE: So far, does nothing. Will put all dialog in the game into Spanish, hopefully.
+*/
 const spanishButton = document.getElementById("spanish");
 spanishButton.addEventListener("click", () => {
 	if (spanishButton.checked) {
@@ -33,32 +46,12 @@ spanishButton.addEventListener("click", () => {
 	}
 });
 
-/*
- * THE FOLLOWING CONSTRUCTOR DOES A LOT MORE THAN MEETS THE EYE!
- * It is actually going to set up GAME and ASSET_MGR for us!
- */
-let DIMENSION = new Dimension(Dimension.PLAYGROUND);
+// (3) Set the current ZONE to be the first one we encounter - village.main.
 
-// So...
+let ZONE = Zone.getZones().village.main;
+let LAST_ZONE = null;
+// Load all assets, add all entities, place CHAD...
+ZONE.load();
+
+// (4) Start the game! :)
 GAME.start();
-
-// TODO: change this to load whatever we want AT THE VERY BEGINNING OF THE GAME
-
-/*
-If we go through with my implementation, this stuff isn't necessary.
-// Queue asset downloads here:
-
-ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
-ASSET_MGR.queueDownload(Snake.SPRITESHEET);
-ASSET_MGR.queueDownload(Slime.SPRITESHEET);
-ASSET_MGR.queueDownload(PapaChad.SPRITESHEET); // includes mama chad
-ASSET_MGR.queueDownload(Block.SPRITESHEET);
-ASSET_MGR.queueDownload(Bird.SPRITESHEET);
-
-// Download assets and start the game.
-ASSET_MGR.downloadAll(() => {
-	// Load the dimension here.
-	// Start the game
-	GAME.start();
-});
-*/

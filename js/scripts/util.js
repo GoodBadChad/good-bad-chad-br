@@ -15,6 +15,12 @@ window.requestAnimFrame = (() => {
         });
 })();
 
+const COLORS = {
+    skyBlue: "#5da6b3"
+};
+
+let BG_COLOR = null;
+
 // Physics utlities
 
 /**

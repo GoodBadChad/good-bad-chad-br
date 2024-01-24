@@ -106,8 +106,8 @@ class GameEngine {
     draw() {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
         CTX.clearRect(0, 0, CANVAS.width, CANVAS.height);
-        CTX.fillStyle = "#00ff00";
-        CTX.fillRect(DIMENSION.MIN_X - CAMERA.pos.x, DIMENSION.MIN_Y - CAMERA.pos.y, DIMENSION.BLOCK_WIDTH * Block.SCALED_SIZE, DIMENSION.BLOCK_HEIGHT * Block.SCALED_SIZE);
+        CTX.fillStyle = BG_COLOR;
+        CTX.fillRect(0, 0, Camera.SIZE.x, Camera.SIZE.y);
         // Draw entities from first to last.
         for (let i = 0; i < this.entities.length; i++) {
             this.entities[i].draw();
