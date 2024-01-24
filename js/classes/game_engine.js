@@ -12,30 +12,25 @@ class GameEngine {
         this.spanish = isSpanish ?? false;
         /** Everything that will be updated and drawn each frame. */
         this.entities = [];
-        /** Is Chad moving down? */
-        this.movingDown = false;
-        /** Is Chad moving up? */
-        this.movingUp = false;
-        /** Is Chad moving right? */
-        this.movingRight = false;
-        /** Is Chad moving left? */
-        this.movingLeft = false;
-        /** Is Chad jumping? */
-        this.jumping = false;
-        /** Is Chad running? */
-        this.running = false;
-        /** Is Chad dashing mid air? */
-        this.dashing = false;
-        /** Is the user pressing the mouse button? */
-        this.leftClickPressed = false;
-        /** Is the user releasing the mouse button? */
-        this.leftClickReleased = false;
+
+        /** A user object to define behaviors of Chad. */
+        this.user = {
+            movingDown: false,
+            movingUp: false,
+            movingRight: false,
+            movingLeft: false,
+            jumping: false,
+            sprinting: false,
+            dashing: false,
+            aiming: false,
+            firing: false
+        }
+
         // /** Where is the x coordinate of the user's mouse? */
         // this.mouseX = 0;
         // /** Where is the y coordinate of the user's mouse? */
         // this.mouseY = 0;
         this.mousePos = new Vector(0, 0);
-
 
         /** The timer tells you how long it's been since the last tick! */
         this.timer = new Timer();
@@ -97,8 +92,8 @@ class GameEngine {
             }
         }
 
-        if (this.mouseUp) {
-            this.mouseUp = false;
+        if (this.user.aiming) {
+            this.user.aiming = false;
         }
     };
 
@@ -128,14 +123,14 @@ class GameEngine {
      */
     startInput() {
 
-        CANVAS.addEventListener("mousedown", (e) => {
-            this.mouseDown = true;
-            this.mouseUp = false;
+        CANVAS.addEventListener("mouseDown", (e) => {
+            this.user.firing = true;
+            this.user.aiming = false;
         });
 
-        CANVAS.addEventListener("mouseup", (e) => {
-            this.mouseUp = true;
-            this.mouseDown = false;
+        CANVAS.addEventListener("mouseUp", (e) => {
+            this.user.aiming = true;
+            this.user.firing = false;
             console.log("mouse clicked at (" + Math.round(this.mousePos.x) + ", " + Math.round(this.mousePos.y) + ")");
         });
 
@@ -151,25 +146,25 @@ class GameEngine {
         CANVAS.addEventListener("keydown", (e) => {
             switch (e.code) {
                 case "KeyA":
-                    this.movingLeft = true;
+                    this.user.movingLeft = true;
                     break;
                 case "KeyD":
-                    this.movingRight = true;
+                    this.user.movingRight = true;
                     break;
                 case "KeyS":
-                    this.movingDown = true;
+                    this.user.movingDown = true;
                     break;
                 case "KeyW":
-                    this.movingUp = true;
+                    this.user.movingUp = true;
                     break;
                 case "Space":
-                    this.jumping = true;
+                    this.user.jumping = true;
                     break;
                 case "ShiftLeft":
-                    this.running = true;
+                    this.user.sprinting = true;
                     break;
                 case "KeyX":
-                    this.dashing = true;
+                    this.user.dashing = true;
                     break;
             }
         }, false);
@@ -177,25 +172,25 @@ class GameEngine {
         CANVAS.addEventListener("keyup", (e) => {
             switch (e.code) {
                 case "KeyA":
-                    this.movingLeft = false;
+                    this.user.movingLeft = false;
                     break;
                 case "KeyD":
-                    this.movingRight = false;
+                    this.user.movingRight = false;
                     break;
                 case "KeyS":
-                    this.movingDown = false;
+                    this.user.movingDown = false;
                     break;
                 case "KeyW":
-                    this.movingUp = false;
+                    this.user.movingUp = false;
                     break;
                 case "Space":
-                    this.jumping = false;
+                    this.user.jumping = false;
                     break;
                 case "ShiftLeft":
-                    this.running = false;
+                    this.user.sprinting = false;
                     break;
                 case "KeyX":
-                    this.dashing = false;
+                    this.user.dashing = false;
                     break;
             }
         }, false);
