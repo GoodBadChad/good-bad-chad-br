@@ -104,4 +104,4 @@ const checkBlockCollisions = (entity) => {
     entity.boundingBox = new BoundingBox(entity.pos, entity.constructor.SCALED_SIZE);
 
     return collisions;
-}
+};
