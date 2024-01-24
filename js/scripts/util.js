@@ -32,3 +32,9 @@ const FONT = { // NOTE: the "vt323" part below is not what's assigning the vt323
     VT323_NORMAL: "20px vt323",
     VT323_HEADER: "24px vt323"
 };
+
+const COLORS = {
+    skyBlue: "#5da6b3"
+};
+
+let BG_COLOR = null;
