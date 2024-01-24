@@ -18,17 +18,32 @@ class Zone {
      * @param {Vector} minBlock The FIRST (top left) block which should be visible in this Zone. (NOT PIXEL COORDINATES)
      * @param {Vector} maxBlock The LAST (bottom right) block which should be visible in this Zone. (NOT PIXEL COORDINATES)
      * @param {function} loadFunction A function which is going to download all necessary assets and add all necessary entities into the zone.
+     * @param {string} name The unique name of the Zone - should NOT match the name of ANY other Zone.
      */
-    constructor(minBlock, maxBlock, loadFunction) {
+    constructor(minBlock, maxBlock, loadFunction, name) {
         this.minBlock = minBlock;
         this.maxBlock = maxBlock;
         this.load = () => {
             // Clear all entities from previous Zone.
             GAME.clearEntities();
             // Clear all images/music from previous Zone.
-            ASSET_MGR.clearCache();
+            ASSET_MGR.refresh();
             loadFunction();
         };
+        this.name = name;
+    };
+
+    /**
+     * Checks for equality with another zone.
+     * @param {Zone} otherZone The zone you want to check if this is equal to.
+     * @returns true if otherZone is a zone with the same name as this.
+     */
+    equals(otherZone) {
+        if (!(otherZone instanceof Zone)) {
+            console.log("Why are you comparing a zone to something not a zone?");
+            return false;
+        }
+        return this.name === otherZone.name;
     };
 
     // DYNAMIC GETTERS:
@@ -115,23 +130,23 @@ class Zone {
 
             },
             playground: {
-                caleb:          new Zone(zeros, defaultMaxBlock, loadPlaygroundCaleb),
-                devin:          new Zone(zeros, defaultMaxBlock, loadPlaygroundDevin),
-                everybody:      new Zone(zeros, defaultMaxBlock, loadPlaygroundEverybody),
-                nathan:         new Zone(zeros, defaultMaxBlock, loadPlaygroundNathan),
-                trae:           new Zone(zeros, defaultMaxBlock, loadPlaygroundTrae)
+                caleb:          new Zone(zeros, defaultMaxBlock, loadPlaygroundCaleb, "Club Caleb"),
+                devin:          new Zone(zeros, defaultMaxBlock, loadPlaygroundDevin, "Devinopolis"),
+                everybody:      new Zone(zeros, defaultMaxBlock, loadPlaygroundEverybody, "Bro City"),
+                nathan:         new Zone(zeros, defaultMaxBlock, loadPlaygroundNathan, "Natesburg"),
+                trae:           new Zone(zeros, defaultMaxBlock, loadPlaygroundTrae, "Trae Town")
             },
             spooky: {
                 // This is the final dimension. If you have a better name for it, feel free to change.
                 // Make sure you update any code accordingly.
             },
             village: {
-                canyon:         new Zone(zeros, defaultMaxBlock, loadVillageCanyon),
-                field:          new Zone(zeros, defaultMaxBlock, loadVillageField),
-                insideCave:     new Zone(zeros, defaultMaxBlock, loadVillageInsideCave),
-                main:           new Zone(zeros, defaultMaxBlock, loadVillageMain),
-                mountain:       new Zone(zeros, defaultMaxBlock, loadVillageMountain),
-                outsideCave:    new Zone(zeros, defaultMaxBlock, loadVillageOutsideCave),
+                canyon:         new Zone(zeros, defaultMaxBlock, loadVillageCanyon, "Village Canyon"),
+                field:          new Zone(zeros, defaultMaxBlock, loadVillageField, "Village Field"),
+                insideCave:     new Zone(zeros, defaultMaxBlock, loadVillageInsideCave, "Village Inside Cave"),
+                main:           new Zone(zeros, defaultMaxBlock, loadVillageMain, "Village Main"),
+                mountain:       new Zone(zeros, defaultMaxBlock, loadVillageMountain, "Village Mountain"),
+                outsideCave:    new Zone(zeros, defaultMaxBlock, loadVillageOutsideCave, "Village Outside Cave"),
             },
             woods: {
 
