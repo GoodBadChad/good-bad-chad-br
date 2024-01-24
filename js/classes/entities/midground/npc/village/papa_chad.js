@@ -283,6 +283,11 @@ class PapaChad {
                             // We are colliding with the bottom.
                             this.pos = new Vector(this.pos.x, entity.boundingBox.bottom);
                         }
+                    } else if (entity instanceof Border) {
+                        // You are traveling to a new Zone!
+                        LAST_ZONE = ZONE; // Helps you know where to spawn!
+                        ZONE = entity.target; // Set ZONE to the zone we're going to.
+                        ZONE.load(); // Load that zone. handles everything for us.
                     }
                 }
                 // There's no collision - don't do anything!
