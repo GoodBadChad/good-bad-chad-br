@@ -39,8 +39,9 @@ const loadVillageInsideCave = () => {
 
 const loadVillageMain = () => {
     const queueAssets = () => {
-        ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
+        ASSET_MGR.queueDownload(Chad.SPRITESHEET);
         ASSET_MGR.queueDownload(Block.SPRITESHEET);
+        ASSET_MGR.queueDownload("./sfx/temp_jump.wav");
     };
 
     const addEntities = () => {
