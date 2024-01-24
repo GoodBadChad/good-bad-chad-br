@@ -32,7 +32,7 @@ class Animator {
 
     /**
      * This method is going to draw the appropriate frame on the Canvas (to which ctx belongs to).
-     * @param {Vector} x The position (of the CANVAS!) at which we'd like our sprite to be drawn.
+     * @param {Vector} pos The position (of the CANVAS!) at which we'd like our sprite to be drawn.
      * @param {number} scale How much the image should be scaled when drawing. 1 pixel on the spritesheet = (scale x scale) pixels on the canvas.
      */
     drawFrame(pos, scale) {
