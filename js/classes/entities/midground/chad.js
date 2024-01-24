@@ -38,7 +38,7 @@ class Chad {
         /** The velocity at which Chad is moving. */
         this.velocity = new Vector(0, 0);
         /** Name of character. */
-        this.name = "Papa Chad";
+        this.name = "dChad";
     };
 
     /** The size, in pixels of the sprite ON THE SPRITESHEET. */
@@ -75,11 +75,11 @@ class Chad {
     }
 
     /** The mulitiplier that allows CHAD to run. */
-    get SPRINT_MULTIPLIER() {
-        return 0.5;
+    static get SPRINT_MULTIPLIER() {
+        return 0.6;
     }
     /** The mulitiplier that allows CHAD to run. */
-    get DASH_MULTIPLIER() {
+    static get DASH_MULTIPLIER() {
         return 3.5;
     }
 
@@ -89,16 +89,20 @@ class Chad {
     }
 
     /**
+     * Deals with movement in the x direction including walking, running and dashing.
      * 
      * @param {String} direction left or right.
      * @param {Integer} xVelocity Chad's velocity in the x direction.
-     * @param {GAME} walkInDirection GAME.left or GAME.right user actions.
-     * @param {GAME} running GAME.leftShift, user intends for Chad to run.
-     * @param {GAME} dashingInEitherDirection GAME.keyX, user intends to dash mid-air.
+     * @param {GAME} walkInDirection GAME.movingLeft or GAME.movingRight user actions.
+     * @param {GAME} running GAME.movingLeftShift, user intends for Chad to run.
+     * @param {GAME} dashingInEitherDirection GAME.running, user intends to dash mid-air.
      * @param {Integer} toggleSign either a 1 or -1 to change the velocity direction.
      * @returns xVelocity so that Chad's velocity can be updated.
+     * @author Caleb Krauter
      */
-    manageAdvancedMovement(direction, xVelocity, walkInDirection, running, dashingInEitherDirection, toggleSign) {
+    manageXDirectionMovement(direction, xVelocity, walkInDirection, running, dashing) {
+        const toggleSign = this.facing === "left" ? -1 : 1;
+
         // Walk action
         this.action = "walking";
         this.facing = direction;
@@ -108,17 +112,17 @@ class Chad {
         if (running) {
             this.action = "running";
             this.facing = direction;
-            xVelocity += toggleSign * Chad.SPEED * this.SPRINT_MULTIPLIER;
+            xVelocity += toggleSign * Chad.SPEED * Chad.SPRINT_MULTIPLIER;
         }
         // Dash action
         // When not CHAD is not on the ground and his dash is allowed and the user is trying to dash then enter conditional.
-        if (dashingInEitherDirection && walkInDirection && !this.isOnGround && this.canDash && !this.hasDashed) {
+        if (dashing && walkInDirection && !this.isOnGround && this.canDash && !this.hasDashed) {
             if (!this.isDashing) {
                 this.xDashAnchoredOrigin = this.pos.x;
                 this.isDashing = true
             }
-            this.action = "dash";
-            xVelocity += toggleSign * Chad.SPEED * this.DASH_MULTIPLIER;
+            this.action = "dashing";
+            xVelocity += toggleSign * Chad.SPEED * Chad.DASH_MULTIPLIER;
             // Used to limit the distance of the dash.
             let deltaX = Math.abs(this.pos.x - this.xDashAnchoredOrigin);
             // Limit the delta in x that CHAD can dash. Set booleans as necessary to ensure
@@ -133,92 +137,27 @@ class Chad {
                 this.isDashing = true;
             }
         }
-        return xVelocity;
-    }
-
-
-
-    /** Change what Papa Chad is doing and where it is. */
-    update() {
-        this.canDoubleJump = false;
-        if (this.isOnGround) {
-            this.hasDoubleJumped = false;
-        }
-
-        // Check that CHAD is on the ground and reset his ability to dash.
-        if (this.isOnGround) {
-            this.canDash = true;
-            this.hasDashed = false;
-        }
-
-        if (!this.isOnGround && GAME.keyX && this.canDash && !this.hasDashed) {
-            Chad.xDashAnchoredOrigin = CHAD.pos.x;
-
-        }
-
-        let xVelocity = 0;
-        let yVelocity = this.velocity.y;
-        // Step 1: Listen for user input.
-        if (GAME.left) {
-            xVelocity = this.manageAdvancedMovement("left", xVelocity, GAME.left, GAME.shiftLeft, GAME.keyX, -1);
-        }
-        if (GAME.right) {
-            xVelocity = this.manageAdvancedMovement("right", xVelocity, GAME.right, GAME.shiftLeft, GAME.keyX, 1);
-
-            // this.action = "walking";
-            // this.facing = "right";
-
-            // xVelocity += Chad.SPEED;
-            // if (GAME.shiftLeft) {
-            //     this.action = "running";
-            //     this.facing = "right";
-            //     xVelocity += Chad.SPEED * this.SPRINT_MULTIPLIER;
-            // }
-            // if (GAME.keyX && GAME.right && !this.isOnGround && this.canDash && !this.hasDashed) {
-            //     if (!this.isDashing) {
-            //         this.xDashAnchoredOrigin = CHAD.pos.x;
-            //         this.isDashing = true
-            //     }
-            //     this.action = "dash";
-            //     xVelocity += Chad.SPEED * this.DASH_MULTIPLIER;
-            //     let deltaX = Math.abs(CHAD.pos.x - this.xDashAnchoredOrigin);
-            //     if (deltaX >= this.DASH_BARRIER) {
-            //         console.log
-            //         this.canDash = false;
-            //         this.hasDashed = true;
-            //         this.isDashing = false;
-            //     } else {
-            //         this.canDash = true;
-            //         this.hasDashed = false;
-            //         this.isDashing = true;
-            //     }
-            // }
-
-        }
         // Prevents continuing a dash after lifting the dash key.
-        if (!GAME.keyX && !this.isOnGround && this.isDashing) {
+        if (!GAME.running && !this.isOnGround && this.isDashing) {
             this.canDash = false;
             this.hasDashed = true;
             this.isDashing = false;
         }
-        if (GAME.space && this.isOnGround) {
-            ASSET_MGR.playAudio("./sfx/temp_jump.wav", 0.2);
-            this.action = "jumping";
-            yVelocity = this.FIRST_JUMP_VELOCITY;
-            this.isOnGround = false;
-            this.hasDoubleJumped = false;
-        }
-        // Gets change in y from when CHAD left ground to current.
-        let deltaHeight = Math.abs(CHAD.pos.y - this.prevYPosOnGround);
+        return xVelocity;
+    }
 
-        if (!this.isOnGround && deltaHeight >= Math.abs(this.FIRST_JUMP_VELOCITY / 5) + 32) {
-            if (this.hasDoubleJumped) {
-                this.canDoubleJump = false;
-            } else {
-                this.canDoubleJump = true;
-            }
-        }
-
+    /**
+     * Deals with movement in the y direction including all types of jumping.
+     * 
+     * @param {Integer} yVelocity Chad's y velocity.
+     * @param {Integer} deltaHeight the change in distance from the origin of 
+     *                              Chad's second jump and his current height.
+     * @returns yVelocity so that Chad's velocity can be updated.
+     * @author Caleb Krauter
+     */
+    manageYDirectionMovement(yVelocity, deltaHeight) {
+        // This allows chad to jump if he is falling and has not jumped. 
+        // Let's call it his recovery jump.
         if (!this.isOnGround && yVelocity >= 0) {
             if (this.hasDoubleJumped) {
                 this.canDoubleJump = false;
@@ -226,13 +165,72 @@ class Chad {
                 this.canDoubleJump = true;
             }
         }
-        if (GAME.space && this.canDoubleJump) {
+        // Perform single jump.
+        if (this.isOnGround) {
+            ASSET_MGR.playAudio("./sfx/temp_jump.wav", 0.2);
+            this.action = "jumping";
+            yVelocity = this.FIRST_JUMP_VELOCITY;
+            this.hasDoubleJumped = false;
+            this.isOnGround = false;
+        }
+        // Check that Chad has jumped high enough to jump again and allow a second jump if so.
+        // Note that if chad has jumped and is falling he can jump at any point on the way down.
+        if (!this.isOnGround && deltaHeight >= Math.abs(this.FIRST_JUMP_VELOCITY / 5) + 32) {
+            if (this.hasDoubleJumped) {
+                this.canDoubleJump = false;
+            } else {
+                this.canDoubleJump = true;
+            }
+        }
+        // If Chad can double jump and user is trying to jump than do it!
+        if (this.canDoubleJump) {
             ASSET_MGR.playAudio("./sfx/temp_jump.wav", 0.2);
             this.action = "jumping";
             yVelocity = this.SECOND_JUMP_VELOCITY;
-            this.isOnGround = false;
             this.canDoubleJump = false;
             this.hasDoubleJumped = true;
+            this.isOnGround = false;
+
+        }
+        return yVelocity;
+    }
+
+    /** Change what Papa Chad is doing and where it is. */
+    update() {
+        // Chad shouldn't be able to double jump by default.
+        this.canDoubleJump = false;
+        // Reset double jump if Chad is on the ground.
+        // Check that CHAD is on the ground and reset his ability to dash.
+        if (this.isOnGround) {
+            this.hasDoubleJumped = false;
+            this.canDash = true;
+            this.hasDashed = false;
+        }
+
+        // Set the anchor point to measure the delta in dashing distance used to create a dash barrier
+        // which to limit Chad's dash distance.
+        if (!this.isOnGround && GAME.running && this.canDash && !this.hasDashed) {
+            Chad.xDashAnchoredOrigin = CHAD.pos.x;
+        }
+
+        // Used for updating Chad's x velocity.
+        let xVelocity = 0;
+        // Used for updating Chad's y velocity.
+        let yVelocity = this.velocity.y;
+        // Step 1: Listen for user input.
+        // User intends to move Chad left in any way possible.
+        if (GAME.movingLeft) {
+            xVelocity = this.manageXDirectionMovement("left", xVelocity, GAME.movingLeft, GAME.running, GAME.dashing);
+        }
+        // User intends to move Chad right in any way possible.
+        if (GAME.movingRight) {
+            xVelocity = this.manageXDirectionMovement("right", xVelocity, GAME.movingRight, GAME.running, GAME.dashing);
+        }
+        // User intends to for Chad to jump in any way possible.
+        if (GAME.jumping) {
+            // Gets change in y from when CHAD left ground to current.
+            let deltaHeight = Math.abs(CHAD.pos.y - this.prevYPosOnGround);
+            yVelocity = this.manageYDirectionMovement(yVelocity, deltaHeight)
         }
 
         // this is for the slingshot
@@ -246,10 +244,9 @@ class Chad {
                 this.facing = "left";
             }
         }
-        if (!(GAME.right || GAME.left)) {
+        if (!(GAME.movingRight || GAME.movingLeft)) {
             this.action = "idle";
         }
-
 
         // Step 2: Account for gravity, which is always going to push you downward.
         yVelocity += PHYSICS.GRAVITY_ACC * GAME.clockTick;
@@ -358,12 +355,12 @@ class Chad {
             Chad.SIZE,
             6, 1 / 18);
 
-        this.animations["left"]["dash"] = new Animator(
+        this.animations["left"]["dashing"] = new Animator(
             Chad.SPRITESHEET,
             new Vector(Chad.SIZE.x, 0),
             Chad.SIZE,
             6, 1 / 18);
-        this.animations["right"]["dash"] = new Animator(
+        this.animations["right"]["dashing"] = new Animator(
             Chad.SPRITESHEET,
             Chad.SIZE,
             Chad.SIZE,

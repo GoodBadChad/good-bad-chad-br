@@ -12,22 +12,24 @@ class GameEngine {
         this.spanish = isSpanish ?? false;
         /** Everything that will be updated and drawn each frame. */
         this.entities = [];
-        /** Is the user pressing S key? */
-        this.down = false;
-        /** Is the user pressing the W key? */
-        this.up = false;
-        /** Is the user pressing the D key? */
-        this.right = false;
-        /** Is the user pressing the A key? */
-        this.left = false;
-        /** Is the user pressing the left shift key? */
-        this.shiftLeft = false;
-        /** Is the user pressing the left X key key? */
-        this.keyX = false;
+        /** Is Chad moving down? */
+        this.movingDown = false;
+        /** Is Chad moving up? */
+        this.movingUp = false;
+        /** Is Chad moving right? */
+        this.movingRight = false;
+        /** Is Chad moving left? */
+        this.movingLeft = false;
+        /** Is Chad jumping? */
+        this.jumping = false;
+        /** Is Chad running? */
+        this.running = false;
+        /** Is Chad dashing mid air? */
+        this.dashing = false;
         /** Is the user pressing the mouse button? */
-        this.mouseDown = false;
+        this.leftClickPressed = false;
         /** Is the user releasing the mouse button? */
-        this.mouseUp = false;
+        this.leftClickReleased = false;
         // /** Where is the x coordinate of the user's mouse? */
         // this.mouseX = 0;
         // /** Where is the y coordinate of the user's mouse? */
@@ -149,25 +151,25 @@ class GameEngine {
         CANVAS.addEventListener("keydown", (e) => {
             switch (e.code) {
                 case "KeyA":
-                    this.left = true;
+                    this.movingLeft = true;
                     break;
                 case "KeyD":
-                    this.right = true;
+                    this.movingRight = true;
                     break;
                 case "KeyS":
-                    this.down = true;
+                    this.movingDown = true;
                     break;
                 case "KeyW":
-                    this.up = true;
+                    this.movingUp = true;
                     break;
                 case "Space":
-                    this.space = true;
+                    this.jumping = true;
                     break;
                 case "ShiftLeft":
-                    this.shiftLeft = true;
+                    this.running = true;
                     break;
                 case "KeyX":
-                    this.keyX = true;
+                    this.dashing = true;
                     break;
             }
         }, false);
@@ -175,25 +177,25 @@ class GameEngine {
         CANVAS.addEventListener("keyup", (e) => {
             switch (e.code) {
                 case "KeyA":
-                    this.left = false;
+                    this.movingLeft = false;
                     break;
                 case "KeyD":
-                    this.right = false;
+                    this.movingRight = false;
                     break;
                 case "KeyS":
-                    this.down = false;
+                    this.movingDown = false;
                     break;
                 case "KeyW":
-                    this.up = false;
+                    this.movingUp = false;
                     break;
                 case "Space":
-                    this.space = false;
+                    this.jumping = false;
                     break;
                 case "ShiftLeft":
-                    this.shiftLeft = false;
+                    this.running = false;
                     break;
                 case "KeyX":
-                    this.keyX = false;
+                    this.dashing = false;
                     break;
             }
         }, false);

@@ -42,6 +42,7 @@ const loadVillageMain = () => {
         ASSET_MGR.queueDownload(Chad.SPRITESHEET);
         ASSET_MGR.queueDownload(Block.SPRITESHEET);
         ASSET_MGR.queueDownload("./sfx/temp_jump.wav");
+
     };
 
     const addEntities = () => {
@@ -49,6 +50,7 @@ const loadVillageMain = () => {
         for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
             GAME.addEntity(new Block(new Vector(x, ZONE.MAX_BLOCK.y), Block.DIRT));
         }
+
         // Place chad above the blocks.
         const blockPos = new Vector(5, 20);
         CHAD.pos = Vector.blockToWorldSpace(blockPos);
