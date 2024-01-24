@@ -101,6 +101,11 @@ class Chad {
      * @author Caleb Krauter
      */
     manageXDirectionMovement(direction, xVelocity, walkInDirection, running, dashing) {
+        if (this.isOnGround) {
+            this.hasDoubleJumped = false;
+            this.canDash = true;
+            this.hasDashed = false;
+        }
         const toggleSign = this.facing === "left" ? -1 : 1;
 
         // Walk action
@@ -153,7 +158,6 @@ class Chad {
      * @param {Integer} deltaHeight the change in distance from the origin of 
      *                              Chad's second jump and his current height.
      * @returns yVelocity so that Chad's velocity can be updated.
-     * @author Caleb Krauter
      */
     manageYDirectionMovement(yVelocity, deltaHeight) {
         // This allows chad to jump if he is falling and has not jumped. 
@@ -190,6 +194,11 @@ class Chad {
             this.canDoubleJump = false;
             this.hasDoubleJumped = true;
             this.isOnGround = false;
+            if (!this.hasDashed) {
+                this.canDash = true;
+                this.hasDashed = false;
+            }
+
 
         }
         return yVelocity;
@@ -210,6 +219,8 @@ class Chad {
         // Set the anchor point to measure the delta in dashing distance used to create a dash barrier
         // which to limit Chad's dash distance.
         if (!this.isOnGround && GAME.running && this.canDash && !this.hasDashed) {
+            // Using CHAD because "this" was causing issues... Actually it may be something else.
+            // Dash is not always getting activated.
             Chad.xDashAnchoredOrigin = CHAD.pos.x;
         }
 
@@ -229,7 +240,7 @@ class Chad {
         // User intends to for Chad to jump in any way possible.
         if (GAME.jumping) {
             // Gets change in y from when CHAD left ground to current.
-            let deltaHeight = Math.abs(CHAD.pos.y - this.prevYPosOnGround);
+            let deltaHeight = Math.abs(this.pos.y - this.prevYPosOnGround);
             yVelocity = this.manageYDirectionMovement(yVelocity, deltaHeight)
         }
 
@@ -282,7 +293,7 @@ class Chad {
                             this.velocity = new Vector(this.velocity.x, 0);
                             // ON_GROUND(true);
                             this.isOnGround = true;
-                            this.prevYPosOnGround = CHAD.pos.y;
+                            this.prevYPosOnGround = this.pos.y;
                         } else if (isOverlapY
                             && this.lastBoundingBox.right <= entity.boundingBox.left
                             && this.boundingBox.right > entity.boundingBox.left) {
