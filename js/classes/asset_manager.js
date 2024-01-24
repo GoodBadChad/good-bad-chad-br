@@ -10,9 +10,9 @@ class AssetManager {
         /** How many filepaths could not be added to the cache as images. */
         this.errorCount = 0;
         /** An associative array of downloaded assets. [filePath => img]. */
-        this.cache = [];
+        this.downloadQueue = AssetManager.BAREBONES_DL_Q;
         /** An indexed array of filepaths which still need to be downloaded. */
-        this.downloadQueue = [];
+        this.cache = [];
     };
 
     /**
@@ -107,10 +107,12 @@ class AssetManager {
     };
 
     /**
-     * This method clears the cache so that new assets can be downloaded, and the AssetManager will not be
-     * bogged up with unnecessary images.
+     * This refreshes the AssetManager to be like new. This is done upon loading a zone to keep down space waste.
      */
-    clearCache() {
+    refresh() {
+        this.successCount = 0;
+        this.errorCount = 0;
+        this.downloadQueue = AssetManager.BAREBONES_DL_Q;
         this.cache = [];
     };
 
@@ -171,6 +173,25 @@ class AssetManager {
                 audio.currentTime = 0;
             }
         }
+    };
+
+    /**
+     * The BAREBONES_DL_Q is an array of strings, filepaths to the most essential assets in our game.
+     * Those so essential that it would be tedious and more error prone to have to load them in every zone.
+     * this.downloadQueue is reset to this every time that the ASSET_MGR is refreshed.
+     */
+    static get BAREBONES_DL_Q() {
+        return [
+                PapaChad.SPRITESHEET,
+                Slingshot.SPRITESHEET,
+                Block.SPRITESHEET,
+                Projectile.SPRITESHEET,
+                Slingshot.SPRITESHEET,
+                //Sword.SPRITESHEET,
+                "./sfx/slime_jump.mp3",
+                "./sfx/slingshot_launch.wav",
+                "./sfx/temp_jump.wav"
+        ];
     };
 };
 
