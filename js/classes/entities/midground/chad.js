@@ -1,7 +1,6 @@
 /**
- * Chad is a mostly idle entity who must be able to walk for the tutorial.
- * Otherwise he stands still in his idle position and offers dialog options to Chad.
- * 
+ * Chad is the main character controller by the player.
+ * Chad has advanced movement and the ability to fight.
  * @author Devin, Caleb, Nathan, Trae
  */
 class Chad {
@@ -20,16 +19,16 @@ class Chad {
         this.isDashing = false;
         /** Gets the the y position of CHAD from the last time he was on the ground. */
         this.prevYPosOnGround = 0;
-        /** The position of the Papa Chad (in the game world). */
+        /** The position of the Chad (in the game world). */
         this.pos = pos;
         /** Gets the the x position of CHAD from the origin of where he started dashing. */
         this.xDashAnchoredOrigin = 0;
-        /** An associative array of the animations for this Papa Chad. Arranged [facing][action]. */
+        /** An associative array of the animations for this Chad. Arranged [facing][action]. */
         this.animations = [];
         this.loadAnimations();
-        /** What way is the Papa Chad looking? */
+        /** What way is the Chad looking? */
         this.facing = "right";
-        /** What is the Papa Chad doing? */
+        /** What is the Chad doing? */
         this.action = "idle";
         /** Used to check for collisions with other applicable entities. */
         this.boundingBox = new BoundingBox(this.pos, Chad.SCALED_SIZE);
@@ -51,7 +50,7 @@ class Chad {
         return 3;
     };
 
-    /** This will be the size of Papa Chad ON THE CANVAS. */
+    /** This will be the size of Chad ON THE CANVAS. */
     static get SCALED_SIZE() {
         return Vector.multiply(Chad.SIZE, Chad.SCALE);
     }
@@ -60,7 +59,7 @@ class Chad {
         return Chad.SCALE * 100;
     };
 
-    /** The filepath to Papa Chad's spritesheet. */
+    /** The filepath to Chad's spritesheet. */
     static get SPRITESHEET() {
         return "./sprites/parents.png";
     };
@@ -193,7 +192,7 @@ class Chad {
         }
     }
 
-    /** Change what Papa Chad is doing and where it is. */
+    /** Change what Chad is doing and where it is. */
     update() {
         // Chad shouldn't be able to double jump by default.
         this.canDoubleJump = false;
@@ -304,7 +303,7 @@ class Chad {
         this.boundingBox = new BoundingBox(this.pos, Chad.SCALED_SIZE);
     };
 
-    /** Draw Papa Chad on the canvas. */
+    /** Draw Chad on the canvas. */
     draw() {
         this.animations[this.facing][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), Chad.SCALE);
     };
