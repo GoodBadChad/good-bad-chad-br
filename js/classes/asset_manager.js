@@ -182,6 +182,7 @@ class AssetManager {
      */
     static get BAREBONES_DL_Q() {
         return [
+                Sun.SPRITESHEET,
                 PapaChad.SPRITESHEET,
                 Slingshot.SPRITESHEET,
                 Block.SPRITESHEET,
