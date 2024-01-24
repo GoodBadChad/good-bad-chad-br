@@ -2,6 +2,7 @@
  * A class which represents a projectile fired from the player's slingshot.
  * 
  * @author Trae Claar
+ * @author Nathan Hinthorne
  */
 class Projectile {
     
@@ -9,15 +10,12 @@ class Projectile {
      * Constructor for a Projectile which takes a type, origin position, and optionally a target position.
      * 
      * @param {number} type the Projectile type (please use Projectile.WOOD, Projectile.BOMB, etc.)
-     * @param {number} x the x position at which the projectile should begin
-     * @param {number} y the y position at which the projectile should begin
-     * @param {number} targetX the x-coordinate of the target position
-     * @param {number} targetY the y-coordinate of the target position
+     * @param {Vector} pos the position at which the projectile should begin
+     * @param {Vector} target the target position
      */
-    constructor(type, x, y, targetX, targetY) {
+    constructor(type, pos, target) {
         this.type = type;
-        this.x = x;
-        this.y = y;
+        this.pos = pos;
 
         // set properties
         this.action = this.getProperty("ACTION");
@@ -26,46 +24,47 @@ class Projectile {
         this.size = this.getProperty("SIZE");
 
         this.yVelocity = 0;
-        this.animator = new Animator(Projectile.SPRITESHEET, 0, type * this.size, this.size, this.size, 1, 1);
+        this.animator = new Animator(Projectile.SPRITESHEET, 
+            new Vector(0, type * this.size.y), this.size, 1, 1);
         this.updateBoundingBox();
 
-        if (targetX) this.setTarget(targetX, targetY);
-    }
+        if (target) this.setTarget(target);
+    };
 
     /** The Projectile spritesheet. */
     static get SPRITESHEET() {
         return "./sprites/ammo.png";
-    }
+    };
 
     /** The scale at which a Projectile is drawn. */
     static get SCALE() {
         return 3;
-    }
+    };
 
     /** The Bomb Projectile type. */
     static get BOMB() {
         return 0;
-    }
+    };
 
     /** The Wood Projectile type. */
     static get WOOD() {
         return 1;
-    }
+    };
 
     /** The Stone Projectile type. */
     static get STONE() {
         return 2
-    }
+    };
 
     /** The Metal Projectile type. */
     static get METAL() {
         return 3
-    }
+    };
 
     /** The Laser Projectile type. */
     static get LASER() {
         return 6
-    }
+    };
 
     /** The property table for Projectile types. */
     static get PROPERTY_TABLE() {
@@ -76,7 +75,7 @@ class Projectile {
                 },
                 SPEED: 15,
                 WEIGHT: 0.05,
-                SIZE: 13
+                SIZE: new Vector(13, 13)
             },
             [Projectile.WOOD]: {
                 ACTION: () => {
@@ -84,7 +83,7 @@ class Projectile {
                 },
                 SPEED: 15,
                 WEIGHT: 0.001,
-                SIZE: 4
+                SIZE: new Vector(4, 4)
             },
             [Projectile.STONE]: {
                 ACTION: () => {
@@ -92,7 +91,7 @@ class Projectile {
                 },
                 SPEED: 14,
                 WEIGHT: 0.005,
-                SIZE: 4
+                SIZE: new Vector(4, 4)
             },
             [Projectile.METAL]: {
                 ACTION: () => {
@@ -100,7 +99,7 @@ class Projectile {
                 },
                 SPEED: 12,
                 WEIGHT: 0.07,
-                SIZE: 4
+                SIZE: new Vector(4, 4)
             },
             [Projectile.LASER]: {
                 ACTION: () => {
@@ -108,24 +107,19 @@ class Projectile {
                 },
                 SPEED: 20,
                 WEIGHT: 0,
-                SIZE: 13
+                SIZE: new Vector(13, 13)
             }
         };
-    }
+    };
 
     /** 
      * Set the target position of the Projectile.
      * 
-     * @param {number} x the x-coordinate of the target position
-     * @param {number} y the y-coordinate of the target position
+     * @param {Vector} target the target position
      */
-    setTarget(x, y) {
-        let deltaX = x - this.x;
-        let deltaY = y - this.y;
-        let magnitude = Math.sqrt(deltaX ** 2 + deltaY ** 2);
-        this.dirX = deltaX / magnitude;
-        this.dirY = deltaY / magnitude;
-    }
+    setTarget(target) {
+        this.dir = Vector.direction(this.pos, target);
+    };
 
     /**
      * Helper method. Gets the value of a property for the current Projectile type.
@@ -135,7 +129,7 @@ class Projectile {
      */
     getProperty(propertyName) {
         return Projectile.PROPERTY_TABLE[this.type][propertyName];
-    }
+    };
 
     /**
      * Indicates whether or not the Projectile's target is set. Note that the Projectile will not 
@@ -144,15 +138,15 @@ class Projectile {
      * @returns true if the Projectile's target is set, false otherwise
      */
     isTargetSet() {
-        return this.dirX != null
-    }
+        return this.dir != null
+    };
 
     /**
      * Update the BoundingBox of the Projectile based on the latter's current position.
      */
     updateBoundingBox() {
-        this.boundingBox = new BoundingBox(this.x, this.y, this.size * Projectile.SCALE, this.size * Projectile.SCALE);
-    }
+        this.boundingBox = new BoundingBox(this.pos, Vector.multiply(this.size, Projectile.SCALE));
+    };
 
     /**
      * Update method for a Projectile.
@@ -165,8 +159,8 @@ class Projectile {
                 this.yVelocity = PHYSICS.TERMINAL_VELOCITY;
             } 
           
-            this.x += this.dirX * this.speed;
-            this.y += this.dirY * this.speed + this.yVelocity;
+            const posChange = Vector.multiply(this.dir, this.speed);
+            this.pos = Vector.add(this.pos, new Vector(posChange.x, posChange.y + this.yVelocity))
 
             this.updateBoundingBox();
             GAME.entities.forEach((entity) => {
@@ -184,6 +178,6 @@ class Projectile {
      * Draw method for a Projectile.
      */
     draw() {
-        this.animator.drawFrame(this.x - CAMERA.x, this.y - CAMERA.y, Projectile.SCALE);
-    }
+        this.animator.drawFrame(Vector.worldToCanvasSpace(this.pos), Projectile.SCALE);
+    };
 };

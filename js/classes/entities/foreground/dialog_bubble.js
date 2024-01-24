@@ -27,12 +27,10 @@ class DialogBubble {
 
         /** scale of bubble, but only applied to the width */
         this.scale = this.findBubbleSize();
-
-        /** The x position of the sprite ON THE SPRITESHEET. */
-        this.x = CTX.canvas.width / 2 - DialogBubble.WIDTH * this.scale / 2; // center
-
-        /** The y position of the sprite ON THE SPRITESHEET. */
-        this.y = CTX.canvas.height - (DialogBubble.HEIGHT - 50) * this.scale; // bottom
+        
+        /** The position of the sprite ON THE SPRITESHEET. */
+        this.pos = new Vector(CTX.canvas.width / 2 - DialogBubble.SIZE.x * this.scale / 2,
+            CTX.canvas.height - (DialogBubble.SIZE.y - 50) * this.scale)
     };
 
     /**
@@ -50,14 +48,14 @@ class DialogBubble {
             default:
                 return 160;
         }
-    }
+    };
 
     /**
      * Removes this DialogBubble from the world.
      */
     remove() {
         this.removedFromWorld = true;
-    }
+    };
 
     /** 
      * based off length of text, determine the size of the box.
@@ -77,7 +75,7 @@ class DialogBubble {
             // large box
             return 5;
         }
-    }
+    };
 
     /**
      * Updates the x and y position of the dialog bubble.
@@ -85,20 +83,20 @@ class DialogBubble {
     update() {
         // this.x = this.speaker.x;
         // this.y = this.speaker.y-10;
-    }
+    };
 
     draw() {
         // draw the dialog bubble
         CTX.drawImage(ASSET_MGR.getAsset(DialogBubble.SPRITESHEET),
             DialogBubble.X_START, this.yStart,
-            DialogBubble.WIDTH, DialogBubble.HEIGHT,
-            this.x, this.y - (DialogBubble.HEIGHT * 3) - 60,
-            DialogBubble.WIDTH * this.scale, DialogBubble.HEIGHT*3);
+            DialogBubble.SIZE.x, DialogBubble.SIZE.y,
+            this.pos.x, this.pos.y - (DialogBubble.SIZE.y * 3) - 60,
+            DialogBubble.SIZE.x * this.scale, DialogBubble.SIZE.y*3);
         
         // draw the speaker's name in the center of the bubble
         CTX.font = FONT.VT323_HEADER;
         CTX.fillStyle = "black";
-        CTX.fillText(this.speaker.name, this.x + (DialogBubble.WIDTH * this.scale/2) - 50, this.y - 140);
+        CTX.fillText(this.speaker.name, this.pos.x + (DialogBubble.SIZE.x * this.scale/2) - 50, this.pos.y - 140);
         
         // draw the text
         CTX.font = FONT.VT323_NORMAL;
@@ -107,16 +105,16 @@ class DialogBubble {
         // read in the text and draw it line by line
         let lines = this.text.split("\n");
         for (let i = 0; i < lines.length; i++) {
-            CTX.fillText(lines[i], this.x + 10, this.y - 110 + (i * 20));
+            CTX.fillText(lines[i], this.pos.x + 10, this.pos.y - 110 + (i * 20));
         }
-    }
+    };
 
     /** 
      * A constant for the type field. 
      */
     static get NORMAL() {
         return 1;
-    }
+    };
 
     /** 
      * A constant for the type field. 
@@ -137,18 +135,13 @@ class DialogBubble {
         return "./sprites/text-bubble.png";
     };
 
-    /** The width, in pixels, of the sprite ON THE SPRITESHEET. */
-    static get WIDTH() {
-        return 100;
-    };
-
-    /** The height, in pixels, of the sprite ON THE SPRITESHEET. */
-    static get HEIGHT() {
-        return 40;
+    /** The size, in pixels, of the sprite ON THE SPRITESHEET. */
+    static get SIZE() {
+        return new Vector(100, 40);
     };
 
     /** The x position of the sprite ON THE SPRITESHEET. */
     static get X_START() {
         return 0;
-    }
+    };
 };

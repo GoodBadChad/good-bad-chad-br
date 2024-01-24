@@ -2,7 +2,7 @@
  * A Dimension holds data necessary for the six dimensions through which Chad travels.
  * There is also a PLAYGROUND dimension for developer testing.
  * The only ways in which a Dimension should be used is (1) construction (when Chad collides with a portal)
- * @author Devin Peevy
+ * @author Devin Peevy, Caleb Krauter (modified)
  */
 class Dimension {
 
