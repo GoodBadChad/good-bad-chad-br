@@ -86,10 +86,8 @@ class Projectile {
                 SIZE: new Vector(4, 4)
             },
             [Projectile.STONE]: {
-                ACTION: (target) => {
-                    if (target.takeDamage) {
-                        target.takeDamage(5);
-                    }
+                ACTION: () => {
+                    console.log("stone");
                 },
                 SPEED: 14,
                 WEIGHT: 0.005,
@@ -168,7 +166,7 @@ class Projectile {
             GAME.entities.forEach((entity) => {
                 if (this != entity && entity.boundingBox) {
                     if (this.boundingBox.collide(entity.boundingBox)) {
-                        this.action(entity);
+                        this.action();
                         this.removeFromWorld = true;
                     }
                 }
