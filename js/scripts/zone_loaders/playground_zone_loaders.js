@@ -26,14 +26,16 @@ const loadPlaygroundCaleb = () => {
             new Vector(1, ZONE.PIXEL_SIZE.y), // only one pixel wide, but as tall as the entire Zone.
             Zone.getZones().village.main
         ));
-        for (let x = ZONE.MIN_BLOCK.x; x < ZONE.MAX_BLOCK.x; x++) {
-            for (let y = ZONE.MIN_BLOCK.y; y < ZONE.MAX_BLOCK.y; y++) {
+        for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
+            for (let y = ZONE.MIN_BLOCK.y; y <= ZONE.MAX_BLOCK.y; y++) {
                 // GAME.addEntity(new Block(i, j, Block.DIRT));a
 
                 // const pos = new Vector(y, x);
                 console.log("Starting block x " + x);
                 console.log("Starting block y " + y);
-
+                if (x >= ZONE.MAX_BLOCK.x || y >= ZONE.MAX_BLOCK.y) {
+                    break;
+                }
                 switch (playGroundTileMap[x][y]) {
                     case 4:
                         console.log(4);
