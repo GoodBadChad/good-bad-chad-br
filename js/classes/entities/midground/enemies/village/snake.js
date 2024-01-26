@@ -79,7 +79,7 @@ class Snake {
         return 10;
     };
 
-     /** 
+    /** 
      * Decrease the health of the Snake by the provided amount and perform any necessary operations
      * based on the new health value.
      * 
@@ -132,7 +132,7 @@ class Snake {
                 this.action = "idle";
                 if (Date.now() - Snake.ATTACK_COOLDOWN * 1000 > this.lastAttack) {
                     this.lastAttack = Date.now();
-                    CHAD.health -= Snake.ATTACK_DAMAGE;
+                    CHAD.takeDamage(Snake.ATTACK_DAMAGE);
                 }
             }
         }
