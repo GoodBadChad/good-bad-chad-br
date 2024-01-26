@@ -225,7 +225,7 @@ class Chad {
         }
 
         // this is for the slingshot
-        if (GAME.user.firing) {
+        if (GAME.user.aiming) {
             // determine if mouse is to the right or left of Chad
             // remember, the mouse is in screen coordinates, not world coordinates
             const mouseX = GAME.mousePos.x + CAMERA.pos.x;
