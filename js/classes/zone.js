@@ -26,6 +26,11 @@ class Zone {
         this.load = () => {
             // Clear all entities from previous Zone.
             GAME.clearEntities();
+
+            // Add entities essential to any Zone.
+            GAME.addEntity(new Crosshair());
+            GAME.addEntity(new Slingshot());
+
             // Clear all images/music from previous Zone.
             ASSET_MGR.refresh();
             loadFunction();

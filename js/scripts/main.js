@@ -13,7 +13,7 @@ const CTX = CANVAS.getContext("2d");
 /** Tells the canvas what portion of the game world to draw. */
 const CAMERA = new Camera();
 /** Our Hero! Centered in Camera. */
-const CHAD = new PapaChad(new Vector(0, 0));
+const CHAD = new Chad(new Vector(0, 0));
 /** The inventory of the player. */
 const INVENTORY = new Inventory();
 
