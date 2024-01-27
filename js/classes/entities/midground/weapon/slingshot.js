@@ -68,10 +68,9 @@ class Slingshot {
 
 
     update() {
-        if (GAME.mouseDown) {
+        if (GAME.user.aiming) {
             this.findRotation();
-            this.isHidden = false;
-        } else if (GAME.mouseUp) {
+        } else if (GAME.user.firing) {
             this.fireSlingshot();
         }
     }
