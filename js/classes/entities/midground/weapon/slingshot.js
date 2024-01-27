@@ -14,7 +14,7 @@ class Slingshot {
         this.start = new Vector(0, 0);
     }
 
-    findRotation() { 
+    aim() { 
         this.isHidden = false;
 
         // position the image near Chad's hand
@@ -43,7 +43,7 @@ class Slingshot {
         console.log("rotation: " + " (" + this.rotation * 180 / Math.PI + " degrees)");
     }
 
-    fireSlingshot() {
+    fire() {
         ASSET_MGR.playAudio("./sfx/slingshot_launch.wav", 0.2);
         this.isFiring = true;
         //this.startX = 26; // slingshot firing frame
@@ -69,9 +69,9 @@ class Slingshot {
 
     update() {
         if (GAME.user.aiming) {
-            this.findRotation();
+            this.aim();
         } else if (GAME.user.firing) {
-            this.fireSlingshot();
+            this.fire();
         }
     }
 
