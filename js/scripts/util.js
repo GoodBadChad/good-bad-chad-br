@@ -42,6 +42,25 @@ const FONT = { // NOTE: the "vt323" part below is not what's assigning the vt323
 };
 
 /**
+ * The game's sound effects.
+ */
+const SFX = {
+    JUMP1: {path: "./sfx/jump1.wav", volume: 0.2},
+    JUMP2: {path: "./sfx/jump2.wav", volume: 0.2},
+    SLINGSHOT_LAUNCH: {path: "./sfx/slingshot_launch.wav", volume: 0.2},
+    SLINGSHOT_STRETCH: {path: "./sfx/slingshot_stretch.wav", volume: 0.2},
+    SONIC_DASH: {path: "./sfx/sonic_dash.wav", volume: 0.2}
+}
+
+/**
+ * The game's music.
+ */
+const MUSIC = {
+    STARTING_OFF: {path: "./music/starting_off.mp3", volume: 0.2}
+}
+
+
+/**
  * Check if the provided entity is colliding with any blocks and correct its position if so.
  * 
  * @param {Entity} entity the entity for which to check block collision
