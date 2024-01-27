@@ -70,7 +70,6 @@ class Slingshot {
     update() {
         if (GAME.user.aiming) {
             this.findRotation();
-            this.isHidden = false;
         } else if (GAME.user.firing) {
             this.fireSlingshot();
         }

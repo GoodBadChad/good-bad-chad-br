@@ -78,7 +78,7 @@ class AssetManager {
                         this.errorCount++;
                         if (this.isDone()) callback();
                     });
-
+                
                     audio.addEventListener("ended", () => {
                         audio.pause();
                         audio.currentTime = 0;
