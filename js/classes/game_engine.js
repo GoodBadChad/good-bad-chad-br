@@ -92,8 +92,8 @@ class GameEngine {
             }
         }
 
-        if (this.user.aiming) {
-            this.user.aiming = false;
+        if (this.user.firing) {
+            this.user.firing = false;
         }
     };
 
@@ -123,14 +123,14 @@ class GameEngine {
      */
     startInput() {
 
-        CANVAS.addEventListener("mouseDown", (e) => {
-            this.user.firing = true;
-            this.user.aiming = false;
+        CANVAS.addEventListener("mousedown", (e) => {
+            this.user.firing = false;
+            this.user.aiming = true;
         });
 
-        CANVAS.addEventListener("mouseUp", (e) => {
-            this.user.aiming = true;
-            this.user.firing = false;
+        CANVAS.addEventListener("mouseup", (e) => {
+            this.user.aiming = false;
+            this.user.firing = true;
             console.log("mouse clicked at (" + Math.round(this.mousePos.x) + ", " + Math.round(this.mousePos.y) + ")");
         });
 
