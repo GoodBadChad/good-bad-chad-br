@@ -48,7 +48,7 @@ spanishButton.addEventListener("click", () => {
 
 // (3) Set the current ZONE to be the first one we encounter - village.main.
 
-let ZONE = Zone.getZones().playground.nathan;
+let ZONE = Zone.getZones().village.main;
 let LAST_ZONE = null;
 // Load all assets, add all entities, place CHAD...
 ZONE.load();
