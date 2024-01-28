@@ -31,6 +31,9 @@ class Zone {
             GAME.addEntity(new Crosshair());
             GAME.addEntity(new Slingshot());
 
+            // temporary until the HUD is added
+            GAME.addEntity(new HealthBar(CHAD, Chad.MAX_HEALTH, Chad.SCALED_SIZE.x));
+
             // Clear all images/music from previous Zone.
             ASSET_MGR.refresh();
             loadFunction();
