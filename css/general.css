@@ -10,6 +10,9 @@
 
 body {
     text-align: center;
+
+    /* Prevents the user from selecting other html elements. This will fix our issues with un-recorded key presses */
+    user-select: none;
 }
 
 #container {

@@ -11,11 +11,19 @@ class Slingshot {
         this.isFiring = false;
         this.rotation = 0;
 
+        this.playedStretchSound = false;
+
         this.start = new Vector(0, 0);
     }
 
-    findRotation() { 
+    aim() { 
         this.isHidden = false;
+
+        // play the slingshot stretch sound
+        if (!this.playedStretchSound) {
+            ASSET_MGR.playAudio(SFX.SLINGSHOT_STRETCH.path, SFX.SLINGSHOT_STRETCH.volume);
+            this.playedStretchSound = true;
+        }
 
         // position the image near Chad's hand
         let x;
@@ -32,19 +40,34 @@ class Slingshot {
 
         // find the angle in radians from the x axis to the mouse
         const delta = Vector.worldToCanvasSpace(Vector.subtract(GAME.mousePos, this.pos));
-        // There is an undefined value here so I commented this out - CK
-        // console.log(GAME.mouse);
         let theta = Math.atan2(delta.y, delta.x);
         this.rotation = theta;
-        // There is an undefined value here so I commented this out - CK
 
         //TODO: swap animation frames based on rotation
 
-        console.log("rotation: " + " (" + this.rotation * 180 / Math.PI + " degrees)");
+        // console.log("rotation: " + " (" + this.rotation * 180 / Math.PI + " degrees)");
     }
 
-    fireSlingshot() {
-        ASSET_MGR.playAudio("./sfx/slingshot_launch.wav", 0.2);
+    fire() {
+        ASSET_MGR.stopAudio(SFX.SLINGSHOT_STRETCH.path);
+        
+        // choose from 4 different firing sounds
+        let rand = Math.floor(Math.random() * 4);
+        switch (rand) {
+            case 0:
+                ASSET_MGR.playAudio(SFX.SLINGSHOT_LAUNCH1.path, SFX.SLINGSHOT_LAUNCH1.volume);
+                break;
+            case 1:
+                ASSET_MGR.playAudio(SFX.SLINGSHOT_LAUNCH2.path, SFX.SLINGSHOT_LAUNCH2.volume);
+                break;
+            case 2:
+                ASSET_MGR.playAudio(SFX.SLINGSHOT_LAUNCH3.path, SFX.SLINGSHOT_LAUNCH3.volume);
+                break;
+            case 3:
+                ASSET_MGR.playAudio(SFX.SLINGSHOT_LAUNCH4.path, SFX.SLINGSHOT_LAUNCH4.volume);
+                break;
+        }
+
         this.isFiring = true;
         //this.startX = 26; // slingshot firing frame
 
@@ -64,15 +87,17 @@ class Slingshot {
             this.isHidden = true;
 
         }, 1000);
+
+        // reset the slingshot stretch sound
+        this.playedStretchSound = false;
     }
 
 
     update() {
-        if (GAME.mouseDown) {
-            this.findRotation();
-            this.isHidden = false;
-        } else if (GAME.mouseUp) {
-            this.fireSlingshot();
+        if (GAME.user.aiming) {
+            this.aim();
+        } else if (GAME.user.firing) {
+            this.fire();
         }
     }
 

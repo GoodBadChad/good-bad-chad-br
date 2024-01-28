@@ -10,9 +10,9 @@ class AssetManager {
         /** How many filepaths could not be added to the cache as images. */
         this.errorCount = 0;
         /** An associative array of downloaded assets. [filePath => img]. */
-        this.cache = [];
+        this.downloadQueue = AssetManager.BAREBONES_DL_Q;
         /** An indexed array of filepaths which still need to be downloaded. */
-        this.downloadQueue = [];
+        this.cache = [];
     };
 
     /**
@@ -55,7 +55,7 @@ class AssetManager {
                     });
         
                     img.addEventListener("error", () => {
-                        console.log("Error loading " + img.src);
+                        console.log("Error loading " + path);
                         this.errorCount++;
                         if (this.isDone()) callback();
                     });
@@ -74,11 +74,11 @@ class AssetManager {
                     });
 
                     audio.addEventListener("error", () => {
-                        console.log("Error loading " + this.src);
+                        console.log("Error loading " + path);
                         this.errorCount++;
                         if (this.isDone()) callback();
                     });
-
+                
                     audio.addEventListener("ended", () => {
                         audio.pause();
                         audio.currentTime = 0;
@@ -107,10 +107,12 @@ class AssetManager {
     };
 
     /**
-     * This method clears the cache so that new assets can be downloaded, and the AssetManager will not be
-     * bogged up with unnecessary images.
+     * This refreshes the AssetManager to be like new. This is done upon loading a zone to keep down space waste.
      */
-    clearCache() {
+    refresh() {
+        this.successCount = 0;
+        this.errorCount = 0;
+        this.downloadQueue = AssetManager.BAREBONES_DL_Q;
         this.cache = [];
     };
 
@@ -135,16 +137,13 @@ class AssetManager {
     };
 
     /**
-     * This method pauses the audio associated with the given path.
-     * @param {boolean} mute True if you want to mute the audio, false otherwise.
+     * This method stops the audio associated with the given path.
+     * @param {string} path The filepath of the audio you are trying to stop.
      */
-    muteAudio(mute) {
-        for (let key in this.cache) {
-            const audio = this.cache[key];
-            if (audio instanceof Audio) {
-                audio.muted = mute;
-            }
-        }
+    stopAudio(path) {
+        const audio = this.cache[path];
+        audio.pause();
+        audio.currentTime = 0;
     };
 
     /** 
@@ -171,6 +170,27 @@ class AssetManager {
                 audio.currentTime = 0;
             }
         }
+    };
+
+    /**
+     * The BAREBONES_DL_Q is an array of strings, filepaths to the most essential assets in our game.
+     * Those so essential that it would be tedious and more error prone to have to load them in every zone.
+     * this.downloadQueue is reset to this every time that the ASSET_MGR is refreshed.
+     */
+    static get BAREBONES_DL_Q() {
+        return [
+                Sun.SPRITESHEET,
+                PapaChad.SPRITESHEET,
+                Slingshot.SPRITESHEET,
+                Block.SPRITESHEET,
+                Projectile.SPRITESHEET,
+                Slingshot.SPRITESHEET,
+                Crosshair.SPRITESHEET,
+                //Sword.SPRITESHEET,
+                "./sfx/slime_jump.mp3",
+                "./sfx/slingshot_launch.wav",
+                "./sfx/temp_jump.wav"
+        ];
     };
 };
 

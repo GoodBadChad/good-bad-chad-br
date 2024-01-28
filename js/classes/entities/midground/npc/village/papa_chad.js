@@ -237,9 +237,6 @@ class PapaChad {
 
         // Step 3: Now move.
         this.pos = Vector.add(this.pos, Vector.multiply(this.velocity, GAME.clockTick));
-        if (this.pos.y > DIMENSION.MAX_Y) {
-            this.pos = Vector.subtract(this.pos, new Vector(0, DIMENSION.BLOCK_HEIGHT * Block.SCALED_SIZE));
-        }
         this.lastBoundingBox = this.boundingBox;
         this.boundingBox = new BoundingBox(this.pos, PapaChad.SCALED_SIZE);
         this.isOnGround = false;
@@ -286,11 +283,11 @@ class PapaChad {
                             // We are colliding with the bottom.
                             this.pos = new Vector(this.pos.x, entity.boundingBox.bottom);
                         }
-                    }
-                    if (entity instanceof Portal) {
-                        const dim = DIMENSION.dimension === entity.dimension ? Dimension.VILLAGE : entity.dimension;
-                        DIMENSION = new Dimension(dim);
-                        DIMENSION.loadDimension();
+                    } else if (entity instanceof Border) {
+                        // You are traveling to a new Zone!
+                        LAST_ZONE = ZONE; // Helps you know where to spawn!
+                        ZONE = entity.target; // Set ZONE to the zone we're going to.
+                        ZONE.load(); // Load that zone. handles everything for us.
                     }
                 }
                 // There's no collision - don't do anything!
