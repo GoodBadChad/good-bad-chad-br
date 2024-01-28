@@ -104,7 +104,6 @@ class Zone {
      */
     static getZones() {
         // Right now, I am creating zones with no real idea how big they ought to be/what ought be in them.
-        // Therefore, I CK.
         const zeros = new Vector(0, 0);
         const defaultMaxBlock = new Vector(100, 25);
 
