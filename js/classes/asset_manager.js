@@ -55,7 +55,7 @@ class AssetManager {
                     });
         
                     img.addEventListener("error", () => {
-                        console.log("Error loading " + img.src);
+                        console.log("Error loading " + path);
                         this.errorCount++;
                         if (this.isDone()) callback();
                     });
@@ -74,7 +74,7 @@ class AssetManager {
                     });
 
                     audio.addEventListener("error", () => {
-                        console.log("Error loading " + this.src);
+                        console.log("Error loading " + path);
                         this.errorCount++;
                         if (this.isDone()) callback();
                     });
@@ -137,16 +137,13 @@ class AssetManager {
     };
 
     /**
-     * This method pauses the audio associated with the given path.
-     * @param {boolean} mute True if you want to mute the audio, false otherwise.
+     * This method stops the audio associated with the given path.
+     * @param {string} path The filepath of the audio you are trying to stop.
      */
-    muteAudio(mute) {
-        for (let key in this.cache) {
-            const audio = this.cache[key];
-            if (audio instanceof Audio) {
-                audio.muted = mute;
-            }
-        }
+    stopAudio(path) {
+        const audio = this.cache[path];
+        audio.pause();
+        audio.currentTime = 0;
     };
 
     /** 

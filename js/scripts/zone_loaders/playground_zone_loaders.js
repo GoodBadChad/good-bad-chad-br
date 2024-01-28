@@ -49,13 +49,16 @@ const loadPlaygroundNathan = () => {
 
         // queue music
         ASSET_MGR.queueDownload(MUSIC.STARTING_OFF.path);
+        ASSET_MGR.queueDownload(MUSIC.PEACEFUL_CHIPTUNE.path);
 
         // queue sound effects
         ASSET_MGR.queueDownload(SFX.JUMP1.path);
         ASSET_MGR.queueDownload(SFX.JUMP2.path);
-        ASSET_MGR.queueDownload(SFX.SLINGSHOT_LAUNCH.path);
+        ASSET_MGR.queueDownload(SFX.SLINGSHOT_LAUNCH1.path);
+        ASSET_MGR.queueDownload(SFX.SLINGSHOT_LAUNCH2.path);
+        ASSET_MGR.queueDownload(SFX.SLINGSHOT_LAUNCH3.path);
+        ASSET_MGR.queueDownload(SFX.SLINGSHOT_LAUNCH4.path);
         ASSET_MGR.queueDownload(SFX.SLINGSHOT_STRETCH.path);
-        ASSET_MGR.queueDownload(SFX.SONIC_DASH.path);
 
     };
 
@@ -73,14 +76,14 @@ const loadPlaygroundNathan = () => {
         // NOTE: we can't activate music until the user has interacted with the canvas. (this issue is inherent to HTML5)
         //  If listening for a click is the only way to activate music, that's fine. 
         //  Our game's START button in the final version can be the trigger.
-        // let playMusic = () => {
-        //     ASSET_MGR.playAudio(MUSIC.FUNNY_SONG.path, MUSIC.FUNNY_SONG.volume, true);
+        let playMusic = () => {
+            ASSET_MGR.playAudio(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume, true);
         
-        //     // delete the event listener so that the music doesn't restart when the user clicks again
-        //     document.body.removeEventListener('click', playMusic);
-        // };
+            // delete the event listener so that the music doesn't restart when the user clicks again
+            document.body.removeEventListener('click', playMusic);
+        };
         
-        // document.body.addEventListener('click', playMusic);
+        document.body.addEventListener('click', playMusic);
 
         // GAME.addEntity(new DialogBubble(CHAD, "Hey pal! My name's Papa Chad", DialogBubble.NORMAL));
         GAME.addEntity(new Crosshair());
@@ -89,6 +92,9 @@ const loadPlaygroundNathan = () => {
             e.preventDefault();
         });
     };
+
+    // Set background color:
+    BG_COLOR = "skyblue";
 
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);
