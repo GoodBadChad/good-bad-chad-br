@@ -56,12 +56,12 @@ const loadPlaygroundCaleb = () => {
 
         // Draw Sun.
         GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE), Sun.VILLAGE));
+};
+        // Set background color:
+        BG_COLOR = "red";
 
-    // Set background color:
-    BG_COLOR = "red";
-
-    queueAssets();
-    ASSET_MGR.downloadAll(addEntities);
+        queueAssets();
+        ASSET_MGR.downloadAll(addEntities);
 };
 
 const loadPlaygroundDevin = () => {
