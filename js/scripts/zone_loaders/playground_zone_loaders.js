@@ -54,30 +54,8 @@ const loadPlaygroundCaleb = () => {
 
         }
 
-        // Add 10 layers of blocks to the bottom
-        // for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
-        //     for (let y = ZONE.MAX_BLOCK.y; y >= ZONE.MAX_BLOCK.y - 10; y--) {
-        //         const type = y === ZONE.MAX_BLOCK.y - 10 ? Block.GRASS : Block.DIRT;
-        //         GAME.addEntity(new Block(new Vector(x, y), type));
-        //     }
-        //     // Also, add a flower to the top of every block!
-        //     GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.MED_RED_FLOWER, Vector.blockToWorldSpace(new Vector(x, ZONE.MAX_BLOCK.y - 10))));
-        // }
-
         // Draw Sun.
         GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE), Sun.VILLAGE));
-
-        // Spawn Chad.
-        // if (LAST_ZONE.equals(Zone.getZones().village.mountain)) { // Coming from mountain.
-        //     // Set spawn point on the right.
-        //     const blockPos = new Vector(ZONE.MAX_BLOCK.x - 3, 12);
-        //     CHAD.pos = Vector.blockToWorldSpace(blockPos);
-        // } else if (LAST_ZONE.equals(Zone.getZones().village.main)) { // Coming from main.
-        //     // spawn on left.
-        //     const blockPos = new Vector(1, 12);
-        //     CHAD.pos = Vector.blockToWorldSpace(blockPos);
-        // }
-    };
 
     // Set background color:
     BG_COLOR = "red";
