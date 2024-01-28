@@ -182,7 +182,7 @@ class Chad {
         }
         // Perform single jump.
         if (this.isOnGround) {
-            ASSET_MGR.playAudio("./sfx/temp_jump.wav", 0.2);
+            ASSET_MGR.playAudio(SFX.JUMP1.path, SFX.JUMP1.volume);
             this.action = "jumping";
             this.velocity.y = Chad.FIRST_JUMP_VELOCITY;
             this.hasDoubleJumped = false;
@@ -199,7 +199,7 @@ class Chad {
         }
         // If Chad can double jump and user is trying to jump than do it!
         if (this.canDoubleJump) {
-            ASSET_MGR.playAudio("./sfx/temp_jump.wav", 0.2);
+            ASSET_MGR.playAudio(SFX.JUMP2.path, SFX.JUMP2.volume);
             this.action = "jumping";
             this.velocity.y = Chad.SECOND_JUMP_VELOCITY;
             this.canDoubleJump = false;
