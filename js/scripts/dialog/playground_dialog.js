@@ -33,6 +33,7 @@ const CONVO1 = [
     }
 ];
 
+// Algorithm for traversing dialog.
 // DialogEater(string[] convo)
 //  Set i = 0.
 //  while (i < convo.length):
