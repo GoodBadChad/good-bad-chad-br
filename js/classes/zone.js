@@ -27,17 +27,21 @@ class Zone {
             // Clear all entities from previous Zone.
             GAME.clearEntities();
 
-            // Add entities essential to any Zone.
+            // Clear all images/music from previous Zone.
+            ASSET_MGR.refresh();
+            loadFunction();
+
+            // TODO: this is a bandaid fix! Let's figure out how to make this better!!!
+            setTimeout(() => {
+                // Add entities essential to any Zone.
             GAME.addEntity(new Crosshair());
             GAME.addEntity(new Slingshot());
             GAME.addEntity(new Sword(Sword.TYPE_1));
 
             // temporary until the HUD is added
             GAME.addEntity(new HealthBar(CHAD, Chad.MAX_HEALTH, Chad.SCALED_SIZE.x));
-
-            // Clear all images/music from previous Zone.
-            ASSET_MGR.refresh();
-            loadFunction();
+            }, 1_000);
+            
         };
         this.name = name;
     };
