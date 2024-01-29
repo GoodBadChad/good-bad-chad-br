@@ -186,7 +186,7 @@ class AssetManager {
                 Projectile.SPRITESHEET,
                 Slingshot.SPRITESHEET,
                 Crosshair.SPRITESHEET,
-                //Sword.SPRITESHEET,
+                Sword.SPRITESHEET,
                 SFX.JUMP1.path,
                 SFX.JUMP2.path,
                 SFX.SLINGSHOT_LAUNCH1.path,

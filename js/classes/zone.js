@@ -36,6 +36,7 @@ class Zone {
                 // Add entities essential to any Zone.
             GAME.addEntity(new Crosshair());
             GAME.addEntity(new Slingshot());
+            GAME.addEntity(new Sword(Sword.TYPE_1));
 
             // temporary until the HUD is added
             GAME.addEntity(new HealthBar(CHAD, Chad.MAX_HEALTH, Chad.SCALED_SIZE.x));
