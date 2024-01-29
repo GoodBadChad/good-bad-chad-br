@@ -186,7 +186,7 @@ class AssetManager {
                 Projectile.SPRITESHEET,
                 Slingshot.SPRITESHEET,
                 Crosshair.SPRITESHEET,
-                //Sword.SPRITESHEET,
+                Sword.SPRITESHEET,
                 "./sfx/slime_jump.mp3",
                 "./sfx/slingshot_launch.wav",
                 "./sfx/temp_jump.wav"
