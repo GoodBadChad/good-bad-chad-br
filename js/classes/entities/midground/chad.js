@@ -313,6 +313,11 @@ class Chad {
                             this.pos = new Vector(this.pos.x, entity.boundingBox.bottom);
                         }
                     }
+                    else if (entity instanceof Border) {
+                        LAST_ZONE = ZONE;
+                        ZONE = entity.target;
+                        ZONE.load();
+                    }
                 }
                 // There's no collision - don't do anything!
             }
