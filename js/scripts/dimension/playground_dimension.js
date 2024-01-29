@@ -30,6 +30,13 @@ const loadPlaygroundDimension = () => {
         ASSET_MGR.queueDownload(Crosshair.SPRITESHEET);
         ASSET_MGR.queueDownload(Slingshot.SPRITESHEET);
         ASSET_MGR.queueDownload(Snake.SPRITESHEET);
+
+        // queue music
+        ASSET_MGR.queueDownload("./music/starting_off_2_sample.wav");
+
+        // queue sound effects
+        ASSET_MGR.queueDownload("./sfx/temp_jump.wav");
+        ASSET_MGR.queueDownload("./sfx/slingshot_launch.wav");
     };
 
     /** 
@@ -62,23 +69,43 @@ const loadPlaygroundDimension = () => {
                     default:
                         break;
                 }
-
             }
         }
 
         tileMap[30][30] = 4;
-        GAME.addEntity(new Portal(new Vector(10, -10), Dimension.LAVA));
-        GAME.addEntity(new Portal(new Vector(10, -15), Dimension.VILLAGE));
-        GAME.addEntity(new Snake(new Vector(-3 * Block.SCALED_SIZE, -20 * Block.SCALED_SIZE)));
+        GAME.addEntity(new Portal(10, -10, Dimension.LAVA));
+        GAME.addEntity(new Portal(10, -15, Dimension.VILLAGE));
 
-        // GAME.addEntity(new Projectile(Projectile.BOMB, -192, -1280, 200, -1280));
-        GAME.addEntity(new DialogBubble(CHAD, "Greetings! I am the one and only Papa Chad", DialogBubble.NORMAL));
+        // NOTE: we can't activate music until the user has interacted with the canvas. (this issue is inherent to HTML5)
+        //  If listening for a click is the only way to activate music, that's fine. 
+        //  Our game's START button in the final version can be the trigger.
+        let playMusic = () => {
+            ASSET_MGR.playAudio("./music/starting_off_2_sample.wav", 0.1, true);
+        
+            // delete the event listener so that the music doesn't restart when the user clicks again
+            document.body.removeEventListener('click', playMusic);
+        };
+        
+        document.body.addEventListener('click', playMusic);
+
+        // NOTE: we can't activate music until the user has interacted with the canvas. (this issue is inherent to HTML5)
+        //  If listening for a click is the only way to activate music, that's fine. 
+        //  Our game's START button in the final version can be the trigger.
+        let playMusic = () => {
+            ASSET_MGR.playAudio("./music/starting_off_2_sample.wav", 0.1, true);
+        
+            // delete the event listener so that the music doesn't restart when the user clicks again
+            document.body.removeEventListener('click', playMusic);
+        };
+        
+        document.body.addEventListener('click', playMusic);
+      
+        GAME.addEntity(new DialogBubble(CHAD, "Hey pal! My name's Papa Chad", DialogBubble.NORMAL));
         GAME.addEntity(new Crosshair());
         GAME.addEntity(new Slingshot());
 
-        // CHAD.x = -3 * Block.SCALED_SIZE;
-        // CHAD.y = -20 * Block.SCALED_SIZE;
-        CHAD.pos = Vector.blockToWorldSpace(new Vector(-3, -20));
+        CHAD.x = -3 * Block.SCALED_SIZE;
+        CHAD.y = -20 * Block.SCALED_SIZE;
     };
 
     queueDimensionalAssets();

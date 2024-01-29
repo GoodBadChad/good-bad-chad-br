@@ -12,28 +12,26 @@ class GameEngine {
         this.spanish = isSpanish ?? false;
         /** Everything that will be updated and drawn each frame. */
         this.entities = [];
-        /** Is the user pressing S key? */
-        this.down = false;
-        /** Is the user pressing the W key? */
-        this.up = false;
-        /** Is the user pressing the D key? */
-        this.right = false;
-        /** Is the user pressing the A key? */
-        this.left = false;
-        /** Is the user pressing the left shift key? */
-        this.shiftLeft = false;
-        /** Is the user pressing the left X key key? */
-        this.keyX = false;
-        /** Is the user pressing the mouse button? */
-        this.mouseDown = false;
-        /** Is the user releasing the mouse button? */
-        this.mouseUp = false;
+
+        /** A user object to define behaviors of Chad. */
+        this.user = {
+            movingDown: false,
+            movingUp: false,
+            movingRight: false,
+            movingLeft: false,
+            jumping: false,
+            sprinting: false,
+            dashing: false,
+            aiming: false,
+            firing: false,
+            jabbing: false
+        }
+
         // /** Where is the x coordinate of the user's mouse? */
         // this.mouseX = 0;
         // /** Where is the y coordinate of the user's mouse? */
         // this.mouseY = 0;
         this.mousePos = new Vector(0, 0);
-
 
         /** The timer tells you how long it's been since the last tick! */
         this.timer = new Timer();
@@ -95,8 +93,8 @@ class GameEngine {
             }
         }
 
-        if (this.mouseUp) {
-            this.mouseUp = false;
+        if (this.user.firing) {
+            this.user.firing = false;
         }
     };
 
@@ -106,8 +104,8 @@ class GameEngine {
     draw() {
         // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
         CTX.clearRect(0, 0, CANVAS.width, CANVAS.height);
-        CTX.fillStyle = "#00ff00";
-        CTX.fillRect(DIMENSION.MIN_X - CAMERA.pos.x, DIMENSION.MIN_Y - CAMERA.pos.y, DIMENSION.BLOCK_WIDTH * Block.SCALED_SIZE, DIMENSION.BLOCK_HEIGHT * Block.SCALED_SIZE);
+        CTX.fillStyle = BG_COLOR;
+        CTX.fillRect(0, 0, Camera.SIZE.x, Camera.SIZE.y);
         // Draw entities from first to last.
         for (let i = 0; i < this.entities.length; i++) {
             this.entities[i].draw();
@@ -127,13 +125,13 @@ class GameEngine {
     startInput() {
 
         CANVAS.addEventListener("mousedown", (e) => {
-            this.mouseDown = true;
-            this.mouseUp = false;
+            this.user.firing = false;
+            this.user.aiming = true;
         });
 
         CANVAS.addEventListener("mouseup", (e) => {
-            this.mouseUp = true;
-            this.mouseDown = false;
+            this.user.aiming = false;
+            this.user.firing = true;
             console.log("mouse clicked at (" + Math.round(this.mousePos.x) + ", " + Math.round(this.mousePos.y) + ")");
         });
 
@@ -149,25 +147,28 @@ class GameEngine {
         CANVAS.addEventListener("keydown", (e) => {
             switch (e.code) {
                 case "KeyA":
-                    this.left = true;
+                    this.user.movingLeft = true;
                     break;
                 case "KeyD":
-                    this.right = true;
+                    this.user.movingRight = true;
                     break;
                 case "KeyS":
-                    this.down = true;
+                    this.user.movingDown = true;
                     break;
                 case "KeyW":
-                    this.up = true;
+                    this.user.movingUp = true;
                     break;
                 case "Space":
-                    this.space = true;
+                    this.user.jumping = true;
                     break;
                 case "ShiftLeft":
-                    this.shiftLeft = true;
+                    this.user.sprinting = true;
                     break;
                 case "KeyX":
-                    this.keyX = true;
+                    this.user.dashing = true;
+                    break;
+                case "KeyQ":
+                    this.user.jabbing = true;
                     break;
             }
         }, false);
@@ -175,25 +176,28 @@ class GameEngine {
         CANVAS.addEventListener("keyup", (e) => {
             switch (e.code) {
                 case "KeyA":
-                    this.left = false;
+                    this.user.movingLeft = false;
                     break;
                 case "KeyD":
-                    this.right = false;
+                    this.user.movingRight = false;
                     break;
                 case "KeyS":
-                    this.down = false;
+                    this.user.movingDown = false;
                     break;
                 case "KeyW":
-                    this.up = false;
+                    this.user.movingUp = false;
                     break;
                 case "Space":
-                    this.space = false;
+                    this.user.jumping = false;
                     break;
                 case "ShiftLeft":
-                    this.shiftLeft = false;
+                    this.user.sprinting = false;
                     break;
                 case "KeyX":
-                    this.keyX = false;
+                    this.user.dashing = false;
+                    break;
+                case "KeyQ":
+                    this.user.jabbing = false;
                     break;
             }
         }, false);
