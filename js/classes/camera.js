@@ -5,7 +5,7 @@
  * @author Devin Peevy 
  */
 class Camera {
-    constructor () {
+    constructor() {
         this.pos = new Vector(0, 0);
     };
 
@@ -19,7 +19,7 @@ class Camera {
      */
     update() {
         // We want the camera to not go off the screen, but focus on chad in the direct center where possible.
-        
+
         /** Finds the median of three numbers. */
         const median = (x, y, z) => {
             // TODO: not important but there's definitely a better way to do this.
@@ -35,8 +35,8 @@ class Camera {
         // There are three goals of the camera:
         // (1) Center on Chad.
         const centeredOnChad = new Vector(
-            CHAD.pos.x + (PapaChad.SIZE.x / 2) - (Camera.SIZE.x / 2),
-            CHAD.pos.y + (PapaChad.SIZE.y / 2) - (Camera.SIZE.y / 2));
+            CHAD.pos.x + (Chad.SIZE.x / 2) - (Camera.SIZE.x / 2),
+            CHAD.pos.y + (Chad.SIZE.y / 2) - (Camera.SIZE.y / 2));
 
         // Note: Could also do:
         // const centeredOnChad = Vector.subtract(Vector.add(CHAD.pos, Vector.multiply(PapaChad.SIZE, 1 / 2)), Vector.multiply(Camera.SIZE, 1 / 2));

@@ -19,10 +19,10 @@
     <script type="text/javascript" src="./js/scripts/dimension/playground_dimension.js"></script>
     <script type="text/javascript" src="./js/scripts/dimension/village_dimension.js"></script>
     <script type="text/javascript" src="./js/scripts/dimension/lava_dimension.js"></script>
-    
+
+    <!-- Tile maps here. -->
     <script type="text/javascript" src="./js/scripts/temp/bird_script.js"></script>
 
-    <script type="text/javascript" src="./js/scripts/tile_maps/playground.js"></script>
 
     <!-- Put non-entity classes here! -->
     <script type="text/javascript" src="./js/classes/animator.js"></script>
@@ -35,6 +35,9 @@
     <script type="text/javascript" src="./js/classes/timer.js"></script>
     <script type="text/javascript" src="./js/classes/vector.js"></script>
     <script type="text/javascript" src="./js/classes/zone.js"></script>
+
+    <script type="text/javascript" src="./js/scripts/tile_maps/caleb_zone_playground.js"></script>
+
     <!-- Entities: -->
     <!-- Background: -->
     <script type="text/javascript" src="./js/classes/entities/background/decoration.js"></script>
@@ -75,6 +78,7 @@
     <!-- Foreground: -->
     <script type="text/javascript" src="./js/classes/entities/foreground/dialog_bubble.js"></script>
     <script type="text/javascript" src="./js/classes/entities/foreground/crosshair.js"></script>
+    <script type="text/javascript" src="./js/classes/entities/foreground/health_bar.js"></script>
     <!-- CSS: -->
     <link rel="stylesheet" href="./css/general.css" />
 </head>
@@ -89,16 +93,17 @@
             If you change it here, change it in camera.js as well.
         -->
 
-        <div id="container">
-            <canvas height="1080" width="1920" id="game-world" tabindex="0" autofocus></canvas>
-        </div>
-        
-        <label for="debug">Debug</label>
-        <input type="checkbox" id="debug" name="debug" />
-        <label for="spanish">Spanish</label>
-        <input type="checkbox" id="spanish" name="spanish" />
-        
-        <!-- Load the main script. -->
-        <script type="text/javascript" src="./js/scripts/main.js"></script>
-    </body>
+    <div id="container">
+        <canvas height="1080" width="1920" id="game-world" tabindex="0" autofocus></canvas>
+    </div>
+
+    <label for="debug">Debug</label>
+    <input type="checkbox" id="debug" name="debug" />
+    <label for="spanish">Spanish</label>
+    <input type="checkbox" id="spanish" name="spanish" />
+
+    <!-- Load the main script. -->
+    <script type="text/javascript" src="./js/scripts/main.js"></script>
+</body>
+
 </html>

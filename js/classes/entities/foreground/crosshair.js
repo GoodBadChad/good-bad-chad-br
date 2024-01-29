@@ -15,8 +15,7 @@ class Crosshair {
 
     update() {
         this.pos = GAME.mousePos;
-
-        if (GAME.mouseDown) {
+        if (GAME.user.aiming) {
             this.startY = 16;
         } else {
             this.startY = 0;
