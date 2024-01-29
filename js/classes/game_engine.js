@@ -12,28 +12,26 @@ class GameEngine {
         this.spanish = isSpanish ?? false;
         /** Everything that will be updated and drawn each frame. */
         this.entities = [];
-        /** Is the user pressing S key? */
-        this.down = false;
-        /** Is the user pressing the W key? */
-        this.up = false;
-        /** Is the user pressing the D key? */
-        this.right = false;
-        /** Is the user pressing the A key? */
-        this.left = false;
-        /** Is the user pressing the left shift key? */
-        this.shiftLeft = false;
-        /** Is the user pressing the left X key key? */
-        this.keyX = false;
-        /** Is the user pressing the mouse button? */
-        this.mouseDown = false;
-        /** Is the user releasing the mouse button? */
-        this.mouseUp = false;
+
+        /** A user object to define behaviors of Chad. */
+        this.user = {
+            movingDown: false,
+            movingUp: false,
+            movingRight: false,
+            movingLeft: false,
+            jumping: false,
+            sprinting: false,
+            dashing: false,
+            aiming: false,
+            firing: false,
+            jabbing: false
+        }
+
         // /** Where is the x coordinate of the user's mouse? */
         // this.mouseX = 0;
         // /** Where is the y coordinate of the user's mouse? */
         // this.mouseY = 0;
         this.mousePos = new Vector(0, 0);
-
 
         /** The timer tells you how long it's been since the last tick! */
         this.timer = new Timer();
@@ -95,8 +93,8 @@ class GameEngine {
             }
         }
 
-        if (this.mouseUp) {
-            this.mouseUp = false;
+        if (this.user.firing) {
+            this.user.firing = false;
         }
     };
 
@@ -127,13 +125,13 @@ class GameEngine {
     startInput() {
 
         CANVAS.addEventListener("mousedown", (e) => {
-            this.mouseDown = true;
-            this.mouseUp = false;
+            this.user.firing = false;
+            this.user.aiming = true;
         });
 
         CANVAS.addEventListener("mouseup", (e) => {
-            this.mouseUp = true;
-            this.mouseDown = false;
+            this.user.aiming = false;
+            this.user.firing = true;
             console.log("mouse clicked at (" + Math.round(this.mousePos.x) + ", " + Math.round(this.mousePos.y) + ")");
         });
 
@@ -149,25 +147,28 @@ class GameEngine {
         CANVAS.addEventListener("keydown", (e) => {
             switch (e.code) {
                 case "KeyA":
-                    this.left = true;
+                    this.user.movingLeft = true;
                     break;
                 case "KeyD":
-                    this.right = true;
+                    this.user.movingRight = true;
                     break;
                 case "KeyS":
-                    this.down = true;
+                    this.user.movingDown = true;
                     break;
                 case "KeyW":
-                    this.up = true;
+                    this.user.movingUp = true;
                     break;
                 case "Space":
-                    this.space = true;
+                    this.user.jumping = true;
                     break;
                 case "ShiftLeft":
-                    this.shiftLeft = true;
+                    this.user.sprinting = true;
                     break;
                 case "KeyX":
-                    this.keyX = true;
+                    this.user.dashing = true;
+                    break;
+                case "KeyQ":
+                    this.user.jabbing = true;
                     break;
             }
         }, false);
@@ -175,59 +176,101 @@ class GameEngine {
         CANVAS.addEventListener("keyup", (e) => {
             switch (e.code) {
                 case "KeyA":
-                    this.left = false;
+                    this.user.movingLeft = false;
                     break;
                 case "KeyD":
-                    this.right = false;
+                    this.user.movingRight = false;
                     break;
                 case "KeyS":
-                    this.down = false;
+                    this.user.movingDown = false;
                     break;
                 case "KeyW":
-                    this.up = false;
+                    this.user.movingUp = false;
                     break;
                 case "Space":
-                    this.space = false;
+                    this.user.jumping = false;
                     break;
                 case "ShiftLeft":
-                    this.shiftLeft = false;
+                    this.user.sprinting = false;
                     break;
                 case "KeyX":
-                    this.keyX = false;
+                    this.user.dashing = false;
+                    break;
+                case "KeyQ":
+                    this.user.jabbing = false;
                     break;
             }
         }, false);
     };
 
+    /**
+     * This is (the only thing, currently, that is) called when Debug mode is active!
+     * This draws a grid around all blocks, and every 5 block cells are labeled.
+     */
     drawGrid() {
+
+        // (1) Draw the grid: 
+
         CTX.strokeStyle = "white";
         CTX.strokeWeight = 1;
-        // Draw the grid.
-        for (let x = DIMENSION.MIN_X; x <= DIMENSION.MAX_X; x += Block.SCALED_SIZE) {
-            for (let y = DIMENSION.MIN_Y; y <= DIMENSION.MAX_Y; y += Block.SCALED_SIZE) {
-                CTX.beginPath();
-                CTX.moveTo(DIMENSION.MIN_X - CAMERA.pos.x, y - CAMERA.pos.y);
-                CTX.lineTo(DIMENSION.MAX_X - CAMERA.pos.x, y - CAMERA.pos.y);
-                CTX.stroke();
 
-                CTX.beginPath();
-                CTX.moveTo(x - CAMERA.pos.x, DIMENSION.MIN_Y - CAMERA.pos.y);
-                CTX.lineTo(x - CAMERA.pos.x, DIMENSION.MAX_Y - CAMERA.pos.y);
-                CTX.stroke();
-            }
+        // Draw all the vertical lines by iterating through the x values we need.
+        for (let x = ZONE.MIN_PT.x; x <= ZONE.MAX_PT.x; x += Block.SCALED_SIZE) {
+            // Start a path
+            CTX.beginPath();
+            // Starting point
+            CTX.moveTo(x - CAMERA.pos.x, ZONE.MIN_PT.y - CAMERA.pos.y);
+            // Ending point
+            CTX.lineTo(x - CAMERA.pos.x, ZONE.MAX_PT.y - CAMERA.pos.y);
+            // Actually draw it.
+            CTX.stroke();
+            // Close the path
+            CTX.closePath();
         }
+
+        // Draw all the horizontal lines by iterating through the y values we need. 
+        for (let y = ZONE.MIN_PT.y; y <= ZONE.MAX_PT.y; y += Block.SCALED_SIZE) {
+            // Start a path
+            CTX.beginPath();
+            // Starting point
+            CTX.moveTo(ZONE.MIN_PT.x - CAMERA.pos.x, y - CAMERA.pos.y);
+            // Ending point
+            CTX.lineTo(ZONE.MAX_PT.x - CAMERA.pos.x, y - CAMERA.pos.y);
+            // Actually draw it.
+            CTX.stroke();
+            // Close the path
+            CTX.closePath();
+        }
+
+
+        // (2) Label the cells.
+
         CTX.fillStyle = "red";
         CTX.font = FONT.VT323_NORMAL;
-        let gameX = DIMENSION.MIN_X + 5;
-        const minY = DIMENSION.MIN_Y + 18;
+        
+        // Where we want to start drawing the label. Note: the +5 is so that it is clear which cell we are labeling.
+        let gameX = ZONE.MIN_PT.x + 5;
+        // This is the minimum y value that we will write at. Note: the +18 is related to the font size.
+        // Apparently drawing text with the context will start writing right ABOVE where you dictate.
+        const minY = ZONE.MIN_PT.y + 18;
+        // This is going to be where we want to start drawing the label, just like gameX.
         let gameY = minY;
-        for (let blockX = DIMENSION.MIN_BLOCK_X; blockX <= DIMENSION.MAX_BLOCK_X; blockX += 5) {
-            for (let blockY = DIMENSION.MIN_BLOCK_Y; blockY <= DIMENSION.MAX_BLOCK_Y; blockY += 5) {
+
+        // As it is currently working, it will DEFINITELY label ZONE.MIN_BLOCK, and every 5 other than that.
+        // Would like to refactor it eventually to DEFINITELY label the origin, but not super important.
+        // Also, could be refactored to better use the Vector class's static methods.
+        for (let blockX = ZONE.MIN_BLOCK.x; blockX <= ZONE.MAX_BLOCK.x; blockX += 5) {
+            for (let blockY = ZONE.MIN_BLOCK.y; blockY <= ZONE.MAX_BLOCK.y; blockY += 5) {
+                // The string representing the cell we are labeling.
                 let pt = "(" + blockX + ", " + blockY + ")";
+                // Draw it.
                 CTX.fillText(pt, gameX - CAMERA.pos.x, gameY - CAMERA.pos.y, Block.SCALED_SIZE);
+                // Skip 5 blocks.
                 gameY += Block.SCALED_SIZE * 5;
             }
+            // Skip 5 blocks.
             gameX += Block.SCALED_SIZE * 5;
+            // Reset gameY! If you don't you'll only ever see the first column of labels.
             gameY = minY;
         }
 

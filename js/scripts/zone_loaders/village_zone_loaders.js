@@ -70,6 +70,7 @@ const loadVillageInsideCave = () => {
 };
 
 const loadVillageMain = () => {
+
     const queueAssets = () => {};
 
     const addEntities = () => {

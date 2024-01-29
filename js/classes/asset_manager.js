@@ -55,7 +55,7 @@ class AssetManager {
                     });
         
                     img.addEventListener("error", () => {
-                        console.log("Error loading " + img.src);
+                        console.log("Error loading " + path);
                         this.errorCount++;
                         if (this.isDone()) callback();
                     });
@@ -74,11 +74,11 @@ class AssetManager {
                     });
 
                     audio.addEventListener("error", () => {
-                        console.log("Error loading " + this.src);
+                        console.log("Error loading " + path);
                         this.errorCount++;
                         if (this.isDone()) callback();
                     });
-
+                
                     audio.addEventListener("ended", () => {
                         audio.pause();
                         audio.currentTime = 0;
@@ -137,16 +137,13 @@ class AssetManager {
     };
 
     /**
-     * This method pauses the audio associated with the given path.
-     * @param {boolean} mute True if you want to mute the audio, false otherwise.
+     * This method stops the audio associated with the given path.
+     * @param {string} path The filepath of the audio you are trying to stop.
      */
-    muteAudio(mute) {
-        for (let key in this.cache) {
-            const audio = this.cache[key];
-            if (audio instanceof Audio) {
-                audio.muted = mute;
-            }
-        }
+    stopAudio(path) {
+        const audio = this.cache[path];
+        audio.pause();
+        audio.currentTime = 0;
     };
 
     /** 
@@ -188,10 +185,16 @@ class AssetManager {
                 Block.SPRITESHEET,
                 Projectile.SPRITESHEET,
                 Slingshot.SPRITESHEET,
-                //Sword.SPRITESHEET,
-                "./sfx/slime_jump.mp3",
-                "./sfx/slingshot_launch.wav",
-                "./sfx/temp_jump.wav"
+                Crosshair.SPRITESHEET,
+                Sword.SPRITESHEET,
+                SFX.JUMP1.path,
+                SFX.JUMP2.path,
+                SFX.SLINGSHOT_LAUNCH1.path,
+                SFX.SLINGSHOT_LAUNCH2.path,
+                SFX.SLINGSHOT_LAUNCH3.path,
+                SFX.SLINGSHOT_LAUNCH4.path,
+                SFX.SLINGSHOT_STRETCH.path,
+                SFX.SONIC_DASH.path
         ];
     };
 };
