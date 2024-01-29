@@ -20,9 +20,9 @@
     <script type="text/javascript" src="./js/scripts/dimension/village_dimension.js"></script>
     <script type="text/javascript" src="./js/scripts/dimension/lava_dimension.js"></script>
 
+    <!-- Tile maps here. -->
     <script type="text/javascript" src="./js/scripts/temp/bird_script.js"></script>
 
-    <script type="text/javascript" src="./js/scripts/tile_maps/playground.js"></script>
 
     <!-- Put non-entity classes here! -->
     <script type="text/javascript" src="./js/classes/animator.js"></script>
@@ -35,6 +35,8 @@
     <script type="text/javascript" src="./js/classes/timer.js"></script>
     <script type="text/javascript" src="./js/classes/vector.js"></script>
     <script type="text/javascript" src="./js/classes/zone.js"></script>
+
+    <script type="text/javascript" src="./js/scripts/tile_maps/caleb_zone_playground.js"></script>
 
     <!-- Entities: -->
     <!-- Background: -->
@@ -95,10 +97,18 @@
         <canvas height="1080" width="1920" id="game-world" tabindex="0" autofocus></canvas>
     </div>
 
-    <label for="debug">Debug</label>
-    <input type="checkbox" id="debug" name="debug" />
-    <label for="spanish">Spanish</label>
-    <input type="checkbox" id="spanish" name="spanish" />
+    <div id="options">
+        <label for="debug">Debug</label>
+        <input type="checkbox" id="debug" name="debug" />
+        <label for="spanish">Spanish</label>
+        <input type="checkbox" id="spanish" name="spanish" />
+    </div>
+    
+    <p>A and D for left and right.</p>
+    <p>Space for jump and double jump.</p>
+    <p>Shift for Sprint.</p>
+    <p>While mid-air pressing A or D Hold X to Dash.</p>
+    <p>Left Click to shoot.</p>
 
     <!-- Load the main script. -->
     <script type="text/javascript" src="./js/scripts/main.js"></script>
