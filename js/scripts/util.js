@@ -52,7 +52,7 @@ const SFX = {
     SLINGSHOT_LAUNCH3: {path: "./sfx/launch3.mp3", volume: 0.5},
     SLINGSHOT_LAUNCH4: {path: "./sfx/launch4.mp3", volume: 0.5},
     SLINGSHOT_STRETCH: {path: "./sfx/slingshot_stretch.mp3", volume: 0.4},
-    SONIC_DASH: {path: "./sfx/sonic_dash.wav", volume: 0.2}
+    SONIC_DASH: {path: "./sfx/sonic_dash.mp3", volume: 0.2}
 }
 
 /**
