@@ -34,6 +34,36 @@ class DialogBubble {
         };
     };
 
+    update() {
+
+    };
+
+    draw() {
+
+    };
+
+    // STATIC GETTERS:
+
+    /** The size of this entity on the spritesheet. */
+    static get SIZE() {
+        return new Vector(100, 40);
+    };
+
+    /** How much bigger should the dialog bubble be on the screen than it is on the spritesheet? */
+    static get SCALE() {
+        return screen.width / DialogBubble.SIZE.x;
+    };
+
+    /** The size that this entity should be drawn on the canvas. */
+    static get SCALED_SIZE() {
+        return Vector.multiply(DialogBubble.SIZE, DialogBubble.SCALE);
+    };
+
+    /** This is the path to the spritesheet containing the dialog bubbles. */
+    static get SPRITESHEET() {
+        return "./sprites/dialog_bubble.png";
+    };
+
     /** 
      * A JSON object with all of the characters who talk. It stores Animators of their heads.
      * The speaker field of any DialogBubble should be a constant from this getter.
