@@ -70,8 +70,21 @@ const loadPlaygroundDevin = () => {
     };
 
     const addEntities = () => {
+        for (let y = ZONE.MAX_BLOCK.y; y >= ZONE.MAX_BLOCK.y - 5; y--) {
+            for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
+                GAME.addEntity(new Block(new Vector(x, y), Block.DIRT));
+            }
+        }
 
+
+        const papaChadBlockPos = new Vector(15, 15);
+
+        const papa = new PapaChad(Vector.blockToWorldSpace(papaChadBlockPos));
+        GAME.addEntity(papa);
     };
+
+    const chadBlockPos = new Vector(1, 15);
+    CHAD.pos = Vector.blockToWorldSpace(chadBlockPos);
 
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);
