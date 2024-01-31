@@ -182,6 +182,7 @@ class AssetManager {
                 // Entities:
                 Block.SPRITESHEET,
                 Crosshair.SPRITESHEET,
+                DialogBubble.SPRITESHEET,
                 OverheadIcon.SPRITESHEET,
                 PapaChad.SPRITESHEET,
                 Projectile.SPRITESHEET,
