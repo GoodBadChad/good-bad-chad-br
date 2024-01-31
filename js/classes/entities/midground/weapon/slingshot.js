@@ -52,21 +52,9 @@ class Slingshot {
         ASSET_MGR.stopAudio(SFX.SLINGSHOT_STRETCH.path);
         
         // choose from 4 different firing sounds
-        let rand = Math.floor(Math.random() * 4);
-        switch (rand) {
-            case 0:
-                ASSET_MGR.playAudio(SFX.SLINGSHOT_LAUNCH1.path, SFX.SLINGSHOT_LAUNCH1.volume);
-                break;
-            case 1:
-                ASSET_MGR.playAudio(SFX.SLINGSHOT_LAUNCH2.path, SFX.SLINGSHOT_LAUNCH2.volume);
-                break;
-            case 2:
-                ASSET_MGR.playAudio(SFX.SLINGSHOT_LAUNCH3.path, SFX.SLINGSHOT_LAUNCH3.volume);
-                break;
-            case 3:
-                ASSET_MGR.playAudio(SFX.SLINGSHOT_LAUNCH4.path, SFX.SLINGSHOT_LAUNCH4.volume);
-                break;
-        }
+        const rand = Math.floor(Math.random() * 4) + 1;
+        const sfx = SFX["SLINGSHOT_LAUNCH" + rand];
+        ASSET_MGR.playAudio(sfx.path, sfx.volume);
 
         this.isFiring = true;
         //this.startX = 26; // slingshot firing frame
@@ -79,7 +67,6 @@ class Slingshot {
             Projectile.STONE,
             Vector.round(this.pos),
             Vector.round(Vector.canvasToWorldSpace(GAME.mousePos))));
-        // console.log("slingshot fired from (" + start.x + ", " + start.y + ") to (" + end.x + ", " + end.y + ")");
 
         // trigger an async operation that will erase the slingshot after it fires
         setTimeout(() => {
@@ -92,7 +79,6 @@ class Slingshot {
         this.playedStretchSound = false;
     }
 
-
     update() {
         if (GAME.user.aiming) {
             this.aim();
@@ -100,7 +86,6 @@ class Slingshot {
             this.fire();
         }
     }
-
 
     draw() {
         if (!this.isHidden) {
