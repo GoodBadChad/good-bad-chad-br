@@ -242,7 +242,6 @@ class GameEngine {
             CTX.closePath();
         }
 
-
         // (2) Label the cells.
 
         CTX.fillStyle = "red";
@@ -273,6 +272,5 @@ class GameEngine {
             // Reset gameY! If you don't you'll only ever see the first column of labels.
             gameY = minY;
         }
-
     };
 };
