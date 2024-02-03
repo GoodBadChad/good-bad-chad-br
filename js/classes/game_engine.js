@@ -124,14 +124,21 @@ class GameEngine {
     startInput() {
 
         CANVAS.addEventListener("mousedown", (e) => {
-            this.user.firing = false;
-            this.user.aiming = true;
+            if (e.button === 0) {
+                this.user.firing = false;
+                this.user.aiming = true;
+            } else if (e.button === 2) {
+                // TODO update user.jabbing here
+            }
         });
 
         CANVAS.addEventListener("mouseup", (e) => {
-            this.user.aiming = false;
-            this.user.firing = true;
-            console.log("mouse clicked at (" + Math.round(this.mousePos.x) + ", " + Math.round(this.mousePos.y) + ")");
+            if (e.button === 0) {
+                this.user.aiming = false;
+                this.user.firing = true;
+            } else if (e.button === 2) {
+                // TODO update user.jabbing here
+            }
         });
 
         CANVAS.addEventListener("mousemove", (e) => {
