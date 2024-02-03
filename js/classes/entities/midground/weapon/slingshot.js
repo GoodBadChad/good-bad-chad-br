@@ -59,14 +59,14 @@ class Slingshot {
         this.isFiring = true;
         //this.startX = 26; // slingshot firing frame
 
-        INVENTORY.decreaseAmmo();
-        let ammo = INVENTORY.getCurrentAmmo();
-
-        // create a projectile and launch it in the direction of the mouse
-        GAME.addEntity(new Projectile(
-            Projectile.STONE,
-            Vector.round(this.pos),
-            Vector.round(Vector.canvasToWorldSpace(GAME.mousePos))));
+        let ammoType = INVENTORY.useCurrentAmmo();
+        if (ammoType != "Empty") {
+            // create a projectile and launch it in the direction of the mouse
+            GAME.addEntity(new Projectile(
+                ammoType,
+                Vector.round(this.pos),
+                Vector.round(Vector.canvasToWorldSpace(GAME.mousePos))));
+        }
 
         // trigger an async operation that will erase the slingshot after it fires
         setTimeout(() => {
