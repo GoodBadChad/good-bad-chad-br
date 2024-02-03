@@ -34,6 +34,10 @@ class Zone {
             // Clear all images/music from previous Zone.
             ASSET_MGR.refresh();
             loadFunction();
+
+            CANVAS.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
         };
         this.name = name;
     };
