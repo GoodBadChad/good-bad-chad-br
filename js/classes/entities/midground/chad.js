@@ -38,6 +38,8 @@ class Chad {
         this.velocity = new Vector(0, 0);
         /** Name of character. */
         this.name = "dChad";
+        /** The health of Chad. */
+        this.health = Chad.MAX_HEALTH;
     };
 
     /** The size, in pixels of the sprite ON THE SPRITESHEET. */
@@ -86,6 +88,24 @@ class Chad {
     static get DASH_BARRIER() {
         return 250;
     }
+
+    /** The maximum amount of health Chad can have. */
+    static get MAX_HEALTH() {
+        return 100;
+    };
+
+    /** 
+     * Decrease the health of Chad by the provided amount and perform any necessary operations
+     * based on the new health value.
+     * 
+     * @param {number} amount the amount by which to decrease Chad's health
+     */
+    takeDamage(amount) {
+        this.health -= amount;
+        if (this.health <= 0) {
+            // Chad should die here
+        }
+    };
 
     /**
      * Deals with movement in the x direction including walking, running and dashing.
@@ -292,6 +312,11 @@ class Chad {
                             // We are colliding with the bottom.
                             this.pos = new Vector(this.pos.x, entity.boundingBox.bottom);
                         }
+                    }
+                    else if (entity instanceof Border) {
+                        LAST_ZONE = ZONE;
+                        ZONE = entity.target;
+                        ZONE.load();
                     }
                 }
                 // There's no collision - don't do anything!

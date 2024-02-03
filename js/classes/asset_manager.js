@@ -186,10 +186,15 @@ class AssetManager {
                 Projectile.SPRITESHEET,
                 Slingshot.SPRITESHEET,
                 Crosshair.SPRITESHEET,
-                //Sword.SPRITESHEET,
-                "./sfx/slime_jump.mp3",
-                "./sfx/slingshot_launch.wav",
-                "./sfx/temp_jump.wav"
+                Sword.SPRITESHEET,
+                SFX.JUMP1.path,
+                SFX.JUMP2.path,
+                SFX.SLINGSHOT_LAUNCH1.path,
+                SFX.SLINGSHOT_LAUNCH2.path,
+                SFX.SLINGSHOT_LAUNCH3.path,
+                SFX.SLINGSHOT_LAUNCH4.path,
+                SFX.SLINGSHOT_STRETCH.path,
+                SFX.SONIC_DASH.path
         ];
     };
 };

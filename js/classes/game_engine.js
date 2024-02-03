@@ -23,7 +23,8 @@ class GameEngine {
             sprinting: false,
             dashing: false,
             aiming: false,
-            firing: false
+            firing: false,
+            jabbing: false
         }
 
         // /** Where is the x coordinate of the user's mouse? */
@@ -173,6 +174,9 @@ class GameEngine {
                 case "KeyX":
                     this.user.dashing = true;
                     break;
+                case "KeyQ":
+                    this.user.jabbing = true;
+                    break;
             }
         }, false);
 
@@ -198,6 +202,9 @@ class GameEngine {
                     break;
                 case "KeyX":
                     this.user.dashing = false;
+                    break;
+                case "KeyQ":
+                    this.user.jabbing = false;
                     break;
             }
         }, false);
