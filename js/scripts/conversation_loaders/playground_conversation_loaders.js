@@ -39,17 +39,3 @@ const papaChadConversationLoader = () => {
     };
     
 };
-
-// // Algorithm for traversing dialog.
-// // DialogEater(string[] convo)
-// //  Set i = 0.
-// //  while (i < convo.length):
-// //      display convo[i].
-// //      if (convo.responses):
-// //          chosenResponse = [users choice of r1, r2, ...].
-// //          i = chosenResponse.next.
-// //      else if (!convo.end):
-// //          i++.
-// //      else:
-// //          i = convo.length.
-// //  End DialogEater.
