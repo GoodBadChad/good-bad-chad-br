@@ -94,10 +94,12 @@ class Slingshot {
 
 
     update() {
-        if (GAME.user.aiming) {
-            this.aim();
-        } else if (GAME.user.firing) {
-            this.fire();
+        if (!HUD.pauseButton.isMouseOver()) {
+            if (GAME.user.aiming) {
+                this.aim();
+            } else if (GAME.user.firing) {
+                this.fire();
+            }
         }
     }
 

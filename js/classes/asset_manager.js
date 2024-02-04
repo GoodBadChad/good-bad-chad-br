@@ -187,6 +187,7 @@ class AssetManager {
                 Slingshot.SPRITESHEET,
                 Crosshair.SPRITESHEET,
                 Sword.SPRITESHEET,
+                Rune.SPRITESHEET,
                 SFX.JUMP1.path,
                 SFX.JUMP2.path,
                 SFX.SLINGSHOT_LAUNCH1.path,

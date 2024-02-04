@@ -74,22 +74,28 @@ class GameEngine {
      * This method is going to go through all entities and allow them to update their position.
      */
     update() {
-        // Iterate forward through the entities array. Update everything.
-        for (let i = 0; i < this.entities.length; i++) {
-            let entity = this.entities[i];
-            if (!entity.removeFromWorld) {
-                entity.update();
-            }
-        }
-        // Update Chad, who is not a regular entity.
-        CHAD.update();
-        // Update the camera, which is not a regular entity.
-        CAMERA.update();
+        // Update the HUD and Crosshair regardless of whether the game is running or not
+        HUD.update();
+        CROSSHAIR.update();
 
-        // Iterate backward through the entities array, and remove all entities which ought be removed.
-        for (let i = this.entities.length - 1; i >= 0; i--) {
-            if (this.entities[i].removeFromWorld) {
-                this.entities.splice(i, 1);
+        if (this.running) {
+            // Iterate forward through the entities array. Update everything.
+            for (let i = 0; i < this.entities.length; i++) {
+                let entity = this.entities[i];
+                if (!entity.removeFromWorld) {
+                    entity.update();
+                }
+            }
+            // Update Chad, who is not a regular entity.
+            CHAD.update();
+            // Update the camera, which is not a regular entity.
+            CAMERA.update();
+
+            // Iterate backward through the entities array, and remove all entities which ought be removed.
+            for (let i = this.entities.length - 1; i >= 0; i--) {
+                if (this.entities[i].removeFromWorld) {
+                    this.entities.splice(i, 1);
+                }
             }
         }
 
@@ -116,6 +122,10 @@ class GameEngine {
         }
         // Draw Chad, who is not a regular entity.
         CHAD.draw();
+
+        // Draw the HUD and Crosshair, which are not regular entities.
+        HUD.draw();
+        CROSSHAIR.draw();
     };
 
     /**
