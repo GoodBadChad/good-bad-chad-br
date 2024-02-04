@@ -26,8 +26,18 @@ const papaChadConversationLoader = () => {
                 chad,
                 "Ok dad sounds good!",
                 true)
+        ],
+        jerseyShore: [
+            new DialogBubble(
+                papa,
+                "Sam, The first night at bed when you left, Ron made out with 2 girls and put his head between a waitress's breasts. Also was grinding with multiple fat women."),
+            new DialogBubble(
+                papa,
+                "When you left crying at klutch, Ron was holding hands and dancing with a female and took down her number. Multiple people in the house know, therefore you should know the truth.",
+                 true)
         ]
     };
+    
 };
 
 // // Algorithm for traversing dialog.
