@@ -78,10 +78,11 @@ const loadPlaygroundDevin = () => {
 
 
         const papaChadBlockPos = new Vector(15, 15);
-
-        const papa = new PapaChad(Vector.blockToWorldSpace(papaChadBlockPos));
+        const papa = new PapaChad(Vector.blockToWorldSpace(papaChadBlockPos), getAllConversations().playground.papaChad.jerseyShore);
         GAME.addEntity(papa);
     };
+
+    BG_COLOR = COLORS.SEA_FOAM_GREEN;
 
     const chadBlockPos = new Vector(1, 15);
     CHAD.pos = Vector.blockToWorldSpace(chadBlockPos);
