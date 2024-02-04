@@ -15,10 +15,17 @@ window.requestAnimFrame = (() => {
         });
 })();
 
-const COLORS = {
-    skyBlue: "#5da6b3"
+window.onkeydown = (e) => {
+    return e.code !== "Space"; // This fixes the bug where the window scrolls down when you press space.
 };
 
+/** An object containing all the relevant colors we are using in this project. */
+const COLORS = {
+    SEA_FOAM_GREEN: "#a0d6b4",
+    SKY_BLUE: "#5da6b3"
+};
+
+/** This is going to be set for each zone. A rectangle drawn over the whole canvas, first thing. */
 let BG_COLOR = null;
 
 // Physics utlities
@@ -36,9 +43,9 @@ const PHYSICS = {
     TERMINAL_VELOCITY : 200 // currently only being applied to projectiles
 };
 
-const FONT = { // NOTE: the "vt323" part below is not what's assigning the vt323 font. It's the CSS file. I kept entity here for reference.
-    VT323_NORMAL: "20px vt323",
-    VT323_HEADER: "24px vt323"
+const FONT = {
+    VT323_HEADER: "50px vt323",
+    VT323_NORMAL: "34px vt323"
 };
 
 /**
@@ -63,7 +70,6 @@ const MUSIC = {
     PEACEFUL_CHIPTUNE: {path: "./music/peaceful_chiptune.mp3", volume: 0.1},
 }
 
-
 /**
  * Check if the provided entity is colliding with any blocks and correct its position if so.
  * 
@@ -73,7 +79,7 @@ const MUSIC = {
 const checkBlockCollisions = (entity) => {
     const collisions = {};
     // Have we collided with anything?
-    GAME.entities.forEach((otherEntity) => {
+    GAME.entities.midground.forEach((otherEntity) => {
         // Does otherEntity even have a BB?
         if (otherEntity != entity && otherEntity.boundingBox) {
             
@@ -133,4 +139,84 @@ const checkBlockCollisions = (entity) => {
     entity.boundingBox = new BoundingBox(entity.pos, entity.constructor.SCALED_SIZE);
 
     return collisions;
+};
+
+const EVENT_HANDLERS = {
+    gameplayMouseDown: (e) => {
+        GAME.user.firing = false;
+        GAME.user.aiming = true;
+    },
+    gameplayMouseUp: (e) => {
+        GAME.user.aiming = false;
+        GAME.user.firing = true;
+    },
+    gameplayMouseMove: (e) => {
+        const rect = CANVAS.getBoundingClientRect();
+        const scaleX = CANVAS.width / rect.width;
+        const scaleY = CANVAS.height / rect.height;
+        GAME.mousePos = new Vector((e.clientX - rect.left) * scaleX, (e.clientY - rect.top) * scaleY);
+    },
+    gameplayKeyDown: (e) => {
+        switch (e.code) {
+            case "KeyA":
+                GAME.user.movingLeft = true;
+                break;
+            case "KeyD":
+                GAME.user.movingRight = true;
+                break;
+            case "KeyS":
+                GAME.user.movingDown = true;
+                break;
+            case "KeyW":
+                GAME.user.movingUp = true;
+                GAME.user.interacting = true;
+                break;
+            case "Space":
+                GAME.user.jumping = true;
+                break;
+            case "ShiftLeft":
+                GAME.user.sprinting = true;
+                break;
+            case "KeyX":
+                GAME.user.dashing = true;
+                break;
+            case "KeyQ":
+                GAME.user.jabbing = true;
+                break;
+        }
+    },
+    gameplayKeyUp: (e) => {
+        switch (e.code) {
+            case "KeyA":
+                GAME.user.movingLeft = false;
+                break;
+            case "KeyD":
+                GAME.user.movingRight = false;
+                break;
+            case "KeyS":
+                GAME.user.movingDown = false;
+                break;
+            case "KeyW":
+                GAME.user.movingUp = false;
+                GAME.user.interacting = false;
+                break;
+            case "Space":
+                GAME.user.jumping = false;
+                break;
+            case "ShiftLeft":
+                GAME.user.sprinting = false;
+                break;
+            case "KeyX":
+                GAME.user.dashing = false;
+                break;
+            case "KeyQ":
+                GAME.user.jabbing = false;
+                break;
+        }
+    },
+    dialogKeyPress: (e) => {
+        if (e.code === "KeyW") {
+            GAME.user.continuingConversation = true;
+        }
+    }
 };
