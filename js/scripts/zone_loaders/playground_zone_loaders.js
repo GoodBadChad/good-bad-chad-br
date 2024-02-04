@@ -78,7 +78,7 @@ const loadPlaygroundDevin = () => {
 
 
         const papaChadBlockPos = new Vector(15, 15);
-        const papa = new PapaChad(Vector.blockToWorldSpace(papaChadBlockPos), getAllConversations().playground.papaChad.jerseyShore);
+        const papa = new PapaChad(Vector.blockToWorldSpace(papaChadBlockPos), new Conversation(getAllConversations().playground.papaChad.jerseyShore));
         GAME.addEntity(papa);
     };
 
