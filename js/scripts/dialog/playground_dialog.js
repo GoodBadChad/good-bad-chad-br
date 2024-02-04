@@ -24,7 +24,7 @@ const CONVO1 = [
     },
     {// index 3
         speaker:    "Chad",
-        text:       "Okay dad! GREAT!"
+        text:       "Okay dad! Great!"
     },
     {// index 4
         speaker:    null,

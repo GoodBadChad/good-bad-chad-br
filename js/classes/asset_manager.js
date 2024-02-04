@@ -179,15 +179,18 @@ class AssetManager {
      */
     static get BAREBONES_DL_Q() {
         return [
-                Sun.SPRITESHEET,
-                PapaChad.SPRITESHEET,
-                Slingshot.SPRITESHEET,
+                // Entities:
                 Block.SPRITESHEET,
+                Crosshair.SPRITESHEET,
+                OverheadIcon.SPRITESHEET,
+                PapaChad.SPRITESHEET,
                 Projectile.SPRITESHEET,
                 Slingshot.SPRITESHEET,
-                Crosshair.SPRITESHEET,
+                Sun.SPRITESHEET,
                 Sword.SPRITESHEET,
                 Rune.SPRITESHEET,
+          
+                // Sounds:
                 SFX.JUMP1.path,
                 SFX.JUMP2.path,
                 SFX.SLINGSHOT_LAUNCH1.path,
