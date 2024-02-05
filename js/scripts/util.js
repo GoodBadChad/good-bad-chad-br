@@ -44,6 +44,7 @@ const PHYSICS = {
     TERMINAL_VELOCITY : 200 // currently only being applied to projectiles
 };
 
+/** Declares constants for CTX.font. */
 const FONT = {
     VT323_HEADER: "50px vt323",
     VT323_NORMAL: "34px vt323"

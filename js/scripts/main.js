@@ -16,6 +16,10 @@ const CAMERA = new Camera();
 const CHAD = new Chad(new Vector(0, 0));
 /** The inventory of the player. */
 const INVENTORY = new Inventory();
+/** The player's HUD. */
+const HUD = new Hud();
+/** The player's crosshair. */
+const CROSSHAIR = new Crosshair();
 
 // (2) Minor details:
 

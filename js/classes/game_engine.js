@@ -94,40 +94,44 @@ class GameEngine {
      * This method is going to go through all entities and allow them to update their position.
      */
     update() {
-        
-        // (1) Update the background entities:
-        this.entities.background.forEach((entity) => {
-            if (entity.removeFromWorld) {
-                const i = this.entities.background.indexOf(entity);
-                this.entities.background.splice(i, 1);
-            } else {
-                entity.update();
-            }
-        });
+        if (this.running) {
+            // (1) Update the background entities:
+            this.entities.background.forEach((entity) => {
+                if (entity.removeFromWorld) {
+                    const i = this.entities.background.indexOf(entity);
+                    this.entities.background.splice(i, 1);
+                } else {
+                    entity.update();
+                }
+            });
 
-        // (2) Update the midground entities:
-        this.entities.midground.forEach((entity) => {
-            if (entity.removeFromWorld) {
-                const i = this.entities.midground.indexOf(entity);
-                this.entities.midground.splice(i, 1);
-            } else {
-                entity.update();
-            }
-        });
+            // (2) Update the midground entities:
+            this.entities.midground.forEach((entity) => {
+                if (entity.removeFromWorld) {
+                    const i = this.entities.midground.indexOf(entity);
+                    this.entities.midground.splice(i, 1);
+                } else {
+                    entity.update();
+                }
+            });
 
-        // (3) Update CHAD and CAMERA:
-        CHAD.update();
-        CAMERA.update();
+            // (3) Update CHAD and CAMERA:
+            CHAD.update();
+            CAMERA.update();
 
-        // (4) Update the foreground entities:
-        this.entities.foreground.forEach((entity) => {
-            if (entity.removeFromWorld) {
-                const i = this.entities.foreground.indexOf(entity);
-                this.entities.foreground.splice(i, 1);
-            } else {
-                entity.update();
+            // (4) Update the foreground entities:
+            this.entities.foreground.forEach((entity) => {
+                if (entity.removeFromWorld) {
+                    const i = this.entities.foreground.indexOf(entity);
+                    this.entities.foreground.splice(i, 1);
+                } else {
+                    entity.update();
+                }
             }
-        });
+        }
+        // Update the HUD and Crosshair regardless of whether the game is running or not
+        HUD.update();
+        CROSSHAIR.update();
 
         // I'm not gonna touch this because I don't know why it's here, but I don't think it belongs here:
         if (this.user.firing) {
@@ -154,9 +158,12 @@ class GameEngine {
             this.drawGrid();
         }
         CHAD.draw();
-
+      
         // (5) Draw the foreground entities.
         this.entities.foreground.forEach((entity) => {entity.draw();});
+        // Draw the HUD and Crosshair, which are not regular entities.
+        HUD.draw();
+        CROSSHAIR.draw();
     };
 
     /**

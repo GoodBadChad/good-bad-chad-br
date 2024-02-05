@@ -36,7 +36,10 @@ class Animator {
      * @param {number} scale How much the image should be scaled when drawing. 1 pixel on the spritesheet = (scale x scale) pixels on the canvas.
      */
     drawFrame(pos, scale) {
-        this.elapsedTime += GAME.clockTick;
+        if (GAME.running) {
+            this.elapsedTime += GAME.clockTick;
+        }
+        
         if (this.elapsedTime > this.totalTime) this.elapsedTime -= this.totalTime;
         const frame = this.currentFrame();
         CTX.drawImage(ASSET_MGR.getAsset(this.spritesheet),
