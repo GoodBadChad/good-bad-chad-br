@@ -1,7 +1,11 @@
+/**
+ * A conversation is an entity, in that it exists in the entities array and updates,
+ * but really it is a container/handler for the dialog bubbles in its array.
+ * Conversations can be stored in entities, but when they are active, the game goes into Dialog mode.
+ */
 class Conversation {
     /**
-     * 
-     * @param {Array<DialogBubble>} array The array containing all possible 
+     * @param {Array<DialogBubble>} array The array containing all possible dialog bubbles in this conversation.
      * @param {boolean} isNew Is it Chad's first time seeing this conversation? Default: true.
      */
     constructor(array, isNew = true) {
@@ -10,6 +14,10 @@ class Conversation {
         this.new = isNew;
     };
 
+    /**
+     * As the conversation is an entity, it must have an update loop. The update really just
+     * listens for user input, and will change the dialog bubble shown accordingly.
+     */
     update() {
         // Is the user wanting to move on to the next dialog bubble?
         if (GAME.user.continuingConversation) {
@@ -45,10 +53,16 @@ class Conversation {
         GAME.user.continuingConversation = false;
     };
 
+    /** A conversation is an entity and therefore needs a draw method; it is not a physical entity though so it does nothing. */
     draw() {
 
     };
 
+    /** 
+     * This is what's going to be called when Chad interacts with a conversation-carrying entity.
+     * Ensures that it's ready, adds itself to entities, as well as its first dialog bubble.
+     * Sets the listeners to dialog mode.
+     */
     initiateConversation() {
         // Make sure this is ready to be shown.
         this.removeFromWorld = false;
@@ -65,6 +79,10 @@ class Conversation {
         GAME.addEntity(this.array[this.curr]);
     };
 
+    /**
+     * Called by update once the conversation has been finished.
+     * Removes it, deletes its 'new' status (affects whether an OverheadIcon is drawn), sets listeners to gameplay mode.
+     */
     exitConversation() {
         // Have this remove itself from entities
         this.removeFromWorld = true;
