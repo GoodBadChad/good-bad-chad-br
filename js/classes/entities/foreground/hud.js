@@ -17,6 +17,11 @@ class Hud {
         return 32;
     }
 
+    /** The margin (in pixels) between HUD elements and the edge of the canvas. */
+    static get MARGIN() {
+        return 10;
+    }
+
     /**
      * Add a component to the HUD. Creates a field for the component and adds the component
      * to the game engine as an entity. This means that the component must have an update
@@ -45,7 +50,7 @@ class Hud {
             1, 1)
         const healthBarYPos = 15 + 17 * Chad.SCALE;
         this.addComponent("healthBar", new HudHealthBar(
-            new Vector(10, healthBarYPos)
+            new Vector(Hud.MARGIN, healthBarYPos)
         ));
         this.addComponent("runeCounter", new ItemCounter(
             new Vector(Chad.SIZE.x * Chad.SCALE + 20, (healthBarYPos - ItemCounter.HEIGHT) / 2),
@@ -54,28 +59,34 @@ class Hud {
         ));
 
         // add pause button
-        this.addComponent("pauseButton", new PauseButton(new Vector(Camera.SIZE.x - PauseButton.SIZE.x, 0)));
+        this.addComponent("pauseButton", new PauseButton(
+            new Vector(Camera.SIZE.x - PauseButton.SIZE.x - Hud.MARGIN, Hud.MARGIN)
+        ));
 
         // add weapon labels
+        const weaponLabelWidth = 150;
+        const weaponLabelYPos = Camera.SIZE.y - ItemLabel.DEFAULT_SIZE.y - Hud.MARGIN;
         this.addComponent("slingshotLabel", new ItemLabel(
-            new Vector(0, Camera.SIZE.y - ItemLabel.DEFAULT_SIZE.y), 
+            new Vector(Hud.MARGIN, weaponLabelYPos), 
             new Animator(Slingshot.SPRITESHEET, new Vector(0, 0), Slingshot.SIZE, 1, 1),
             "LMC", 
             null, 
-            150
+            weaponLabelWidth,
+            5
         ));
         this.addComponent("swordLabel", new ItemLabel(
-            new Vector(150, Camera.SIZE.y - ItemLabel.DEFAULT_SIZE.y), 
+            new Vector(weaponLabelWidth + Hud.MARGIN, weaponLabelYPos), 
             new Animator(Sword.SPRITESHEET, new Vector(0, 0), Sword.SIZE, 1, 1),
             "Q", 
             null, 
-            150
+            weaponLabelWidth,
+            -15 // yes I'm using a negative padding don't judge me, it makes the sword bigger
         ));
 
         // add slingshot ammo hotbar
         const hotbarItemWidth = ItemLabel.DEFAULT_SIZE.x;
         const hotbarXStart = (Camera.SIZE.x - hotbarItemWidth * 5) / 2 - 16;
-        const hotbarY = Camera.SIZE.y - ItemLabel.DEFAULT_SIZE.y;
+        const hotbarY = Camera.SIZE.y - ItemLabel.DEFAULT_SIZE.y - Hud.MARGIN;
         this.addComponent("ammoStoneLabel", new AmmoLabel(
             new Vector(hotbarXStart, hotbarY),
             Projectile.STONE,
@@ -232,14 +243,18 @@ class ItemLabel {
      * @param {string} inputName the name of the control associated with the item
      * @param {number} [quantity] (OPTIONAL) the quantity associated with the item
      * @param {number} [width] (OPTIONAL) the width (in pixels) of the ItemLabel on the canvas
+     * @param {number} [imgPadding] (OPTIONAL) the padding (in pixels) of the ItemLabel's image
      */
-    constructor(pos, animation, inputName, quantity, width = ItemLabel.DEFAULT_SIZE.x) {
+    constructor(pos, animation, inputName, quantity, width = ItemLabel.DEFAULT_SIZE.x, 
+        imgPadding = ItemLabel.DEFAULT_IMG_PADDING) {
+
         this.pos = pos;
         this.animation = animation;
         this.size = new Vector(width, ItemLabel.DEFAULT_SIZE.y);
         this.inputName = inputName;
         this.quantity = quantity;
         this.selected = false;
+        this.imgPadding = imgPadding;
     }
 
     /** The default size (in pixels) of an ItemLabel on the canvas */
@@ -258,8 +273,8 @@ class ItemLabel {
     }
 
     /** The width (in pixels) of the item image's padding. */
-    static get IMG_PADDING() {
-        return 5;
+    static get DEFAULT_IMG_PADDING() {
+        return 25;
     }
 
     /** The default width (in pixels) of an ItemLabel's border. */
@@ -313,9 +328,9 @@ class ItemLabel {
         // draw the image on the ItemLabel
         // the image's height will be scaled to the height of the ItemLabel
         // the image will be centered horizontally within the ItemLabel
-        const animScale = (this.size.y - 2 * ItemLabel.IMG_PADDING) / this.animation.size.y;
+        const animScale = (this.size.y - 2 * this.imgPadding) / this.animation.size.y;
         this.animation.drawFrame(Vector.add(this.pos, new Vector((this.size.x - animScale * this.animation.size.x) 
-            / 2, + ItemLabel.IMG_PADDING)), animScale);
+            / 2, + this.imgPadding)), animScale);
 
         // draw the inputName text
         CTX.fillStyle = "white";
