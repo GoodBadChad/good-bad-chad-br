@@ -15,8 +15,9 @@ window.requestAnimFrame = (() => {
         });
 })();
 
+/* This fixes the bug where the window scrolls down when you press space. */
 window.onkeydown = (e) => {
-    return e.code !== "Space"; // This fixes the bug where the window scrolls down when you press space.
+    return e.code !== "Space";
 };
 
 /** An object containing all the relevant colors we are using in this project. */
@@ -141,6 +142,8 @@ const checkBlockCollisions = (entity) => {
     return collisions;
 };
 
+// The following is necessary because we must change the listeners for different modes (right now, gameplay and dialog).
+/** Contains all functions called as event handlers. */
 const EVENT_HANDLERS = {
     gameplayMouseDown: (e) => {
         GAME.user.firing = false;

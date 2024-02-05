@@ -4,6 +4,9 @@
  * @author Devin, Caleb, Nathan, Trae
  */
 class Chad {
+    /**
+     * @param {Vector} pos The position at which CHAD should spawn.
+     */
     constructor(pos) {
         /** Checks if CHAD has collided with the ground. */
         this.isOnGround = false;

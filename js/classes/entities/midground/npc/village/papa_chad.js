@@ -5,7 +5,11 @@
  * @author Devin, Caleb, Nathan, Trae
  */
 class PapaChad {
-    constructor(pos, convo = []) {
+    /**
+     * @param {Vector} pos the position at which he should spawn. 
+     * @param {Conversation} convo The conversation that will show if PapaChad is interacted with.
+     */
+    constructor(pos, convo = null) {
         /** The position of the Papa Chad (in the game world). */
         this.pos = pos;
         /** The velocity at which PapaChad is moving. */
@@ -22,6 +26,7 @@ class PapaChad {
         this.boundingBox = new BoundingBox(this.pos, PapaChad.SCALED_SIZE);
         /** Used to check how to deal with collisions with other applicable entities. */
         this.lastBoundingBox = this.boundingBox;
+        /** The conversation which will be displayed upon interacting with Papa Chad. */
         this.conversation = convo;
     };
 
