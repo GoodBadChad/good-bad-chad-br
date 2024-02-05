@@ -213,35 +213,74 @@ class GameEngine {
         }, false);
     };
 
+    /**
+     * This is (the only thing, currently, that is) called when Debug mode is active!
+     * This draws a grid around all blocks, and every 5 block cells are labeled.
+     */
     drawGrid() {
+
+        // (1) Draw the grid: 
+
         CTX.strokeStyle = "white";
         CTX.strokeWeight = 1;
-        // Draw the grid.
-        for (let x = DIMENSION.MIN_X; x <= DIMENSION.MAX_X; x += Block.SCALED_SIZE) {
-            for (let y = DIMENSION.MIN_Y; y <= DIMENSION.MAX_Y; y += Block.SCALED_SIZE) {
-                CTX.beginPath();
-                CTX.moveTo(DIMENSION.MIN_X - CAMERA.pos.x, y - CAMERA.pos.y);
-                CTX.lineTo(DIMENSION.MAX_X - CAMERA.pos.x, y - CAMERA.pos.y);
-                CTX.stroke();
 
-                CTX.beginPath();
-                CTX.moveTo(x - CAMERA.pos.x, DIMENSION.MIN_Y - CAMERA.pos.y);
-                CTX.lineTo(x - CAMERA.pos.x, DIMENSION.MAX_Y - CAMERA.pos.y);
-                CTX.stroke();
-            }
+        // Draw all the vertical lines by iterating through the x values we need.
+        for (let x = ZONE.MIN_PT.x; x <= ZONE.MAX_PT.x; x += Block.SCALED_SIZE) {
+            // Start a path
+            CTX.beginPath();
+            // Starting point
+            CTX.moveTo(x - CAMERA.pos.x, ZONE.MIN_PT.y - CAMERA.pos.y);
+            // Ending point
+            CTX.lineTo(x - CAMERA.pos.x, ZONE.MAX_PT.y - CAMERA.pos.y);
+            // Actually draw it.
+            CTX.stroke();
+            // Close the path
+            CTX.closePath();
         }
+
+        // Draw all the horizontal lines by iterating through the y values we need. 
+        for (let y = ZONE.MIN_PT.y; y <= ZONE.MAX_PT.y; y += Block.SCALED_SIZE) {
+            // Start a path
+            CTX.beginPath();
+            // Starting point
+            CTX.moveTo(ZONE.MIN_PT.x - CAMERA.pos.x, y - CAMERA.pos.y);
+            // Ending point
+            CTX.lineTo(ZONE.MAX_PT.x - CAMERA.pos.x, y - CAMERA.pos.y);
+            // Actually draw it.
+            CTX.stroke();
+            // Close the path
+            CTX.closePath();
+        }
+
+
+        // (2) Label the cells.
+
         CTX.fillStyle = "red";
         CTX.font = FONT.VT323_NORMAL;
-        let gameX = DIMENSION.MIN_X + 5;
-        const minY = DIMENSION.MIN_Y + 18;
+        
+        // Where we want to start drawing the label. Note: the +5 is so that it is clear which cell we are labeling.
+        let gameX = ZONE.MIN_PT.x + 5;
+        // This is the minimum y value that we will write at. Note: the +18 is related to the font size.
+        // Apparently drawing text with the context will start writing right ABOVE where you dictate.
+        const minY = ZONE.MIN_PT.y + 18;
+        // This is going to be where we want to start drawing the label, just like gameX.
         let gameY = minY;
-        for (let blockX = DIMENSION.MIN_BLOCK_X; blockX <= DIMENSION.MAX_BLOCK_X; blockX += 5) {
-            for (let blockY = DIMENSION.MIN_BLOCK_Y; blockY <= DIMENSION.MAX_BLOCK_Y; blockY += 5) {
+
+        // As it is currently working, it will DEFINITELY label ZONE.MIN_BLOCK, and every 5 other than that.
+        // Would like to refactor it eventually to DEFINITELY label the origin, but not super important.
+        // Also, could be refactored to better use the Vector class's static methods.
+        for (let blockX = ZONE.MIN_BLOCK.x; blockX <= ZONE.MAX_BLOCK.x; blockX += 5) {
+            for (let blockY = ZONE.MIN_BLOCK.y; blockY <= ZONE.MAX_BLOCK.y; blockY += 5) {
+                // The string representing the cell we are labeling.
                 let pt = "(" + blockX + ", " + blockY + ")";
+                // Draw it.
                 CTX.fillText(pt, gameX - CAMERA.pos.x, gameY - CAMERA.pos.y, Block.SCALED_SIZE);
+                // Skip 5 blocks.
                 gameY += Block.SCALED_SIZE * 5;
             }
+            // Skip 5 blocks.
             gameX += Block.SCALED_SIZE * 5;
+            // Reset gameY! If you don't you'll only ever see the first column of labels.
             gameY = minY;
         }
 
