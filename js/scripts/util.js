@@ -15,10 +15,18 @@ window.requestAnimFrame = (() => {
         });
 })();
 
-const COLORS = {
-    skyBlue: "#5da6b3"
+/* This fixes the bug where the window scrolls down when you press space. */
+window.onkeydown = (e) => {
+    return e.code !== "Space";
 };
 
+/** An object containing all the relevant colors we are using in this project. */
+const COLORS = {
+    SEA_FOAM_GREEN: "#a0d6b4",
+    SKY_BLUE: "#5da6b3"
+};
+
+/** This is going to be set for each zone. A rectangle drawn over the whole canvas, first thing. */
 let BG_COLOR = null;
 
 // Physics utlities
@@ -34,6 +42,12 @@ let BG_COLOR = null;
 const PHYSICS = {
     GRAVITY_ACC : 900,
     TERMINAL_VELOCITY : 200 // currently only being applied to projectiles
+};
+
+/** Declares constants for CTX.font. */
+const FONT = {
+    VT323_HEADER: "50px vt323",
+    VT323_NORMAL: "34px vt323"
 };
 
 /**
@@ -96,7 +110,7 @@ const MUSIC = {
 const checkBlockCollisions = (entity) => {
     const collisions = {};
     // Have we collided with anything?
-    GAME.entities.forEach((otherEntity) => {
+    GAME.entities.midground.forEach((otherEntity) => {
         // Does otherEntity even have a BB?
         if (otherEntity != entity && otherEntity.boundingBox) {
             
@@ -156,4 +170,86 @@ const checkBlockCollisions = (entity) => {
     entity.boundingBox = new BoundingBox(entity.pos, entity.constructor.SCALED_SIZE);
 
     return collisions;
+};
+
+// The following is necessary because we must change the listeners for different modes (right now, gameplay and dialog).
+/** Contains all functions called as event handlers. */
+const EVENT_HANDLERS = {
+    gameplayMouseDown: (e) => {
+        GAME.user.firing = false;
+        GAME.user.aiming = true;
+    },
+    gameplayMouseUp: (e) => {
+        GAME.user.aiming = false;
+        GAME.user.firing = true;
+    },
+    gameplayMouseMove: (e) => {
+        const rect = CANVAS.getBoundingClientRect();
+        const scaleX = CANVAS.width / rect.width;
+        const scaleY = CANVAS.height / rect.height;
+        GAME.mousePos = new Vector((e.clientX - rect.left) * scaleX, (e.clientY - rect.top) * scaleY);
+    },
+    gameplayKeyDown: (e) => {
+        switch (e.code) {
+            case "KeyA":
+                GAME.user.movingLeft = true;
+                break;
+            case "KeyD":
+                GAME.user.movingRight = true;
+                break;
+            case "KeyS":
+                GAME.user.movingDown = true;
+                break;
+            case "KeyW":
+                GAME.user.movingUp = true;
+                GAME.user.interacting = true;
+                break;
+            case "Space":
+                GAME.user.jumping = true;
+                break;
+            case "ShiftLeft":
+                GAME.user.sprinting = true;
+                break;
+            case "KeyX":
+                GAME.user.dashing = true;
+                break;
+            case "KeyQ":
+                GAME.user.jabbing = true;
+                break;
+        }
+    },
+    gameplayKeyUp: (e) => {
+        switch (e.code) {
+            case "KeyA":
+                GAME.user.movingLeft = false;
+                break;
+            case "KeyD":
+                GAME.user.movingRight = false;
+                break;
+            case "KeyS":
+                GAME.user.movingDown = false;
+                break;
+            case "KeyW":
+                GAME.user.movingUp = false;
+                GAME.user.interacting = false;
+                break;
+            case "Space":
+                GAME.user.jumping = false;
+                break;
+            case "ShiftLeft":
+                GAME.user.sprinting = false;
+                break;
+            case "KeyX":
+                GAME.user.dashing = false;
+                break;
+            case "KeyQ":
+                GAME.user.jabbing = false;
+                break;
+        }
+    },
+    dialogKeyPress: (e) => {
+        if (e.code === "KeyW") {
+            GAME.user.continuingConversation = true;
+        }
+    }
 };
