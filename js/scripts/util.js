@@ -65,11 +65,40 @@ const SFX = {
 }
 
 /**
- * The game's music.
+ * The game's music. Any music that contains "_sample" at the end is a placeholder.
  */
 const MUSIC = {
-    STARTING_OFF: {path: "./music/starting_off.mp3", volume: 0.1},
-    PEACEFUL_CHIPTUNE: {path: "./music/peaceful_chiptune.mp3", volume: 0.1},
+    // Misc.
+    PEACEFUL_CHIPTUNE: {path: "./music/peaceful_chiptune.mp3", volume: 0.1}, // testing music
+    HIGH_ENERGY: {path: "./music/high_energy_sample.wav", volume: 0.1},
+    VICTORY: {path: "./music/victory_sample.wav", volume: 0.1},
+    UPBEAT_CHIPTUNE_1: {path: "./music/upbeat_chiptune_1_sample.wav", volume: 0.1},
+    UPBEAT_CHIPTUNE_2: {path: "./music/upbeat_chiptune_2_sample.wav", volume: 0.1},
+
+    // Chad's themes
+    CHAD_PLAYFUL_ADVENTURE: {path: "./music/chad_playful_adventure.mp3", volume: 0.1},
+    CHAD_VICTORIOUS_EMOTIONAL: {path: "./music/chad_victorious_emotional.mp3", volume: 0.2},
+
+    // Village themes
+    VILLAGE_TOWN_SQUARE: {path: "./music/village_town_square_sample.wav", volume: 0.1},
+    // VILLAGE_CAVE: {path: "./music/village_cave.mp3", volume: 0.1},
+
+    // Forest themes
+    FOREST_BOSS: {path: "./music/forest_boss.mp3", volume: 0.1},
+    // FOREST_NORMAL: {path: "./music/forest_normal.mp3", volume: 0.1},
+
+    // Factory themes
+    FACTORY_BOSS: {path: "./music/factory_boss_sample.wav", volume: 0.1},
+    // FACTORY_NORMAL: {path: "./music/factory_normal.mp3", volume: 0.1},
+    
+    // Mountain themes
+    MOUNTAIN_MYSTERIOUS: {path: "./music/mountain_mysterious.mp3", volume: 0.1},
+    // MOUNTAIN_NORMAL: {path: "./music/mountain_normal.mp3", volume: 0.1}, // will be more peaceful, might contain an irish harp and flutes, and ice tinkling sfx
+    
+    // Lava themes (all finished!)
+    LAVA_NORMAL: {path: "./music/lava_normal.mp3", volume: 0.1},
+    LAVA_UNDERGROUND: {path: "./music/lava_underground.mp3", volume: 0.1},
+    LAVA_TENSE: {path: "./music/lava_tense.mp3", volume: 0.1}, // might be timed task OR boss music
 }
 
 /**

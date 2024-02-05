@@ -11,6 +11,8 @@ class Slingshot {
         this.isFiring = false;
         this.rotation = 0;
 
+        this.shootTimer = 0;
+
         this.playedStretchSound = false;
 
         this.start = new Vector(0, 0);
@@ -72,14 +74,20 @@ class Slingshot {
         setTimeout(() => {
             this.isFiring = false;
             this.isHidden = true;
-
+            //TODO take out slingshot from chad's animation
         }, 1000);
 
         // reset the slingshot stretch sound
         this.playedStretchSound = false;
+
+        // reset the shoot timer
+        this.shootTimer = Slingshot.SHOOT_DELAY;
     }
 
     update() {
+        if (this.shootTimer > 0) {
+            this.shootTimer -= GAME.clockTick;
+        }
         if (!HUD.pauseButton.isMouseOver()) {
             if (GAME.user.aiming) {
                 this.aim();
@@ -100,6 +108,11 @@ class Slingshot {
                 Slingshot.SIZE.x * Slingshot.SCALE,
                 Slingshot.SIZE.y * Slingshot.SCALE);
         }
+    }
+
+    /** The delay between shots in seconds */
+    static get SHOOT_DELAY() {
+        return 0.25;
     }
 
     static get SPRITESHEET() {
