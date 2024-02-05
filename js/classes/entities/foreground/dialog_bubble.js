@@ -1,32 +1,35 @@
 /**
- * A DialogBubble is a unit of an entity's conversation array. It contains a portion of 
+ * A DialogBubble is a unit of a conversation array. It contains a portion of 
  * text, which is being said by a specified speaker (or not, as in the case of gameplay instruction).
- * It <will be> displayed at the bottom of the screen, and show the Speaker's head animation above it.
+ * It will be displayed at the bottom of the screen, and show the Speaker's head animation beside it.
  * 
- * THIS CLASS IS NOT COMPLETE!
- * 
- * @author Nathan Hinthorne, Devin Peevy
+ * @author Devin Peevy
  */
 class DialogBubble {
     /**
-     * Constructs a Dialog Bubble 
-     * @param {Animator} speaker The person saying the dialog. Should be a constant from DialogBubble.SPEAKERS.If nobody, use null.
-     * @param {string} text 
-     * @param {Array<Choice>} choices 
-     * @param {boolean} endOfConversation 
+     * @param {Animator} speaker The person saying the dialog. Should be a constant from DialogBubble.SPEAKERS. If nobody, use null.
+     * @param {string} text The text to be shown on this dialog bubble. If it would exceed 6 lines, throws an error.
+     * @param {boolean} endOfConversation Is this the last dialog bubble in the conversation? Default: false.
+     * @param {Array<Choice>} choices Chad's responses (when applicable). Default: null.
      */
     constructor(speaker, text, endOfConversation = false, choices = null) {
-        /** The animator to be displayed above the dialog bubble. */
+        /** The animator to be displayed beside the dialog bubble. */
         this.speaker = speaker;
+        /** These are the lines that represent all the text on a COMPLETELY TYPED dialog bubble. */
         this.targetLines = DialogBubble.splitText(text);
+        /** These are the lines of text that will actually be drawn on the dialog bubble on the current frame. */
         this.visibleLines = [];
         for (let i = 0; i < this.targetLines.length; i++) {
             this.visibleLines.push("");
         }
+        /** This represents the line of text that is currently being typed. If it is equal to targetLines.length, typing is complete. */
         this.currentLine = 0;
+        /** Is this dialog bubble the end of the current conversation? */
         this.isEnd = endOfConversation;
+        /** The list of Choice objects representing the different paths this conversation could take. */
         this.choices = choices;
-        // Note to devs: Choice objects are coming soon. Kinda my last priority as far as dialog comes.
+        /** The type of bubble drawn. */
+        this.type;
         switch (this.speaker) {
             case DialogBubble.SPEAKERS.CHAD:
                 this.type = DialogBubble.LEFT_BUBBLE;
@@ -39,6 +42,9 @@ class DialogBubble {
         };
     };
 
+    /**
+     * Update is going to add a single character of text to the bubble until all of them have been added, then nothing.
+     */
     update() {
         // It only ever updates when you haven't added every line.
         if (this.currentLine < this.targetLines.length) {
@@ -52,6 +58,9 @@ class DialogBubble {
         }
     };
 
+    /**
+     * This method is going to draw the dialog bubble, the speaker, and the text (in this.visibleLines).
+     */
     draw() {
         // three steps:
         const dbPos = new Vector(
@@ -69,9 +78,9 @@ class DialogBubble {
             
         // (2) Draw the speaker.
         const scale = 6;
-        const speakerStart = this.speaker === DialogBubble.SPEAKERS.CHAD ?
+        const speakerStart = this.speaker.spritesheet === DialogBubble.SPEAKERS.CHAD.spritesheet ?
             new Vector(
-                Camera.SIZE.x - ((Camera.SIZE.x - DialogBubble.SCALED_SIZE.x) / 2) + (this.speaker.size.x * 0.5),
+                ((Camera.SIZE.x - DialogBubble.SCALED_SIZE.x) / 2) - (this.speaker.size.x * 0.5),
                 Camera.SIZE.y - DialogBubble.SCALED_SIZE.y
             ) : new Vector(
                 Camera.SIZE.x - ((Camera.SIZE.x - DialogBubble.SCALED_SIZE.x) / 2) + (this.speaker.size.x * 0.5),
@@ -84,6 +93,7 @@ class DialogBubble {
             (Camera.SIZE.x - DialogBubble.SCALED_SIZE.x) / 2 + (0.1 * DialogBubble.SCALED_SIZE.x),
             Camera.SIZE.y - DialogBubble.SCALED_SIZE.y + (0.1 * DialogBubble.SCALED_SIZE.x) - (5 * DialogBubble.SCALE) + 17
         );
+        // The jump in pixels after each line!
         const textJump = new Vector(0, 40); // NOTE: this is based off a text size of 34!
         CTX.fillStyle = "black";
         CTX.font = FONT.VT323_NORMAL;
@@ -93,6 +103,10 @@ class DialogBubble {
         });
     };
 
+    /**
+     * As a dialog bubble may be added/removed several times from the GameEngine, this resets its fields as if it were reconstructed,
+     * making it draw properly and not remove itself from the world immediately.
+     */
     refresh() {
         this.visibleLines = [];
         for (let i = 0; i < this.targetLines.length; i++) {
@@ -102,6 +116,10 @@ class DialogBubble {
         this.removeFromWorld = false;
     };
 
+    /**
+     * This is called when the user continues the conversation while text is still being typed.
+     * It does not progress the conversation, but does finish the typing.
+     */
     finishTyping() {
         for (let i = 0; i < this.targetLines.length; i++) {
             this.visibleLines[i] = this.targetLines[i];
@@ -110,10 +128,10 @@ class DialogBubble {
     }
 
     /**
-     * This is going to split the text into multiple lines which will fit on the dialog bubble.
+     * This is going to split the text into multiple lines (up to 6!) which will fit on the dialog bubble.
      * @param {string} text The entirety of the text which you want to split
      * @returns An array of strings guaranteed to fit on one line on the text bubble.
-     * @throws An error if text is too long to fit on a single bubble.
+     * @throws An error if text is too long to fit on a single bubble (6 lines!).
      */
     static splitText(text) {
         CTX.fillStyle = "black";
@@ -200,14 +218,16 @@ class DialogBubble {
     };
 };
 
+// NOTE: There's a lot that needs to be done for choices still: the following is just an idea of what it'll look like.
+
 /**
  * A Choice is how a conversation is made dynamic.
  * A Choice is NOT a dialog bubble - it does not display what Chad SAYS, just indicates which decision he makes.
  * The nextIndex should point toward the DialogBubble representing Chad's true response.
+ * @author Devin Peevy
  */
 class Choice {
     /**
-     * 
      * @param {string} text A short description of the choice one is making.
      * @param {number} nextIndex The conversation index that should be displayed next.
      */
