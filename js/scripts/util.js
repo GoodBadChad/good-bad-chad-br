@@ -36,11 +36,6 @@ const PHYSICS = {
     TERMINAL_VELOCITY : 200 // currently only being applied to projectiles
 };
 
-const FONT = { // NOTE: the "vt323" part below is not what's assigning the vt323 font. It's the CSS file. I kept entity here for reference.
-    VT323_NORMAL: "20px vt323",
-    VT323_HEADER: "24px vt323"
-};
-
 /**
  * The game's sound effects.
  */
@@ -62,7 +57,6 @@ const MUSIC = {
     STARTING_OFF: {path: "./music/starting_off.mp3", volume: 0.1},
     PEACEFUL_CHIPTUNE: {path: "./music/peaceful_chiptune.mp3", volume: 0.1},
 }
-
 
 /**
  * Check if the provided entity is colliding with any blocks and correct its position if so.
