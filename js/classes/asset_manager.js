@@ -188,6 +188,8 @@ class AssetManager {
                 Slingshot.SPRITESHEET,
                 Sun.SPRITESHEET,
                 Sword.SPRITESHEET,
+                Rune.SPRITESHEET,
+          
                 // Sounds:
                 SFX.JUMP1.path,
                 SFX.JUMP2.path,
