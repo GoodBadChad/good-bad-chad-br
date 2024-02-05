@@ -11,7 +11,11 @@ class GameEngine {
         /** ¿Está el juego en español? Default: false. */
         this.spanish = isSpanish ?? false;
         /** Everything that will be updated and drawn each frame. */
-        this.entities = [];
+        this.entities = {
+            background: [],
+            midground: [],
+            foreground: []
+        };
 
         /** A user object to define behaviors of Chad. */
         this.user = {
@@ -24,8 +28,11 @@ class GameEngine {
             dashing: false,
             aiming: false,
             firing: false,
-            jabbing: false
-        }
+            jabbing: false,
+            interacting: false,
+            // Dialog
+            continuingConversation: false
+        };
 
         // /** Where is the x coordinate of the user's mouse? */
         // this.mouseX = 0;
@@ -35,26 +42,39 @@ class GameEngine {
 
         /** The timer tells you how long it's been since the last tick! */
         this.timer = new Timer();
-        /** Are we currently debugging? */
-        this.debug = false;
+        
+        this.conversation = null;
+
+        this.mode = GameEngine.GAMEPLAY_MODE;
     };
 
     /**
      * This adds a new entity to the entities array.
      * @param {Object} entity The entity (sprite) that you want to add to the Game.
+     * @param {number} zIndex negative for background, zero (default) for midground, positive for foreground.
      */
-    addEntity(entity) {
-        this.entities.push(entity);
+    addEntity(entity, zIndex = 0) {
+        if (zIndex < 0) {
+            this.entities.background.push(entity);
+        } else if (zIndex > 0) {
+            this.entities.foreground.push(entity);
+        } else {
+            this.entities.midground.push(entity);
+        }
     };
 
     /** This is going to clear all of the entities so that a new set can be placed in. */
     clearEntities() {
-        this.entities = [];
+        this.entities = {
+            background: [],
+            midground: [],
+            foreground: []
+        };
     }
 
     /** This method is actually going to control the update-render loop that is at the heart of any game. */
     start() {
-        this.startInput();
+        this.configureEventListeners();
         this.running = true;
         const gameLoop = () => {
             this.loop();
@@ -74,31 +94,46 @@ class GameEngine {
      * This method is going to go through all entities and allow them to update their position.
      */
     update() {
+        if (this.running) {
+            // (1) Update the background entities:
+            this.entities.background.forEach((entity) => {
+                if (entity.removeFromWorld) {
+                    const i = this.entities.background.indexOf(entity);
+                    this.entities.background.splice(i, 1);
+                } else {
+                    entity.update();
+                }
+            });
+
+            // (2) Update the midground entities:
+            this.entities.midground.forEach((entity) => {
+                if (entity.removeFromWorld) {
+                    const i = this.entities.midground.indexOf(entity);
+                    this.entities.midground.splice(i, 1);
+                } else {
+                    entity.update();
+                }
+            });
+
+            // (3) Update CHAD and CAMERA:
+            CHAD.update();
+            CAMERA.update();
+
+            // (4) Update the foreground entities:
+            this.entities.foreground.forEach((entity) => {
+                if (entity.removeFromWorld) {
+                    const i = this.entities.foreground.indexOf(entity);
+                    this.entities.foreground.splice(i, 1);
+                } else {
+                    entity.update();
+                }
+            }
+        }
         // Update the HUD and Crosshair regardless of whether the game is running or not
         HUD.update();
         CROSSHAIR.update();
 
-        if (this.running) {
-            // Iterate forward through the entities array. Update everything.
-            for (let i = 0; i < this.entities.length; i++) {
-                let entity = this.entities[i];
-                if (!entity.removeFromWorld) {
-                    entity.update();
-                }
-            }
-            // Update Chad, who is not a regular entity.
-            CHAD.update();
-            // Update the camera, which is not a regular entity.
-            CAMERA.update();
-
-            // Iterate backward through the entities array, and remove all entities which ought be removed.
-            for (let i = this.entities.length - 1; i >= 0; i--) {
-                if (this.entities[i].removeFromWorld) {
-                    this.entities.splice(i, 1);
-                }
-            }
-        }
-
+        // I'm not gonna touch this because I don't know why it's here, but I don't think it belongs here:
         if (this.user.firing) {
             this.user.firing = false;
         }
@@ -108,21 +143,24 @@ class GameEngine {
      * This method is going to clear the canvas and redraw ALL of the entities in their *new* positions.
      */
     draw() {
-        // Clear the whole canvas with transparent color (rgba(0, 0, 0, 0))
-        CTX.clearRect(0, 0, CANVAS.width, CANVAS.height);
+        // (1) Paint over everything with the background color.
         CTX.fillStyle = BG_COLOR;
         CTX.fillRect(0, 0, Camera.SIZE.x, Camera.SIZE.y);
-        // Draw entities from first to last.
-        for (let i = 0; i < this.entities.length; i++) {
-            this.entities[i].draw();
-        }
-        // If we're debugging, draw the grid.
+
+        // (2) Draw the background entities.
+        this.entities.background.forEach((entity) => {entity.draw();});
+
+        // (3) Draw the midground entities.
+        this.entities.midground.forEach((entity) => {entity.draw();});
+
+        // (4) Draw CHAD and the debugging grid:
         if (this.debug) {
             this.drawGrid();
         }
-        // Draw Chad, who is not a regular entity.
         CHAD.draw();
-
+      
+        // (5) Draw the foreground entities.
+        this.entities.foreground.forEach((entity) => {entity.draw();});
         // Draw the HUD and Crosshair, which are not regular entities.
         HUD.draw();
         CROSSHAIR.draw();
@@ -132,92 +170,32 @@ class GameEngine {
      * This method is going to start listening for user inputs. Affects the Game Engine's left/right/up/down booleans according
      * to interaction with either the WASD keys or arrows.
      */
-    startInput() {
-
-        CANVAS.addEventListener("mousedown", (e) => {
-            if (e.button === 0) {
-                this.user.firing = false;
-                this.user.aiming = true;
-            } else if (e.button === 2) {
-                // TODO update user.jabbing here
-            }
+    configureEventListeners() {
+        Object.keys(GAME.user).forEach((key) => {
+            GAME.user[key] = false;
         });
 
-        CANVAS.addEventListener("mouseup", (e) => {
-            if (e.button === 0) {
-                this.user.aiming = false;
-                this.user.firing = true;
-            } else if (e.button === 2) {
-                // TODO update user.jabbing here
-            }
-        });
-
-        CANVAS.addEventListener("mousemove", (e) => {
-            const rect = CANVAS.getBoundingClientRect();
-            const scaleX = CANVAS.width / rect.width;
-            const scaleY = CANVAS.height / rect.height;
-            // this.mouseX = (e.clientX - rect.left) * scaleX;
-            // this.mouseY = (e.clientY - rect.top) * scaleY;
-            this.mousePos = new Vector((e.clientX - rect.left) * scaleX, (e.clientY - rect.top) * scaleY);
-        });
-
-        CANVAS.addEventListener("keydown", (e) => {
-            switch (e.code) {
-                case "KeyA":
-                    this.user.movingLeft = true;
-                    break;
-                case "KeyD":
-                    this.user.movingRight = true;
-                    break;
-                case "KeyS":
-                    this.user.movingDown = true;
-                    break;
-                case "KeyW":
-                    this.user.movingUp = true;
-                    break;
-                case "Space":
-                    this.user.jumping = true;
-                    break;
-                case "ShiftLeft":
-                    this.user.sprinting = true;
-                    break;
-                case "KeyX":
-                    this.user.dashing = true;
-                    break;
-                case "KeyQ":
-                    this.user.jabbing = true;
-                    break;
-            }
-        }, false);
-
-        CANVAS.addEventListener("keyup", (e) => {
-            switch (e.code) {
-                case "KeyA":
-                    this.user.movingLeft = false;
-                    break;
-                case "KeyD":
-                    this.user.movingRight = false;
-                    break;
-                case "KeyS":
-                    this.user.movingDown = false;
-                    break;
-                case "KeyW":
-                    this.user.movingUp = false;
-                    break;
-                case "Space":
-                    this.user.jumping = false;
-                    break;
-                case "ShiftLeft":
-                    this.user.sprinting = false;
-                    break;
-                case "KeyX":
-                    this.user.dashing = false;
-                    break;
-                case "KeyQ":
-                    this.user.jabbing = false;
-                    break;
-            }
-        }, false);
+        if (this.mode === GameEngine.GAMEPLAY_MODE) {
+            // Remove all other listeners.
+            CANVAS.removeEventListener("keypress", EVENT_HANDLERS.dialogKeyPress, false);
+            // Add the gameplay listeners.
+            CANVAS.addEventListener("mousedown", EVENT_HANDLERS.gameplayMouseDown, false);
+            CANVAS.addEventListener("mouseup", EVENT_HANDLERS.gameplayMouseUp, false);
+            CANVAS.addEventListener("mousemove", EVENT_HANDLERS.gameplayMouseMove, false);
+            CANVAS.addEventListener("keydown", EVENT_HANDLERS.gameplayKeyDown, false);
+            CANVAS.addEventListener("keyup", EVENT_HANDLERS.gameplayKeyUp, false);
+        } else if (this.mode === GameEngine.DIALOG_MODE) {
+            // Remove all other listeners.
+            CANVAS.removeEventListener("mousedown", EVENT_HANDLERS.gameplayMouseDown, false);
+            CANVAS.removeEventListener("mouseup", EVENT_HANDLERS.gameplayMouseUp, false);
+            CANVAS.removeEventListener("mousemove", EVENT_HANDLERS.gameplayMouseMove, false);
+            CANVAS.removeEventListener("keydown", EVENT_HANDLERS.gameplayKeyDown, false);
+            CANVAS.removeEventListener("keyup", EVENT_HANDLERS.gameplayKeyUp, false);
+            // Add the dialog listeners
+            CANVAS.addEventListener("keypress", EVENT_HANDLERS.dialogKeyPress, false);
+        } else if (this.mode === GameEngine.MENU_MODE) {
+            // This isn't set up yet. Possibly won't ever be necessary.
+        }
     };
 
     /**
@@ -259,7 +237,6 @@ class GameEngine {
             CTX.closePath();
         }
 
-
         // (2) Label the cells.
 
         CTX.fillStyle = "red";
@@ -290,6 +267,29 @@ class GameEngine {
             // Reset gameY! If you don't you'll only ever see the first column of labels.
             gameY = minY;
         }
+    };
 
+    static get BACKGROUND() {
+        return -1;
+    };
+
+    static get MIDGROUND() {
+        return 0;
+    };
+
+    static get FOREGROUND() {
+        return 1;
+    };
+
+    static get GAMEPLAY_MODE() {
+        return "gameplay";
+    };
+
+    static get DIALOG_MODE() {
+        return "dialog";
+    };
+
+    static get MENU_MODE() {
+        return "menu";
     };
 };

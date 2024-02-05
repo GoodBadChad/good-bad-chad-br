@@ -4,6 +4,9 @@
  * @author Devin, Caleb, Nathan, Trae
  */
 class Chad {
+    /**
+     * @param {Vector} pos The position at which CHAD should spawn.
+     */
     constructor(pos) {
         /** Checks if CHAD has collided with the ground. */
         this.isOnGround = false;
@@ -271,7 +274,7 @@ class Chad {
         this.isOnGround = false;
 
         // Step 4: Have we collided with anything?
-        GAME.entities.forEach((entity) => {
+        GAME.entities.midground.forEach((entity) => {
             // Does entity even have a BB?
             if (entity.boundingBox) {
                 // Are they even colliding?
@@ -317,6 +320,11 @@ class Chad {
                         LAST_ZONE = ZONE;
                         ZONE = entity.target;
                         ZONE.load();
+                    }
+                    else if (entity.conversation) {
+                        if (GAME.user.interacting) {
+                            entity.conversation.initiateConversation();
+                        }
                     }
                 }
                 // There's no collision - don't do anything!

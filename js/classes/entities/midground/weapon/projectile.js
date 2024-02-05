@@ -175,7 +175,7 @@ class Projectile {
             this.pos = Vector.add(this.pos, new Vector(posChange.x, posChange.y + this.yVelocity))
 
             this.updateBoundingBox();
-            GAME.entities.forEach((entity) => {
+            GAME.entities.midground.forEach((entity) => {
                 if (this != entity && entity.boundingBox) {
                     if (this.boundingBox.collide(entity.boundingBox)) {
                         this.action(entity);
