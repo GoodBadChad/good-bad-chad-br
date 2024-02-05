@@ -85,9 +85,12 @@ class Slingshot {
     }
 
     update() {
+        if (this.shootTimer > 0) {
+            this.shootTimer -= GAME.clockTick;
+        }
         if (GAME.user.aiming) {
             this.aim();
-        } else if (GAME.user.firing) { //&& this.shootTimer <= 0
+        } else if (GAME.user.firing && this.shootTimer <= 0) {
             this.fire();
         }
     }
@@ -105,9 +108,9 @@ class Slingshot {
         }
     }
 
-    /** The delay between shots in ms */
+    /** The delay between shots in seconds */
     static get SHOOT_DELAY() {
-        return 1000;
+        return 0.25;
     }
 
     static get SPRITESHEET() {
