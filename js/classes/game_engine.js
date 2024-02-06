@@ -127,7 +127,7 @@ class GameEngine {
                 } else {
                     entity.update();
                 }
-            }
+            });
         }
         // Update the HUD and Crosshair regardless of whether the game is running or not
         HUD.update();
