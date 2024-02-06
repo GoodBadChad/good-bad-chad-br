@@ -176,12 +176,21 @@ const checkBlockCollisions = (entity) => {
 /** Contains all functions called as event handlers. */
 const EVENT_HANDLERS = {
     gameplayMouseDown: (e) => {
-        GAME.user.firing = false;
-        GAME.user.aiming = true;
+        // check if mouse button is left click
+        if (e.button === 2) {
+            GAME.user.jabbing = true;
+        } else if (e.button === 0) {
+            GAME.user.aiming = true;
+        }
     },
     gameplayMouseUp: (e) => {
-        GAME.user.aiming = false;
-        GAME.user.firing = true;
+        // check if mouse button is left click
+        if (e.button === 2) {
+            GAME.user.jabbing = false;
+        } else if (e.button === 0) {
+            GAME.user.aiming = false;
+            GAME.user.firing = true;
+        }
     },
     gameplayMouseMove: (e) => {
         const rect = CANVAS.getBoundingClientRect();
