@@ -88,10 +88,12 @@ class Slingshot {
         if (this.shootTimer > 0) {
             this.shootTimer -= GAME.clockTick;
         }
-        if (GAME.user.aiming) {
-            this.aim();
-        } else if (GAME.user.firing && this.shootTimer <= 0) {
-            this.fire();
+        if (!HUD.pauseButton.isMouseOver()) {
+            if (GAME.user.aiming) {
+                this.aim();
+            } else if (GAME.user.firing) {
+                this.fire();
+            }
         }
     }
 

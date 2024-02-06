@@ -34,3 +34,7 @@ body::contextmenu {
     background: #333333;
     display: block;
 }
+
+#options {
+    margin: 10px 0 10px 0;
+}

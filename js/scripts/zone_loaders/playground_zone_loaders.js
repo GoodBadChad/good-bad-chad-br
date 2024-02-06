@@ -61,14 +61,57 @@ const loadPlaygroundCaleb = () => {
         ASSET_MGR.downloadAll(addEntities);
 };
 
+/**
+ * Load's Devin's personal playground zone.
+ * Currently, it is being used to test dialog, so loads a simple flat world with a Papa Chad sprite to offer dialog.
+ */
 const loadPlaygroundDevin = () => {
     const queueAssets = () => {
-
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.CARROT.SPRITESHEET);
     };
 
     const addEntities = () => {
+        // Add a layer of five blocks to the floor.
+        for (let y = ZONE.MAX_BLOCK.y; y >= ZONE.MAX_BLOCK.y - 5; y--) {
+            for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
+                // For optimization for collisions, the blocks NOT exposed to the surface are drawn in the background.
+                let ground = (y === ZONE.MAX_BLOCK.y - 5) ? GameEngine.MIDGROUND : GameEngine.BACKGROUND;
+                GAME.addEntity(new Block(new Vector(x, y), Block.DIRT), ground);
+            }
+        }
+        // Add a flower to each block. Alternate foreground/background.
+        for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
+            const rand = Math.floor(Math.random() * 3);
+            let flower;
+            switch (rand) {
+                case 0:
+                    flower = Decoration.DECORATIONS.flowers.MED_RED_FLOWER;
+                    break;
+                case 1:
+                    flower = Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER;
+                    break;
+                case 2:
+                    flower = Decoration.DECORATIONS.flowers.PRIDE_FLOWER;
+                    break;
+            }
+            const ground = x % 2 === 1 ? GameEngine.BACKGROUND : GameEngine.FOREGROUND;
+            const pos = Vector.blockToWorldSpace(new Vector(x + 0.5, ZONE.MAX_BLOCK.y - 5));
+            GAME.addEntity(new Decoration(flower, pos), ground);
+        }
 
+        // Add papa chad (he'll fall until he's on some blocks.)
+        const papaChadBlockPos = new Vector(15, 15);
+        const papa = new PapaChad(
+            Vector.blockToWorldSpace(papaChadBlockPos), 
+            new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)); // his conversation.
+
+        GAME.addEntity(papa);
     };
+
+    BG_COLOR = COLORS.SEA_FOAM_GREEN; // It's my world so the sky's my fave color
+
+    const chadBlockPos = new Vector(1, 15);
+    CHAD.pos = Vector.blockToWorldSpace(chadBlockPos);
 
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);

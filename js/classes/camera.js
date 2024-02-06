@@ -22,7 +22,6 @@ class Camera {
 
         /** Finds the median of three numbers. */
         const median = (x, y, z) => {
-            // TODO: not important but there's definitely a better way to do this.
             if ((x >= y && x <= z) || (x <= y && x >= z)) {
                 return x;
             }

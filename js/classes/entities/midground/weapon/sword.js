@@ -168,7 +168,7 @@ class Sword {
             // attack only once per animation cycle
             if (!this.hasHit) {
                 const bb = new BoundingBox(basePos, new Vector(Sword.SCALED_SIZE.x, Chad.SCALED_SIZE.y));
-                GAME.entities.forEach((entity) => {
+                GAME.entities.midground.forEach((entity) => {
                     if (this != entity && entity.boundingBox && entity.takeDamage) {
                         if (bb.collide(entity.boundingBox)) {
                             entity.takeDamage(this.getProperty("DAMAGE"));
