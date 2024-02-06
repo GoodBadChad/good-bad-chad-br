@@ -42,6 +42,11 @@ class AssetManager {
             const path = this.downloadQueue[i];
             console.log(path);
 
+            // make sure the path is a string
+            if (typeof path !== 'string') {
+                console.log("Error loading " + path + ": not a string");
+            }
+
             const ext = path.substring(path.length - 3);
 
             switch (ext) {
@@ -49,13 +54,13 @@ class AssetManager {
                 case 'png':
                     const img = new Image();
                     img.addEventListener("load", () => {
-                        console.log("Loaded " + img.src);
+                        console.log("Loaded " + path);
                         this.successCount++;
                         if (this.isDone()) callback();
                     });
         
                     img.addEventListener("error", () => {
-                        console.log("Error loading " + img.src);
+                        console.log("Error loading " + path);
                         this.errorCount++;
                         if (this.isDone()) callback();
                     });
@@ -68,13 +73,13 @@ class AssetManager {
                 case 'wav':
                     const audio = new Audio();
                     audio.addEventListener("loadeddata", () => {
-                        console.log("Loaded " + this.src);
+                        console.log("Loaded " + path);
                         this.successCount++;
                         if (this.isDone()) callback();
                     });
 
                     audio.addEventListener("error", () => {
-                        console.log("Error loading " + this.src);
+                        console.log("Error loading " + path);
                         this.errorCount++;
                         if (this.isDone()) callback();
                     });
@@ -137,16 +142,13 @@ class AssetManager {
     };
 
     /**
-     * This method pauses the audio associated with the given path.
-     * @param {boolean} mute True if you want to mute the audio, false otherwise.
+     * This method stops the audio associated with the given path.
+     * @param {string} path The filepath of the audio you are trying to stop.
      */
-    muteAudio(mute) {
-        for (let key in this.cache) {
-            const audio = this.cache[key];
-            if (audio instanceof Audio) {
-                audio.muted = mute;
-            }
-        }
+    stopAudio(path) {
+        const audio = this.cache[path];
+        audio.pause();
+        audio.currentTime = 0;
     };
 
     /** 
@@ -182,17 +184,26 @@ class AssetManager {
      */
     static get BAREBONES_DL_Q() {
         return [
-                Sun.SPRITESHEET,
-                PapaChad.SPRITESHEET,
-                Slingshot.SPRITESHEET,
+                // Entities:
                 Block.SPRITESHEET,
+                Crosshair.SPRITESHEET,
+                DialogBubble.SPRITESHEET,
+                OverheadIcon.SPRITESHEET,
+                PapaChad.SPRITESHEET,
                 Projectile.SPRITESHEET,
                 Slingshot.SPRITESHEET,
-                Crosshair.SPRITESHEET,
-                //Sword.SPRITESHEET,
-                "./sfx/slime_jump.mp3",
-                "./sfx/slingshot_launch.wav",
-                "./sfx/temp_jump.wav"
+                Sun.SPRITESHEET,
+                Sword.SPRITESHEET,
+                Rune.SPRITESHEET,
+          
+                // Sounds:
+                SFX.JUMP1.path,
+                SFX.JUMP2.path,
+                SFX.SLINGSHOT_LAUNCH1.path,
+                SFX.SLINGSHOT_LAUNCH2.path,
+                SFX.SLINGSHOT_LAUNCH3.path,
+                SFX.SLINGSHOT_LAUNCH4.path,
+                SFX.SLINGSHOT_STRETCH.path,
         ];
     };
 };

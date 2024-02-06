@@ -61,7 +61,7 @@ class Vector {
      * @returns {number} the Vector's magnitude
      */
     static magnitude(v) {
-        return Math.sqrt(v.x ** 2, v.y ** 2);
+        return Math.sqrt(v.x ** 2 + v.y ** 2);
     };
 
     /**

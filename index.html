@@ -2,11 +2,16 @@
 <html>
 
 <head>
+    <!-- THIS LINE IS GOING TO SOLVE AN ERROR FROM FIREFOX.
+    TODO: It is a good idea for somebody to put this in though! The icon on the tab of the browser! -->
+    <link rel="icon" type="image/png" href="./sprites/html_tab_icon.png" />
+    
     <title>The Good, The Bad, and Chad!</title>
     <!-- Scripts containing info/functions for classes. -->
     <script type="text/javascript" src="./js/scripts/util.js"></script>
     <!-- Scripts containing dialog-building methods. -->
-    <script type="text/javascript" src="./js/scripts/dialog/playground_dialog.js"></script>
+    <script type="text/javascript" src="./js/scripts/conversation_loaders/main_conversation_loader.js"></script>
+    <script type="text/javascript" src="./js/scripts/conversation_loaders/playground_conversation_loaders.js"></script>
     <!-- Scripts containing Zone-loading functions: -->
     <script type="text/javascript" src="./js/scripts/zone_loaders/factory_zone_loaders.js"></script>
     <script type="text/javascript" src="./js/scripts/zone_loaders/lava_zone_loaders.js"></script>
@@ -19,17 +24,17 @@
     <script type="text/javascript" src="./js/scripts/dimension/playground_dimension.js"></script>
     <script type="text/javascript" src="./js/scripts/dimension/village_dimension.js"></script>
     <script type="text/javascript" src="./js/scripts/dimension/lava_dimension.js"></script>
+    
+    <!-- Tile maps here. -->
+    <script type="text/javascript" src="./js/scripts/tile_maps/caleb_zone_playground.js"></script>
 
-    <script type="text/javascript" src="./js/scripts/temp/bird_script.js"></script>
-
-    <script type="text/javascript" src="./js/scripts/tile_maps/playground.js"></script>
 
     <!-- Put non-entity classes here! -->
     <script type="text/javascript" src="./js/classes/animator.js"></script>
     <script type="text/javascript" src="./js/classes/asset_manager.js"></script>
     <script type="text/javascript" src="./js/classes/bounding_box.js"></script>
     <script type="text/javascript" src="./js/classes/camera.js"></script>
-    <script type="text/javascript" src="./js/classes/dimension.js"></script>
+    <script type="text/javascript" src="./js/classes/conversation.js"></script>
     <script type="text/javascript" src="./js/classes/game_engine.js"></script>
     <script type="text/javascript" src="./js/classes/inventory.js"></script>
     <script type="text/javascript" src="./js/classes/timer.js"></script>
@@ -74,30 +79,42 @@
     <script type="text/javascript" src="./js/classes/entities/midground/weapon/slingshot.js"></script>
     <script type="text/javascript" src="./js/classes/entities/midground/weapon/sword.js"></script>
     <!-- Foreground: -->
-    <script type="text/javascript" src="./js/classes/entities/foreground/dialog_bubble.js"></script>
     <script type="text/javascript" src="./js/classes/entities/foreground/crosshair.js"></script>
+    <script type="text/javascript" src="./js/classes/entities/foreground/dialog_bubble.js"></script>
+    <script type="text/javascript" src="./js/classes/entities/foreground/health_bar.js"></script>
+    <script type="text/javascript" src="./js/classes/entities/foreground/hud.js"></script>
+    <script type="text/javascript" src="./js/classes/entities/foreground/loading_animation.js"></script>
+    <script type="text/javascript" src="./js/classes/entities/foreground/overhead_icon.js"></script>
     <!-- CSS: -->
     <link rel="stylesheet" href="./css/general.css" />
 </head>
 
 <body>
     <!-- 
-            NOTE: 
-            the width and height of this is unique.
-            It refers not to the size on the window, but the amount of visible (GAME) pixels visible on the screen.
-            For in game reference, these are identified as CAMERA.WIDTH and CAMERA.HEIGHT.
-            Actual pixel height of the canvas is set in CSS.
-            If you change it here, change it in camera.js as well.
-        -->
+        NOTE: 
+        the width and height of this is unique.
+        It refers not to the size on the window, but the amount of visible (GAME) pixels visible on the screen.
+        For in game reference, these are identified as CAMERA.WIDTH and CAMERA.HEIGHT.
+        Actual pixel height of the canvas is set in CSS.
+        If you change it here, change it in camera.js as well.
+    -->
 
     <div id="container">
         <canvas height="1080" width="1920" id="game-world" tabindex="0" autofocus></canvas>
     </div>
 
-    <label for="debug">Debug</label>
-    <input type="checkbox" id="debug" name="debug" />
-    <label for="spanish">Spanish</label>
-    <input type="checkbox" id="spanish" name="spanish" />
+    <div id="options">
+        <label for="debug">Debug</label>
+        <input type="checkbox" id="debug" name="debug" />
+        <label for="spanish">Spanish</label>
+        <input type="checkbox" id="spanish" name="spanish" />
+    </div>
+    
+    <p>A and D for left and right.</p>
+    <p>Space for jump and double jump.</p>
+    <p>Shift for Sprint.</p>
+    <p>While mid-air pressing A or D Hold X to Dash.</p>
+    <p>Left Click to shoot.</p>
 
     <!-- Load the main script. -->
     <script type="text/javascript" src="./js/scripts/main.js"></script>

@@ -11,9 +11,14 @@ class Projectile {
      * 
      * @param {number} type the Projectile type (please use Projectile.WOOD, Projectile.BOMB, etc.)
      * @param {Vector} pos the position at which the projectile should begin
-     * @param {Vector} target the target position
+     * @param {Vector} [target] (OPTIONAL) the target position
+     * @throws {Error} Will throw an error if type is not a Projectile member type.
      */
     constructor(type, pos, target) {
+        if (typeof type !== "number" || type % 1 !== 0 || type < 0 || type > 5) {
+            throw new Error("Invalid Projectile type: please use a Projectile member type (e.g. Projectile.WOOD).");
+        }
+
         this.type = type;
         this.pos = pos;
 
@@ -25,7 +30,7 @@ class Projectile {
 
         this.yVelocity = 0;
         this.animator = new Animator(Projectile.SPRITESHEET, 
-            new Vector(0, type * this.size.y), this.size, 1, 1);
+            new Vector(0, type * Projectile.SPRITESHEET_ENTRY_HEIGHT), this.size, 1, 1);
         this.updateBoundingBox();
 
         if (target) this.setTarget(target);
@@ -41,9 +46,14 @@ class Projectile {
         return 3;
     };
 
+    /** The height (in pixels) of the space allotted to each Projectile type on the spritesheet. */
+    static get SPRITESHEET_ENTRY_HEIGHT() {
+        return 13;
+    }
+
     /** The Bomb Projectile type. */
     static get BOMB() {
-        return 0;
+        return 2;
     };
 
     /** The Wood Projectile type. */
@@ -53,17 +63,17 @@ class Projectile {
 
     /** The Stone Projectile type. */
     static get STONE() {
-        return 2
+        return 0;
     };
 
     /** The Metal Projectile type. */
     static get METAL() {
-        return 3
+        return 3;
     };
 
     /** The Laser Projectile type. */
     static get LASER() {
-        return 6
+        return 5;
     };
 
     /** The property table for Projectile types. */
@@ -86,8 +96,10 @@ class Projectile {
                 SIZE: new Vector(4, 4)
             },
             [Projectile.STONE]: {
-                ACTION: () => {
-                    console.log("stone");
+                ACTION: (target) => {
+                    if (target.takeDamage) {
+                        target.takeDamage(5);
+                    }
                 },
                 SPEED: 14,
                 WEIGHT: 0.005,
@@ -107,7 +119,7 @@ class Projectile {
                 },
                 SPEED: 20,
                 WEIGHT: 0,
-                SIZE: new Vector(13, 13)
+                SIZE: new Vector(5, 5)
             }
         };
     };
@@ -154,7 +166,7 @@ class Projectile {
     update() {
         if (this.isTargetSet()) {
             this.yVelocity += PHYSICS.GRAVITY_ACC * GAME.clockTick * this.weight;
-          
+            
             if (this.yVelocity > PHYSICS.TERMINAL_VELOCITY) {
                 this.yVelocity = PHYSICS.TERMINAL_VELOCITY;
             } 
@@ -163,10 +175,10 @@ class Projectile {
             this.pos = Vector.add(this.pos, new Vector(posChange.x, posChange.y + this.yVelocity))
 
             this.updateBoundingBox();
-            GAME.entities.forEach((entity) => {
+            GAME.entities.midground.forEach((entity) => {
                 if (this != entity && entity.boundingBox) {
                     if (this.boundingBox.collide(entity.boundingBox)) {
-                        this.action();
+                        this.action(entity);
                         this.removeFromWorld = true;
                     }
                 }

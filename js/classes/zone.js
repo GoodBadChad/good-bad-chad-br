@@ -27,13 +27,23 @@ class Zone {
             // Clear all entities from previous Zone.
             GAME.clearEntities();
 
-            // Add entities essential to any Zone.
-            GAME.addEntity(new Crosshair());
-            GAME.addEntity(new Slingshot());
-
             // Clear all images/music from previous Zone.
             ASSET_MGR.refresh();
             loadFunction();
+
+            CANVAS.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+
+            // TODO: this is a bandaid fix! Let's figure out how to make this better!!!
+            setTimeout(() => {
+            // Add entities essential to any Zone.
+            GAME.addEntity(new Slingshot());
+            GAME.addEntity(new Sword(Sword.TYPE_1));
+
+            HUD.addComponents();
+            }, 1_000);
+            
         };
         this.name = name;
     };
@@ -135,23 +145,23 @@ class Zone {
 
             },
             playground: {
-                caleb:          new Zone(zeros, defaultMaxBlock, loadPlaygroundCaleb, "Club Caleb"),
-                devin:          new Zone(zeros, defaultMaxBlock, loadPlaygroundDevin, "Devinopolis"),
-                everybody:      new Zone(zeros, defaultMaxBlock, loadPlaygroundEverybody, "Bro City"),
-                nathan:         new Zone(zeros, defaultMaxBlock, loadPlaygroundNathan, "Natesburg"),
-                trae:           new Zone(zeros, defaultMaxBlock, loadPlaygroundTrae, "Trae Town")
+                caleb: new Zone(zeros, defaultMaxBlock, loadPlaygroundCaleb, "Club Caleb"),
+                devin: new Zone(zeros, defaultMaxBlock, loadPlaygroundDevin, "Devinopolis"),
+                everybody: new Zone(zeros, defaultMaxBlock, loadPlaygroundEverybody, "Bro City"),
+                nathan: new Zone(zeros, defaultMaxBlock, loadPlaygroundNathan, "Natesburg"),
+                trae: new Zone(zeros, defaultMaxBlock, loadPlaygroundTrae, "Trae Town")
             },
             spooky: {
                 // This is the final dimension. If you have a better name for it, feel free to change.
                 // Make sure you update any code accordingly.
             },
             village: {
-                canyon:         new Zone(zeros, defaultMaxBlock, loadVillageCanyon, "Village Canyon"),
-                field:          new Zone(zeros, defaultMaxBlock, loadVillageField, "Village Field"),
-                insideCave:     new Zone(zeros, defaultMaxBlock, loadVillageInsideCave, "Village Inside Cave"),
-                main:           new Zone(zeros, defaultMaxBlock, loadVillageMain, "Village Main"),
-                mountain:       new Zone(zeros, defaultMaxBlock, loadVillageMountain, "Village Mountain"),
-                outsideCave:    new Zone(zeros, defaultMaxBlock, loadVillageOutsideCave, "Village Outside Cave"),
+                canyon: new Zone(zeros, defaultMaxBlock, loadVillageCanyon, "Village Canyon"),
+                field: new Zone(zeros, defaultMaxBlock, loadVillageField, "Village Field"),
+                insideCave: new Zone(zeros, defaultMaxBlock, loadVillageInsideCave, "Village Inside Cave"),
+                main: new Zone(zeros, defaultMaxBlock, loadVillageMain, "Village Main"),
+                mountain: new Zone(zeros, defaultMaxBlock, loadVillageMountain, "Village Mountain"),
+                outsideCave: new Zone(zeros, defaultMaxBlock, loadVillageOutsideCave, "Village Outside Cave"),
             },
             woods: {
 

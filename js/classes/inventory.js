@@ -7,8 +7,12 @@ class Inventory {
     constructor() {
         this.ammoList = [] // ammo should have a type and an amount
         
-        this.addAmmo(Projectile.STONE, "infinite");
-        this.switchToAmmo(Projectile.STONE);
+        this.addAmmo(Projectile.STONE, Infinity);
+        this.addAmmo(Projectile.WOOD, 10);
+        this.addAmmo(Projectile.METAL, 10);
+        this.addAmmo(Projectile.BOMB, 10);
+        this.addAmmo(Projectile.LASER, 10);
+        this.switchToAmmo(Projectile.WOOD);
     }
 
     /**
@@ -32,7 +36,8 @@ class Inventory {
      */
     getAmmo(type) {
         for (let i = 0; i < this.ammoList.length; i++) {
-            if (this.ammoList[i].type == type) {
+            let ammo = this.ammoList[i];
+            if (ammo.type == type && this) {
                 return this.ammoList[i];
             }
         }
@@ -46,11 +51,16 @@ class Inventory {
     }
 
     /**
-     * @returns {number} The amount of ammo the player currently has.
+     * @returns {Ammo} The ammo that was just used. None if the ammo 
      */
-    decreaseAmmo() {
-        if (this.currentAmmo.amount != "infinite") {
+    useCurrentAmmo() {
+        if (this.currentAmmo.amount <= 0) {
+            return "Empty";
+        }
+
+        if (this.currentAmmo.amount != Infinity) {
             this.currentAmmo.amount--;
+            return this.currentAmmo.type;
         }
     }
 

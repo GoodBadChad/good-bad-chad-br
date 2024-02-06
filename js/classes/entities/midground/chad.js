@@ -4,6 +4,9 @@
  * @author Devin, Caleb, Nathan, Trae
  */
 class Chad {
+    /**
+     * @param {Vector} pos The position at which CHAD should spawn.
+     */
     constructor(pos) {
         /** Checks if CHAD has collided with the ground. */
         this.isOnGround = false;
@@ -38,6 +41,8 @@ class Chad {
         this.velocity = new Vector(0, 0);
         /** Name of character. */
         this.name = "dChad";
+        /** The health of Chad. */
+        this.health = Chad.MAX_HEALTH;
     };
 
     /** The size, in pixels of the sprite ON THE SPRITESHEET. */
@@ -86,6 +91,24 @@ class Chad {
     static get DASH_BARRIER() {
         return 250;
     }
+
+    /** The maximum amount of health Chad can have. */
+    static get MAX_HEALTH() {
+        return 100;
+    };
+
+    /** 
+     * Decrease the health of Chad by the provided amount and perform any necessary operations
+     * based on the new health value.
+     * 
+     * @param {number} amount the amount by which to decrease Chad's health
+     */
+    takeDamage(amount) {
+        this.health -= amount;
+        if (this.health <= 0) {
+            // Chad should die here
+        }
+    };
 
     /**
      * Deals with movement in the x direction including walking, running and dashing.
@@ -162,7 +185,7 @@ class Chad {
         }
         // Perform single jump.
         if (this.isOnGround) {
-            ASSET_MGR.playAudio("./sfx/temp_jump.wav", 0.2);
+            ASSET_MGR.playAudio(SFX.JUMP1.path, SFX.JUMP1.volume);
             this.action = "jumping";
             this.velocity.y = Chad.FIRST_JUMP_VELOCITY;
             this.hasDoubleJumped = false;
@@ -179,7 +202,7 @@ class Chad {
         }
         // If Chad can double jump and user is trying to jump than do it!
         if (this.canDoubleJump) {
-            ASSET_MGR.playAudio("./sfx/temp_jump.wav", 0.2);
+            ASSET_MGR.playAudio(SFX.JUMP2.path, SFX.JUMP2.volume);
             this.action = "jumping";
             this.velocity.y = Chad.SECOND_JUMP_VELOCITY;
             this.canDoubleJump = false;
@@ -251,7 +274,7 @@ class Chad {
         this.isOnGround = false;
 
         // Step 4: Have we collided with anything?
-        GAME.entities.forEach((entity) => {
+        GAME.entities.midground.forEach((entity) => {
             // Does entity even have a BB?
             if (entity.boundingBox) {
                 // Are they even colliding?
@@ -291,6 +314,16 @@ class Chad {
                             && this.boundingBox.top < entity.boundingBox.bottom) {
                             // We are colliding with the bottom.
                             this.pos = new Vector(this.pos.x, entity.boundingBox.bottom);
+                        }
+                    }
+                    else if (entity instanceof Border) {
+                        LAST_ZONE = ZONE;
+                        ZONE = entity.target;
+                        ZONE.load();
+                    }
+                    else if (entity.conversation) {
+                        if (GAME.user.interacting) {
+                            entity.conversation.initiateConversation();
                         }
                     }
                 }
