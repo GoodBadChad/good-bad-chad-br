@@ -60,10 +60,10 @@ class LoadingAnimation {
     }
 
     static get LOWER_BOUND() {
-        return CANVAS.height - 50;
+        return CANVAS.height/2 - 50;
     }
 
     static get HIGHER_BOUND() {
-        return CANVAS.height + 50;
+        return CANVAS.height/2 + 50;
     }
 }
