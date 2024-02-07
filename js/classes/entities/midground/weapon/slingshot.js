@@ -11,6 +11,8 @@ class Slingshot {
         this.isFiring = false;
         this.rotation = 0;
 
+        this.shootTimer = 0;
+
         this.playedStretchSound = false;
 
         this.start = new Vector(0, 0);
@@ -52,55 +54,48 @@ class Slingshot {
         ASSET_MGR.stopAudio(SFX.SLINGSHOT_STRETCH.path);
         
         // choose from 4 different firing sounds
-        let rand = Math.floor(Math.random() * 4);
-        switch (rand) {
-            case 0:
-                ASSET_MGR.playAudio(SFX.SLINGSHOT_LAUNCH1.path, SFX.SLINGSHOT_LAUNCH1.volume);
-                break;
-            case 1:
-                ASSET_MGR.playAudio(SFX.SLINGSHOT_LAUNCH2.path, SFX.SLINGSHOT_LAUNCH2.volume);
-                break;
-            case 2:
-                ASSET_MGR.playAudio(SFX.SLINGSHOT_LAUNCH3.path, SFX.SLINGSHOT_LAUNCH3.volume);
-                break;
-            case 3:
-                ASSET_MGR.playAudio(SFX.SLINGSHOT_LAUNCH4.path, SFX.SLINGSHOT_LAUNCH4.volume);
-                break;
-        }
+        const rand = Math.floor(Math.random() * 4) + 1;
+        const sfx = SFX["SLINGSHOT_LAUNCH" + rand];
+        ASSET_MGR.playAudio(sfx.path, sfx.volume);
 
         this.isFiring = true;
         //this.startX = 26; // slingshot firing frame
 
-        INVENTORY.decreaseAmmo();
-        let ammo = INVENTORY.getCurrentAmmo();
-
-        // create a projectile and launch it in the direction of the mouse
-        GAME.addEntity(new Projectile(
-            Projectile.STONE,
-            Vector.round(this.pos),
-            Vector.round(Vector.canvasToWorldSpace(GAME.mousePos))));
-        // console.log("slingshot fired from (" + start.x + ", " + start.y + ") to (" + end.x + ", " + end.y + ")");
+        let ammoType = INVENTORY.useCurrentAmmo();
+        if (ammoType != "Empty") {
+            // create a projectile and launch it in the direction of the mouse
+            GAME.addEntity(new Projectile(
+                ammoType,
+                Vector.round(this.pos),
+                Vector.round(Vector.canvasToWorldSpace(GAME.mousePos))));
+        }
 
         // trigger an async operation that will erase the slingshot after it fires
         setTimeout(() => {
             this.isFiring = false;
             this.isHidden = true;
-
+            //TODO take out slingshot from chad's animation
         }, 1000);
 
         // reset the slingshot stretch sound
         this.playedStretchSound = false;
-    }
 
+        // reset the shoot timer
+        this.shootTimer = Slingshot.SHOOT_DELAY;
+    }
 
     update() {
-        if (GAME.user.aiming) {
-            this.aim();
-        } else if (GAME.user.firing) {
-            this.fire();
+        if (this.shootTimer > 0) {
+            this.shootTimer -= GAME.clockTick;
+        }
+        if (!HUD.pauseButton.isMouseOver()) {
+            if (GAME.user.aiming) {
+                this.aim();
+            } else if (GAME.user.firing) {
+                this.fire();
+            }
         }
     }
-
 
     draw() {
         if (!this.isHidden) {
@@ -113,6 +108,11 @@ class Slingshot {
                 Slingshot.SIZE.x * Slingshot.SCALE,
                 Slingshot.SIZE.y * Slingshot.SCALE);
         }
+    }
+
+    /** The delay between shots in seconds */
+    static get SHOOT_DELAY() {
+        return 0.25;
     }
 
     static get SPRITESHEET() {

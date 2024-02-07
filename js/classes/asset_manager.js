@@ -42,6 +42,11 @@ class AssetManager {
             const path = this.downloadQueue[i];
             console.log(path);
 
+            // make sure the path is a string
+            if (typeof path !== 'string') {
+                console.log("Error loading " + path + ": not a string");
+            }
+
             const ext = path.substring(path.length - 3);
 
             switch (ext) {
@@ -49,7 +54,7 @@ class AssetManager {
                 case 'png':
                     const img = new Image();
                     img.addEventListener("load", () => {
-                        console.log("Loaded " + img.src);
+                        console.log("Loaded " + path);
                         this.successCount++;
                         if (this.isDone()) callback();
                     });
@@ -68,7 +73,7 @@ class AssetManager {
                 case 'wav':
                     const audio = new Audio();
                     audio.addEventListener("loadeddata", () => {
-                        console.log("Loaded " + this.src);
+                        console.log("Loaded " + path);
                         this.successCount++;
                         if (this.isDone()) callback();
                     });
@@ -179,14 +184,19 @@ class AssetManager {
      */
     static get BAREBONES_DL_Q() {
         return [
-                Sun.SPRITESHEET,
-                PapaChad.SPRITESHEET,
-                Slingshot.SPRITESHEET,
+                // Entities:
                 Block.SPRITESHEET,
+                Crosshair.SPRITESHEET,
+                DialogBubble.SPRITESHEET,
+                OverheadIcon.SPRITESHEET,
+                PapaChad.SPRITESHEET,
                 Projectile.SPRITESHEET,
                 Slingshot.SPRITESHEET,
-                Crosshair.SPRITESHEET,
+                Sun.SPRITESHEET,
                 Sword.SPRITESHEET,
+                Rune.SPRITESHEET,
+          
+                // Sounds:
                 SFX.JUMP1.path,
                 SFX.JUMP2.path,
                 SFX.SLINGSHOT_LAUNCH1.path,
@@ -194,7 +204,6 @@ class AssetManager {
                 SFX.SLINGSHOT_LAUNCH3.path,
                 SFX.SLINGSHOT_LAUNCH4.path,
                 SFX.SLINGSHOT_STRETCH.path,
-                SFX.SONIC_DASH.path
         ];
     };
 };

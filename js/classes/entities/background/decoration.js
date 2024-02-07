@@ -30,7 +30,7 @@ class Decoration {
                     FRAME_COUNT: 1,
                     FRAME_DURATION: 1,
                     SIZE: new Vector(16, 32),
-                    SCALE: 4
+                    SCALE: 3
                 },
                 TALL_PURPLE_FLOWER: {
                     SPRITESHEET: "./sprites/flowers.png",
@@ -38,7 +38,7 @@ class Decoration {
                     FRAME_COUNT: 1,
                     FRAME_DURATION: 1,
                     SIZE: new Vector(16, 32),
-                    SCALE: 4
+                    SCALE: 3
                 },
                 PRIDE_FLOWER: {
                     SPRITESHEET: "./sprites/flowers.png",
@@ -46,7 +46,7 @@ class Decoration {
                     FRAME_COUNT: 1,
                     FRAME_DURATION: 1,
                     SIZE: new Vector(16, 32),
-                    SCALE: 4
+                    SCALE: 3
                 },
                 CARROT: {
                     SPRITESHEET: "./sprites/flowers.png",
@@ -54,7 +54,7 @@ class Decoration {
                     FRAME_COUNT: 1,
                     FRAME_DURATION: 1,
                     SIZE: new Vector(16, 32),
-                    SCALE: 4
+                    SCALE: 3
                 },
                 POTATO: {
                     SPRITESHEET: "./sprites/flowers.png",
@@ -62,7 +62,7 @@ class Decoration {
                     FRAME_COUNT: 1,
                     FRAME_DURATION: 1,
                     SIZE: new Vector(16, 32),
-                    SCALE: 4
+                    SCALE: 3
                 }
             },
             houses: {
