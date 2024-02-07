@@ -31,19 +31,19 @@ class Zone {
             ASSET_MGR.refresh();
             loadFunction();
 
-            CANVAS.addEventListener('contextmenu', function(e) {
+            CANVAS.addEventListener('contextmenu', function (e) {
                 e.preventDefault();
             });
 
             // TODO: this is a bandaid fix! Let's figure out how to make this better!!!
             setTimeout(() => {
-            // Add entities essential to any Zone.
-            GAME.addEntity(new Slingshot());
-            GAME.addEntity(new Sword(Sword.TYPE_1));
+                // Add entities essential to any Zone.
+                GAME.addEntity(new Slingshot());
+                GAME.addEntity(new Sword(Sword.TYPE_1));
 
-            HUD.addComponents();
+                HUD.addComponents();
             }, 1_000);
-            
+
         };
         this.name = name;
     };
@@ -121,7 +121,7 @@ class Zone {
         // Right now, I am creating zones with no real idea how big they ought to be/what ought be in them.
         // Therefore, I am defining these constants for MIN/MAX_BLOCK.
         const zeros = new Vector(0, 0);
-        const defaultMaxBlock = new Vector(100, 25);
+        const defaultMaxBlock = new Vector(100, 75);
 
 
         /*

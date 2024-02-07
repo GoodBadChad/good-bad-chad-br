@@ -52,7 +52,7 @@ class Chad {
 
     /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {
-        return 3;
+        return 2.4;
     };
 
     /** This will be the size of Chad ON THE CANVAS. */
@@ -71,11 +71,11 @@ class Chad {
 
     /** The velocity of the first jump */
     static get FIRST_JUMP_VELOCITY() {
-        return -500
+        return -400
     }
     /** The velocity of the double jump. */
     static get SECOND_JUMP_VELOCITY() {
-        return -600;
+        return -500;
     }
 
     /** The mulitiplier that allows CHAD to run. */

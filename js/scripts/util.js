@@ -40,8 +40,8 @@ let BG_COLOR = null;
  * Acceleration: pixels/second^2
  */
 const PHYSICS = {
-    GRAVITY_ACC : 900,
-    TERMINAL_VELOCITY : 200 // currently only being applied to projectiles
+    GRAVITY_ACC: 990,
+    TERMINAL_VELOCITY: 200 // currently only being applied to projectiles
 };
 
 /** Declares constants for CTX.font. */
@@ -54,14 +54,14 @@ const FONT = {
  * The game's sound effects.
  */
 const SFX = {
-    JUMP1: {path: "./sfx/jump1.mp3", volume: 0.2},
-    JUMP2: {path: "./sfx/jump2.mp3", volume: 0.2},
-    SLINGSHOT_LAUNCH1: {path: "./sfx/launch1.mp3", volume: 0.5},
-    SLINGSHOT_LAUNCH2: {path: "./sfx/launch2.mp3", volume: 0.6},
-    SLINGSHOT_LAUNCH3: {path: "./sfx/launch3.mp3", volume: 0.5},
-    SLINGSHOT_LAUNCH4: {path: "./sfx/launch4.mp3", volume: 0.5},
-    SLINGSHOT_STRETCH: {path: "./sfx/slingshot_stretch.mp3", volume: 0.4},
-    SONIC_DASH: {path: "./sfx/sonic_dash.mp3", volume: 0.2}
+    JUMP1: { path: "./sfx/jump1.mp3", volume: 0.2 },
+    JUMP2: { path: "./sfx/jump2.mp3", volume: 0.2 },
+    SLINGSHOT_LAUNCH1: { path: "./sfx/launch1.mp3", volume: 0.5 },
+    SLINGSHOT_LAUNCH2: { path: "./sfx/launch2.mp3", volume: 0.6 },
+    SLINGSHOT_LAUNCH3: { path: "./sfx/launch3.mp3", volume: 0.5 },
+    SLINGSHOT_LAUNCH4: { path: "./sfx/launch4.mp3", volume: 0.5 },
+    SLINGSHOT_STRETCH: { path: "./sfx/slingshot_stretch.mp3", volume: 0.4 },
+    SONIC_DASH: { path: "./sfx/sonic_dash.mp3", volume: 0.2 }
 }
 
 /**
@@ -69,36 +69,36 @@ const SFX = {
  */
 const MUSIC = {
     // Misc.
-    PEACEFUL_CHIPTUNE: {path: "./music/peaceful_chiptune.mp3", volume: 0.1}, // testing music
-    HIGH_ENERGY: {path: "./music/high_energy_sample.wav", volume: 0.1},
-    VICTORY: {path: "./music/victory_sample.wav", volume: 0.1},
-    UPBEAT_CHIPTUNE_1: {path: "./music/upbeat_chiptune_1_sample.wav", volume: 0.1},
-    UPBEAT_CHIPTUNE_2: {path: "./music/upbeat_chiptune_2_sample.wav", volume: 0.1},
+    PEACEFUL_CHIPTUNE: { path: "./music/peaceful_chiptune.mp3", volume: 0.1 }, // testing music
+    HIGH_ENERGY: { path: "./music/high_energy_sample.wav", volume: 0.1 },
+    VICTORY: { path: "./music/victory_sample.wav", volume: 0.1 },
+    UPBEAT_CHIPTUNE_1: { path: "./music/upbeat_chiptune_1_sample.wav", volume: 0.1 },
+    UPBEAT_CHIPTUNE_2: { path: "./music/upbeat_chiptune_2_sample.wav", volume: 0.1 },
 
     // Chad's themes
-    CHAD_PLAYFUL_ADVENTURE: {path: "./music/chad_playful_adventure.mp3", volume: 0.1},
-    CHAD_VICTORIOUS_EMOTIONAL: {path: "./music/chad_victorious_emotional.mp3", volume: 0.2},
+    CHAD_PLAYFUL_ADVENTURE: { path: "./music/chad_playful_adventure.mp3", volume: 0.1 },
+    CHAD_VICTORIOUS_EMOTIONAL: { path: "./music/chad_victorious_emotional.mp3", volume: 0.2 },
 
     // Village themes
-    VILLAGE_TOWN_SQUARE: {path: "./music/village_town_square_sample.wav", volume: 0.1},
+    VILLAGE_TOWN_SQUARE: { path: "./music/village_town_square_sample.wav", volume: 0.1 },
     // VILLAGE_CAVE: {path: "./music/village_cave.mp3", volume: 0.1},
 
     // Forest themes
-    FOREST_BOSS: {path: "./music/forest_boss.mp3", volume: 0.1},
+    FOREST_BOSS: { path: "./music/forest_boss.mp3", volume: 0.1 },
     // FOREST_NORMAL: {path: "./music/forest_normal.mp3", volume: 0.1},
 
     // Factory themes
-    FACTORY_BOSS: {path: "./music/factory_boss_sample.wav", volume: 0.1},
+    FACTORY_BOSS: { path: "./music/factory_boss_sample.wav", volume: 0.1 },
     // FACTORY_NORMAL: {path: "./music/factory_normal.mp3", volume: 0.1},
-    
+
     // Mountain themes
-    MOUNTAIN_MYSTERIOUS: {path: "./music/mountain_mysterious.mp3", volume: 0.1},
+    MOUNTAIN_MYSTERIOUS: { path: "./music/mountain_mysterious.mp3", volume: 0.1 },
     // MOUNTAIN_NORMAL: {path: "./music/mountain_normal.mp3", volume: 0.1}, // will be more peaceful, might contain an irish harp and flutes, and ice tinkling sfx
-    
+
     // Lava themes (all finished!)
-    LAVA_NORMAL: {path: "./music/lava_normal.mp3", volume: 0.1},
-    LAVA_UNDERGROUND: {path: "./music/lava_underground.mp3", volume: 0.1},
-    LAVA_TENSE: {path: "./music/lava_tense.mp3", volume: 0.1}, // might be timed task OR boss music
+    LAVA_NORMAL: { path: "./music/lava_normal.mp3", volume: 0.1 },
+    LAVA_UNDERGROUND: { path: "./music/lava_underground.mp3", volume: 0.1 },
+    LAVA_TENSE: { path: "./music/lava_tense.mp3", volume: 0.1 }, // might be timed task OR boss music
 }
 
 /**
@@ -113,7 +113,7 @@ const checkBlockCollisions = (entity) => {
     GAME.entities.midground.forEach((otherEntity) => {
         // Does otherEntity even have a BB?
         if (otherEntity != entity && otherEntity.boundingBox) {
-            
+
             // Are they even colliding?
             if (entity.boundingBox.collide(otherEntity.boundingBox)) {
                 if (otherEntity instanceof Block) {
@@ -128,7 +128,7 @@ const checkBlockCollisions = (entity) => {
                         && entity.lastBoundingBox.bottom <= otherEntity.boundingBox.top
                         && entity.boundingBox.bottom > otherEntity.boundingBox.top) {
                         // We are colliding with the top.
-                        
+
                         collisions.top = true;
 
                         // NOTE: entity.constructor returns an instance's class. There may be a better way to do this.

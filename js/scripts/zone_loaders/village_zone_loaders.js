@@ -24,6 +24,7 @@ const loadVillageField = () => {
             Zone.getZones().village.main
         ));
 
+
         // Add 10 layers of blocks to the bottom
         for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
             for (let y = ZONE.MAX_BLOCK.y; y >= ZONE.MAX_BLOCK.y - 10; y--) {
@@ -36,7 +37,7 @@ const loadVillageField = () => {
 
         // Draw Sun.
         GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE), Sun.VILLAGE));
-        
+
         // Spawn Chad.
         if (LAST_ZONE.equals(Zone.getZones().village.mountain)) { // Coming from mountain.
             // Set spawn point on the right.
@@ -71,7 +72,9 @@ const loadVillageInsideCave = () => {
 
 const loadVillageMain = () => {
 
-    const queueAssets = () => {};
+    const queueAssets = () => {
+        ASSET_MGR.queueDownload(House.SPRITESHEET);
+    };
 
     const addEntities = () => {
         // Add a border to the right side of the map, leading to the field.
@@ -81,15 +84,46 @@ const loadVillageMain = () => {
             Zone.getZones().village.field
         ));
         // Add a layer of blocks to the floor.
-        for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
-            GAME.addEntity(new Block(new Vector(x, ZONE.MAX_BLOCK.y), Block.DIRT));
+        // for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
+        //     GAME.addEntity(new Block(new Vector(x, ZONE.MAX_BLOCK.y), Block.DIRT));
+        // }
+        for (let y = ZONE.MAX_BLOCK.y; y >= ZONE.MIN_BLOCK.y; y--) {
+            for (let x = ZONE.MAX_BLOCK.x; x >= ZONE.MIN_BLOCK.x; x--) {
+                // GAME.addEntity(new Block(i, j, Block.DIRT));a
+
+                // const pos = new Vector(y, x);
+                console.log("Starting block x " + x);
+                console.log("Starting block y " + y);
+
+                switch (villageMainTileMap[y][x]) {
+                    case 5:
+                        GAME.addEntity(new Block(new Vector(x, y), Block.LAVA_ROCK));
+                        break;
+                    case 4:
+                        GAME.addEntity(new Block(new Vector(x, y), Block.SNOWY_ICE));
+                        break;
+                    case 3:
+                        GAME.addEntity(new Block(new Vector(x, y), Block.SNOWY_DIRT));
+                        break;
+                    case 2:
+                        GAME.addEntity(new Block(new Vector(x, y), Block.GRASS));
+                        break;
+                    case 1:
+                        GAME.addEntity(new Block(new Vector(x, y), Block.DIRT));
+                        break;
+
+                    default:
+                        break;
+                }
+            }
         }
+        const gamePos = Vector.blockToWorldSpace(new Vector(5, 50));
+        GAME.addEntity(new House(gamePos, 1));
 
         // Place chad.
-
         if (LAST_ZONE === null) { // We've just started the game.
             // Spawn in middle.
-            const blockPos = new Vector(50, 20);
+            const blockPos = new Vector(0, 55);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
 
         } else if (LAST_ZONE.equals(Zone.getZones().village.field)) { // Coming from field.
@@ -102,9 +136,8 @@ const loadVillageMain = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
     };
-
     // Set Background Color:
-    BG_COLOR = COLORS.skyBlue;
+    BG_COLOR = COLORS.SKY_BLUE;
 
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);
