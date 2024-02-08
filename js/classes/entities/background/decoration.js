@@ -1,7 +1,7 @@
 /**
  * General-purpose class for displaying entites that do not move and which cannot be collided with.
  * 
- * @author Trae Claar
+ * @author Trae Claar, (modified) Caleb Krauter
  */
 class Decoration {
 
@@ -115,6 +115,65 @@ class Decoration {
                     FRAME_DURATION: 1,
                     SIZE: new Vector(64, 64),
                     SCALE: 6
+                },
+                SPRUCE_1: {
+                    SPRITESHEET: "./sprites/tree_spruce.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(64, 64),
+                    SCALE: 7
+                },
+                SPRUCE_2: {
+                    SPRITESHEET: "./sprites/tree_spruce.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(64, 64),
+                    SCALE: 8
+                },
+                SPRUCE_3: {
+                    SPRITESHEET: "./sprites/tree_spruce.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(64, 64),
+                    SCALE: 9
+                },
+                SPRUCE_4: {
+                    SPRITESHEET: "./sprites/tree_spruce.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(64, 64),
+                    SCALE: 12
+                },
+
+            },
+            clouds: {
+                CLOUD_JUST_CLOUD: {
+                    SPRITESHEET: "./sprites/cloud1.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(32, 32),
+                    SCALE: 7
+                },
+                CLOUD_LANKY: {
+                    SPRITESHEET: "./sprites/cloud2.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(32, 32),
+                    SCALE: 7
+                },
+                CLOUD_BUSHY: {
+                    SPRITESHEET: "./sprites/cloud3.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(32, 32),
+                    SCALE: 7
                 }
             }
         };

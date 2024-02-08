@@ -84,12 +84,22 @@ const loadVillageMain = () => {
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.PRIDE_FLOWER.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.CARROT.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.POTATO.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_2.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_3.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_BUSHY.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_LANKY.SPRITESHEET);
+        // ASSET_MGR.queueDownload(Rain.rain.left.SPRITESHEET);
+
         ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
     };
 
     const addEntities = () => {
         let groundLevel = 18;
-        let aboveGroundLevel = 19;
+        let aboveGroundLevel = 22;
+        let skyHeight = 14;
+        let chadOnGround = 19;
         // Add a border to the right side of the map, leading to the field.
         GAME.addEntity(new Border(
             new Vector(ZONE.MAX_PT.x, 0), // start at the far right side of the Zone, and at the top
@@ -195,7 +205,7 @@ const loadVillageMain = () => {
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.OAK_1, Vector.blockToWorldSpace(new Vector(20, aboveGroundLevel))), 1);
 
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.houses.CHAD_HOUSE, Vector.blockToWorldSpace(new Vector(30, aboveGroundLevel))));
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.OAK_3, Vector.blockToWorldSpace(new Vector(39, 19))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.OAK_3, Vector.blockToWorldSpace(new Vector(39, aboveGroundLevel))), -1);
 
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.houses.MAYOR_HOUSE, Vector.blockToWorldSpace(new Vector(48, aboveGroundLevel))));
         for (let i = 0; i < 5; i++) {
@@ -215,32 +225,54 @@ const loadVillageMain = () => {
 
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.houses.CHAD_HOUSE, Vector.blockToWorldSpace(new Vector(70, aboveGroundLevel))));
 
-        // GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.MED_RED_FLOWER, Vector.blockToWorldSpace(new Vector(1, 20))));
-        GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 140), Sun.VILLAGE), -1);
+        for (let i = 0; i < 4; i++) {
+            GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER, Vector.blockToWorldSpace(new Vector(75 + (1 / 2) * i, aboveGroundLevel))), 0);
+            GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER, Vector.blockToWorldSpace(new Vector(71.5 + (1 / 2) * i, aboveGroundLevel))), 0);
+
+        }
+        GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 140), Sun.VILLAGE), 0);
+
+        for (let i = 0; i < 10; i++) {
+            let chooseForGround = Math.random();
+            chooseForGround = chooseForGround < 0.5 ? -1 : 0;
+            let yVariation = Math.random() * (10 - 12) + 10;
+            let xVariation = Math.random() * (8 - 12) + 8;
+            console.log(chooseForGround);
+            GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_BUSHY, Vector.blockToWorldSpace(new Vector(0 + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
+        }
+        for (let i = 0; i < 10; i++) {
+            let chooseForGround = Math.random();
+            chooseForGround = chooseForGround < 0.5 ? -1 : 0;
+            let yVariation = Math.random() * (10 - 12) + 10;
+            let xVariation = Math.random() * (8 - 12) + 8;
+            GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_LANKY, Vector.blockToWorldSpace(new Vector(3 + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
+        }
+        for (let i = 0; i < 10; i++) {
+            let chooseForGround = Math.random();
+            chooseForGround = chooseForGround < 0.5 ? -1 : 0;
+            let yVariation = Math.random() * (10 - 12) + 10;
+            let xVariation = Math.random() * (8 - 12) + 8;
+            GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD, Vector.blockToWorldSpace(new Vector(5 + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
+        }
+
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(76, aboveGroundLevel))));
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(79, aboveGroundLevel))), 1);
+
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(82, aboveGroundLevel))));
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(84, aboveGroundLevel))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(87, aboveGroundLevel))));
+
         // NPCs
         GAME.addEntity(new PapaChad(new Vector(500, 1050), false), 0);
+        // GAME.addEntity(new Rain("Down"));
 
 
-        // TOWER
-        for (let y = aboveGroundLevel - 1; y > aboveGroundLevel - 10; y--) {
-            for (let x = 86; x < 91; x++) {
-                if (!(x % 2 == 0 && y % 2 == 0)) {
 
-                    GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE_DARK), 1);
-
-                }
-                if (x == 90 && y % 3 == 0) {
-                    GAME.addEntity(new Block(new Vector(x, y - 1), Block.STONE_COBBLE_DARK), 0);
-                }
-
-            }
-            GAME.addEntity(new Block(new Vector(86, y), Block.STONE_COBBLE_DARK), 1);
-        }
 
         // Place chad.
         if (LAST_ZONE === null) { // We've just started the game.
             // Spawn in middle.
-            const blockPos = new Vector(21, 16);
+            const blockPos = new Vector(80, chadOnGround);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
 
         } else if (LAST_ZONE.equals(Zone.getZones().village.field)) { // Coming from field.

@@ -42,11 +42,6 @@ class AssetManager {
             const path = this.downloadQueue[i];
             console.log(path);
 
-            // make sure the path is a string
-            if (typeof path !== 'string') {
-                console.log("Error loading " + path + ": not a string");
-            }
-
             const ext = path.substring(path.length - 3);
 
             switch (ext) {
@@ -54,17 +49,17 @@ class AssetManager {
                 case 'png':
                     const img = new Image();
                     img.addEventListener("load", () => {
-                        console.log("Loaded " + path);
+                        console.log("Loaded " + img.src);
                         this.successCount++;
                         if (this.isDone()) callback();
                     });
-        
+
                     img.addEventListener("error", () => {
                         console.log("Error loading " + path);
                         this.errorCount++;
                         if (this.isDone()) callback();
                     });
-        
+
                     img.src = path;
                     this.cache[path] = img;
                     break;
@@ -73,7 +68,7 @@ class AssetManager {
                 case 'wav':
                     const audio = new Audio();
                     audio.addEventListener("loadeddata", () => {
-                        console.log("Loaded " + path);
+                        console.log("Loaded " + this.src);
                         this.successCount++;
                         if (this.isDone()) callback();
                     });
@@ -83,7 +78,7 @@ class AssetManager {
                         this.errorCount++;
                         if (this.isDone()) callback();
                     });
-                
+
                     audio.addEventListener("ended", () => {
                         audio.pause();
                         audio.currentTime = 0;
@@ -94,7 +89,7 @@ class AssetManager {
 
                     this.cache[path] = audio;
                     break;
-                
+
                 default:
                     console.log("Error loading " + path + ": unknown file extension");
                     this.errorCount++;
@@ -184,26 +179,37 @@ class AssetManager {
      */
     static get BAREBONES_DL_Q() {
         return [
-                // Entities:
-                Block.SPRITESHEET,
-                Crosshair.SPRITESHEET,
-                DialogBubble.SPRITESHEET,
-                OverheadIcon.SPRITESHEET,
-                PapaChad.SPRITESHEET,
-                Projectile.SPRITESHEET,
-                Slingshot.SPRITESHEET,
-                Sun.SPRITESHEET,
-                Sword.SPRITESHEET,
-                Rune.SPRITESHEET,
-          
-                // Sounds:
-                SFX.JUMP1.path,
-                SFX.JUMP2.path,
-                SFX.SLINGSHOT_LAUNCH1.path,
-                SFX.SLINGSHOT_LAUNCH2.path,
-                SFX.SLINGSHOT_LAUNCH3.path,
-                SFX.SLINGSHOT_LAUNCH4.path,
-                SFX.SLINGSHOT_STRETCH.path,
+            // Entities:
+            Block.SPRITESHEET,
+            Crosshair.SPRITESHEET,
+            DialogBubble.SPRITESHEET,
+            OverheadIcon.SPRITESHEET,
+            PapaChad.SPRITESHEET,
+            Projectile.SPRITESHEET,
+            Slingshot.SPRITESHEET,
+            Sun.SPRITESHEET,
+            Sword.SPRITESHEET,
+            Rune.SPRITESHEET,
+
+            // Sounds:
+            SFX.JUMP1.path,
+            SFX.JUMP2.path,
+            SFX.SLINGSHOT_LAUNCH1.path,
+            SFX.SLINGSHOT_LAUNCH2.path,
+            SFX.SLINGSHOT_LAUNCH3.path,
+            SFX.SLINGSHOT_LAUNCH4.path,
+            SFX.SLINGSHOT_STRETCH.path,
+            Sun.SPRITESHEET,
+            PapaChad.SPRITESHEET,
+            Slingshot.SPRITESHEET,
+            Block.SPRITESHEET,
+            Projectile.SPRITESHEET,
+            Slingshot.SPRITESHEET,
+            Crosshair.SPRITESHEET,
+            //Sword.SPRITESHEET,
+            "./sfx/slime_jump.mp3",
+            "./sfx/slingshot_launch.wav",
+            "./sfx/temp_jump.wav"
         ];
     };
 };

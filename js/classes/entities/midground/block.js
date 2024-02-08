@@ -1,5 +1,7 @@
 /** A Block is the building block of our world. A block cannot be passed through by any entity. 
  * Only certain types of blocks can be broken through.
+ * 
+ * @author Devin, (modified) Caleb Krauter
  */
 class Block {
     /**
