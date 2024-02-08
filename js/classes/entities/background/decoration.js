@@ -16,7 +16,7 @@ class Decoration {
     constructor(type, bottomLeftPos) {
         this.type = type;
         this.pos = new Vector(bottomLeftPos.x, bottomLeftPos.y - this.type.SIZE.y * this.type.SCALE);
-        this.animator = new Animator(this.type.SPRITESHEET, this.type.SPRITESHEET_START_POS, 
+        this.animator = new Animator(this.type.SPRITESHEET, this.type.SPRITESHEET_START_POS,
             this.type.SIZE, this.type.FRAME_COUNT, this.type.FRAME_DURATION);
     };
 
@@ -30,7 +30,7 @@ class Decoration {
                     FRAME_COUNT: 1,
                     FRAME_DURATION: 1,
                     SIZE: new Vector(16, 32),
-                    SCALE: 3
+                    SCALE: 2
                 },
                 TALL_PURPLE_FLOWER: {
                     SPRITESHEET: "./sprites/flowers.png",
@@ -38,7 +38,7 @@ class Decoration {
                     FRAME_COUNT: 1,
                     FRAME_DURATION: 1,
                     SIZE: new Vector(16, 32),
-                    SCALE: 3
+                    SCALE: 2
                 },
                 PRIDE_FLOWER: {
                     SPRITESHEET: "./sprites/flowers.png",
@@ -46,7 +46,7 @@ class Decoration {
                     FRAME_COUNT: 1,
                     FRAME_DURATION: 1,
                     SIZE: new Vector(16, 32),
-                    SCALE: 3
+                    SCALE: 2
                 },
                 CARROT: {
                     SPRITESHEET: "./sprites/flowers.png",
@@ -70,7 +70,7 @@ class Decoration {
                     SPRITESHEET: "./sprites/blacksmith_house.png",
                     SPRITESHEET_START_POS: new Vector(0, 0),
                     FRAME_COUNT: 4,
-                    FRAME_DURATION: 1/4,
+                    FRAME_DURATION: 1 / 4,
                     SIZE: new Vector(192, 192),
                     SCALE: 3.5
                 },
@@ -99,6 +99,22 @@ class Decoration {
                     FRAME_DURATION: 1,
                     SIZE: new Vector(64, 64),
                     SCALE: 8
+                },
+                OAK_2: {
+                    SPRITESHEET: "./sprites/tree.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(64, 64),
+                    SCALE: 9
+                },
+                OAK_3: {
+                    SPRITESHEET: "./sprites/tree.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(64, 64),
+                    SCALE: 6
                 }
             }
         };
@@ -113,7 +129,7 @@ class Decoration {
      */
     static checkType(type) {
         if (!Decoration.PROPERTY_TABLE[type]) {
-            throw new Error(type + " is not a valid Decoration type. Please use a key from" 
+            throw new Error(type + " is not a valid Decoration type. Please use a key from"
                 + " Decoration.PROPERTY_TABLE.");
         }
     };

@@ -24,7 +24,7 @@ public class MakeMap {
     public void fillArray() {
         System.out.print("[");
         int width = 100;
-        int height = 75;
+        int height = 25;
         int startGround = height - height/4;
         int firstLayerBlock = 2;
         int air = 0;
@@ -36,26 +36,26 @@ public class MakeMap {
             System.out.print("[");
 
             if (y == startGround) {
-                System.out.print(firstLayerBlock + ", ");
+                System.out.print("\'" + firstLayerBlock + "\', ");
 
             } else if (y < startGround) {
                     // Print blank space.
-                    System.out.print(air + ", ");
+                    System.out.print("\'" + air + "\', ");
                 } else {
                     // Print the ground block value.
-                    System.out.print(groundDefault + ", ");
+                    System.out.print("\'" + groundDefault + "\', ");
                 }
 
             for (int x = 0;x <= width; x++) {
                 if (y == startGround) {
-                    System.out.print(firstLayerBlock + ", ");
+                    System.out.print("\'" + firstLayerBlock + "\', ");
     
                 } else if (y < startGround) {
                     // Print blank space.
-                    System.out.print(air + ", ");
+                    System.out.print("\'" + air + "\', ");
                 } else {                    
                     // Print the ground block value.
-                    System.out.print(groundDefault + ", ");
+                    System.out.print("\'" + groundDefault + "\', ");
                 }
                 
             }

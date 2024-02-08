@@ -61,7 +61,7 @@ class Chad {
     }
 
     static get SPEED() {
-        return Chad.SCALE * 100;
+        return Chad.SCALE * 115;
     };
 
     /** The filepath to Chad's spritesheet. */
@@ -71,20 +71,20 @@ class Chad {
 
     /** The velocity of the first jump */
     static get FIRST_JUMP_VELOCITY() {
-        return -400
+        return -700
     }
     /** The velocity of the double jump. */
     static get SECOND_JUMP_VELOCITY() {
-        return -500;
+        return -800;
     }
 
     /** The mulitiplier that allows CHAD to run. */
     static get SPRINT_SPEED() {
-        return Chad.SPEED * 1.6;
+        return Chad.SPEED * 1.8;
     }
     /** The mulitiplier that allows CHAD to run. */
     static get DASH_SPEED() {
-        return Chad.SPEED * 3.5;
+        return Chad.SPEED * 3;
     }
 
     /** The barrier that limits the length of the longest dash. */

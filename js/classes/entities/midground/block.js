@@ -53,7 +53,48 @@ class Block {
     static get LAVA_ROCK() {
         return 6;
     };
-
+    static get BARS() {
+        return 7;
+    };
+    static get PLANKS_OAK() {
+        return 8;
+    };
+    static get PLANKS_SPRUCE() {
+        return 9;
+    };
+    static get LOG_SPRUCE_VIRTICAL() {
+        return 10;
+    };
+    static get LOG_SPRUCE_HORIZONTAL() {
+        return 11;
+    };
+    static get PLANKS_REDWOOD() {
+        return 12;
+    };
+    static get PLANKS_REDWOOD_LIGHT() {
+        return 13;
+    };
+    static get STONE_COBBLE() {
+        return 14;
+    };
+    static get STONE_COBBLE_DARK() {
+        return 15;
+    };
+    static get STONE_COBBLE_VOLCANIC() {
+        return 16;
+    };
+    static get PLANK_OAK_STAIRS_LEFT() {
+        return 17;
+    };
+    static get PLANK_OAK_STAIRS_RIGHT() {
+        return 18;
+    };
+    static get PLANK_SPRUCE_STAIRS_LEFT() {
+        return 19;
+    };
+    static get PLANK_SPRUCE_STAIRS_RIGHT() {
+        return 20;
+    };
     /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {
         return 2;
@@ -71,10 +112,10 @@ class Block {
     static get SPRITESHEET() {
         return "./sprites/blocks.png";
     };
-    
+
     /** Change what the entity is doing and where it is. */
     update() {
-        
+
     };
 
     /** Draw the entity on the canvas. */

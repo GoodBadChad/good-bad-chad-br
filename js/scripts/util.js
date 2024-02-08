@@ -40,7 +40,7 @@ let BG_COLOR = null;
  * Acceleration: pixels/second^2
  */
 const PHYSICS = {
-    GRAVITY_ACC: 990,
+    GRAVITY_ACC: 1800,
     TERMINAL_VELOCITY: 200 // currently only being applied to projectiles
 };
 
