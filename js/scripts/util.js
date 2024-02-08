@@ -61,7 +61,15 @@ const SFX = {
     SLINGSHOT_LAUNCH3: {path: "./sfx/launch3.mp3", volume: 0.5},
     SLINGSHOT_LAUNCH4: {path: "./sfx/launch4.mp3", volume: 0.5},
     SLINGSHOT_STRETCH: {path: "./sfx/slingshot_stretch.mp3", volume: 0.4},
-    SONIC_DASH: {path: "./sfx/sonic_dash.mp3", volume: 0.2}
+    SWORD_SWING1: {path: "./sfx/sword_swing1.mp3", volume: 0.2},
+    SWORD_SWING2: {path: "./sfx/sword_swing2.mp3", volume: 0.2},
+    SWORD_SWING3: {path: "./sfx/sword_swing3.mp3", volume: 0.2},
+    SWORD_SWING4: {path: "./sfx/sword_swing4.mp3", volume: 0.2},
+    SWORD_SWING5: {path: "./sfx/sword_swing5.mp3", volume: 0.2},
+    SWORD_SWING6: {path: "./sfx/sword_swing6.mp3", volume: 0.2},
+    SWORD_SWING7: {path: "./sfx/sword_swing7.mp3", volume: 0.2},
+    SWORD_SWING8: {path: "./sfx/sword_swing8.mp3", volume: 0.2},
+    SWORD_HIT: {path: "./sfx/sword_hit.mp3", volume: 0.4}
 }
 
 /**
@@ -175,31 +183,31 @@ const checkBlockCollisions = (entity) => {
 // The following is necessary because we must change the listeners for different modes (right now, gameplay and dialog).
 /** Contains all functions called as event handlers. */
 const EVENT_HANDLERS = {
-    gameplayMouseDown: (e) => {
+    gameplayMouseDown: (mouse) => {
         // check if mouse button is left click
-        if (e.button === 2) {
+        if (mouse.button === 2) {
             GAME.user.jabbing = true;
-        } else if (e.button === 0) {
+        } else if (mouse.button === 0) {
             GAME.user.aiming = true;
         }
     },
-    gameplayMouseUp: (e) => {
+    gameplayMouseUp: (mouse) => {
         // check if mouse button is left click
-        if (e.button === 2) {
+        if (mouse.button === 2) {
             GAME.user.jabbing = false;
-        } else if (e.button === 0) {
+        } else if (mouse.button === 0) {
             GAME.user.aiming = false;
             GAME.user.firing = true;
         }
     },
-    gameplayMouseMove: (e) => {
+    gameplayMouseMove: (mouse) => {
         const rect = CANVAS.getBoundingClientRect();
         const scaleX = CANVAS.width / rect.width;
         const scaleY = CANVAS.height / rect.height;
-        GAME.mousePos = new Vector((e.clientX - rect.left) * scaleX, (e.clientY - rect.top) * scaleY);
+        GAME.mousePos = new Vector((mouse.clientX - rect.left) * scaleX, (mouse.clientY - rect.top) * scaleY);
     },
-    gameplayKeyDown: (e) => {
-        switch (e.code) {
+    gameplayKeyDown: (key) => {
+        switch (key.code) {
             case "KeyA":
                 GAME.user.movingLeft = true;
                 break;
@@ -227,8 +235,8 @@ const EVENT_HANDLERS = {
                 break;
         }
     },
-    gameplayKeyUp: (e) => {
-        switch (e.code) {
+    gameplayKeyUp: (key) => {
+        switch (key.code) {
             case "KeyA":
                 GAME.user.movingLeft = false;
                 break;
@@ -256,8 +264,8 @@ const EVENT_HANDLERS = {
                 break;
         }
     },
-    dialogKeyPress: (e) => {
-        if (e.code === "KeyW") {
+    dialogKeyPress: (key) => {
+        if (key.code === "KeyW") {
             GAME.user.continuingConversation = true;
         }
     }

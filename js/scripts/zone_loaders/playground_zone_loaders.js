@@ -216,15 +216,10 @@ const loadPlaygroundNathan = () => {
         CANVAS.addEventListener('dblclick', function(e) {
             e.preventDefault();
         });
-
-        loadingAnimation.stop(); // stop the loading animation because asset manager has everything it needs
     };
 
     // Set background color:
-    BG_COLOR = "skyblue";
-
-    let loadingAnimation = new LoadingAnimation();
-    loadingAnimation.start();
+    BG_COLOR = COLORS.SKY_BLUE;
 
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);

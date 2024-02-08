@@ -204,6 +204,15 @@ class AssetManager {
                 SFX.SLINGSHOT_LAUNCH3.path,
                 SFX.SLINGSHOT_LAUNCH4.path,
                 SFX.SLINGSHOT_STRETCH.path,
+                SFX.SWORD_SWING1.path,
+                SFX.SWORD_SWING2.path,
+                SFX.SWORD_SWING3.path,
+                SFX.SWORD_SWING4.path,
+                SFX.SWORD_SWING5.path,
+                SFX.SWORD_SWING6.path,
+                SFX.SWORD_SWING7.path,
+                SFX.SWORD_SWING8.path,
+                SFX.SWORD_HIT.path
         ];
     };
 };

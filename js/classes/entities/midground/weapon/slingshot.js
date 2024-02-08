@@ -11,11 +11,14 @@ class Slingshot {
         this.isFiring = false;
         this.rotation = 0;
 
-        this.shootTimer = 0;
+        this.timeSinceLastShot = 0;
+        // this.timeSinceReload = 0;
 
         this.playedStretchSound = false;
 
         this.start = new Vector(0, 0);
+
+        // this.progressBar = new ProgressBar(new Vector(0, 0), 100, 10, "green", "red");
     }
 
     aim() { 
@@ -48,6 +51,9 @@ class Slingshot {
         //TODO: swap animation frames based on rotation
 
         // console.log("rotation: " + " (" + this.rotation * 180 / Math.PI + " degrees)");
+
+
+        // this.timeSinceReload += GAME.clockTick;
     }
 
     fire() {
@@ -81,17 +87,19 @@ class Slingshot {
         this.playedStretchSound = false;
 
         // reset the shoot timer
-        this.shootTimer = Slingshot.SHOOT_DELAY;
+        this.timeSinceLastShot = 0;
+
+        // reset the reload timer
+        // this.timeSinceReload = 0;
     }
 
     update() {
-        if (this.shootTimer > 0) {
-            this.shootTimer -= GAME.clockTick;
-        }
+        this.timeSinceLastShot += GAME.clockTick;
+
         if (!HUD.pauseButton.isMouseOver()) {
             if (GAME.user.aiming) {
                 this.aim();
-            } else if (GAME.user.firing) {
+            } else if (GAME.user.firing && this.timeSinceLastShot > Slingshot.SHOOT_DELAY) {    
                 this.fire();
             }
         }
@@ -114,6 +122,11 @@ class Slingshot {
     static get SHOOT_DELAY() {
         return 0.25;
     }
+
+    /** The time it takes to reload the slingshot in seconds */
+    // static get RELOAD_TIME() {
+    //     return 0.5;
+    // }
 
     static get SPRITESHEET() {
         return "./sprites/slingshot.png";
