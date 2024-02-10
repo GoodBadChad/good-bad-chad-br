@@ -180,6 +180,7 @@ class AssetManager {
     static get BAREBONES_DL_Q() {
         return [
             // Entities:
+            // TODO add clouds and rain as bairbones?
             Block.SPRITESHEET,
             Crosshair.SPRITESHEET,
             DialogBubble.SPRITESHEET,

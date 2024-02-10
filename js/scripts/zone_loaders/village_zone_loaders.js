@@ -90,7 +90,9 @@ const loadVillageMain = () => {
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_BUSHY.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_LANKY.SPRITESHEET);
-        // ASSET_MGR.queueDownload(Rain.rain.left.SPRITESHEET);
+        // ASSET_MGR.queueDownload(Rain.SPRITESHEET);
+        ASSET_MGR.queueDownload(Rain.SPRITESHEET);
+
 
         ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
     };
@@ -115,8 +117,8 @@ const loadVillageMain = () => {
                 // GAME.addEntity(new Block(i, j, Block.DIRT));a
 
                 // const pos = new Vector(y, x);
-                console.log('Starting block x ' + x);
-                console.log('Starting block y ' + y);
+                // console.log('Starting block x ' + x);
+                // console.log('Starting block y ' + y);
 
                 switch (villageMainTileMap[y][x]) {
 
@@ -255,7 +257,7 @@ const loadVillageMain = () => {
             GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD, Vector.blockToWorldSpace(new Vector(5 + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
         }
 
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(76, aboveGroundLevel))));
+        // GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(76, aboveGroundLevel))));
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(79, aboveGroundLevel))), 1);
 
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(82, aboveGroundLevel))));
@@ -263,8 +265,27 @@ const loadVillageMain = () => {
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(87, aboveGroundLevel))));
 
         // NPCs
+        // Add rain
         GAME.addEntity(new PapaChad(new Vector(500, 1050), false), 0);
-        // GAME.addEntity(new Rain("Down"));
+        for (let j = 0; j < 5; j++) {
+            for (let i = 0; i < 20; i++) {
+                GAME.addEntity(new Rain("Down", Vector.blockToWorldSpace(new Vector(60 + i, i - 20))));
+                GAME.addEntity(new Rain("Down", Vector.blockToWorldSpace(new Vector(55 + i, i - 20))));
+                // GAME.addEntity(new Rain("Down", Vector.blockToWorldSpace(new Vector(40 + i, i - 19))));
+                // GAME.addEntity(new Rain("Down", Vector.blockToWorldSpace(new Vector(30 + i, i - 19))));
+
+
+
+
+            }
+
+
+            // GAME.addEntity(new Rain("Down", Vector.blockToWorldSpace(new Vector(x, 0))), 1);
+
+            // GAME.addEntity(new Rain("Down", Vector.blockToWorldSpace(new Vector(x, 0))), 1);
+
+        }
+
 
 
 
@@ -274,6 +295,7 @@ const loadVillageMain = () => {
             // Spawn in middle.
             const blockPos = new Vector(80, chadOnGround);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
+            console.log(CHAD.pos);
 
         } else if (LAST_ZONE.equals(Zone.getZones().village.field)) { // Coming from field.
             // Set spawn point on the right.
