@@ -145,7 +145,7 @@ class Zone {
                 devin: new Zone(zeros, defaultMaxBlock, loadPlaygroundDevin, "Devinopolis"),
                 everybody: new Zone(zeros, defaultMaxBlock, loadPlaygroundEverybody, "Bro City"),
                 nathan: new Zone(zeros, defaultMaxBlock, loadPlaygroundNathan, "Natesburg"),
-                trae: new Zone(zeros, defaultMaxBlock, loadPlaygroundTrae, "Trae Town")
+                trae: new Zone(zeros, new Vector(200, 25), loadPlaygroundTrae, "Trae Town")
             },
             spooky: {
                 // This is the final dimension. If you have a better name for it, feel free to change.

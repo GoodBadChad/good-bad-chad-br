@@ -70,7 +70,7 @@ const MUSIC = {
  * @param {Entity} entity the entity for which to check block collision
  * @returns {Object} an object indicating which side(s) of a block the entity collided with
  */
-const checkBlockCollisions = (entity) => {
+const checkBlockCollisions = (entity, entitySize) => {
     const collisions = {};
     // Have we collided with anything?
     GAME.entities.forEach((otherEntity) => {
@@ -95,7 +95,7 @@ const checkBlockCollisions = (entity) => {
                         collisions.top = true;
 
                         // NOTE: entity.constructor returns an instance's class. There may be a better way to do this.
-                        entity.pos = new Vector(entity.pos.x, otherEntity.boundingBox.top - entity.constructor.SCALED_SIZE.y);
+                        entity.pos = new Vector(entity.pos.x, otherEntity.boundingBox.top - entitySize.y);
                         entity.yVelocity = 0;
                     } else if (isOverlapY
                         && entity.lastBoundingBox.right <= otherEntity.boundingBox.left
@@ -104,7 +104,7 @@ const checkBlockCollisions = (entity) => {
 
                         collisions.left = true;
 
-                        entity.pos = new Vector(otherEntity.boundingBox.left - entity.constructor.SCALED_SIZE.x, entity.pos.y);
+                        entity.pos = new Vector(otherEntity.boundingBox.left - entitySize.x, entity.pos.y);
                     } else if (isOverlapY
                         && entity.lastBoundingBox.left >= otherEntity.boundingBox.right
                         && entity.boundingBox.left < otherEntity.boundingBox.right) {
@@ -130,7 +130,7 @@ const checkBlockCollisions = (entity) => {
     });
 
     // Now that your position is actually figured out, draw your correct bounding box.
-    entity.boundingBox = new BoundingBox(entity.pos, entity.constructor.SCALED_SIZE);
+    entity.boundingBox = new BoundingBox(entity.pos, entitySize);
 
     return collisions;
 };
