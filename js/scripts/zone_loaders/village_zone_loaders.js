@@ -251,7 +251,7 @@ const loadVillageMain = () => {
                 GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.LAVA), 0);
 
             }
-        } else if (!makeRain) {
+        } else {
             BG_COLOR = COLORS.SKY_BLUE;
             GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), 0);
         }
