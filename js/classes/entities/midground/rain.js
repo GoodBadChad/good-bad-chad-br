@@ -34,18 +34,27 @@ class Rain {
     }
     static get SCALE() {
         if (this.dir == "down") {
-            return 2.5;
-        } else {
             return 1.8;
+        } else {
+            return 1.6;
         }
     }
 
     reset() {
         let variationY = Math.random() * (50 + 100) - 50;
         // Ensure that the rain covers the screen when resetting its origin.
-        let variationX = Math.random() * (1920 + 1920);
+        let variationX = Math.random() * (1920 + 3000);
         // We use CHAD.pos.x - 1920 to ensure that the rain follows Chad and that the rain begins at the left of the screen as it covers it.
-        this.pos = new Vector(variationX + CHAD.pos.x - 1920, this.origin.y + variationY);
+        if (this.dir == "right") {
+            variationX = Math.random() * (1920 + 3000);
+            this.pos = new Vector(variationX + CHAD.pos.x - 3000, this.origin.y + variationY);
+        } else if (this.dir == "left") {
+            variationX = Math.random() * (1920 + 3000);
+            this.pos = new Vector(variationX + CHAD.pos.x - 1920, this.origin.y + variationY);
+        } else {
+            variationX = Math.random() * (1920 + 1920);
+            this.pos = new Vector(variationX + CHAD.pos.x - 1920, this.origin.y + variationY);
+        }
         this.velocity = new Vector(0, 0);
 
 

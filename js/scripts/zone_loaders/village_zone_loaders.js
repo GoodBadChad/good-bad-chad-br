@@ -234,7 +234,33 @@ const loadVillageMain = () => {
 
         }
 
-        // 90 percent chance of rain
+        // Add rain 3/5 chance that rain will go down and not left or right.
+        let dir = ["left", "down", "right", "down", "down"];
+        let rainStrength = [2, 5, 10, 20, 25, 30];
+        let dirIndex = Math.floor(Math.random() * dir.length);
+        let strengthIndex = Math.floor(Math.random() * rainStrength.length);
+        // 40 percent chance of rain
+        let makeRain = false;
+        makeRain = Math.random() < .4 ? true : false;
+        if (makeRain) {
+            BG_COLOR = COLORS.SKY_DARK_GREY;
+            console.log(dirIndex);
+            for (let j = 0; j < rainStrength[strengthIndex]; j++) {
+                for (let i = 0; i < 20; i++) {
+                    // 960 - CHAD.pos.x, CHAD.pos.y - 1080
+                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
+                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
+                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
+                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
+                }
+            }
+            // console.log(strengthIndex);
+        }
+        if (!makeRain) {
+            BG_COLOR = COLORS.SKY_BLUE;
+            GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), 0);
+
+        }
         let makeClouds = Math.random() < .9 ? true : false;
         if (makeClouds) {
 
@@ -246,7 +272,7 @@ const loadVillageMain = () => {
                 chooseForGround = chooseForGround < 0.5 ? -1 : 0;
                 let yVariation = Math.random() * (10 - 12) + 10;
                 let xVariation = Math.random() * (8 - 12) + 8;
-                console.log(chooseForGround);
+                // console.log(chooseForGround);
                 GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_BUSHY, Vector.blockToWorldSpace(new Vector(randomOrigin + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
             }
             cloudNum = (Math.random() * (3 + 10)) - 3;
@@ -279,30 +305,6 @@ const loadVillageMain = () => {
         // NPCs
         GAME.addEntity(new PapaChad(new Vector(500, 1050), false), 0);
 
-        // Add rain
-        let dir = ["left", "down", "right"];
-        let rainStrength = [2, 5, 10, 20, 25, 30];
-        let dirIndex = Math.floor(Math.random() * dir.length);
-        let strengthIndex = Math.floor(Math.random() * rainStrength.length);
-        // 40 percent chance of rain
-        let makeRain = Math.random() < .4 ? true : false;
-        if (makeRain) {
-            BG_COLOR = COLORS.SKY_GREY;
-
-            for (let j = 0; j < rainStrength[strengthIndex]; j++) {
-                for (let i = 0; i < 20; i++) {
-                    // 960 - CHAD.pos.x, CHAD.pos.y - 1080
-                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 20))), 1);
-                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 20))), 1);
-                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 20))), 1);
-                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 20))), 1);
-                }
-            }
-        } else {
-            BG_COLOR = COLORS.SKY_BLUE;
-            GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE), Sun.VILLAGE));
-
-        }
 
 
 
@@ -313,7 +315,7 @@ const loadVillageMain = () => {
             // Spawn in middle.
             const blockPos = new Vector(80, chadOnGround);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
-            console.log(CHAD.pos);
+            // console.log(CHAD.pos);
 
         } else if (LAST_ZONE.equals(Zone.getZones().village.field)) { // Coming from field.
             // Set spawn point on the right.
