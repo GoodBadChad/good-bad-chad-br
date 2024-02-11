@@ -269,8 +269,9 @@ const loadVillageMain = () => {
         GAME.addEntity(new PapaChad(new Vector(500, 1050), false), 0);
         for (let j = 0; j < 5; j++) {
             for (let i = 0; i < 20; i++) {
-                GAME.addEntity(new Rain("Down", Vector.blockToWorldSpace(new Vector(60 + i, i - 20))));
-                GAME.addEntity(new Rain("Down", Vector.blockToWorldSpace(new Vector(55 + i, i - 20))));
+                // 960 - CHAD.pos.x, CHAD.pos.y - 1080
+                GAME.addEntity(new Rain("Down", Vector.blockToWorldSpace(new Vector(60 + i, i - 20))), 1);
+                GAME.addEntity(new Rain("Down", Vector.blockToWorldSpace(new Vector(55 + 5 + i, i - 20))), 1);
                 // GAME.addEntity(new Rain("Down", Vector.blockToWorldSpace(new Vector(40 + i, i - 19))));
                 // GAME.addEntity(new Rain("Down", Vector.blockToWorldSpace(new Vector(30 + i, i - 19))));
 
@@ -293,7 +294,7 @@ const loadVillageMain = () => {
         // Place chad.
         if (LAST_ZONE === null) { // We've just started the game.
             // Spawn in middle.
-            const blockPos = new Vector(80, chadOnGround);
+            const blockPos = new Vector(15, chadOnGround);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
             console.log(CHAD.pos);
 

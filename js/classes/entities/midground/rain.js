@@ -7,6 +7,8 @@ class Rain {
         this.pos = pos;
         this.velocity = new Vector(0, 0);
         this.animator = new Animator(Rain.SPRITESHEET, new Vector(0, 0), new Vector(Rain.SIZE.x, Rain.SIZE.y), 1, 1);
+        this.hasStartedRaining = false;
+        this.stopRain = false;
         // this.animator = new Animator(this.type.SPRITESHEET, this.type.SPRITESHEET_START_POS,
         //     this.type.SIZE, this.type.FRAME_COUNT, this.type.FRAME_DURATION);
 
@@ -25,8 +27,8 @@ class Rain {
 
     reset() {
         let variationY = Math.random() * (50 + 100) - 100;
-        let variationX = Math.random() * (100 + 300) - 100;
-        this.pos = new Vector(this.origin.x + variationX, this.origin.y + variationY);
+        let variationX = Math.random() * ((CHAD.pos.x - 960) + (CHAD.pos.x + 960)) - (CHAD.pos.x - 960);
+        this.pos = new Vector(variationX, this.origin.y + variationY);
         this.velocity = new Vector(0, 0);
         // console.log("Reset");
         // console.log(this.origin);
@@ -50,13 +52,13 @@ class Rain {
      */
     update() {
         // This side works properly. Rain outside of the left of FOV is removed. Flipping the operator from < to > changes Cam.pos.x to 0.
-        if ((this.pos.x < CAMERA.pos.x)) {
-            console.log("Left side rain");
-            console.log(this.pos.x);
-            console.log("Left side of camera");
-            console.log(CAMERA.pos.x);
-            this.removeFromWorld = true;
-        }
+        // if ((this.pos.x < CAMERA.pos.x)) {
+        //     console.log("Left side rain");
+        //     console.log(this.pos.x);
+        //     console.log("Left side of camera");
+        //     console.log(CAMERA.pos.x);
+        //     this.removeFromWorld = true;
+        // }
 
         // This side sets CAMERA.pos.x to 0 for some reason causing it not to work
         // if (this.pos.x > this.RIGHT_SIDE) {
@@ -85,6 +87,35 @@ class Rain {
         //         }
         //     }
         // });
+
+        // if (CHAD.pos.x - 960 == 0) {
+
+        // }
+        // console.log(this.pos.x);
+        // console.log("CHAD");
+        // console.log(CHAD.pos.x);
+        if (!this.stopRain) {
+
+            if (this.pos.x > CHAD.pos.x + 960) {
+                this.reset();
+            } else if ((Math.abs(this.pos.x)) < Math.abs(CHAD.pos.x - 960) || this.pos.x < 0) {
+                if (CHAD.pos.x - 960 == 0) {
+                    if (this.pos.x < (CHAD.pos.x)) {
+                        this.reset();
+
+                    }
+                } else {
+                    this.reset();
+
+                }
+
+            }
+        }
+
+        // else if (CHAD.pos.x - 500 < this.pos.x) {
+        //     this.reset();
+
+        // }
         // Using background makes it so that the projectiles shot from slinghsot don't collide with the
         // rain drops and cause issues as it would seem.
         GAME.entities.background.forEach((entity) => {
