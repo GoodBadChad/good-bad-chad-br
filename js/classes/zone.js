@@ -31,6 +31,10 @@ class Zone {
             ASSET_MGR.refresh();
             loadFunction();
 
+            CANVAS.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+
             // TODO: this is a bandaid fix! Let's figure out how to make this better!!!
             setTimeout(() => {
             // Add entities essential to any Zone.

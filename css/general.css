@@ -13,6 +13,11 @@ body {
 
     /* Prevents the user from selecting other html elements. This will fix our issues with un-recorded key presses */
     user-select: none;
+    
+}
+
+body::contextmenu {
+    display: none;
 }
 
 #container {
@@ -20,7 +25,6 @@ body {
     height: 100vh;
     display: flex;
     align-content: center;
-    font-family: 'vt323', fallback;
 }
 
 #game-world {

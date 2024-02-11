@@ -5,7 +5,11 @@
  * @author Devin, Caleb, Nathan, Trae
  */
 class PapaChad {
-    constructor(pos) {
+    /**
+     * @param {Vector} pos the position at which he should spawn. 
+     * @param {Conversation} convo The conversation that will show if PapaChad is interacted with.
+     */
+    constructor(pos, convo = null) {
         /** The position of the Papa Chad (in the game world). */
         this.pos = pos;
         /** The velocity at which PapaChad is moving. */
@@ -22,13 +26,8 @@ class PapaChad {
         this.boundingBox = new BoundingBox(this.pos, PapaChad.SCALED_SIZE);
         /** Used to check how to deal with collisions with other applicable entities. */
         this.lastBoundingBox = this.boundingBox;
-        /** Name of character. */
-        this.name = "Papa Chad";
-
-        this.dialog = "Hello";
-        if (this.dialog) {
-            GAME.addEntity(new OverheadIcon(this, PapaChad.SCALED_SIZE.x, OverheadIcon.TRIANGLE, OverheadIcon.GREEN));
-        }
+        /** The conversation which will be displayed upon interacting with Papa Chad. */
+        this.conversation = convo;
     };
 
     /** The size, in pixels of the sprite ON THE SPRITESHEET. */
@@ -71,7 +70,7 @@ class PapaChad {
 
 
         // Step 4: Have we collided with anything?
-        GAME.entities.forEach((entity) => {
+        GAME.entities.midground.forEach((entity) => {
             // Does entity even have a BB?
             if (entity.boundingBox) {
                 // Are they even colliding?
@@ -122,6 +121,10 @@ class PapaChad {
     /** Draw Papa Chad on the canvas. */
     draw() {
         this.animations[this.facing][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), PapaChad.SCALE);
+        if (this.conversation.new) {
+            const indicator = new OverheadIcon(this, PapaChad.SCALED_SIZE.x, OverheadIcon.TRIANGLE, OverheadIcon.GREEN);
+            indicator.draw();
+        }
     };
 
     /** Called by the constructor. Fills up the animations array. */
