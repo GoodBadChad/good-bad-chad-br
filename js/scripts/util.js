@@ -29,7 +29,9 @@ const COLORS = {
     SEA_FOAM_GREEN: "#a0d6b4",
     SKY_BLUE: "#5da6b3",
     SKY_DARK_GREY: "#235654",
-    SKY_GREY: "#91B3B2"
+    SKY_SNOW_GREY: "#91B3B2",
+    SKY_GREY: "#73908F",
+    SKY_HOT_BLUE_SKY: "#00EAFF"
 };
 
 /** This is going to be set for each zone. A rectangle drawn over the whole canvas, first thing. */

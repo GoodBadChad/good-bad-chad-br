@@ -239,11 +239,27 @@ const loadVillageMain = () => {
         let rainStrength = [2, 5, 10, 20, 25, 30];
         let dirIndex = Math.floor(Math.random() * dir.length);
         let strengthIndex = Math.floor(Math.random() * rainStrength.length);
-        // 40 percent chance of rain
+        // chance of rain TODO make it rain only if there are clouds.
         let makeRain = false;
         makeRain = Math.random() < .4 ? true : false;
+        let hot = Math.random() < .9 ? true : false;
+        let makeClouds = Math.random() < .7 ? true : false;
+
+        if (!makeRain && !makeClouds) {
+            if (hot) {
+                BG_COLOR = COLORS.SKY_HOT_BLUE_SKY;
+                GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.LAVA), 0);
+
+            }
+        } else if (!makeRain) {
+            BG_COLOR = COLORS.SKY_BLUE;
+            GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), 0);
+        }
+        // TODO fix bug when trying to make rain dependent upon clouds.
+        // Sometimes the background turns white and possible error with sun when
+        // checking makeRain and makeClouds.
         if (makeRain) {
-            BG_COLOR = COLORS.SKY_DARK_GREY;
+            BG_COLOR = COLORS.SKY_GREY;
             console.log(dirIndex);
             for (let j = 0; j < rainStrength[strengthIndex]; j++) {
                 for (let i = 0; i < 20; i++) {
@@ -256,12 +272,7 @@ const loadVillageMain = () => {
             }
             // console.log(strengthIndex);
         }
-        if (!makeRain) {
-            BG_COLOR = COLORS.SKY_BLUE;
-            GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), 0);
 
-        }
-        let makeClouds = Math.random() < .9 ? true : false;
         if (makeClouds) {
 
             let cloudNum = (Math.random() * (8 + 20)) - 3;
