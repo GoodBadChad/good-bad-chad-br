@@ -255,26 +255,22 @@ const loadVillageMain = () => {
             BG_COLOR = COLORS.SKY_BLUE;
             GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), 0);
         }
-        // TODO fix bug when trying to make rain dependent upon clouds.
-        // Sometimes the background turns white and possible error with sun when
-        // checking makeRain and makeClouds.
-        if (makeRain) {
-            BG_COLOR = COLORS.SKY_GREY;
-            console.log(dirIndex);
-            for (let j = 0; j < rainStrength[strengthIndex]; j++) {
-                for (let i = 0; i < 20; i++) {
-                    // 960 - CHAD.pos.x, CHAD.pos.y - 1080
-                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
-                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
-                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
-                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
-                }
-            }
-            // console.log(strengthIndex);
-        }
 
         if (makeClouds) {
-
+            if (makeRain) {
+                BG_COLOR = COLORS.SKY_GREY;
+                console.log(dirIndex);
+                for (let j = 0; j < rainStrength[strengthIndex]; j++) {
+                    for (let i = 0; i < 20; i++) {
+                        // 960 - CHAD.pos.x, CHAD.pos.y - 1080
+                        GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
+                        GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
+                        GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
+                        GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
+                    }
+                }
+                // console.log(strengthIndex);
+            }
             let cloudNum = (Math.random() * (8 + 20)) - 3;
             let randomOrigin = (Math.random() * (0 + 100)) - 0;
             randomOrigin = randomOrigin % cloudNum;
