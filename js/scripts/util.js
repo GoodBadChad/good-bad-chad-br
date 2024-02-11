@@ -1,3 +1,7 @@
+
+/**
+ * @author ?? (modified) Caleb Krauter
+ */
 /** Creates an alias for requestAnimationFrame for backwards compatibility. */
 window.requestAnimFrame = (() => {
     return window.requestAnimationFrame ||
@@ -23,7 +27,9 @@ window.onkeydown = (e) => {
 /** An object containing all the relevant colors we are using in this project. */
 const COLORS = {
     SEA_FOAM_GREEN: "#a0d6b4",
-    SKY_BLUE: "#5da6b3"
+    SKY_BLUE: "#5da6b3",
+    SKY_DARK_GREY: "#235654",
+    SKY_GREY: "#91B3B2"
 };
 
 /** This is going to be set for each zone. A rectangle drawn over the whole canvas, first thing. */

@@ -36,7 +36,6 @@ const loadVillageField = () => {
         }
 
         // Draw Sun.
-        GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE), Sun.VILLAGE));
 
         // Spawn Chad.
         if (LAST_ZONE.equals(Zone.getZones().village.mountain)) { // Coming from mountain.
@@ -234,11 +233,11 @@ const loadVillageMain = () => {
             GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER, Vector.blockToWorldSpace(new Vector(71.5 + (1 / 2) * i, aboveGroundLevel))), 0);
 
         }
-        GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 140), Sun.VILLAGE), 0);
 
         // 90 percent chance of rain
         let makeClouds = Math.random() < .9 ? true : false;
         if (makeClouds) {
+
             let cloudNum = (Math.random() * (8 + 20)) - 3;
             let randomOrigin = (Math.random() * (0 + 100)) - 0;
             randomOrigin = randomOrigin % cloudNum;
@@ -285,9 +284,11 @@ const loadVillageMain = () => {
         let rainStrength = [2, 5, 10, 20, 25, 30];
         let dirIndex = Math.floor(Math.random() * dir.length);
         let strengthIndex = Math.floor(Math.random() * rainStrength.length);
-        // 90 percent chance of rain
-        let makeRain = Math.random() < .9 ? true : false;
+        // 40 percent chance of rain
+        let makeRain = Math.random() < .4 ? true : false;
         if (makeRain) {
+            BG_COLOR = COLORS.SKY_GREY;
+
             for (let j = 0; j < rainStrength[strengthIndex]; j++) {
                 for (let i = 0; i < 20; i++) {
                     // 960 - CHAD.pos.x, CHAD.pos.y - 1080
@@ -297,6 +298,10 @@ const loadVillageMain = () => {
                     GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 20))), 1);
                 }
             }
+        } else {
+            BG_COLOR = COLORS.SKY_BLUE;
+            GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE), Sun.VILLAGE));
+
         }
 
 
@@ -321,7 +326,6 @@ const loadVillageMain = () => {
         }
     };
     // Set Background Color:
-    BG_COLOR = COLORS.SKY_BLUE;
 
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);
