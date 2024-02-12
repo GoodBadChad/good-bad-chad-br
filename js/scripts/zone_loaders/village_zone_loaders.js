@@ -113,6 +113,7 @@ const loadVillageMain = () => {
         // for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
         //     GAME.addEntity(new Block(new Vector(x, ZONE.MAX_BLOCK.y), Block.DIRT));
         // }
+        // TODO - make this its own class for interpreting the tile map so to clean up code.
         for (let y = ZONE.MAX_BLOCK.y; y >= ZONE.MIN_BLOCK.y; y--) {
             for (let x = ZONE.MAX_BLOCK.x; x >= ZONE.MIN_BLOCK.x; x--) {
                 // GAME.addEntity(new Block(i, j, Block.DIRT));a
@@ -196,11 +197,11 @@ const loadVillageMain = () => {
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.OAK_3, Vector.blockToWorldSpace(new Vector(8, aboveGroundLevel))), -1);
         for (let i = 0; i < 18; i++) {
             if (i % 2 == 0) {
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.POTATO, Vector.blockToWorldSpace(new Vector(10.5 + i * 1 / 5, aboveGroundLevel))), - 1);
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.POTATO, Vector.blockToWorldSpace(new Vector(10.5 + i * 1 / 5, aboveGroundLevel))), - 1);
+                GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.POTATO, Vector.blockToWorldSpace(new Vector(27 + i * 1 / 5, aboveGroundLevel))), - 1);
+                GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.POTATO, Vector.blockToWorldSpace(new Vector(27 + i * 1 / 5, aboveGroundLevel))), - 1);
             } else {
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.CARROT, Vector.blockToWorldSpace(new Vector(10.5 + i * 1 / 5, aboveGroundLevel))), - 1);
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.CARROT, Vector.blockToWorldSpace(new Vector(10.5 + i * 1 / 5, aboveGroundLevel))), - 1);
+                GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.CARROT, Vector.blockToWorldSpace(new Vector(27 + i * 1 / 5, aboveGroundLevel))), - 1);
+                GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.CARROT, Vector.blockToWorldSpace(new Vector(27 + i * 1 / 5, aboveGroundLevel))), - 1);
 
             }
         }
@@ -234,74 +235,6 @@ const loadVillageMain = () => {
 
         }
 
-        // Add rain 3/5 chance that rain will go down and not left or right.
-        let dir = ["left", "down", "right", "down", "down"];
-        let rainStrength = [2, 5, 10, 20, 25, 30];
-        let dirIndex = Math.floor(Math.random() * dir.length);
-        let strengthIndex = Math.floor(Math.random() * rainStrength.length);
-        // chance of rain TODO make it rain only if there are clouds.
-        let makeRain = false;
-        makeRain = Math.random() < .4 ? true : false;
-        let hot = Math.random() < .9 ? true : false;
-        let makeClouds = Math.random() < .7 ? true : false;
-
-        if (!makeRain && !makeClouds) {
-            if (hot) {
-                BG_COLOR = COLORS.SKY_HOT_BLUE_SKY;
-                GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.LAVA), 0);
-
-            }
-        } else {
-            BG_COLOR = COLORS.SKY_BLUE;
-            GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), 0);
-        }
-
-        if (makeClouds) {
-            if (makeRain) {
-                BG_COLOR = COLORS.SKY_GREY;
-                console.log(dirIndex);
-                for (let j = 0; j < rainStrength[strengthIndex]; j++) {
-                    for (let i = 0; i < 20; i++) {
-                        // 960 - CHAD.pos.x, CHAD.pos.y - 1080
-                        GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
-                        GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
-                        GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
-                        GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
-                    }
-                }
-                // console.log(strengthIndex);
-            }
-            let cloudNum = (Math.random() * (8 + 20)) - 3;
-            let randomOrigin = (Math.random() * (0 + 100)) - 0;
-            randomOrigin = randomOrigin % cloudNum;
-            for (let i = 0; i < cloudNum; i++) {
-                let chooseForGround = Math.random();
-                chooseForGround = chooseForGround < 0.5 ? -1 : 0;
-                let yVariation = Math.random() * (10 - 12) + 10;
-                let xVariation = Math.random() * (8 - 12) + 8;
-                // console.log(chooseForGround);
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_BUSHY, Vector.blockToWorldSpace(new Vector(randomOrigin + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
-            }
-            cloudNum = (Math.random() * (3 + 10)) - 3;
-
-            for (let i = 0; i < cloudNum; i++) {
-                let chooseForGround = Math.random();
-                chooseForGround = chooseForGround < 0.5 ? -1 : 0;
-                let yVariation = Math.random() * (10 - 12) + 10;
-                let xVariation = Math.random() * (8 - 12) + 8;
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_LANKY, Vector.blockToWorldSpace(new Vector(randomOrigin + 5 + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
-            }
-            cloudNum = (Math.random() * (3 + 10)) - 3;
-
-            for (let i = 0; i < cloudNum; i++) {
-                let chooseForGround = Math.random();
-                chooseForGround = chooseForGround < 0.5 ? -1 : 0;
-                let yVariation = Math.random() * (10 - 12) + 10;
-                let xVariation = Math.random() * (8 - 12) + 8;
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD, Vector.blockToWorldSpace(new Vector(randomOrigin + 10 + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
-            }
-        }
-
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(76, aboveGroundLevel))));
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(79, aboveGroundLevel))), 1);
 
@@ -312,15 +245,13 @@ const loadVillageMain = () => {
         // NPCs
         GAME.addEntity(new PapaChad(new Vector(500, 1050), false), 0);
 
-
-
-
-
+        BG_COLOR = COLORS.SKY_BLUE;
+        GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), -1);
 
         // Place chad.
         if (LAST_ZONE === null) { // We've just started the game.
             // Spawn in middle.
-            const blockPos = new Vector(80, chadOnGround);
+            const blockPos = new Vector(34, chadOnGround);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
             // console.log(CHAD.pos);
 
@@ -334,6 +265,77 @@ const loadVillageMain = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
     };
+    // Weather should be added last.
+    // TODO - This block of code is commented out for the minimum deliverable as the first time the village is entered
+    // in the story we have scripted the village to start with sun and no clouds or adverse weather.
+    // The weather code will be later consolidated into a weather class for ease of use.
+    // Add rain 3/5 chance that rain will go down and not left or right.
+    // let dir = ["left", "down", "right", "down", "down"];
+    // let rainStrength = [2, 5, 10, 20, 25, 30];
+    // let dirIndex = Math.floor(Math.random() * dir.length);
+    // let strengthIndex = Math.floor(Math.random() * rainStrength.length);
+    // // chance of rain TODO make it rain only if there are clouds.
+    // let makeRain = false;
+    // makeRain = Math.random() < .4 ? true : false;
+    // let hot = Math.random() < .9 ? true : false;
+    // let makeClouds = Math.random() < .7 ? true : false;
+
+    // if (!makeRain && !makeClouds) {
+    //     if (hot) {
+    //         BG_COLOR = COLORS.SKY_HOT_BLUE_SKY;
+    //         GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.LAVA), -1);
+
+    //     }
+    // } else {
+    //     BG_COLOR = COLORS.SKY_BLUE;
+    //     GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), -1);
+    // }
+
+    // if (makeClouds) {
+    //     if (makeRain) {
+    //         BG_COLOR = COLORS.SKY_GREY;
+    //         console.log(dirIndex);
+    //         for (let j = 0; j < rainStrength[strengthIndex]; j++) {
+    //             for (let i = 0; i < 20; i++) {
+    //                 // 960 - CHAD.pos.x, CHAD.pos.y - 1080
+    //                 GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
+    //                 GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
+    //                 GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
+    //                 GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
+    //             }
+    //         }
+    //         // console.log(strengthIndex);
+    //     }
+    //     let cloudNum = (Math.random() * (8 + 20)) - 3;
+    //     let randomOrigin = (Math.random() * (0 + 100)) - 0;
+    //     randomOrigin = randomOrigin % cloudNum;
+    //     for (let i = 0; i < cloudNum; i++) {
+    //         let chooseForGround = Math.random();
+    //         chooseForGround = chooseForGround < 0.5 ? -1 : 0;
+    //         let yVariation = Math.random() * (10 - 12) + 10;
+    //         let xVariation = Math.random() * (8 - 12) + 8;
+    //         // console.log(chooseForGround);
+    //         GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_BUSHY, Vector.blockToWorldSpace(new Vector(randomOrigin + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
+    //     }
+    //     cloudNum = (Math.random() * (3 + 10)) - 3;
+
+    //     for (let i = 0; i < cloudNum; i++) {
+    //         let chooseForGround = Math.random();
+    //         chooseForGround = chooseForGround < 0.5 ? -1 : 0;
+    //         let yVariation = Math.random() * (10 - 12) + 10;
+    //         let xVariation = Math.random() * (8 - 12) + 8;
+    //         GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_LANKY, Vector.blockToWorldSpace(new Vector(randomOrigin + 5 + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
+    //     }
+    //     cloudNum = (Math.random() * (3 + 10)) - 3;
+
+    //     for (let i = 0; i < cloudNum; i++) {
+    //         let chooseForGround = Math.random();
+    //         chooseForGround = chooseForGround < 0.5 ? -1 : 0;
+    //         let yVariation = Math.random() * (10 - 12) + 10;
+    //         let xVariation = Math.random() * (8 - 12) + 8;
+    //         GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD, Vector.blockToWorldSpace(new Vector(randomOrigin + 10 + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
+    //     }
+    // }
     // Set Background Color:
 
     queueAssets();
