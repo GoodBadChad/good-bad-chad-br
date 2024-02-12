@@ -33,7 +33,7 @@ class Animator {
     /**
      * This method is going to draw the appropriate frame on the Canvas (to which ctx belongs to).
      * @param {Vector} pos The position (of the CANVAS!) at which we'd like our sprite to be drawn.
-     * @param {number} scale How much the image should be scaled when drawing. 1 pixel on the spritesheet = (scale x scale) pixels on the canvas.
+     * @param {number|Vector} scale How much the image should be scaled when drawing. 1 pixel on the spritesheet = (scale x scale) pixels on the canvas.
      */
     drawFrame(pos, scale) {
         if (GAME.running) {
@@ -42,11 +42,25 @@ class Animator {
         
         if (this.elapsedTime > this.totalTime) this.elapsedTime -= this.totalTime;
         const frame = this.currentFrame();
+
+
+
+        // if scale is a vector, use it as a scale vector, otherwise use it as a uniform scale
+        if (typeof scale === "number") {
+            scale = new Vector(scale, scale);
+        } 
+        //testing purposes
+        else {
+            if (GAME.gameTime % 1 < 0.005) {
+                console.log(scale);
+            }
+        }
+
         CTX.drawImage(ASSET_MGR.getAsset(this.spritesheet),
             this.start.x + this.size.x * frame, this.start.y,
             this.size.x, this.size.y,
             pos.x, pos.y,
-            this.size.x * scale, this.size.y * scale);
+            this.size.x * scale.x, this.size.y * scale.y);
     };
 
     /**
