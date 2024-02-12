@@ -32,14 +32,12 @@ class Rain {
     static get SIZE() {
         return new Vector(16, 16);
     }
-    static get SCALE() {
-        if (this.dir == "down") {
-            return 1.8;
-        } else {
-            return 1.6;
-        }
+    static get SCALE_RAIN_DROP() {
+        return 1.5;
     }
-
+    static get SCALE_RAIN_DROP_DIRECTIONAL() {
+        return 1;
+    }
     reset() {
         let variationY = Math.random() * (50 + 100) - 50;
         // Ensure that the rain covers the screen when resetting its origin.
@@ -89,7 +87,11 @@ class Rain {
     }
 
     draw() {
-        this.animator.drawFrame(Vector.worldToCanvasSpace(this.pos), Rain.SCALE);
+        let dropScale = Rain.SCALE_RAIN_DROP;
+        if (this.dir != "down") {
+            dropScale = Rain.SCALE_RAIN_DROP_DIRECTIONAL;
+        }
+        this.animator.drawFrame(Vector.worldToCanvasSpace(this.pos), dropScale);
 
     }
 }
