@@ -22,8 +22,25 @@ window.onkeydown = (e) => {
 
 /** An object containing all the relevant colors we are using in this project. */
 const COLORS = {
+    // backgrounds
     SEA_FOAM_GREEN: "#a0d6b4",
-    SKY_BLUE: "#5da6b3"
+    SKY_BLUE: "#5da6b3",
+    LIGHT_BLUE: "#add8e6",
+
+    // misc
+    WHITE: "#ffffff",
+    BLACK: "#000000",
+    RED: "#ff0000",
+    GREEN: "#00ff00",
+    BLUE: "#0000ff",
+    YELLOW: "#ffff00",
+    PURPLE: "#800080",
+    ORANGE: "#ffa500",
+    PINK: "#ffc0cb",
+    BROWN: "#8b4513",
+    LIGHT_BROWN: "#d2b48c",
+    GRAY: "#808080",
+    LIGHT_GRAY: "#d3d3d3",
 };
 
 /** This is going to be set for each zone. A rectangle drawn over the whole canvas, first thing. */
@@ -35,13 +52,12 @@ let BG_COLOR = null;
  * Physics constants
  * 
  * --Units--
- * Position: pixels
  * Velocity: pixels/second
  * Acceleration: pixels/second^2
  */
 const PHYSICS = {
-    GRAVITY_ACC : 900,
-    TERMINAL_VELOCITY : 200 // currently only being applied to projectiles
+    GRAVITY_ACC : 1200,
+    TERMINAL_VELOCITY : 700
 };
 
 /** Declares constants for CTX.font. */
@@ -54,6 +70,8 @@ const FONT = {
  * The game's sound effects.
  */
 const SFX = {
+
+    // Player
     JUMP1: {path: "./sfx/jump1.mp3", volume: 0.2},
     JUMP2: {path: "./sfx/jump2.mp3", volume: 0.2},
     SLINGSHOT_LAUNCH1: {path: "./sfx/launch1.mp3", volume: 0.5},
@@ -69,7 +87,34 @@ const SFX = {
     SWORD_SWING6: {path: "./sfx/sword_swing6.mp3", volume: 0.2},
     SWORD_SWING7: {path: "./sfx/sword_swing7.mp3", volume: 0.2},
     SWORD_SWING8: {path: "./sfx/sword_swing8.mp3", volume: 0.2},
-    SWORD_HIT: {path: "./sfx/sword_hit.mp3", volume: 0.4}
+    SWORD_SWING9: {path: "./sfx/sword_swing9.mp3", volume: 0.2},
+    SWORD_SWING10: {path: "./sfx/sword_swing10.mp3", volume: 0.2},
+    SWORD_HIT: {path: "./sfx/sword_hit.mp3", volume: 0.4},
+    SWOOSH: {path: "./sfx/swoosh.mp3", volume: 0.4},
+    RICOCHET1: {path: "./sfx/ricochet1.mp3", volume: 0.4},
+    RICOCHET2: {path: "./sfx/ricochet2.mp3", volume: 0.4},
+    RICOCHET3: {path: "./sfx/ricochet3.mp3", volume: 0.4},
+    RICOCHET4: {path: "./sfx/ricochet4.mp3", volume: 0.4},
+    EXPLOSION_SMALL: {path: "./sfx/explosion_small.mp3", volume: 0.4},
+    ITEM_EQUIP: {path: "./sfx/item_equip.mp3", volume: 0.4},
+    ITEM_COLLECT1: {path: "./sfx/item_collect1.mp3", volume: 0.4},
+    ITEM_COLLECT2: {path: "./sfx/item_collect2.mp3", volume: 0.4},
+    ITEM_COLLECT3: {path: "./sfx/item_collect3.mp3", volume: 0.4},
+    FOOD_EAT1: {path: "./sfx/food_eat1.mp3", volume: 0.4},
+    FOOD_EAT2: {path: "./sfx/food_eat2.mp3", volume: 0.4},
+    FOOD_EAT3: {path: "./sfx/food_eat3.mp3", volume: 0.4},
+    FOOD_EAT4: {path: "./sfx/food_eat4.mp3", volume: 0.4},
+    
+
+    // UI
+    UI_HIGH_BEEP: {path: "./sfx/ui_high_beep.mp3", volume: 0.4},
+    UI_SCIFI: {path: "./sfx/ui_scifi.mp3", volume: 0.4},
+    UI_SNAP: {path: "./sfx/ui_snap.mp3", volume: 0.4},
+    UI_GAMEBOY_BEEP: {path: "./sfx/ui_gameboy_beep.mp3", volume: 0.4},
+
+    // Environment
+    GAME_OVER: {path: "./sfx/game_over.wav", volume: 0.4},
+
 }
 
 /**
@@ -187,8 +232,10 @@ const EVENT_HANDLERS = {
         // check if mouse button is left click
         if (mouse.button === 2) {
             GAME.user.jabbing = true;
+            // GAME.user.aiming = false; uncomment this if you don't want to be able to aim while jabbing
         } else if (mouse.button === 0) {
             GAME.user.aiming = true;
+            // GAME.user.jabbing = false; uncomment this if you don't want to be able to jab while aiming
         }
     },
     gameplayMouseUp: (mouse) => {
@@ -225,13 +272,48 @@ const EVENT_HANDLERS = {
                 GAME.user.jumping = true;
                 break;
             case "ShiftLeft":
-                GAME.user.sprinting = true;
+                GAME.user.running = true;
                 break;
             case "KeyX":
+            case "AltLeft":
                 GAME.user.dashing = true;
                 break;
             case "KeyQ":
                 GAME.user.jabbing = true;
+                break;
+            case "KeyR":
+                GAME.user.cycleFood = true; // this should disable automatically after food is cycled
+                break;
+            case "KeyF":
+                GAME.user.eatFood = true; // this should disable automatically after food is eaten
+                break;
+        }
+    },
+    doubleTap: (key) => {
+        //TODO: implement double tap (stuff below is hacky and contains bugs)
+
+        switch (key.code) {
+            case "KeyD":
+                if (GAME.lastKeyTime.keyD < GameEngine.DOUBLE_TAP_THRESHOLD) {
+                    GAME.user.dashing = true;
+                }
+                console.log("time since last D: " + Math.round(GAME.lastKeyTime.keyD) + "s");
+                GAME.lastKeyTime.keyD = 0;
+                setTimeout(() => {
+                    GAME.user.dashing = false;
+                }, 1000);
+                break;
+
+            case "KeyA":
+                if (GAME.lastKeyTime.keyA < GameEngine.DOUBLE_TAP_THRESHOLD) {
+                    GAME.user.dashing = true;
+                }
+                console.log("time since last A: " + Math.round(GAME.lastKeyTime.keyA) + "s");
+                GAME.lastKeyTime.keyA = 0;
+                // set GAME.user.dashing back to false after a certain amount of time
+                setTimeout(() => {
+                    GAME.user.dashing = false;
+                }, 1000);
                 break;
         }
     },
@@ -254,9 +336,10 @@ const EVENT_HANDLERS = {
                 GAME.user.jumping = false;
                 break;
             case "ShiftLeft":
-                GAME.user.sprinting = false;
+                GAME.user.running = false;
                 break;
             case "KeyX":
+            case "AltLeft":
                 GAME.user.dashing = false;
                 break;
             case "KeyQ":
@@ -268,5 +351,5 @@ const EVENT_HANDLERS = {
         if (key.code === "KeyW") {
             GAME.user.continuingConversation = true;
         }
-    }
+    },
 };

@@ -45,12 +45,12 @@ class LoadingAnimation {
             // Draw the circle
             CTX.beginPath();
             CTX.ellipse(circle.x, circle.y, 20, 20, 0, 0, Math.PI * 2);
-            CTX.fillStyle = 'grey';
+            CTX.fillStyle = COLORS.GRAY;
             CTX.fill();
 
             // Outline the circle
             CTX.lineWidth = 3;
-            CTX.strokeStyle = 'black';
+            CTX.strokeStyle = COLORS.BLACK;
             CTX.stroke();
         }
 

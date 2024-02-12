@@ -50,9 +50,18 @@ spanishButton.addEventListener("click", () => {
 	}
 });
 
+/** 
+ * If specials keys are pressed, prevent the default action of the event.
+ */
+document.addEventListener("keydown", (key) => {
+	if (key.altKey || key.ctrlKey || key.metaKey) {
+		key.preventDefault();
+	}
+});
+
 // (3) Set the current ZONE to be the first one we encounter - village.main.
 
-let ZONE = Zone.getZones().village.main;
+let ZONE = Zone.getZones().playground.nathan;
 let LAST_ZONE = null;
 // Load all assets, add all entities, place CHAD...
 ZONE.load();

@@ -16,7 +16,7 @@ class Sun {
             Sun.SPRITESHEET,
             new Vector(0, type * Sun.SIZE),
             new Vector(Sun.SIZE, Sun.SIZE),
-            1, 1);
+            2, 0.8);
     };
 
     static get VILLAGE() {
@@ -48,7 +48,7 @@ class Sun {
     };
 
     static get SPRITESHEET() {
-        return "./sprites/suns.png";
+        return "./sprites/suns2.png";
     };
 
     /** The sun does not change. Do not update. */
