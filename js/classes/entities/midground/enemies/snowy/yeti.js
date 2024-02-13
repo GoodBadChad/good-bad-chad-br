@@ -16,7 +16,7 @@ class Yeti {
             Yeti.SCALED_SIZE, 
             Yeti.SPEED, 
             Yeti.MAX_HEALTH, 
-            Yeti.PACE_DISTANCE, 
+            Yeti.ROAM_DISTANCE, 
             () => this.handleDeath(),
             EnemyBase.AGGRESSIVE_STANCE
         );
@@ -101,7 +101,7 @@ class Yeti {
         }
 
         // if Chad is close enough and we want to beat him up, react accordingly
-        if (Math.abs(CHAD.pos.x - this.pos.x) < Yeti.SCALED_SIZE.x / 2 && this.state === "pursue") {
+        if (this.base.chadDistance() < Yeti.SCALED_SIZE.x / 2 && this.state === "pursue") {
             if (secondsSinceLastAttack > Yeti.ATTACK_COOLDOWN) {
                 // if it's been long enough, start a new attack 
                 this.animations[this.base.getFacing()]["attacking"].elapsedTime = 0;

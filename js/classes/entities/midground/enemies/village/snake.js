@@ -88,7 +88,7 @@ class Snake {
     update() {
         this.base.update();
 
-        if (Math.abs(CHAD.pos.x - this.pos.x) < Snake.SCALED_SIZE.x / 2 
+        if (this.base.chadDistance() < Snake.SCALED_SIZE.x / 2
             && Date.now() - Snake.ATTACK_COOLDOWN * 1000 > this.lastAttack) {
 
             this.state = "pursue";

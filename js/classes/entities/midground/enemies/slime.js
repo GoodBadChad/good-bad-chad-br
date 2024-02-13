@@ -124,7 +124,7 @@ class Slime {
     update() {
         this.base.update();
 
-        if (Math.abs(CHAD.pos.x - this.pos.x) < Slime.SCALED_SIZE.x / 2 
+        if (this.base.chadDistance() < Slime.SCALED_SIZE.x / 2 
             && Date.now() - Slime.ATTACK_COOLDOWN * 1000 > this.lastAttack) {
 
             this.lastAttack = Date.now();

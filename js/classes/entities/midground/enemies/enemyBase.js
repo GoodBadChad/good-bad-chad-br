@@ -140,6 +140,16 @@ class EnemyBase {
         return (this.getDirection() < 0) ? "left" : "right";
     }
 
+    /**
+     * Calculates the distance between Chad and the enemy, comparing their bottom left corners
+     * in order to avoid having to account for character/enemy height.
+     * 
+     * @returns {number} the distance between the bottom left corners of Chad and the enemy
+     */
+    chadDistance() {
+        return Vector.distance(Vector.add(CHAD.pos, new Vector(0, Chad.SCALED_SIZE.y)), 
+            Vector.add(this.enemy.pos, new Vector(0, this.enemy.size.y)));
+    }
     
     /**
      * Update the enemy. Updates its position, state variables, and handles block collision.
@@ -149,7 +159,7 @@ class EnemyBase {
         // TODO: remove multiplication by GAME.clockTick once PHYSICS.GRAVITY_ACC is reduced
         this.enemy.yVelocity += PHYSICS.GRAVITY_ACC * GAME.clockTick; 
 
-        if (Math.abs(CHAD.pos.x - this.enemy.pos.x) < this.reactionDistance) {
+        if (this.chadDistance() < this.reactionDistance) {
             // if Chad is within our reaction distance, react based on our stance.
             if (this.stance === EnemyBase.AGGRESSIVE_STANCE) {
                 this.enemy.state = "pursue";
