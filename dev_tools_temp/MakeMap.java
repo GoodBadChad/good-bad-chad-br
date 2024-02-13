@@ -25,7 +25,7 @@ public class MakeMap {
         System.out.print("[");
         int width = 100;
         int height = 25;
-        int startGround = height - height/4;
+        int startGround = 22;
         int firstLayerBlock = 2;
         int air = 0;
         // Change this value to match what the world type block uses the most. 1 is used for dirt.

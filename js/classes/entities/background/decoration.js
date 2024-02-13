@@ -24,7 +24,55 @@ class Decoration {
     static get DECORATIONS() {
         return {
             flowers: {
-                MED_RED_FLOWER: {
+                MED_RED_FLOWER_1: {
+                    SPRITESHEET: "./sprites/flowers.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 32),
+                    SCALE: 1
+                },
+                TALL_PURPLE_FLOWER_1: {
+                    SPRITESHEET: "./sprites/flowers.png",
+                    SPRITESHEET_START_POS: new Vector(0, 32),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 32),
+                    SCALE: 1
+                },
+                PRIDE_FLOWER_1: {
+                    SPRITESHEET: "./sprites/flowers.png",
+                    SPRITESHEET_START_POS: new Vector(0, 64),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 32),
+                    SCALE: 1
+                },
+                MED_RED_FLOWER_2: {
+                    SPRITESHEET: "./sprites/flowers.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 32),
+                    SCALE: 1.5
+                },
+                TALL_PURPLE_FLOWER_2: {
+                    SPRITESHEET: "./sprites/flowers.png",
+                    SPRITESHEET_START_POS: new Vector(0, 32),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 32),
+                    SCALE: 1.5
+                },
+                PRIDE_FLOWER_2: {
+                    SPRITESHEET: "./sprites/flowers.png",
+                    SPRITESHEET_START_POS: new Vector(0, 64),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 32),
+                    SCALE: 1.5
+                },
+                MED_RED_FLOWER_3: {
                     SPRITESHEET: "./sprites/flowers.png",
                     SPRITESHEET_START_POS: new Vector(0, 0),
                     FRAME_COUNT: 1,
@@ -32,7 +80,7 @@ class Decoration {
                     SIZE: new Vector(16, 32),
                     SCALE: 2
                 },
-                TALL_PURPLE_FLOWER: {
+                TALL_PURPLE_FLOWER_3: {
                     SPRITESHEET: "./sprites/flowers.png",
                     SPRITESHEET_START_POS: new Vector(0, 32),
                     FRAME_COUNT: 1,
@@ -40,13 +88,37 @@ class Decoration {
                     SIZE: new Vector(16, 32),
                     SCALE: 2
                 },
-                PRIDE_FLOWER: {
+                PRIDE_FLOWER_3: {
                     SPRITESHEET: "./sprites/flowers.png",
                     SPRITESHEET_START_POS: new Vector(0, 64),
                     FRAME_COUNT: 1,
                     FRAME_DURATION: 1,
                     SIZE: new Vector(16, 32),
                     SCALE: 2
+                },
+                MED_RED_FLOWER_4: {
+                    SPRITESHEET: "./sprites/flowers.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 32),
+                    SCALE: 2.5
+                },
+                TALL_PURPLE_FLOWER_4: {
+                    SPRITESHEET: "./sprites/flowers.png",
+                    SPRITESHEET_START_POS: new Vector(0, 32),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 32),
+                    SCALE: 2.5
+                },
+                PRIDE_FLOWER_4: {
+                    SPRITESHEET: "./sprites/flowers.png",
+                    SPRITESHEET_START_POS: new Vector(0, 64),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 32),
+                    SCALE: 2.5
                 },
                 CARROT: {
                     SPRITESHEET: "./sprites/flowers.png",
@@ -175,6 +247,32 @@ class Decoration {
                     SIZE: new Vector(32, 32),
                     SCALE: 7
                 }
+            },
+            grass: {
+                GRASS_1: {
+                    SPRITESHEET: "./sprites/grass.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 17,
+                    FRAME_DURATION: .2,
+                    SIZE: new Vector(32, 32),
+                    SCALE: 1.5
+                },
+                GRASS_2: {
+                    SPRITESHEET: "./sprites/grass.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 17,
+                    FRAME_DURATION: .2,
+                    SIZE: new Vector(32, 32),
+                    SCALE: 2
+                },
+                GRASS_3: {
+                    SPRITESHEET: "./sprites/grass.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 17,
+                    FRAME_DURATION: .2,
+                    SIZE: new Vector(32, 32),
+                    SCALE: 2.2
+                },
             }
         };
     };
