@@ -43,18 +43,10 @@ class Animator {
         if (this.elapsedTime > this.totalTime) this.elapsedTime -= this.totalTime;
         const frame = this.currentFrame();
 
-
-
         // if scale is a vector, use it as a scale vector, otherwise use it as a uniform scale
         if (typeof scale === "number") {
             scale = new Vector(scale, scale);
         } 
-        //testing purposes
-        else {
-            if (GAME.gameTime % 1 < 0.005) {
-                console.log(scale);
-            }
-        }
 
         CTX.drawImage(ASSET_MGR.getAsset(this.spritesheet),
             this.start.x + this.size.x * frame, this.start.y,

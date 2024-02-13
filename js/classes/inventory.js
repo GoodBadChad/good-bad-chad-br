@@ -45,8 +45,8 @@ class Inventory {
         // this.currentFood = null;
 
         // temporary, for testing purposes
-        this.adjustFood(FoodItem.BACON, 10);
-        this.switchToFood(FoodItem.BACON);
+        this.adjustFood(FoodItem.BURGER, 10);
+        this.switchToFood(FoodItem.BURGER);
     }
 
     intializeRuneBag() {

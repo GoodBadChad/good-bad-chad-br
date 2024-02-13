@@ -195,7 +195,7 @@ class Projectile {
 
             this.updateBoundingBox();
             GAME.entities.midground.forEach((entity) => {
-                if (this != entity && entity.boundingBox) {
+                if (this != entity && entity.boundingBox && !(entity instanceof FoodDrop)) {
                     if (this.boundingBox.collide(entity.boundingBox)) {
                         this.action(entity, this);
 

@@ -414,7 +414,7 @@ class Chad {
         // -Consider moving the effects of food into an effect() method in the FoodItem class. 
         //      -This would allow for easier management of food effects
         //      -This would result in tighter coupling between Chad and FoodItem
-        if (GAME.user.eatFood) {
+        /*if (GAME.user.eatFood) {                                                  //! uncomment when HUD food-picker is implemented
             const foodType = INVENTORY.useCurrentFood();
 
             if (foodType === "Empty") { // no food to eat
@@ -497,7 +497,7 @@ class Chad {
             ASSET_MGR.playAudio(sfx.path, sfx.volume);
 
             GAME.user.eatFood = false; // we only want to eat once per click
-        }
+        }*/
     };
 
     /** Draw Chad on the canvas. */
