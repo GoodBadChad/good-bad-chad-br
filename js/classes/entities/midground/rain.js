@@ -59,7 +59,7 @@ class Rain {
     }
 
     /**
-     * @author Caleb Krauter and Trae Claar
+     * @author Caleb Krauter
      */
     update() {
         this.velocity.y = PHYSICS.GRAVITY_ACC * GAME.clockTick;
@@ -70,9 +70,9 @@ class Rain {
 
         }
 
-        if (this.velocity.y > PHYSICS.TERMINAL_VELOCITY) {
-            this.velocity.y = PHYSICS.TERMINAL_VELOCITY;
-        }
+        // Sets y velocity to terminal velocity just like in projectile.js
+        this.velocity.y = this.velocity.y > PHYSICS.TERMINAL_VELOCITY ? PHYSICS.TERMINAL_VELOCITY : this.velocity.y;
+
         this.velocity = new Vector(this.velocity.x, this.velocity.y);
         this.pos = Vector.add(this.pos, this.velocity);
 

@@ -19,7 +19,7 @@ const loadVillageField = () => {
     const addEntities = () => {
         // Add a border to the right side of the map, leading to the field.
         GAME.addEntity(new Border(
-            new Vector(-1, 0), // start at the far right side of the Zone, and at the top
+            new Vector(ZONE.MAX_PT.x + 5, 0), // start at the far right side of the Zone, and at the top
             new Vector(1, ZONE.PIXEL_SIZE.y), // only one pixel wide, but as tall as the entire Zone.
             Zone.getZones().village.main
         ));
@@ -44,7 +44,7 @@ const loadVillageField = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         } else if (LAST_ZONE.equals(Zone.getZones().village.main)) { // Coming from main.
             // spawn on left.
-            const blockPos = new Vector(1, 12);
+            const blockPos = new Vector(100, 12);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
     };
@@ -105,7 +105,7 @@ const loadVillageMain = () => {
         let chadOnGround = 19;
         // Add a border to the right side of the map, leading to the field.
         GAME.addEntity(new Border(
-            new Vector(ZONE.MAX_PT.x, 0), // start at the far right side of the Zone, and at the top
+            new Vector(ZONE.MIN_PT.x, 0), // start at the far right side of the Zone, and at the top
             new Vector(1, ZONE.PIXEL_SIZE.y), // only one pixel wide, but as tall as the entire Zone.
             Zone.getZones().village.field
         ));
@@ -251,13 +251,13 @@ const loadVillageMain = () => {
         // Place chad.
         if (LAST_ZONE === null) { // We've just started the game.
             // Spawn in middle.
-            const blockPos = new Vector(34, chadOnGround);
+            const blockPos = new Vector(2, chadOnGround);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
             // console.log(CHAD.pos);
 
         } else if (LAST_ZONE.equals(Zone.getZones().village.field)) { // Coming from field.
             // Set spawn point on the right.
-            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 3, aboveGroundLevel);
+            const blockPos = new Vector(ZONE.MIN_PT.x + 1, aboveGroundLevel - 5);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         } else if (LAST_ZONE.equals(Zone.getZones().village.outsideCave)) { // Coming from outside cave.
             // spawn on left.
