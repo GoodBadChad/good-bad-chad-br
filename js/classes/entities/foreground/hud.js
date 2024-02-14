@@ -48,13 +48,14 @@ class Hud {
             new Vector(32, 15),
             new Vector(Chad.SIZE.x - 2, 17),
             1, 1)
-        const healthBarYPos = 15 + 17 * Chad.SCALE;
+        const healthBarYPos = 15 + 17 * CHAD.scale;
         this.addComponent("healthBar", new HudHealthBar(
             new Vector(Hud.MARGIN, healthBarYPos)
         ));
         this.addComponent("runeCounter", new ItemCounter(
-            new Vector(Chad.SIZE.x * Chad.SCALE + 20, (healthBarYPos - ItemCounter.HEIGHT) / 2),
-            new Animator("./sprites/runes.png", new Vector(0, 32), new Vector(32, 32), 1, 1),
+
+            new Vector(Chad.SIZE.x * CHAD.scale + 20, (healthBarYPos - ItemCounter.HEIGHT) / 2),
+            new Animator("./sprites/runes.png", new Vector(0, 32), new Vector(32, 32), 1, 1), 
             0 // TODO: replace with an access to the rune field once it exists
         ));
 
@@ -63,22 +64,28 @@ class Hud {
             new Vector(Camera.SIZE.x - PauseButton.SIZE.x - Hud.MARGIN, Hud.MARGIN)
         ));
 
+        //TODO: add a hidden options button to the center-right of the screen
+        //TODO: add a hidden options menu (will contain volume sliders, spanish mode, debug mode, save progress, etc.)
+        //TODO: add a hidden game over screen
+
+
         // add weapon labels
         const weaponLabelWidth = 150;
         const weaponLabelYPos = Camera.SIZE.y - ItemLabel.DEFAULT_SIZE.y - Hud.MARGIN;
         this.addComponent("slingshotLabel", new ItemLabel(
             new Vector(Hud.MARGIN, weaponLabelYPos),
             new Animator(Slingshot.SPRITESHEET, new Vector(0, 0), Slingshot.SIZE, 1, 1),
-            "LMC",
-            null,
+
+            "Left-click", 
+            null, 
             weaponLabelWidth,
             5
         ));
         this.addComponent("swordLabel", new ItemLabel(
             new Vector(weaponLabelWidth + Hud.MARGIN, weaponLabelYPos),
             new Animator(Sword.SPRITESHEET, new Vector(0, 0), Sword.SIZE, 1, 1),
-            "Q",
-            null,
+            "Right-click", 
+            null, 
             weaponLabelWidth,
             -15 // yes I'm using a negative padding don't judge me, it makes the sword bigger
         ));
@@ -112,6 +119,13 @@ class Hud {
             Projectile.LASER,
             "5"
         ));
+
+        // add a food labels on the bottom right of the screen
+        this.addComponent("foodLabel", new FoodLabel(
+            new Vector(Camera.SIZE.x - ItemLabel.DEFAULT_SIZE.x - Hud.MARGIN, Camera.SIZE.y - ItemLabel.DEFAULT_SIZE.y - Hud.MARGIN),
+            FoodItem.STEAK
+        ));
+
     }
 
     /**
@@ -121,7 +135,9 @@ class Hud {
         // if the user clicks on the pause/play button, toggle GAME.running
         if (GAME.user.firing && this.pauseButton.isMouseOver()) {
             GAME.running = !GAME.running;
+            ASSET_MGR.playAudio(SFX.UI_HIGH_BEEP.path, SFX.UI_HIGH_BEEP.volume);
             // TODO: open options menu here
+
         }
     }
 
@@ -129,7 +145,7 @@ class Hud {
      * Draw any HUD elements not drawn by individual components.
      */
     draw() {
-        this.chadHead.drawFrame(new Vector(10, 10), Chad.SCALE);
+        this.chadHead.drawFrame(new Vector(10, 10), CHAD.scale);
     }
 }
 
@@ -192,6 +208,39 @@ class ItemCounter {
 }
 
 /**
+ * Component that serves as a label for the currently selected food item.
+ * 
+ * @author Nathan Hinthorne
+ */
+class FoodLabel {
+    /**
+     * Constructor for an FoodLabel.
+     * 
+     * @param {Vector} pos the position of the FoodLabel on the canvas
+     * @param {number} type the fodo type associated with the FoodLabel (should be a FoodItem member type)
+     */
+    constructor(pos, type) {
+        this.foodItem = INVENTORY.getFood(type);
+        this.type = type;
+        this.label = new ItemLabel(
+            pos, 
+            this.foodItem.animator,
+        );
+    }
+
+    /** Update the quantity and selection status of the FoodLabel. */
+    update() {
+        this.label.setQuantity(this.foodItem.amount);
+        this.label.setSelected(INVENTORY.getCurrentFood().type === this.type);
+    }
+
+    /** Draw the FoodLabel. */
+    draw() {
+        this.label.draw();
+    }
+}
+
+/**
  * Component that serves as a label for an ammo type, displaying its image, the key used to select
  * it, and the amount of this ammo type in the inventory.
  * 
@@ -203,16 +252,17 @@ class AmmoLabel {
      * 
      * @param {Vector} pos the position of the AmmoLabel on the canvas
      * @param {number} type the ammo type associated with the AmmoLabel (should be a Projectile member type)
-     * @param {string} inputName the key used to select this ammo type
+     * @param {string} inputName the input key used to select this ammo type
      */
     constructor(pos, type, inputName) {
         this.type = type;
         this.label = new ItemLabel(
-            pos,
-            new Animator(Projectile.SPRITESHEET, new Vector(0, type * Projectile.SPRITESHEET_ENTRY_HEIGHT),
-                Projectile.PROPERTY_TABLE[type].SIZE, 1, 1),
-            inputName,
-            INVENTORY.getAmmo(type).amount
+
+            pos, 
+            new Animator(AmmoItem.SPRITESHEET, new Vector(0, type * AmmoItem.SPRITESHEET_ENTRY_HEIGHT), 
+                AmmoItem.SIZE, 1, 1),
+                inputName,
+                INVENTORY.getAmmo(type).amount
         );
     }
 
@@ -440,6 +490,8 @@ class PauseButton {
 
     }
 }
+
+
 
 /**
  * A class used to display Chad's health in the HUD.

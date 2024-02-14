@@ -485,6 +485,8 @@ const loadVillageMain = () => {
             const blockPos = new Vector(1, 20);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
+
+        LoadingAnimation.stop();
     };
     // Weather should be added last.
     // TODO - This block of code is commented out for the minimum deliverable as the first time the village is entered
@@ -558,6 +560,7 @@ const loadVillageMain = () => {
     //     }
     // }
     // Set Background Color:
+
 
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);

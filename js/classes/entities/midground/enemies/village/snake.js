@@ -12,25 +12,22 @@ class Snake {
      * @param {Vector} pos the position at which the Snake should start
      */
     constructor(pos) {
-        this.pos = pos;
+        this.base = new EnemyBase(
+            this, 
+            pos, 
+            Snake.SCALED_SIZE, 
+            Snake.SPEED, 
+            Snake.MAX_HEALTH, 
+            Snake.PACE_DISTANCE, 
+            () => this.handleDeath(),
+            EnemyBase.DEFENSIVE_STANCE
+        );
+
         /** An associative array of the animations for this Snake. Arranged [facing][action]. */
         this.animations = [];
         this.loadAnimations();
-        /** What way is the Snake looking? */
-        this.facing = "left"; // "left", "right"
-        /** What is the Snake doing? */
-        this.action = "idle";
-        /** Used to check for collisions with other applicable entities. */
-        this.boundingBox = new BoundingBox(this.pos, Snake.SCALED_SIZE);
-        /** Used to check how to deal with collisions with other applicable entities. */
-        this.lastBoundingBox = this.boundingBox;
-        this.yVelocity = 0;
-        this.health = Snake.MAX_HEALTH;
-        this.targetX = this.pos.x;
-        this.state = "idle";
-        this.lastAttack = 0;
 
-        GAME.addEntity(new HealthBar(this, Snake.MAX_HEALTH, Snake.SCALED_SIZE.x));
+        this.lastAttack = 0;
     };
 
     /** The size, in pixels, of the Snake ON THE SPRITESHEET. */
@@ -40,7 +37,6 @@ class Snake {
 
     /** How much bigger should the Snake be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {
-        // TODO: return when we have the game world properly set up.
         return 3;
     };
 
@@ -79,84 +75,31 @@ class Snake {
         return 10;
     };
 
-    /** 
-     * Decrease the health of the Snake by the provided amount and perform any necessary operations
-     * based on the new health value.
-     * 
-     * @param {number} amount the amount by which to decrease the Snake's health
-     */
-    takeDamage(amount) {
-        this.health -= amount;
-        if (this.health <= 0) {
-            // if the Snake is now dead, remove it from the game
-            // replace this code with any death effects, state changes, etc.
-            this.removeFromWorld = true;
-        } else {
-            // otherwise, make it chase the player
-            this.state = "pursue";
-        }
-    };
-
     /**
-     * Set the target x-coordinate of the Snake and update its state as needed.
-     * 
-     * @param {number} targetX the x-coordinate the Snake should move towards
+     * Perform any necessary operations when the Snake dies.
      */
-    setTargetX(targetX) {
-        this.targetX = targetX;
-        this.facing = (targetX < this.pos.x) ? "left" : "right";
-    };
+    handleDeath() {
+        // if the enemy is now dead, remove it from the game
+        // TODO: replace this code with any death effects, state changes, etc.
+        this.removeFromWorld = true;
+    }
     
     /** Change what the Snake is doing and where it is. */
     update() {
-        // WHAT SHOULD HIS CONDITIONS BE?
-        this.action = "slithering";
+        this.base.update();
 
-        // If in pursue state, update the target position.
-        if (this.state === "pursue" || this.state === "attack") {
-            this.setTargetX(CHAD.pos.x);
+        if (this.base.chadDistance() < Snake.SCALED_SIZE.x / 2
+            && Date.now() - Snake.ATTACK_COOLDOWN * 1000 > this.lastAttack) {
+
+            this.state = "pursue";
+            this.lastAttack = Date.now();
+            CHAD.takeDamage(Snake.ATTACK_DAMAGE);
         }
-
-        const scaledX = Snake.SCALED_SIZE.x;
-        if (Math.abs(this.targetX - this.pos.x) < scaledX / 2) {
-            // If we've reached the target x-position:
-
-            if (this.state === "idle") {
-                // idle state, switch directions
-                this.facing = (this.facing === "left") ? "right" : "left";
-                const dirX = (this.facing === "left") ? -1 : 1;
-                this.targetX = this.pos.x + dirX * Snake.PACE_DISTANCE;
-            } else {
-                // pursue state, attack the player
-                this.state = "attack";
-                this.action = "idle";
-                if (Date.now() - Snake.ATTACK_COOLDOWN * 1000 > this.lastAttack) {
-                    this.lastAttack = Date.now();
-                    CHAD.takeDamage(Snake.ATTACK_DAMAGE);
-                }
-            }
-        }
-
-        // Increase y velocity to simulate gravity.
-        this.yVelocity += PHYSICS.GRAVITY_ACC * GAME.clockTick ** 2;
-
-        // HOW SHOULD WE MOVE HIM BASED ON HIS CONDITIONS?
-        const mult = (this.targetX < this.pos.x) ? -1 : 1;
-        let xVelocity = 0;
-        if (this.action === "slithering") {
-            xVelocity = mult * Snake.SPEED * GAME.clockTick;
-        }
-        this.pos = Vector.add(this.pos, new Vector(xVelocity, this.yVelocity));
-        
-        // Update bounding box and check collisions.
-        this.lastBoundingBox = this.boundingBox;
-        this.boundingBox = new BoundingBox(this.pos, Snake.SCALED_SIZE);
-        checkBlockCollisions(this);
     };
 
     /** Draw the Snake on the canvas. */
     draw() {
-        this.animations[this.facing][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), Snake.SCALE);
+        this.animations[this.base.getFacing()][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), Snake.SCALE);
     };
 
     /** Called by the constructor. Fills up the animations array. */
@@ -177,12 +120,12 @@ class Snake {
         
         // SLITHERING ANIMATIONS
         // (it takes him 1s to slither)
-        this.animations["right"]["slithering"] = new Animator(
+        this.animations["right"]["moving"] = new Animator(
             Snake.SPRITESHEET,
             new Vector(0, 0),
             Snake.SIZE,
             9, 1/9);
-        this.animations["left"]["slithering"] = new Animator(
+        this.animations["left"]["moving"] = new Animator(
             Snake.SPRITESHEET,
             new Vector(0, Snake.SIZE.y),
             Snake.SIZE,
