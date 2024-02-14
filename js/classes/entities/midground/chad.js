@@ -170,8 +170,8 @@ class Chad {
             xVelocity = dirSign * this.speed * Chad.RUN_MULTIPLIER;
 
 
-            if (this.isOnGround) {
-                // release dust particles
+            // if you're on the ground, running, AND moving, release dust particles
+            if (this.isOnGround && (GAME.user.movingLeft || GAME.user.movingRight)) {
                 GAME.addEntity(new ParticleEffect(new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y-10), 
                 ParticleEffect.DUST));
             }
