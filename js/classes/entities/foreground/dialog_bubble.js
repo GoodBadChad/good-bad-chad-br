@@ -75,7 +75,7 @@ class DialogBubble {
             DialogBubble.SIZE.x, DialogBubble.SIZE.y,
             dbPos.x, dbPos.y,
             DialogBubble.SCALED_SIZE.x, DialogBubble.SCALED_SIZE.y);
-            
+
         // (2) Draw the speaker.
         const scale = 6;
         const speakerStart = this.speaker.spritesheet === DialogBubble.SPEAKERS.CHAD.spritesheet ?
@@ -206,14 +206,14 @@ class DialogBubble {
      */
     static get SPEAKERS() {
         return {
-            CHAD:       new Animator(Chad.SPRITESHEET,
-                            new Vector(0, 0),
-                            new Vector(PapaChad.SIZE.x, 17),
-                            1, 1),
-            PAPA_CHAD:  new Animator(PapaChad.SPRITESHEET,
-                            new Vector(0, 0),
-                            new Vector(PapaChad.SIZE.x, 17),
-                            1, 1)
+            CHAD: new Animator(Chad.SPRITESHEET,
+                new Vector(0, 0),
+                new Vector(PapaChad.SIZE.x, 17),
+                1, 1),
+            PAPA_CHAD: new Animator(PapaChad.SPRITESHEET,
+                new Vector(0, 0),
+                new Vector(PapaChad.SIZE.x, 17),
+                1, 1)
         };
     };
 };

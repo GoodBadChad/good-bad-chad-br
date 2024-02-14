@@ -47,9 +47,13 @@ class Chad {
 
     /** The size, in pixels of the sprite ON THE SPRITESHEET. */
     static get SIZE() {
-        return new Vector(29, 49);
+        return new Vector(96, 64);
     }
 
+    /** The size, in pixels of the boundingbox of Chad. */
+    static get BOUNDING_BOX_SIZE() {
+        return new Vector(48, 64);
+    }
     /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {
         return 2.4;
@@ -57,7 +61,7 @@ class Chad {
 
     /** This will be the size of Chad ON THE CANVAS. */
     static get SCALED_SIZE() {
-        return Vector.multiply(Chad.SIZE, Chad.SCALE);
+        return Vector.multiply(Chad.BOUNDING_BOX_SIZE, Chad.SCALE);
     }
 
     static get SPEED() {
@@ -66,7 +70,7 @@ class Chad {
 
     /** The filepath to Chad's spritesheet. */
     static get SPRITESHEET() {
-        return "./sprites/parents.png";
+        return "./sprites/CHAD1.png";
     };
 
     /** The velocity of the first jump */
@@ -174,6 +178,7 @@ class Chad {
         // The change in distance from the origin of Chad's second jump and his current height.
         let deltaHeight = Math.abs(this.pos.y - this.prevYPosOnGround);
 
+
         // This allows chad to jump if he is falling and has not jumped. 
         // Let's call it his recovery jump.
         if (!this.isOnGround && this.velocity.y >= 0) {
@@ -186,7 +191,6 @@ class Chad {
         // Perform single jump.
         if (this.isOnGround) {
             ASSET_MGR.playAudio(SFX.JUMP1.path, SFX.JUMP1.volume);
-            this.action = "jumping";
             this.velocity.y = Chad.FIRST_JUMP_VELOCITY;
             this.hasDoubleJumped = false;
             this.isOnGround = false;
@@ -203,7 +207,6 @@ class Chad {
         // If Chad can double jump and user is trying to jump than do it!
         if (this.canDoubleJump) {
             ASSET_MGR.playAudio(SFX.JUMP2.path, SFX.JUMP2.volume);
-            this.action = "jumping";
             this.velocity.y = Chad.SECOND_JUMP_VELOCITY;
             this.canDoubleJump = false;
             this.hasDoubleJumped = true;
@@ -243,6 +246,10 @@ class Chad {
         }
         // User intends to for Chad to jump in any way possible.
         if (GAME.user.jumping) {
+            if (!this.isDashing) {
+                this.action = "jumping";
+
+            }
             // Gets change in y from when CHAD left ground to current.
             this.manageYDirectionMovement()
         }
@@ -258,8 +265,15 @@ class Chad {
                 this.facing = "left";
             }
         }
-        if (!(GAME.user.movingRight || GAME.user.movingLeft)) {
+
+
+        if (GAME.user.jabbing) {
+            this.action = "slicing";
+        }
+
+        if (this.isOnGround && !(GAME.user.movingRight || GAME.user.movingLeft)) {
             this.action = "idle";
+
         }
 
         // Step 2: Account for gravity, which is always going to push you downward.
@@ -346,60 +360,69 @@ class Chad {
         this.animations["left"] = [];
         this.animations["right"] = [];
 
-        this.animations["left"]["idle"] = new Animator(
-            Chad.SPRITESHEET,
-            new Vector(0, 0),
-            Chad.SIZE,
-            1, 1);
         this.animations["right"]["idle"] = new Animator(
             Chad.SPRITESHEET,
-            new Vector(0, Chad.SIZE.y),
-            Chad.SIZE,
-            1, 1);
-
-        this.animations["left"]["walking"] = new Animator(
-            Chad.SPRITESHEET,
-            new Vector(Chad.SIZE.x, 0),
-            Chad.SIZE,
-            6, 1 / 12);
-        this.animations["right"]["walking"] = new Animator(
-            Chad.SPRITESHEET,
-            Chad.SIZE,
-            Chad.SIZE,
-            6, 1 / 12);
-
-        this.animations["left"]["running"] = new Animator(
-            Chad.SPRITESHEET,
-            new Vector(Chad.SIZE.x, 0),
-            Chad.SIZE,
-            6, 1 / 18);
-        this.animations["right"]["running"] = new Animator(
-            Chad.SPRITESHEET,
-            Chad.SIZE,
-            Chad.SIZE,
-            6, 1 / 18);
-
-        this.animations["left"]["dashing"] = new Animator(
-            Chad.SPRITESHEET,
-            new Vector(Chad.SIZE.x, 0),
-            Chad.SIZE,
-            6, 1 / 18);
-        this.animations["right"]["dashing"] = new Animator(
-            Chad.SPRITESHEET,
-            Chad.SIZE,
-            Chad.SIZE,
-            6, 1 / 18);
-
-        this.animations["left"]["jumping"] = new Animator(
-            Chad.SPRITESHEET,
             new Vector(0, 0),
             Chad.SIZE,
             1, 1);
-        this.animations["right"]["jumping"] = new Animator(
+        this.animations["left"]["idle"] = new Animator(
             Chad.SPRITESHEET,
             new Vector(0, Chad.SIZE.y),
             Chad.SIZE,
             1, 1);
 
+        this.animations["right"]["walking"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, 0),
+            Chad.SIZE,
+            31, 1 / 10);
+        this.animations["left"]["walking"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(96, 64),
+            Chad.SIZE,
+            31, 1 / 10);
+        this.animations["right"]["running"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, 0),
+            Chad.SIZE,
+            31, 1 / 10);
+        this.animations["left"]["running"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(96, 64),
+            Chad.SIZE,
+            31, 1 / 10);
+
+        this.animations["right"]["dashing"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(32, 1600),
+            Chad.SIZE,
+            1, 1);
+        this.animations["left"]["dashing"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(144, 1600),
+            Chad.SIZE,
+            1, 1);
+
+        this.animations["right"]["jumping"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, 1664),
+            Chad.SIZE,
+            1, 1);
+        this.animations["left"]["jumping"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(96, 1664),
+            Chad.SIZE,
+            1, 1);
+        this.animations["right"]["slicing"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, 128),
+            Chad.SIZE,
+            32, 1 / 20);
+        this.animations["left"]["slicing"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(
+                0, 192),
+            Chad.SIZE,
+            32, 1 / 20);
     };
 };

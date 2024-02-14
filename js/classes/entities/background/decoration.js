@@ -252,7 +252,7 @@ class Decoration {
                 GRASS_1: {
                     SPRITESHEET: "./sprites/grass.png",
                     SPRITESHEET_START_POS: new Vector(0, 0),
-                    FRAME_COUNT: 17,
+                    FRAME_COUNT: 64,
                     FRAME_DURATION: .2,
                     SIZE: new Vector(32, 32),
                     SCALE: 1.5
@@ -260,7 +260,7 @@ class Decoration {
                 GRASS_2: {
                     SPRITESHEET: "./sprites/grass.png",
                     SPRITESHEET_START_POS: new Vector(0, 0),
-                    FRAME_COUNT: 17,
+                    FRAME_COUNT: 64,
                     FRAME_DURATION: .2,
                     SIZE: new Vector(32, 32),
                     SCALE: 2
@@ -268,7 +268,7 @@ class Decoration {
                 GRASS_3: {
                     SPRITESHEET: "./sprites/grass.png",
                     SPRITESHEET_START_POS: new Vector(0, 0),
-                    FRAME_COUNT: 17,
+                    FRAME_COUNT: 64,
                     FRAME_DURATION: .2,
                     SIZE: new Vector(32, 32),
                     SCALE: 2.2

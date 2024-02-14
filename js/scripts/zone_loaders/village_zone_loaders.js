@@ -42,6 +42,7 @@ const loadVillageField = () => {
 
         ASSET_MGR.queueDownload(Snake.SPRITESHEET);
         ASSET_MGR.queueDownload(Bird.SPRITESHEET);
+        ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
 
     };
 
@@ -154,6 +155,9 @@ const loadVillageField = () => {
         GAME.addEntity(new Snake(Vector.blockToWorldSpace(new Vector(50, 20))));
         GAME.addEntity(new Snake(Vector.blockToWorldSpace(new Vector(55, 20))));
         GAME.addEntity(new Snake(Vector.blockToWorldSpace(new Vector(53, 20))));
+        GAME.addEntity(new Bunny(Vector.blockToWorldSpace(new Vector(60, 20))));
+        GAME.addEntity(new Bunny(Vector.blockToWorldSpace(new Vector(65, 20))));
+        GAME.addEntity(new Bunny(Vector.blockToWorldSpace(new Vector(70, 20))));
 
 
         // Draw Sun.
@@ -241,8 +245,12 @@ const loadVillageMain = () => {
         ASSET_MGR.queueDownload(Rain.SPRITESHEET_LEFT);
         ASSET_MGR.queueDownload(Rain.SPRITESHEET_RIGHT);
 
-
+        ASSET_MGR.queueDownload(BlackSmith.SPRITESHEET);
+        ASSET_MGR.queueDownload(Mayor.SPRITESHEET);
         ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
+        ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
+
+
     };
 
     const addEntities = () => {
@@ -391,8 +399,13 @@ const loadVillageMain = () => {
 
         // NPCs
         const blockPosPapa = new Vector(33, chadOnGround);
+        const blockPosBlackSmith = new Vector(17, chadOnGround);
+        const blockPosMayor = new Vector(50, chadOnGround);
 
-        GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), false), 0);
+
+        GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)), 0);
+        GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)), 0);
+        GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)), 0);
 
         BG_COLOR = COLORS.SKY_BLUE;
         GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), -1);
@@ -400,7 +413,7 @@ const loadVillageMain = () => {
         // Place chad.
         if (LAST_ZONE === null) { // We've just started the game.
             // Spawn in middle.
-            const blockPos = new Vector(1, chadOnGround);
+            const blockPos = new Vector(26, chadOnGround);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
             // console.log(CHAD.pos);
 

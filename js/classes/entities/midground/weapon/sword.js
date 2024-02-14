@@ -118,7 +118,7 @@ class Sword {
      * @param {number} type the type value to check
      * @throws {Error} Will throw an error if type is invalid.
      */
-    static checkType(type) { 
+    static checkType(type) {
         if (typeof type !== "number" || type % 1 !== 0 || type < 0 || type > 4) {
             throw new Error("Invalid Sword type: please use a Sword member type (e.g. Sword.TYPE_1).");
         }
@@ -158,7 +158,7 @@ class Sword {
         } else if (this.offsetX <= 0) {
             this.isAttacking = false;
         }
-        
+
         const padding = (CHAD.facing === "left") ? -Sword.SCALED_SIZE.x : Chad.SCALED_SIZE.x;
         const basePos = Vector.add(CHAD.pos, new Vector(padding, Sword.Y_OFFSET));
 
@@ -178,24 +178,24 @@ class Sword {
                 });
             }
         }
-        
+
         const chadDirX = (CHAD.facing === "left") ? -1 : 1;
         this.pos = Vector.add(basePos, new Vector(this.offsetX * chadDirX, 0));
     };
 
     /** Draw the Sword. */
     draw() {
-       if (this.isAttacking) {
-            this.animations[CHAD.facing].drawFrame(Vector.worldToCanvasSpace(this.pos), Sword.SCALE);
-       }
+        //    if (this.isAttacking) {
+        //         this.animations[CHAD.facing].drawFrame(Vector.worldToCanvasSpace(this.pos), Sword.SCALE);
+        //    }
     };
 
     /** Load the Sword's animations. */
     loadAnimations() {
         this.animations = [];
-        this.animations["left"] = new Animator(Sword.SPRITESHEET, 
+        this.animations["left"] = new Animator(Sword.SPRITESHEET,
             new Vector(0, this.type * Sword.SIZE.y), Sword.SIZE, 1, 1);
-        this.animations["right"] = new Animator(Sword.SPRITESHEET, 
+        this.animations["right"] = new Animator(Sword.SPRITESHEET,
             new Vector(Sword.SIZE.x, this.type * Sword.SIZE.y), Sword.SIZE, 1, 1);
     }
 };

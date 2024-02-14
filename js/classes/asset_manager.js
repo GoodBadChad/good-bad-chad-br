@@ -185,7 +185,7 @@ class AssetManager {
             Crosshair.SPRITESHEET,
             DialogBubble.SPRITESHEET,
             OverheadIcon.SPRITESHEET,
-            PapaChad.SPRITESHEET,
+            Chad.SPRITESHEET,
             Projectile.SPRITESHEET,
             Slingshot.SPRITESHEET,
             Sun.SPRITESHEET,
