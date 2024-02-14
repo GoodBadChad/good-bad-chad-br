@@ -357,9 +357,27 @@ const EVENT_HANDLERS = {
                 break;
         }
     },
-    dialogKeyPress: (key) => {
-        if (key.code === "KeyW") {
-            GAME.user.continuingConversation = true;
+    dialogKeyPress: (e) => {
+        switch (e.code) {
+            case "KeyS":
+                GAME.user.choiceDown = true;
+                break;
+            case "KeyW":
+                GAME.user.choiceUp = true;
+                break;
         }
     },
+    // KeyPress does not wanna work for spacebar. Oh well.
+    dialogKeyDown: (e) => {
+        switch (e.code) {
+            case "Space":
+                GAME.user.continuingConversation = true;
+        }
+    },
+    dialogKeyUp: (e) => {
+        switch (e.code) {
+            case "Space":
+                GAME.user.continuingConversation = false;
+        }
+    }
 };
