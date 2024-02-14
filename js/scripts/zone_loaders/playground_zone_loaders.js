@@ -103,7 +103,7 @@ const loadPlaygroundDevin = () => {
         const papaChadBlockPos = new Vector(15, 15);
         const papa = new PapaChad(
             Vector.blockToWorldSpace(papaChadBlockPos),
-            new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)); // his conversation.
+            new Conversation(getAllConversationArrays().playground.papaChad.huntingInvitation)); // his conversation.
 
         GAME.addEntity(papa);
     };
@@ -134,7 +134,7 @@ const loadPlaygroundNathan = () => {
     const queueAssets = () => {
 
         // queue music
-        
+
 
         // ASSET_MGR.queueDownload(MUSIC.TEST_FILE_10MB.path);
 
@@ -176,7 +176,7 @@ const loadPlaygroundNathan = () => {
 
         // Draw Sun.
         GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE), Sun.VILLAGE));
-        
+
         // Place chad above the blocks.
         const startBlock = new Vector(5, 5);
         CHAD.pos = Vector.blockToWorldSpace(startBlock);
