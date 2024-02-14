@@ -132,27 +132,9 @@ const loadPlaygroundEverybody = () => {
 
 const loadPlaygroundNathan = () => {
     const queueAssets = () => {
-        ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
-        ASSET_MGR.queueDownload(Block.SPRITESHEET);
-        ASSET_MGR.queueDownload(Projectile.SPRITESHEET);
-        ASSET_MGR.queueDownload(DialogBubble.SPRITESHEET);
-        ASSET_MGR.queueDownload(Crosshair.SPRITESHEET);
-        ASSET_MGR.queueDownload(Slingshot.SPRITESHEET);
-        ASSET_MGR.queueDownload(Snake.SPRITESHEET);
 
         // queue music
-        ASSET_MGR.queueDownload(MUSIC.PEACEFUL_CHIPTUNE.path);
-        ASSET_MGR.queueDownload(MUSIC.UPBEAT_CHIPTUNE_1.path);
-        ASSET_MGR.queueDownload(MUSIC.UPBEAT_CHIPTUNE_2.path);
-        ASSET_MGR.queueDownload(MUSIC.CHAD_PLAYFUL_ADVENTURE.path);
-        ASSET_MGR.queueDownload(MUSIC.CHAD_VICTORIOUS_EMOTIONAL.path);
-        ASSET_MGR.queueDownload(MUSIC.VILLAGE_TOWN_SQUARE.path);
-        ASSET_MGR.queueDownload(MUSIC.FOREST_BOSS.path);
-        ASSET_MGR.queueDownload(MUSIC.FACTORY_BOSS.path);
-        ASSET_MGR.queueDownload(MUSIC.MOUNTAIN_MYSTERIOUS.path);
-        ASSET_MGR.queueDownload(MUSIC.LAVA_NORMAL.path);
-        ASSET_MGR.queueDownload(MUSIC.LAVA_UNDERGROUND.path);
-        ASSET_MGR.queueDownload(MUSIC.LAVA_TENSE.path);
+        
 
         // ASSET_MGR.queueDownload(MUSIC.TEST_FILE_10MB.path);
         
@@ -169,7 +151,7 @@ const loadPlaygroundNathan = () => {
         ));
         for (let y = ZONE.MAX_BLOCK.y; y >= ZONE.MIN_BLOCK.y; y--) {
             for (let x = ZONE.MAX_BLOCK.x; x >= ZONE.MIN_BLOCK.x; x--) {
-                // GAME.addEntity(new Block(i, j, Block.DIRT));a
+                // GAME.addEntity(new Block(i, j, Block.DIRT));
 
                 // const pos = new Vector(y, x);
 
@@ -194,11 +176,18 @@ const loadPlaygroundNathan = () => {
 
         // Draw Sun.
         GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE), Sun.VILLAGE));
-
-
+        
         // Place chad above the blocks.
         const startBlock = new Vector(5, 5);
         CHAD.pos = Vector.blockToWorldSpace(startBlock);
+
+        GAME.addEntity(new FoodDrop(FoodDrop.BACON, Vector.blockToWorldSpace(new Vector(10, 5))));
+        GAME.addEntity(new FoodDrop(FoodDrop.BURGER, Vector.blockToWorldSpace(new Vector(15, 5))));
+        GAME.addEntity(new FoodDrop(FoodDrop.ENERGY_DRINK, Vector.blockToWorldSpace(new Vector(10, 10))));
+        GAME.addEntity(new FoodDrop(FoodDrop.STEAK, Vector.blockToWorldSpace(new Vector(15, 10))));
+        GAME.addEntity(new FoodDrop(FoodDrop.HAM, Vector.blockToWorldSpace(new Vector(10, 15))));
+        GAME.addEntity(new FoodDrop(FoodDrop.CHICKEN, Vector.blockToWorldSpace(new Vector(20, 10))));
+        GAME.addEntity(new FoodDrop(FoodDrop.BEEF, Vector.blockToWorldSpace(new Vector(20, 15))));
 
         // NOTE: we can't activate music until the user has interacted with the canvas. (this issue is inherent to HTML5)
         //  If listening for a click is the only way to activate music, that's fine. 
@@ -212,19 +201,10 @@ const loadPlaygroundNathan = () => {
             document.body.removeEventListener('click', playMusic);
         };
         document.body.addEventListener('click', playMusic);
-
-        CANVAS.addEventListener('dblclick', function(e) {
-            e.preventDefault();
-        });
-
-        loadingAnimation.stop(); // stop the loading animation because asset manager has everything it needs
     };
 
     // Set background color:
-    BG_COLOR = "skyblue";
-
-    let loadingAnimation = new LoadingAnimation();
-    loadingAnimation.start();
+    BG_COLOR = COLORS.SKY_BLUE;
 
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);

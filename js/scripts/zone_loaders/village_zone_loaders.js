@@ -101,10 +101,15 @@ const loadVillageMain = () => {
             const blockPos = new Vector(1, 20);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
+
+        LoadingAnimation.stop();
     };
+    
 
     // Set Background Color:
-    BG_COLOR = COLORS.skyBlue;
+    BG_COLOR = COLORS.SKY_BLUE;
+
+    LoadingAnimation.start();
 
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);
