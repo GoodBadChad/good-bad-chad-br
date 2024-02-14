@@ -244,6 +244,8 @@ class AssetManager {
             MUSIC.UPBEAT_CHIPTUNE_1.path,
             MUSIC.UPBEAT_CHIPTUNE_2.path,
             MUSIC.CHAD_PLAYFUL_ADVENTURE.path,
+            // Chad's Dialog Icon:
+            DialogBubble.SPEAKERS.CHAD.spritesheet
         ];
     };
 };
