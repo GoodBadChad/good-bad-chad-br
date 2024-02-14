@@ -197,7 +197,10 @@ class AssetManager {
                 SFX.SLINGSHOT_LAUNCH3.path,
                 SFX.SLINGSHOT_LAUNCH4.path,
                 SFX.SLINGSHOT_STRETCH.path,
-                SFX.SONIC_DASH.path
+                SFX.SONIC_DASH.path,
+                // Chad's Dialog Icon:
+                DialogBubble.SPEAKERS.CHAD.spritesheet
+                // We coulda just used Chad's whole one but don't fix what ain't broke
         ];
     };
 };
