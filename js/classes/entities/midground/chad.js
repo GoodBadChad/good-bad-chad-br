@@ -34,7 +34,9 @@ class Chad {
         /** What is the Chad doing? */
         this.action = "idle";
         /** Used to check for collisions with other applicable entities. */
-        this.boundingBox = new BoundingBox(this.pos, Chad.SCALED_SIZE);
+        // this.boundingBox = new BoundingBox(this.pos, Chad.SCALED_SIZE);
+        this.boundingBox = new BoundingBox(Vector.add(this.pos, Vector.multiply(new Vector(32, 16), Chad.SCALE)), Chad.SCALED_SIZE);
+
         /** Used to check how to deal with collisions with other applicable entities. */
         this.lastBoundingBox = this.boundingBox;
         /** The velocity at which Chad is moving. */
@@ -52,18 +54,24 @@ class Chad {
 
     /** The size, in pixels of the boundingbox of Chad. */
     static get BOUNDING_BOX_SIZE() {
-        return new Vector(48, 64);
+        return new Vector(32, 48);
     }
     /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {
         return 2.4;
     };
 
+    /** The offset applied to the bounding box's position from Chad's position. */
+    static get BOUNDING_BOX_OFFSET() {
+        return Vector.multiply(new Vector(32, 16), Chad.SCALE);
+    }
+
     /** This will be the size of Chad ON THE CANVAS. */
     static get SCALED_SIZE() {
         return Vector.multiply(Chad.BOUNDING_BOX_SIZE, Chad.SCALE);
     }
 
+    /** Chad's speed in pixels per second. */
     static get SPEED() {
         return Chad.SCALE * 115;
     };
@@ -100,6 +108,11 @@ class Chad {
     static get MAX_HEALTH() {
         return 100;
     };
+
+    /** Generate the bounding box for Chad based on his current position. */
+    createBoundingBox() {
+        return new BoundingBox(Vector.add(this.pos, Chad.BOUNDING_BOX_OFFSET), Chad.SCALED_SIZE);
+    }
 
     /** 
      * Decrease the health of Chad by the provided amount and perform any necessary operations
@@ -284,7 +297,7 @@ class Chad {
         // Step 3: Now move.
         this.pos = Vector.add(this.pos, Vector.multiply(this.velocity, GAME.clockTick));
         this.lastBoundingBox = this.boundingBox;
-        this.boundingBox = new BoundingBox(this.pos, Chad.SCALED_SIZE);
+        this.boundingBox = this.createBoundingBox();
         this.isOnGround = false;
 
         // Step 4: Have we collided with anything?
@@ -306,9 +319,8 @@ class Chad {
                             && this.boundingBox.bottom > entity.boundingBox.top) {
                             // We are colliding with the top.
 
-                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - Chad.SCALED_SIZE.y);
+                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - Chad.SCALED_SIZE.y - Chad.BOUNDING_BOX_OFFSET.y);//Chad.SCALED_SIZE.y - Chad.BOUNDING_BOX_OFFSET.y);
                             this.velocity = new Vector(this.velocity.x, 0);
-                            // ON_GROUND(true);
                             this.isOnGround = true;
                             this.prevYPosOnGround = this.pos.y;
                         } else if (isOverlapY
@@ -316,18 +328,18 @@ class Chad {
                             && this.boundingBox.right > entity.boundingBox.left) {
                             // We are colliding with the left side.
 
-                            this.pos = new Vector(entity.boundingBox.left - Chad.SCALED_SIZE.x, this.pos.y);
+                            this.pos = new Vector(entity.boundingBox.left - Chad.SCALED_SIZE.x - Chad.BOUNDING_BOX_OFFSET.x, this.pos.y);
                         } else if (isOverlapY
                             && this.lastBoundingBox.left >= entity.boundingBox.right
                             && this.boundingBox.left < entity.boundingBox.right) {
                             // We are colliding with the right side.
 
-                            this.pos = new Vector(entity.boundingBox.right, this.pos.y);
+                            this.pos = new Vector(entity.boundingBox.right - Chad.BOUNDING_BOX_OFFSET.x, this.pos.y);
                         } else if (isOverlapX
                             && this.lastBoundingBox.top >= entity.boundingBox.bottom
                             && this.boundingBox.top < entity.boundingBox.bottom) {
                             // We are colliding with the bottom.
-                            this.pos = new Vector(this.pos.x, entity.boundingBox.bottom);
+                            this.pos = new Vector(this.pos.x, entity.boundingBox.bottom - Chad.BOUNDING_BOX_OFFSET.y);
                         }
                     }
                     else if (entity instanceof Border) {
@@ -347,8 +359,10 @@ class Chad {
         });
 
         // Step 5: Now that your position is actually figured out, draw your correct bounding box.
-        this.boundingBox = new BoundingBox(this.pos, Chad.SCALED_SIZE);
+        this.boundingBox = this.createBoundingBox();
+
     };
+
 
     /** Draw Chad on the canvas. */
     draw() {

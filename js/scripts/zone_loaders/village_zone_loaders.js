@@ -169,7 +169,7 @@ const loadVillageField = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         } else if (LAST_ZONE.equals(Zone.getZones().village.main)) { // Coming from main.
             // spawn on left.
-            const blockPos = new Vector(99, 22);
+            const blockPos = new Vector(95, 20);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
     };
@@ -192,6 +192,8 @@ const loadVillageField = () => {
                 GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_BUSHY, Vector.blockToWorldSpace(new Vector(randomOrigin + xVariation * i, aboveGroundLevel - yVariation))), 0);
             }
         }
+
+
     }
     // Set background color:
     BG_COLOR = COLORS.SKY_BLUE;
@@ -257,7 +259,7 @@ const loadVillageMain = () => {
         let groundLevel = 18;
         let aboveGroundLevel = 22;
         let skyHeight = 14;
-        let chadOnGround = 19;
+        let chadOnGround = 18;
         // Add a border to the right side of the map, leading to the field.
         GAME.addEntity(new Border(
             new Vector(ZONE.MIN_PT.x, 0), // start at the far right side of the Zone, and at the top
@@ -408,8 +410,65 @@ const loadVillageMain = () => {
         GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)), 0);
 
         BG_COLOR = COLORS.SKY_BLUE;
-        GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), -1);
+        let makeRain = false;
 
+        // makeRain = Math.random() < .4 ? true : false;
+        // let hot = Math.random() < .9 ? true : false;
+        // let makeClouds = Math.random() < .7 ? true : false;
+        let dir = ["left", "down", "right", "down", "down"];
+        let rainStrength = [2, 5, 10, 20, 25, 30];
+        let strengthIndex = 5;
+        let dirIndex = Math.floor(Math.random() * dir.length);
+        let cloudNum = (Math.random() * (8 + 20)) - 3;
+        let randomOrigin = (Math.random() * (0 + 100)) - 0;
+        randomOrigin = randomOrigin % cloudNum;
+
+
+        if (makeRain) {
+            for (let i = 0; i < cloudNum; i++) {
+                let chooseForGround = Math.random();
+                chooseForGround = chooseForGround < 0.5 ? -1 : 0;
+                let yVariation = Math.random() * (10 - 12) + 10;
+                let xVariation = Math.random() * (8 - 12) + 8;
+                // console.log(chooseForGround);
+                GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_BUSHY, Vector.blockToWorldSpace(new Vector(randomOrigin + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
+            }
+            cloudNum = (Math.random() * (3 + 10)) - 3;
+
+            for (let i = 0; i < cloudNum; i++) {
+                let chooseForGround = Math.random();
+                chooseForGround = chooseForGround < 0.5 ? -1 : 0;
+                let yVariation = Math.random() * (10 - 12) + 10;
+                let xVariation = Math.random() * (8 - 12) + 8;
+                GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_LANKY, Vector.blockToWorldSpace(new Vector(randomOrigin + 5 + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
+            }
+            cloudNum = (Math.random() * (3 + 10)) - 3;
+
+            for (let i = 0; i < cloudNum; i++) {
+                let chooseForGround = Math.random();
+                chooseForGround = chooseForGround < 0.5 ? -1 : 0;
+                let yVariation = Math.random() * (10 - 12) + 10;
+                let xVariation = Math.random() * (8 - 12) + 8;
+                GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD, Vector.blockToWorldSpace(new Vector(randomOrigin + 10 + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
+            }
+            BG_COLOR = COLORS.SKY_GREY;
+            for (let j = 0; j < rainStrength[strengthIndex]; j++) {
+                for (let i = 0; i < 20; i++) {
+                    // 960 - CHAD.pos.x, CHAD.pos.y - 1080
+                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
+                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
+                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
+                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
+                }
+            }
+            // console.log(strengthIndex);
+
+
+        } else {
+            GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), -1);
+
+
+        }
         // Place chad.
         if (LAST_ZONE === null) { // We've just started the game.
             // Spawn in middle.
@@ -419,7 +478,7 @@ const loadVillageMain = () => {
 
         } else if (LAST_ZONE.equals(Zone.getZones().village.field)) { // Coming from field.
             // Set spawn point on the right.
-            const blockPos = new Vector(ZONE.MIN_PT.x + 1, aboveGroundLevel);
+            const blockPos = new Vector(ZONE.MIN_PT.x + 1, chadOnGround);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         } else if (LAST_ZONE.equals(Zone.getZones().village.outsideCave)) { // Coming from outside cave.
             // spawn on left.
