@@ -28,6 +28,7 @@ class Snake {
         this.loadAnimations();
 
         this.lastAttack = 0;
+        this.dealtDamage = false;
     };
 
     /** The size, in pixels, of the Snake ON THE SPRITESHEET. */
@@ -75,26 +76,57 @@ class Snake {
         return 10;
     };
 
+    /** Number of seconds after the start of the attack animation when damage should be dealt. */
+    static get DAMAGE_DELAY() {
+        return 0.4;
+    }
+
     /**
      * Perform any necessary operations when the Snake dies.
      */
     handleDeath() {
-        // if the enemy is now dead, remove it from the game
-        // TODO: replace this code with any death effects, state changes, etc.
-        this.removeFromWorld = true;
+        this.action = "dying";
     }
     
     /** Change what the Snake is doing and where it is. */
     update() {
         this.base.update();
 
-        if (this.base.chadDistance() < Snake.SCALED_SIZE.x / 2
-            && Date.now() - Snake.ATTACK_COOLDOWN * 1000 > this.lastAttack) {
+        const deathAnim = this.animations[this.base.getFacing()]["dying"];
 
-            this.state = "pursue";
-            this.lastAttack = Date.now();
-            CHAD.takeDamage(Snake.ATTACK_DAMAGE);
+        if (this.health > 0) {
+            const secondsSinceLastAttack = Date.now() / 1000 - this.lastAttack;
+
+            // if we've finished our current attack, change action to idle
+            if (this.action === "attacking" 
+                && this.animations[this.base.getFacing()]["attacking"].totalTime < secondsSinceLastAttack) {
+                    
+                this.action = "idle";
+            }
+    
+            // if Chad is close enough, bite him
+            if (this.base.chadDistance() < Snake.SCALED_SIZE.x / 2) {
+                if (secondsSinceLastAttack > Snake.ATTACK_COOLDOWN) {
+                    // if it's been long enough, start a new attack 
+                    this.state = "pursue";
+                    this.base.setTargetX(CHAD.pos.x);
+                    this.animations[this.base.getFacing()]["attacking"].elapsedTime = 0;
+                    this.action = "attacking";
+                    this.lastAttack = Date.now() / 1000;
+                    this.dealtDamage = false;
+                } else if (this.action === "attacking" 
+                    && secondsSinceLastAttack > Snake.DAMAGE_DELAY && !this.dealtDamage) {
+                    // if we're at the proper point in our attack animation, deal damage
+    
+                    CHAD.takeDamage(Snake.ATTACK_DAMAGE);
+                    this.dealtDamage = true;
+                }
+            }
+        } else if (deathAnim.currentFrame() === deathAnim.frameCount - 1) {
+            this.removeFromWorld = true;
         }
+        
+
     };
 
     /** Draw the Snake on the canvas. */
@@ -130,6 +162,30 @@ class Snake {
             new Vector(0, Snake.SIZE.y),
             Snake.SIZE,
             9, 1/9);
+
+        // ATTACKING ANIMATIONS
+        this.animations["right"]["attacking"] = new Animator(
+            Snake.SPRITESHEET,
+            new Vector(0, Snake.SIZE.y * 2),
+            Snake.SIZE,
+            10, 0.05);
+        this.animations["left"]["attacking"] = new Animator(
+            Snake.SPRITESHEET,
+            new Vector(0, Snake.SIZE.y * 3),
+            Snake.SIZE,
+            10, 0.05);
+
+        // DEATH ANIMATIONS
+        this.animations["right"]["dying"] = new Animator(
+            Snake.SPRITESHEET,
+            new Vector(0, Snake.SIZE.y * 4),
+            Snake.SIZE,
+            7, 1/14);
+        this.animations["left"]["dying"] = new Animator(
+            Snake.SPRITESHEET,
+            new Vector(0, Snake.SIZE.y * 5),
+            Snake.SIZE,
+            7, 1/14);
         
     };
 };

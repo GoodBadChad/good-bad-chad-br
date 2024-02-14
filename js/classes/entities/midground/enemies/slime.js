@@ -115,20 +115,24 @@ class Slime {
      * Perform any necessary operations when the Slime dies.
      */
     handleDeath() {
-        // if the enemy is now dead, remove it from the game
-        // TODO: replace this code with any death effects, state changes, etc.
-        this.removeFromWorld = true;
+        this.action = "dying";
     }
     
     /** Change what the Slime is doing and where it is. */
     update() {
         this.base.update();
 
-        if (this.base.chadDistance() < Slime.SCALED_SIZE.x / 2 
-            && Date.now() - Slime.ATTACK_COOLDOWN * 1000 > this.lastAttack) {
+        const deathAnim = this.animations[this.base.getFacing()]["dying"];
 
-            this.lastAttack = Date.now();
-            CHAD.takeDamage(Slime.ATTACK_DAMAGE);
+        if (this.health > 0) {
+            if (this.base.chadDistance() < Slime.SCALED_SIZE.x / 2
+                && Date.now() - Slime.ATTACK_COOLDOWN * 1000 > this.lastAttack) {
+
+                this.lastAttack = Date.now();
+                CHAD.takeDamage(Slime.ATTACK_DAMAGE);
+            }
+        } else if (deathAnim.currentFrame() === deathAnim.frameCount - 1) {
+            this.removeFromWorld = true;
         }
     };
 
@@ -145,26 +149,37 @@ class Slime {
         // Idle Animations
         this.animations["right"]["idle"] = new Animator(
             Slime.SPRITESHEET,
-            new Vector(Slime.SIZE.x, this.type * 2 * Slime.SIZE.y),
+            new Vector(Slime.SIZE.x, this.type * 4 * Slime.SIZE.y),
             Slime.SIZE,
             1, 1);
         this.animations["left"]["idle"] = new Animator(
             Slime.SPRITESHEET,
-            new Vector(Slime.SIZE.x, this.type * 2 * Slime.SIZE.y + Slime.SIZE.y),
+            new Vector(Slime.SIZE.x, this.type * 4 * Slime.SIZE.y + Slime.SIZE.y),
             Slime.SIZE,
             1, 1);
         
         // Moving animations
         this.animations["right"]["moving"] = new Animator(
             Slime.SPRITESHEET,
-            new Vector(0, this.type * 2 * Slime.SIZE.y),
+            new Vector(0, this.type * 4 * Slime.SIZE.y),
             Slime.SIZE,
             4, 0.25);
         this.animations["left"]["moving"] = new Animator(
             Slime.SPRITESHEET,
-            new Vector(0, this.type * 2 * Slime.SIZE.y + Slime.SIZE.y),
+            new Vector(0, this.type * 4 * Slime.SIZE.y + Slime.SIZE.y),
             Slime.SIZE,
             4, 0.25);
         
+        // Death animations
+        this.animations["right"]["dying"] = new Animator(
+            Slime.SPRITESHEET,
+            new Vector(0, this.type * 4 * Slime.SIZE.y + 2 * Slime.SIZE.y),
+            Slime.SIZE,
+            7, 1/14);
+        this.animations["left"]["dying"] = new Animator(
+            Slime.SPRITESHEET,
+            new Vector(0, this.type * 4 * Slime.SIZE.y + 3 * Slime.SIZE.y),
+            Slime.SIZE,
+            7, 1/14);
     };
 };
