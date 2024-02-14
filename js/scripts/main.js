@@ -50,6 +50,15 @@ spanishButton.addEventListener("click", () => {
 	}
 });
 
+/** 
+ * If specials keys are pressed, prevent their default action.
+ */
+document.addEventListener("keydown", (key) => {
+	if (key.altKey || key.ctrlKey || key.metaKey) {
+		key.preventDefault();
+	}
+});
+
 // (3) Set the current ZONE to be the first one we encounter - village.main.
 
 let ZONE = Zone.getZones().village.main;

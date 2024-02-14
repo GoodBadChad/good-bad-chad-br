@@ -19,7 +19,7 @@ class AssetManager {
      * This method simply adds a filepath to the downloadQueue.
      */
     queueDownload(path) {
-        console.log("Queueing " + path);
+        // console.log("Queueing " + path);
         this.downloadQueue.push(path);
     };
 
@@ -40,7 +40,6 @@ class AssetManager {
         for (let i = 0; i < this.downloadQueue.length; i++) {
 
             const path = this.downloadQueue[i];
-            console.log(path);
 
             // make sure the path is a string
             if (typeof path !== 'string') {
@@ -54,7 +53,7 @@ class AssetManager {
                 case 'png':
                     const img = new Image();
                     img.addEventListener("load", () => {
-                        console.log("Loaded " + path);
+                        // console.log("Loaded " + path);
                         this.successCount++;
                         if (this.isDone()) callback();
                     });
@@ -73,7 +72,7 @@ class AssetManager {
                 case 'wav':
                     const audio = new Audio();
                     audio.addEventListener("loadeddata", () => {
-                        console.log("Loaded " + path);
+                        // console.log("Loaded " + path);
                         this.successCount++;
                         if (this.isDone()) callback();
                     });
@@ -183,18 +182,20 @@ class AssetManager {
      * this.downloadQueue is reset to this every time that the ASSET_MGR is refreshed.
      */
     static get BAREBONES_DL_Q() {
-        return [
+        return [ // Let's try and keep these alphabetized!
                 // Entities:
                 Block.SPRITESHEET,
                 Crosshair.SPRITESHEET,
                 DialogBubble.SPRITESHEET,
+                DialogBubble.SPEAKERS.CHAD.spritesheet,
+                FoodDrop.SPRITESHEET,
                 OverheadIcon.SPRITESHEET,
                 PapaChad.SPRITESHEET,
                 Projectile.SPRITESHEET,
+                RuneItem.SPRITESHEET,
                 Slingshot.SPRITESHEET,
                 Sun.SPRITESHEET,
                 Sword.SPRITESHEET,
-                Rune.SPRITESHEET,
           
                 // Sounds:
                 SFX.JUMP1.path,
@@ -205,9 +206,42 @@ class AssetManager {
                 SFX.SLINGSHOT_LAUNCH4.path,
                 SFX.SLINGSHOT_STRETCH.path,
                 SFX.SONIC_DASH.path,
-                // Chad's Dialog Icon:
-                DialogBubble.SPEAKERS.CHAD.spritesheet
-                // We coulda just used Chad's whole one but don't fix what ain't broke
+                SFX.SWORD_SWING1.path,
+                SFX.SWORD_SWING2.path,
+                SFX.SWORD_SWING3.path,
+                SFX.SWORD_SWING4.path,
+                SFX.SWORD_SWING5.path,
+                SFX.SWORD_SWING6.path,
+                SFX.SWORD_SWING7.path,
+                SFX.SWORD_SWING8.path,
+                SFX.SWORD_SWING9.path,
+                SFX.SWORD_SWING10.path,
+                SFX.SWORD_HIT.path,
+                SFX.SWOOSH.path,
+                SFX.RICOCHET1.path,
+                SFX.RICOCHET2.path,
+                SFX.RICOCHET3.path,
+                SFX.RICOCHET4.path,
+                SFX.EXPLOSION_SMALL.path,
+                SFX.ITEM_EQUIP.path,
+                SFX.ITEM_COLLECT1.path,
+                SFX.ITEM_COLLECT2.path,
+                SFX.ITEM_COLLECT3.path,
+                SFX.GAME_OVER.path,
+                SFX.UI_HIGH_BEEP.path,
+                SFX.UI_GAMEBOY_BEEP.path,
+                SFX.FOOD_EAT1.path,
+                SFX.FOOD_EAT2.path,
+                SFX.FOOD_EAT3.path,
+                SFX.FOOD_EAT4.path,
+
+                // Music:
+                MUSIC.PEACEFUL_CHIPTUNE.path,
+                MUSIC.HIGH_ENERGY.path,
+                MUSIC.VICTORY.path,
+                MUSIC.UPBEAT_CHIPTUNE_1.path,
+                MUSIC.UPBEAT_CHIPTUNE_2.path,
+                MUSIC.CHAD_PLAYFUL_ADVENTURE.path
         ];
     };
 };

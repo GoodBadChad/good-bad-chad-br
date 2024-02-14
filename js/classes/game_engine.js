@@ -24,17 +24,22 @@ class GameEngine {
             movingRight: false,
             movingLeft: false,
             jumping: false,
-            sprinting: false,
+            running: false,
             dashing: false,
             aiming: false,
             firing: false,
             jabbing: false,
             interacting: false,
+            cycleFood: false,
+            eatFood: false,
             // Dialog
             continuingConversation: false,
             choiceUp: false,
             choiceDown: false
         };
+
+        /** used to detect double taps */
+        this.lastKeyTime = { keyA: 0,  keyD: 0 };
 
         // /** Where is the x coordinate of the user's mouse? */
         // this.mouseX = 0;
@@ -44,11 +49,21 @@ class GameEngine {
 
         /** The timer tells you how long it's been since the last tick! */
         this.timer = new Timer();
+
+        /** How long has the game been running? */
+        this.gameTime = 0;
         
         this.conversation = null;
 
         this.mode = GameEngine.GAMEPLAY_MODE;
     };
+
+    /**
+     * The threshold in seconds at which a double tap is recognized.
+     */
+    static get DOUBLE_TAP_THRESHOLD() {
+        return 0.25;
+    }
 
     /**
      * This adds a new entity to the entities array.
@@ -88,6 +103,7 @@ class GameEngine {
     /** This is the update-render loop. */
     loop() {
         this.clockTick = this.timer.tick();
+        this.gameTime += this.clockTick;
         this.update();
         this.draw();
     };
@@ -134,6 +150,10 @@ class GameEngine {
         // Update the HUD and Crosshair regardless of whether the game is running or not
         HUD.update();
         CROSSHAIR.update();
+
+        this.lastKeyTime.keyA += GAME.clockTick;
+        this.lastKeyTime.keyD += GAME.clockTick;
+
 
         // I'm not gonna touch this because I don't know why it's here, but I don't think it belongs here:
         if (this.user.firing) {

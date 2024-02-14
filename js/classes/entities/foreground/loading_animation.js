@@ -1,5 +1,6 @@
 class LoadingAnimation {
-    constructor() {
+
+    static start() { 
         const center = new Vector(CANVAS.width / 2, CANVAS.height / 2);
         
         this.circles = [
@@ -9,25 +10,23 @@ class LoadingAnimation {
         ];
         this.currentCircle = 0;
         this.intervalId = null;
-    }
 
-    start() { 
         // setInterval() is the reason GameEngine does not control the update-render loop.
 
         // setInterval() repeatedly calls a function or executes a code snippet, 
         // with a fixed time delay between each call.
         // https://developer.mozilla.org/en-US/docs/Web/API/setInterval
-        this.intervalId = setInterval(() => this.update(), 100);
+        this.intervalId = setInterval(() => this.fixedUpdate(), 100);
     }
 
-    stop() {
+    static stop() {
         if (this.intervalId) {
             clearInterval(this.intervalId);
             this.intervalId = null;
         }
     }
 
-    update() {
+    static fixedUpdate() {
         // Clear the canvas
         CTX.clearRect(0, 0, CANVAS.width, CANVAS.height);
 
@@ -46,12 +45,12 @@ class LoadingAnimation {
             // Draw the circle
             CTX.beginPath();
             CTX.ellipse(circle.x, circle.y, 20, 20, 0, 0, Math.PI * 2);
-            CTX.fillStyle = 'grey';
+            CTX.fillStyle = COLORS.GRAY;
             CTX.fill();
 
             // Outline the circle
             CTX.lineWidth = 3;
-            CTX.strokeStyle = 'black';
+            CTX.strokeStyle = COLORS.BLACK;
             CTX.stroke();
         }
 
