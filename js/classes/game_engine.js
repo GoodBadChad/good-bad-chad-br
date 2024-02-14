@@ -33,7 +33,9 @@ class GameEngine {
             cycleFood: false,
             eatFood: false,
             // Dialog
-            continuingConversation: false
+            continuingConversation: false,
+            choiceUp: false,
+            choiceDown: false
         };
 
         /** used to detect double taps */
@@ -157,6 +159,10 @@ class GameEngine {
         if (this.user.firing) {
             this.user.firing = false;
         }
+        // This fixed a bug where once you switched choices, it switched in an infinite loop.
+        this.user.choiceUp  = false;
+        this.user.choiceDown = false;
+        this.user.continuingConversation = false;
     };
 
     /**
@@ -191,13 +197,16 @@ class GameEngine {
      * to interaction with either the WASD keys or arrows.
      */
     configureEventListeners() {
-        Object.keys(GAME.user).forEach((key) => {
-            GAME.user[key] = false;
+        // Set all listeners to false.
+        Object.keys(this.user).forEach((key) => {
+            this.user[key] = false;
         });
 
         if (this.mode === GameEngine.GAMEPLAY_MODE) {
             // Remove all other listeners.
             CANVAS.removeEventListener("keypress", EVENT_HANDLERS.dialogKeyPress, false);
+            CANVAS.removeEventListener("keyup", EVENT_HANDLERS.dialogKeyUp, false);
+            CANVAS.removeEventListener("keydown", EVENT_HANDLERS.dialogKeyDown, false);
             // Add the gameplay listeners.
             CANVAS.addEventListener("mousedown", EVENT_HANDLERS.gameplayMouseDown, false);
             CANVAS.addEventListener("mouseup", EVENT_HANDLERS.gameplayMouseUp, false);
@@ -213,6 +222,12 @@ class GameEngine {
             CANVAS.removeEventListener("keyup", EVENT_HANDLERS.gameplayKeyUp, false);
             // Add the dialog listeners
             CANVAS.addEventListener("keypress", EVENT_HANDLERS.dialogKeyPress, false);
+            /*
+            Note: For whatever reason, "keypress" event with code "Space" does not work -
+            so I fixed it by doing keyup and keydown. Works fine now.
+            */
+            CANVAS.addEventListener("keyup", EVENT_HANDLERS.dialogKeyUp, false);
+            CANVAS.addEventListener("keydown", EVENT_HANDLERS.dialogKeyDown, false);
         } else if (this.mode === GameEngine.MENU_MODE) {
             // This isn't set up yet. Possibly won't ever be necessary.
         }
