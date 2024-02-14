@@ -31,15 +31,17 @@ class Zone {
             ASSET_MGR.refresh();
             loadFunction();
 
+            CANVAS.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+            });
+
             // TODO: this is a bandaid fix! Let's figure out how to make this better!!!
             setTimeout(() => {
-                // Add entities essential to any Zone.
-            GAME.addEntity(new Crosshair());
+            // Add entities essential to any Zone.
             GAME.addEntity(new Slingshot());
             GAME.addEntity(new Sword(Sword.TYPE_1));
 
-            // temporary until the HUD is added
-            GAME.addEntity(new HealthBar(CHAD, Chad.MAX_HEALTH, Chad.SCALED_SIZE.x));
+            HUD.addComponents();
             }, 1_000);
             
         };
