@@ -45,7 +45,7 @@ class AssetManager {
             if (typeof path !== 'string') {
                 console.log("Error loading " + path + ": not a string");
             }
-
+            
             const ext = path.substring(path.length - 3);
 
             switch (ext) {
@@ -57,13 +57,13 @@ class AssetManager {
                         this.successCount++;
                         if (this.isDone()) callback();
                     });
-        
+
                     img.addEventListener("error", () => {
                         console.log("Error loading " + path);
                         this.errorCount++;
                         if (this.isDone()) callback();
                     });
-        
+
                     img.src = path;
                     this.cache[path] = img;
                     break;
@@ -82,7 +82,7 @@ class AssetManager {
                         this.errorCount++;
                         if (this.isDone()) callback();
                     });
-                
+
                     audio.addEventListener("ended", () => {
                         audio.pause();
                         audio.currentTime = 0;
@@ -93,7 +93,7 @@ class AssetManager {
 
                     this.cache[path] = audio;
                     break;
-                
+
                 default:
                     console.log("Error loading " + path + ": unknown file extension");
                     this.errorCount++;
@@ -183,12 +183,16 @@ class AssetManager {
      */
     static get BAREBONES_DL_Q() {
         return [
+
+                // TODO add clouds and rain as bairbones?
                 // Entities:
                 Block.SPRITESHEET,
                 Crosshair.SPRITESHEET,
                 DialogBubble.SPRITESHEET,
                 OverheadIcon.SPRITESHEET,
                 PapaChad.SPRITESHEET,
+                Rune.SPRITESHEET,
+                Chad.SPRITESHEET,
                 Projectile.SPRITESHEET,
                 Slingshot.SPRITESHEET,
                 Sun.SPRITESHEET,

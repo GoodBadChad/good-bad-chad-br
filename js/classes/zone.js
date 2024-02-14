@@ -31,19 +31,19 @@ class Zone {
             ASSET_MGR.refresh();
             loadFunction();
 
-            CANVAS.addEventListener('contextmenu', function(e) {
+            CANVAS.addEventListener('contextmenu', function (e) {
                 e.preventDefault();
             });
 
             // TODO: this is a bandaid fix! Let's figure out how to make this better!!!
             setTimeout(() => {
-            // Add entities essential to any Zone.
-            GAME.addEntity(new Slingshot());
-            GAME.addEntity(new Sword(Sword.TYPE_1));
+                // Add entities essential to any Zone.
+                GAME.addEntity(new Slingshot());
+                GAME.addEntity(new Sword(Sword.TYPE_1));
 
-            HUD.addComponents();
+                HUD.addComponents();
             }, 1_000);
-            
+
         };
         this.name = name;
     };

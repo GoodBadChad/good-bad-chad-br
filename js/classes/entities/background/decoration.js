@@ -1,7 +1,7 @@
 /**
  * General-purpose class for displaying entites that do not move and which cannot be collided with.
  * 
- * @author Trae Claar
+ * @author Trae Claar, (modified) Caleb Krauter
  */
 class Decoration {
 
@@ -16,7 +16,7 @@ class Decoration {
     constructor(type, bottomLeftPos) {
         this.type = type;
         this.pos = new Vector(bottomLeftPos.x, bottomLeftPos.y - this.type.SIZE.y * this.type.SCALE);
-        this.animator = new Animator(this.type.SPRITESHEET, this.type.SPRITESHEET_START_POS, 
+        this.animator = new Animator(this.type.SPRITESHEET, this.type.SPRITESHEET_START_POS,
             this.type.SIZE, this.type.FRAME_COUNT, this.type.FRAME_DURATION);
     };
 
@@ -24,29 +24,101 @@ class Decoration {
     static get DECORATIONS() {
         return {
             flowers: {
-                MED_RED_FLOWER: {
+                MED_RED_FLOWER_1: {
                     SPRITESHEET: "./sprites/flowers.png",
                     SPRITESHEET_START_POS: new Vector(0, 0),
                     FRAME_COUNT: 1,
                     FRAME_DURATION: 1,
                     SIZE: new Vector(16, 32),
-                    SCALE: 3
+                    SCALE: 1
                 },
-                TALL_PURPLE_FLOWER: {
+                TALL_PURPLE_FLOWER_1: {
                     SPRITESHEET: "./sprites/flowers.png",
                     SPRITESHEET_START_POS: new Vector(0, 32),
                     FRAME_COUNT: 1,
                     FRAME_DURATION: 1,
                     SIZE: new Vector(16, 32),
-                    SCALE: 3
+                    SCALE: 1
                 },
-                PRIDE_FLOWER: {
+                PRIDE_FLOWER_1: {
                     SPRITESHEET: "./sprites/flowers.png",
                     SPRITESHEET_START_POS: new Vector(0, 64),
                     FRAME_COUNT: 1,
                     FRAME_DURATION: 1,
                     SIZE: new Vector(16, 32),
-                    SCALE: 3
+                    SCALE: 1
+                },
+                MED_RED_FLOWER_2: {
+                    SPRITESHEET: "./sprites/flowers.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 32),
+                    SCALE: 1.5
+                },
+                TALL_PURPLE_FLOWER_2: {
+                    SPRITESHEET: "./sprites/flowers.png",
+                    SPRITESHEET_START_POS: new Vector(0, 32),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 32),
+                    SCALE: 1.5
+                },
+                PRIDE_FLOWER_2: {
+                    SPRITESHEET: "./sprites/flowers.png",
+                    SPRITESHEET_START_POS: new Vector(0, 64),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 32),
+                    SCALE: 1.5
+                },
+                MED_RED_FLOWER_3: {
+                    SPRITESHEET: "./sprites/flowers.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 32),
+                    SCALE: 2
+                },
+                TALL_PURPLE_FLOWER_3: {
+                    SPRITESHEET: "./sprites/flowers.png",
+                    SPRITESHEET_START_POS: new Vector(0, 32),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 32),
+                    SCALE: 2
+                },
+                PRIDE_FLOWER_3: {
+                    SPRITESHEET: "./sprites/flowers.png",
+                    SPRITESHEET_START_POS: new Vector(0, 64),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 32),
+                    SCALE: 2
+                },
+                MED_RED_FLOWER_4: {
+                    SPRITESHEET: "./sprites/flowers.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 32),
+                    SCALE: 2.5
+                },
+                TALL_PURPLE_FLOWER_4: {
+                    SPRITESHEET: "./sprites/flowers.png",
+                    SPRITESHEET_START_POS: new Vector(0, 32),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 32),
+                    SCALE: 2.5
+                },
+                PRIDE_FLOWER_4: {
+                    SPRITESHEET: "./sprites/flowers.png",
+                    SPRITESHEET_START_POS: new Vector(0, 64),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 32),
+                    SCALE: 2.5
                 },
                 CARROT: {
                     SPRITESHEET: "./sprites/flowers.png",
@@ -70,7 +142,7 @@ class Decoration {
                     SPRITESHEET: "./sprites/blacksmith_house.png",
                     SPRITESHEET_START_POS: new Vector(0, 0),
                     FRAME_COUNT: 4,
-                    FRAME_DURATION: 1/4,
+                    FRAME_DURATION: 1 / 4,
                     SIZE: new Vector(192, 192),
                     SCALE: 3.5
                 },
@@ -99,7 +171,108 @@ class Decoration {
                     FRAME_DURATION: 1,
                     SIZE: new Vector(64, 64),
                     SCALE: 8
+                },
+                OAK_2: {
+                    SPRITESHEET: "./sprites/tree.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(64, 64),
+                    SCALE: 9
+                },
+                OAK_3: {
+                    SPRITESHEET: "./sprites/tree.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(64, 64),
+                    SCALE: 6
+                },
+                SPRUCE_1: {
+                    SPRITESHEET: "./sprites/tree_spruce.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(64, 64),
+                    SCALE: 7
+                },
+                SPRUCE_2: {
+                    SPRITESHEET: "./sprites/tree_spruce.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(64, 64),
+                    SCALE: 8
+                },
+                SPRUCE_3: {
+                    SPRITESHEET: "./sprites/tree_spruce.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(64, 64),
+                    SCALE: 9
+                },
+                SPRUCE_4: {
+                    SPRITESHEET: "./sprites/tree_spruce.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(64, 64),
+                    SCALE: 12
+                },
+
+            },
+            clouds: {
+                CLOUD_JUST_CLOUD: {
+                    SPRITESHEET: "./sprites/cloud1.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(32, 32),
+                    SCALE: 7
+                },
+                CLOUD_LANKY: {
+                    SPRITESHEET: "./sprites/cloud2.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(32, 32),
+                    SCALE: 7
+                },
+                CLOUD_BUSHY: {
+                    SPRITESHEET: "./sprites/cloud3.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(32, 32),
+                    SCALE: 7
                 }
+            },
+            grass: {
+                GRASS_1: {
+                    SPRITESHEET: "./sprites/grass.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 64,
+                    FRAME_DURATION: .2,
+                    SIZE: new Vector(32, 32),
+                    SCALE: 1.5
+                },
+                GRASS_2: {
+                    SPRITESHEET: "./sprites/grass.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 64,
+                    FRAME_DURATION: .2,
+                    SIZE: new Vector(32, 32),
+                    SCALE: 2
+                },
+                GRASS_3: {
+                    SPRITESHEET: "./sprites/grass.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 64,
+                    FRAME_DURATION: .2,
+                    SIZE: new Vector(32, 32),
+                    SCALE: 2.2
+                },
             }
         };
     };
@@ -113,7 +286,7 @@ class Decoration {
      */
     static checkType(type) {
         if (!Decoration.PROPERTY_TABLE[type]) {
-            throw new Error(type + " is not a valid Decoration type. Please use a key from" 
+            throw new Error(type + " is not a valid Decoration type. Please use a key from"
                 + " Decoration.PROPERTY_TABLE.");
         }
     };
