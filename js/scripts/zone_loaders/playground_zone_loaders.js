@@ -106,7 +106,7 @@ const loadPlaygroundDevin = () => {
         const papaChadBlockPos = new Vector(15, 15);
         const papa = new PapaChad(
             Vector.blockToWorldSpace(papaChadBlockPos), 
-            new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)); // his conversation.
+            new Conversation(getAllConversationArrays().playground.papaChad.huntingInvitation)); // his conversation.
 
         GAME.addEntity(papa);
     };
