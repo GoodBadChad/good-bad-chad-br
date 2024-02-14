@@ -10,6 +10,7 @@ const playgroundConversationLoader = () => {
 const playgroundPapaChadConversationLoader = () => {
     const papa = DialogBubble.SPEAKERS.PAPA_CHAD;
     const chad = DialogBubble.SPEAKERS.CHAD;
+    const none = DialogBubble.SPEAKERS.NONE;
     
     return {
         // Note: the following conversation array is not displayed perfectly, because dialog
@@ -42,7 +43,48 @@ const playgroundPapaChadConversationLoader = () => {
                 papa,
                 "When you left crying at klutch, Ron was holding hands and dancing with a female and took down her number. Multiple people in the house know, therefore you should know the truth.",
                  true)
+        ],
+        huntingInvitation: [
+            // 0
+            new DialogBubble(
+                papa,
+                "Good morning son! How did you sleep?"
+            ),
+            // 1
+            new DecisionBubble(
+                "Papa Chad",
+                "How did you sleep?",
+                [
+                    new Choice("Great!", 2),
+                    new Choice("Horribly!", 5)
+                ]
+            ),
+            // 2
+            new DialogBubble(
+                chad,
+                "Sleep? I practically hibernated, I feel great!"
+            ),
+            // 3
+            new DialogBubble(
+                papa,
+                "Great, let's go hunting. I'll meet you in the field on the left."
+            ),
+            // 4
+            new DialogBubble(
+                none,
+                "Use the A and D keys to walk left and right!",
+                true
+            ),
+            // 5
+            new DialogBubble(
+                chad,
+                "Nah, I was up all night tossing and turning."
+            ),
+            // 6
+            new DialogBubble(
+                papa,
+                "Alright, get some rest son. We'll go hunting when you're ready."
+            )
         ]
-        // TODO: make a conversation array with choices and have it work.
     };
 };
