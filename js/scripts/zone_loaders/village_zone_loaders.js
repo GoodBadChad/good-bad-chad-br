@@ -405,7 +405,7 @@ const loadVillageMain = () => {
         const blockPosMayor = new Vector(50, chadOnGround);
 
 
-        GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)), 0);
+        GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), new Conversation(getAllConversationArrays().playground.papaChad.huntingInvitation)), 0);
         GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)), 0);
         GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)), 0);
 
