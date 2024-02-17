@@ -73,7 +73,7 @@ class Chad {
 
     /** The size, in pixels of the boundingbox of Chad. */
     static get BOUNDING_BOX_SIZE() {
-        return new Vector(32, 48);
+        return new Vector(32, 64);
     }
     /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {
@@ -82,7 +82,7 @@ class Chad {
 
     /** The offset applied to the bounding box's position from Chad's position. */
     static get BOUNDING_BOX_OFFSET() {
-        return Vector.multiply(new Vector(32, 16), Chad.SCALE);
+        return Vector.multiply(new Vector(44, 16), Chad.SCALE);
     }
 
     /** This will be the size of Chad ON THE CANVAS. */
@@ -93,10 +93,10 @@ class Chad {
     /** Chad's speed in pixels per second. */
     static get SPEED() {
         return Chad.SCALE * 115;
-      
+    }
     static get DEFAULT_SCALE() {
         return new Vector(3, 3);
- 
+
     };
 
     /** The filepath to Chad's spritesheet. */
@@ -120,7 +120,7 @@ class Chad {
     /** The mulitiplier that allows CHAD to run. */
     static get DASH_SPEED() {
         return Chad.SPEED * 3;
-
+    }
     /** The mulitiplier that allows CHAD to run. */
     static get RUN_MULTIPLIER() {
         return 1.4;
@@ -143,7 +143,7 @@ class Chad {
     /** Generate the bounding box for Chad based on his current position. */
     createBoundingBox() {
         return new BoundingBox(Vector.add(this.pos, Chad.BOUNDING_BOX_OFFSET), Chad.SCALED_SIZE);
-
+    }
     static get DEFAULT_SPEED() {
         return Chad.DEFAULT_SCALE.x * 110;
     }
@@ -153,11 +153,11 @@ class Chad {
     }
 
     static get DEFAULT_FIRST_JUMP_FORCE() {
-        return 650;
+        return 800;
     }
 
     static get DEFAULT_SECOND_JUMP_FORCE() {
-        return 700;
+        return 900;
     }
 
     /** 
@@ -221,8 +221,8 @@ class Chad {
 
             // if you're on the ground, running, AND moving, release dust particles
             if (this.isOnGround && (GAME.user.movingLeft || GAME.user.movingRight)) {
-                GAME.addEntity(new ParticleEffect(new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y-10), 
-                ParticleEffect.DUST));
+                GAME.addEntity(new ParticleEffect(new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y - 10),
+                    ParticleEffect.DUST));
             }
         } else {
             // Walk action
@@ -242,8 +242,8 @@ class Chad {
 
             // release wind particles every 0.05 seconds
             if (GAME.gameTime % 0.05 < 0.01) {
-                GAME.addEntity(new ParticleEffect(new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y/2), 
-                                        ParticleEffect.WIND));
+                GAME.addEntity(new ParticleEffect(new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y / 2),
+                    ParticleEffect.WIND));
             }
 
             this.action = "dashing";
@@ -277,10 +277,10 @@ class Chad {
      */
     manageYDirectionMovement() {
         let yVelocity = this.velocity.y;
-            if (!this.isDashing && GAME.user.jumping) {
-                this.action = "jumping";
+        if (!this.isDashing && GAME.user.jumping) {
+            this.action = "jumping";
 
-            }
+        }
         if (this.isDashing) {
             yVelocity = 0;
         } else {
@@ -320,14 +320,14 @@ class Chad {
             }
         }
         // Perform single jump.
-//         if (this.isOnGround) {
-//             ASSET_MGR.playAudio(SFX.JUMP1.path, SFX.JUMP1.volume);
-//             this.velocity.y = Chad.FIRST_JUMP_VELOCITY;
-//             this.hasDoubleJumped = false;
-//             this.isOnGround = false;
-//         }
+        //         if (this.isOnGround) {
+        //             ASSET_MGR.playAudio(SFX.JUMP1.path, SFX.JUMP1.volume);
+        //             this.velocity.y = Chad.FIRST_JUMP_VELOCITY;
+        //             this.hasDoubleJumped = false;
+        //             this.isOnGround = false;
+        //         }
 
-        
+
         // Check that Chad has jumped high enough to jump again and allow a second jump if so.
         // Note that if chad has jumped and is falling he can jump at any point on the way down.
         if (!this.isOnGround && deltaHeight >= Math.abs(this.firstJumpForce / 5) + 32) {
@@ -341,9 +341,9 @@ class Chad {
         // If Chad can double jump and user is trying to jump than do it!
         if (this.canDoubleJump && GAME.user.jumping && !this.isOnGround) {
             ASSET_MGR.playAudio(SFX.JUMP2.path, SFX.JUMP2.volume);
-//             this.velocity.y = Chad.SECOND_JUMP_VELOCITY;
+            //             this.velocity.y = Chad.SECOND_JUMP_VELOCITY;
 
-            GAME.addEntity(new ParticleEffect(new Vector(CHAD.pos.x + this.scaledSize.x/2, CHAD.pos.y + this.scaledSize.y-10),
+            GAME.addEntity(new ParticleEffect(new Vector(CHAD.pos.x + this.scaledSize.x / 2, CHAD.pos.y + this.scaledSize.y - 10),
                 ParticleEffect.CLOUD));
             this.action = "jumping";
             yVelocity = -this.secondJumpForce;
@@ -391,17 +391,17 @@ class Chad {
             this.action = "idle";
         }
         // User intends to for Chad to jump in any way possible.
-//         if (GAME.user.jumping) {
-//             if (!this.isDashing) {
-//                 this.action = "jumping";
+        //         if (GAME.user.jumping) {
+        //             if (!this.isDashing) {
+        //                 this.action = "jumping";
 
-//             }
-//             // Gets change in y from when CHAD left ground to current.
-//             this.manageYDirectionMovement()
-//         }
+        //             }
+        //             // Gets change in y from when CHAD left ground to current.
+        //             this.manageYDirectionMovement()
+        //         }
 
         // this is for the slingshot
-//         if (GAME.user.aiming) {
+        //         if (GAME.user.aiming) {
 
         // TODO - decide whether this is necessary or not. Make it so that Chad moves in the correct direction
         // when doing this.
@@ -503,7 +503,7 @@ class Chad {
 
 
         // Step 6: Now that your position is actually figured out, draw your correct bounding box.
-//         this.boundingBox = new BoundingBox(this.pos, this.scaledSize);
+        //         this.boundingBox = new BoundingBox(this.pos, this.scaledSize);
 
 
         // Step 7: Has Chad eaten any food?
