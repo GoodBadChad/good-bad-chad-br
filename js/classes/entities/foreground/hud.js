@@ -55,7 +55,7 @@ class Hud {
         this.addComponent("runeCounter", new ItemCounter(
 
             new Vector(Chad.SIZE.x * CHAD.scale + 20, (healthBarYPos - ItemCounter.HEIGHT) / 2),
-            new Animator("./sprites/runes.png", new Vector(0, 32), new Vector(32, 32), 1, 1), 
+            new Animator("./sprites/runes.png", new Vector(0, 32), new Vector(32, 32), 1, 1),
             0 // TODO: replace with an access to the rune field once it exists
         ));
 
@@ -76,16 +76,16 @@ class Hud {
             new Vector(Hud.MARGIN, weaponLabelYPos),
             new Animator(Slingshot.SPRITESHEET, new Vector(0, 0), Slingshot.SIZE, 1, 1),
 
-            "Left-click", 
-            null, 
+            "Left-click",
+            null,
             weaponLabelWidth,
             5
         ));
         this.addComponent("swordLabel", new ItemLabel(
             new Vector(weaponLabelWidth + Hud.MARGIN, weaponLabelYPos),
             new Animator(Sword.SPRITESHEET, new Vector(0, 0), Sword.SIZE, 1, 1),
-            "Right-click", 
-            null, 
+            "Right-click",
+            null,
             weaponLabelWidth,
             -15 // yes I'm using a negative padding don't judge me, it makes the sword bigger
         ));
@@ -223,7 +223,7 @@ class FoodLabel {
         this.foodItem = INVENTORY.getFood(type);
         this.type = type;
         this.label = new ItemLabel(
-            pos, 
+            pos,
             this.foodItem.animator,
         );
     }
@@ -258,11 +258,11 @@ class AmmoLabel {
         this.type = type;
         this.label = new ItemLabel(
 
-            pos, 
-            new Animator(AmmoItem.SPRITESHEET, new Vector(0, type * AmmoItem.SPRITESHEET_ENTRY_HEIGHT), 
+            pos,
+            new Animator(AmmoItem.SPRITESHEET, new Vector(0, type * AmmoItem.SPRITESHEET_ENTRY_HEIGHT),
                 AmmoItem.SIZE, 1, 1),
-                inputName,
-                INVENTORY.getAmmo(type).amount
+            inputName,
+            INVENTORY.getAmmo(type).amount
         );
     }
 

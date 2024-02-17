@@ -32,7 +32,7 @@ const COLORS = {
     SKY_DARK_GREY: "#235654",
     SKY_SNOW_GREY: "#91B3B2",
     SKY_GREY: "#73908F",
-    SKY_HOT_BLUE_SKY: "#00EAFF"
+    SKY_HOT_BLUE_SKY: "#00EAFF",
 
     LIGHT_BLUE: "#add8e6",
 
@@ -66,8 +66,8 @@ let BG_COLOR = null;
  */
 const PHYSICS = {
 
-    GRAVITY_ACC : 1200,
-    TERMINAL_VELOCITY : 700
+    GRAVITY_ACC: 1200,
+    TERMINAL_VELOCITY: 700
 };
 
 /** Declares constants for CTX.font. */
@@ -83,48 +83,48 @@ const SFX = {
 
 
     // Player
-    JUMP1: {path: "./sfx/jump1.mp3", volume: 0.2},
-    JUMP2: {path: "./sfx/jump2.mp3", volume: 0.2},
-    SLINGSHOT_LAUNCH1: {path: "./sfx/launch1.mp3", volume: 0.5},
-    SLINGSHOT_LAUNCH2: {path: "./sfx/launch2.mp3", volume: 0.6},
-    SLINGSHOT_LAUNCH3: {path: "./sfx/launch3.mp3", volume: 0.5},
-    SLINGSHOT_LAUNCH4: {path: "./sfx/launch4.mp3", volume: 0.5},
-    SLINGSHOT_STRETCH: {path: "./sfx/slingshot_stretch.mp3", volume: 0.4},
-    SWORD_SWING1: {path: "./sfx/sword_swing1.mp3", volume: 0.2},
-    SWORD_SWING2: {path: "./sfx/sword_swing2.mp3", volume: 0.2},
-    SWORD_SWING3: {path: "./sfx/sword_swing3.mp3", volume: 0.2},
-    SWORD_SWING4: {path: "./sfx/sword_swing4.mp3", volume: 0.2},
-    SWORD_SWING5: {path: "./sfx/sword_swing5.mp3", volume: 0.2},
-    SWORD_SWING6: {path: "./sfx/sword_swing6.mp3", volume: 0.2},
-    SWORD_SWING7: {path: "./sfx/sword_swing7.mp3", volume: 0.2},
-    SWORD_SWING8: {path: "./sfx/sword_swing8.mp3", volume: 0.2},
-    SWORD_SWING9: {path: "./sfx/sword_swing9.mp3", volume: 0.2},
-    SWORD_SWING10: {path: "./sfx/sword_swing10.mp3", volume: 0.2},
-    SWORD_HIT: {path: "./sfx/sword_hit.mp3", volume: 0.4},
-    SWOOSH: {path: "./sfx/swoosh.mp3", volume: 0.4},
-    RICOCHET1: {path: "./sfx/ricochet1.mp3", volume: 0.4},
-    RICOCHET2: {path: "./sfx/ricochet2.mp3", volume: 0.4},
-    RICOCHET3: {path: "./sfx/ricochet3.mp3", volume: 0.4},
-    RICOCHET4: {path: "./sfx/ricochet4.mp3", volume: 0.4},
-    EXPLOSION_SMALL: {path: "./sfx/explosion_small.mp3", volume: 0.4},
-    ITEM_EQUIP: {path: "./sfx/item_equip.mp3", volume: 0.4},
-    ITEM_COLLECT1: {path: "./sfx/item_collect1.mp3", volume: 0.4},
-    ITEM_COLLECT2: {path: "./sfx/item_collect2.mp3", volume: 0.4},
-    ITEM_COLLECT3: {path: "./sfx/item_collect3.mp3", volume: 0.4},
-    FOOD_EAT1: {path: "./sfx/food_eat1.mp3", volume: 0.4},
-    FOOD_EAT2: {path: "./sfx/food_eat2.mp3", volume: 0.4},
-    FOOD_EAT3: {path: "./sfx/food_eat3.mp3", volume: 0.4},
-    FOOD_EAT4: {path: "./sfx/food_eat4.mp3", volume: 0.4},
-    
+    JUMP1: { path: "./sfx/jump1.mp3", volume: 0.2 },
+    JUMP2: { path: "./sfx/jump2.mp3", volume: 0.2 },
+    SLINGSHOT_LAUNCH1: { path: "./sfx/launch1.mp3", volume: 0.5 },
+    SLINGSHOT_LAUNCH2: { path: "./sfx/launch2.mp3", volume: 0.6 },
+    SLINGSHOT_LAUNCH3: { path: "./sfx/launch3.mp3", volume: 0.5 },
+    SLINGSHOT_LAUNCH4: { path: "./sfx/launch4.mp3", volume: 0.5 },
+    SLINGSHOT_STRETCH: { path: "./sfx/slingshot_stretch.mp3", volume: 0.4 },
+    SWORD_SWING1: { path: "./sfx/sword_swing1.mp3", volume: 0.2 },
+    SWORD_SWING2: { path: "./sfx/sword_swing2.mp3", volume: 0.2 },
+    SWORD_SWING3: { path: "./sfx/sword_swing3.mp3", volume: 0.2 },
+    SWORD_SWING4: { path: "./sfx/sword_swing4.mp3", volume: 0.2 },
+    SWORD_SWING5: { path: "./sfx/sword_swing5.mp3", volume: 0.2 },
+    SWORD_SWING6: { path: "./sfx/sword_swing6.mp3", volume: 0.2 },
+    SWORD_SWING7: { path: "./sfx/sword_swing7.mp3", volume: 0.2 },
+    SWORD_SWING8: { path: "./sfx/sword_swing8.mp3", volume: 0.2 },
+    SWORD_SWING9: { path: "./sfx/sword_swing9.mp3", volume: 0.2 },
+    SWORD_SWING10: { path: "./sfx/sword_swing10.mp3", volume: 0.2 },
+    SWORD_HIT: { path: "./sfx/sword_hit.mp3", volume: 0.4 },
+    SWOOSH: { path: "./sfx/swoosh.mp3", volume: 0.4 },
+    RICOCHET1: { path: "./sfx/ricochet1.mp3", volume: 0.4 },
+    RICOCHET2: { path: "./sfx/ricochet2.mp3", volume: 0.4 },
+    RICOCHET3: { path: "./sfx/ricochet3.mp3", volume: 0.4 },
+    RICOCHET4: { path: "./sfx/ricochet4.mp3", volume: 0.4 },
+    EXPLOSION_SMALL: { path: "./sfx/explosion_small.mp3", volume: 0.4 },
+    ITEM_EQUIP: { path: "./sfx/item_equip.mp3", volume: 0.4 },
+    ITEM_COLLECT1: { path: "./sfx/item_collect1.mp3", volume: 0.4 },
+    ITEM_COLLECT2: { path: "./sfx/item_collect2.mp3", volume: 0.4 },
+    ITEM_COLLECT3: { path: "./sfx/item_collect3.mp3", volume: 0.4 },
+    FOOD_EAT1: { path: "./sfx/food_eat1.mp3", volume: 0.4 },
+    FOOD_EAT2: { path: "./sfx/food_eat2.mp3", volume: 0.4 },
+    FOOD_EAT3: { path: "./sfx/food_eat3.mp3", volume: 0.4 },
+    FOOD_EAT4: { path: "./sfx/food_eat4.mp3", volume: 0.4 },
+
 
     // UI
-    UI_HIGH_BEEP: {path: "./sfx/ui_high_beep.mp3", volume: 0.4},
-    UI_SCIFI: {path: "./sfx/ui_scifi.mp3", volume: 0.4},
-    UI_SNAP: {path: "./sfx/ui_snap.mp3", volume: 0.4},
-    UI_GAMEBOY_BEEP: {path: "./sfx/ui_gameboy_beep.mp3", volume: 0.4},
+    UI_HIGH_BEEP: { path: "./sfx/ui_high_beep.mp3", volume: 0.4 },
+    UI_SCIFI: { path: "./sfx/ui_scifi.mp3", volume: 0.4 },
+    UI_SNAP: { path: "./sfx/ui_snap.mp3", volume: 0.4 },
+    UI_GAMEBOY_BEEP: { path: "./sfx/ui_gameboy_beep.mp3", volume: 0.4 },
 
     // Environment
-    GAME_OVER: {path: "./sfx/game_over.wav", volume: 0.4},
+    GAME_OVER: { path: "./sfx/game_over.wav", volume: 0.4 },
 }
 
 /**
