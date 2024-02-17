@@ -182,23 +182,22 @@ class AssetManager {
      * this.downloadQueue is reset to this every time that the ASSET_MGR is refreshed.
      */
     static get BAREBONES_DL_Q() {
-        return [
-
-            // TODO add clouds and rain as bairbones?
+        return [ // Let's try and keep these alphabetized!
             // Entities:
             Block.SPRITESHEET,
+            Chad.SPRITESHEET,
             Crosshair.SPRITESHEET,
             DialogBubble.SPRITESHEET,
+            DialogBubble.SPEAKERS.CHAD.spritesheet,
+            FoodDrop.SPRITESHEET,
             OverheadIcon.SPRITESHEET,
             PapaChad.SPRITESHEET,
-            RuneDrop.SPRITESHEET,
-            Chad.SPRITESHEET,
             Projectile.SPRITESHEET,
+            RuneDrop.SPRITESHEET,
+            RuneItem.SPRITESHEET,
             Slingshot.SPRITESHEET,
             Sun.SPRITESHEET,
             Sword.SPRITESHEET,
-            RuneItem.SPRITESHEET,
-            FoodDrop.SPRITESHEET,
 
             // Sounds:
             SFX.JUMP1.path,
@@ -208,6 +207,7 @@ class AssetManager {
             SFX.SLINGSHOT_LAUNCH3.path,
             SFX.SLINGSHOT_LAUNCH4.path,
             SFX.SLINGSHOT_STRETCH.path,
+            SFX.SONIC_DASH.path,
             SFX.SWORD_SWING1.path,
             SFX.SWORD_SWING2.path,
             SFX.SWORD_SWING3.path,
