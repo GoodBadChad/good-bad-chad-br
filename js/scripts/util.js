@@ -379,5 +379,5 @@ const EVENT_HANDLERS = {
             case "Space":
                 GAME.user.continuingConversation = false;
         }
-    }
+    },
 };
