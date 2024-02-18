@@ -172,6 +172,8 @@ class Chad {
                 ASSET_MGR.playAudio(SFX.GAME_OVER.path, SFX.GAME_OVER.volume);
                 //TODO rotate chad 90 degrees on his back?
                 GAME.addEntity(new DeathScreen(), 1);
+                this.animations[this.facing]["death"].elapsedTime = 0;
+                this.action = "death";
             }
         }
     };
@@ -433,11 +435,6 @@ class Chad {
             if (GAME.user.jabbing) {
                 this.action = "slicingStill";
             }
-            // Uncomment to see chad's death animation.
-            // if (true) {
-            //     this.action = "death";
-
-            // }
         } else if (!(this.isOnGround) && GAME.user.jumping && !(GAME.user.dashing)) {
             this.action = "jumping"
         }
@@ -642,7 +639,7 @@ class Chad {
             Chad.SPRITESHEET,
             new Vector(96, 64),
             Chad.SIZE,
-            31, 1 / 10);
+            31, 1 / 10, true, true);
         this.animations["right"]["running"] = new Animator(
             Chad.SPRITESHEET,
             new Vector(0, 0),
@@ -652,7 +649,7 @@ class Chad {
             Chad.SPRITESHEET,
             new Vector(96, 64),
             Chad.SIZE,
-            31, 1 / 10);
+            31, 1 / 10, true, true);
 
         this.animations["right"]["dashing"] = new Animator(
             Chad.SPRITESHEET,
@@ -685,7 +682,7 @@ class Chad {
             new Vector(
                 0, 192),
             Chad.SIZE,
-            32, 1 / 20);
+            32, 1 / 20, true, true);
 
         this.animations["right"]["slicingStill"] = new Animator(
             Chad.SPRITESHEET,
@@ -703,11 +700,11 @@ class Chad {
             Chad.SPRITESHEET,
             new Vector(432, 1664),
             Chad.SIZE,
-            15, 1 / 10);
+            15, 1 / 10, false);
         this.animations["left"]["death"] = new Animator(
             Chad.SPRITESHEET,
             new Vector(432, 1728),
             Chad.SIZE,
-            15, 1 / 10);
+            15, 1 / 10, false, true);
     };
 };
