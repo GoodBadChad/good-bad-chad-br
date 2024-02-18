@@ -155,54 +155,56 @@ class EnemyBase {
      * Update the enemy. Updates its position, state variables, and handles block collision.
      */
     update() {
-        let xVelocity = 0;
-        // TODO: remove multiplication by GAME.clockTick once PHYSICS.GRAVITY_ACC is reduced
-        this.enemy.yVelocity += PHYSICS.GRAVITY_ACC * GAME.clockTick; 
+        if (this.enemy.health > 0) {
+            let xVelocity = 0;
+            // TODO: remove multiplication by GAME.clockTick once PHYSICS.GRAVITY_ACC is reduced
+            this.enemy.yVelocity += PHYSICS.GRAVITY_ACC * GAME.clockTick;
 
-        if (this.chadDistance() < this.reactionDistance) {
-            // if Chad is within our reaction distance, react based on our stance.
-            if (this.stance === EnemyBase.AGGRESSIVE_STANCE) {
-                this.enemy.state = "pursue";
-            } else if (this.stance === EnemyBase.AVOID_STANCE) {
-                this.flee();
+            if (this.chadDistance() < this.reactionDistance) {
+                // if Chad is within our reaction distance, react based on our stance.
+                if (this.stance === EnemyBase.AGGRESSIVE_STANCE) {
+                    this.enemy.state = "pursue";
+                } else if (this.stance === EnemyBase.AVOID_STANCE) {
+                    this.flee();
+                }
+            } else if (this.enemy.state != "roam") {
+                // if we don't have anything to react to anymore, start roaming
+                this.enemy.state = "roam";
+                this.targetX = this.enemy.pos.x;
+                this.minRoamX = this.enemy.pos.x - this.enemy.maxRoamDistance;
             }
-        } else if (this.enemy.state != "roam") {
-            // if we don't have anything to react to anymore, start roaming
-            this.enemy.state = "roam";
-            this.targetX = this.enemy.pos.x;
-            this.minRoamX = this.enemy.pos.x - this.enemy.maxRoamDistance;
-        }
 
-        // if we're pursuing Chad, update the target position to Chad's position
-        // also avoid changing direction in the middle of an attack animation
-        if (this.enemy.state === "pursue" && this.enemy.action != "attacking") {
-            this.setTargetX(CHAD.pos.x);
+            // if we're pursuing Chad, update the target position to Chad's position
+            // also avoid changing direction in the middle of an attack animation
+            if (this.enemy.state === "pursue" && this.enemy.action != "attacking") {
+                this.setTargetX(CHAD.pos.x);
+            }
+
+            if (Math.abs(this.targetX - this.enemy.pos.x) < this.enemy.size.x / 2) {
+                // if we've reached our target position and we're roaming, set a new target position
+                if (this.enemy.state === "roam") {
+                    this.setTargetX(this.minRoamX + Math.random() * 2 * this.enemy.maxRoamDistance);
+                }
+            } else {
+                // if we haven't reached our target, set xVelocity in the target's direction
+                xVelocity = this.getDirection() * this.enemy.speed;
+            }
+
+            // if xVelocity is not 0, set action to "move" (for animation)
+            if (xVelocity) {
+                this.enemy.action = "moving";
+            } else if (this.enemy.action === "moving") {
+                this.enemy.action = "idle";
+            }
+
+            // update position
+            this.enemy.pos = Vector.add(this.enemy.pos,
+                Vector.multiply(new Vector(xVelocity, this.enemy.yVelocity), GAME.clockTick));
+
+            // Update bounding box and check collisions.
+            this.enemy.lastBoundingBox = this.enemy.boundingBox;
+            this.enemy.boundingBox = new BoundingBox(this.enemy.pos, this.enemy.size);
+            checkBlockCollisions(this.enemy, this.enemy.size);
         } 
- 
-        if (Math.abs(this.targetX - this.enemy.pos.x) < this.enemy.size.x / 2) {
-             // if we've reached our target position and we're roaming, set a new target position
-            if (this.enemy.state === "roam") {
-                this.setTargetX(this.minRoamX + Math.random() * 2 * this.enemy.maxRoamDistance);
-            }
-        } else {
-            // if we haven't reached our target, set xVelocity in the target's direction
-            xVelocity = this.getDirection() * this.enemy.speed;
-        }
-
-        // if xVelocity is not 0, set action to "move" (for animation)
-        if (xVelocity) {
-            this.enemy.action = "moving";
-        } else if (this.enemy.action === "moving") {
-            this.enemy.action = "idle";
-        }
-
-        // update position
-        this.enemy.pos = Vector.add(this.enemy.pos, 
-            Vector.multiply(new Vector(xVelocity, this.enemy.yVelocity), GAME.clockTick));
-
-        // Update bounding box and check collisions.
-        this.enemy.lastBoundingBox = this.enemy.boundingBox;
-        this.enemy.boundingBox = new BoundingBox(this.enemy.pos, this.enemy.size);
-        checkBlockCollisions(this.enemy, this.enemy.size);
     }
 }
