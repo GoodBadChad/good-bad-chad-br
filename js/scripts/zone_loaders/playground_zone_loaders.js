@@ -52,12 +52,12 @@ const loadPlaygroundCaleb = () => {
 
         // Draw Sun.
         GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE), Sun.VILLAGE));
-};
-        // Set background color:
-        BG_COLOR = "red";
+    };
+    // Set background color:
+    BG_COLOR = "red";
 
-        queueAssets();
-        ASSET_MGR.downloadAll(addEntities);
+    queueAssets();
+    ASSET_MGR.downloadAll(addEntities);
 };
 
 /**
@@ -101,8 +101,8 @@ const loadPlaygroundDevin = () => {
         // Add papa chad (he'll fall until he's on some blocks.)
         const papaChadBlockPos = new Vector(15, 15);
         const papa = new PapaChad(
-            Vector.blockToWorldSpace(papaChadBlockPos), 
-            new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)); // his conversation.
+            Vector.blockToWorldSpace(papaChadBlockPos),
+            new Conversation(getAllConversationArrays().playground.papaChad.huntingInvitation)); // his conversation.
 
         GAME.addEntity(papa);
     };
@@ -133,10 +133,10 @@ const loadPlaygroundNathan = () => {
     const queueAssets = () => {
 
         // queue music
-        
+
 
         // ASSET_MGR.queueDownload(MUSIC.TEST_FILE_10MB.path);
-        
+
         // queue sound effects
     };
 
@@ -175,7 +175,7 @@ const loadPlaygroundNathan = () => {
 
         // Draw Sun.
         GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE), Sun.VILLAGE));
-        
+
         // Place chad above the blocks.
         const startBlock = new Vector(5, 5);
         CHAD.pos = Vector.blockToWorldSpace(startBlock);
@@ -198,6 +198,13 @@ const loadPlaygroundNathan = () => {
             document.body.removeEventListener('click', playMusic);
         };
         document.body.addEventListener('click', playMusic);
+
+        CANVAS.addEventListener('dblclick', function (e) {
+            e.preventDefault();
+        });
+
+        loadingAnimation.stop(); // stop the loading animation because asset manager has everything it needs
+
     };
 
     // Set background color:
@@ -210,6 +217,9 @@ const loadPlaygroundNathan = () => {
 const loadPlaygroundTrae = () => {
     const queueAssets = () => {
         ASSET_MGR.queueDownload(Snake.SPRITESHEET);
+        ASSET_MGR.queueDownload(Slime.SPRITESHEET);
+        ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
+        ASSET_MGR.queueDownload(Yeti.SPRITESHEET);
     };
 
     const addEntities = () => {
@@ -217,7 +227,10 @@ const loadPlaygroundTrae = () => {
         for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
             GAME.addEntity(new Block(new Vector(x, ZONE.MAX_BLOCK.y), Block.DIRT));
         }
-        GAME.addEntity(new Snake(Vector.blockToWorldSpace(new Vector(65, 20))));
+        GAME.addEntity(new Bunny(Vector.blockToWorldSpace(new Vector(60, 20))));
+        GAME.addEntity(new Snake(Vector.blockToWorldSpace(new Vector(80, 20))));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(100, 20))));
+        GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(120, 20))));
 
         CHAD.pos = Vector.blockToWorldSpace(new Vector(50, 20));
     };

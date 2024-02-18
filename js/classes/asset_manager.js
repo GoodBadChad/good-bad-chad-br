@@ -59,13 +59,13 @@ class AssetManager {
                         this.successCount++;
                         if (this.isDone()) callback();
                     });
-        
+
                     img.addEventListener("error", () => {
                         console.log("Error loading " + path);
                         this.errorCount++;
                         if (this.isDone()) callback();
                     });
-        
+
                     img.src = path;
                     this.cache[path] = img;
                     break;
@@ -84,7 +84,7 @@ class AssetManager {
                         this.errorCount++;
                         if (this.isDone()) callback();
                     });
-                
+
                     audio.addEventListener("ended", () => {
                         audio.pause();
                         audio.currentTime = 0;
@@ -95,7 +95,7 @@ class AssetManager {
 
                     this.cache[path] = audio;
                     break;
-                
+
                 default:
                     console.log("Error loading " + path + ": unknown file extension");
                     this.errorCount++;
@@ -201,63 +201,67 @@ class AssetManager {
      */
     static get BAREBONES_DL_Q() {
         return [
-                // Entities:
-                Block.SPRITESHEET,
-                DialogBubble.SPRITESHEET,
-                OverheadIcon.SPRITESHEET,
-                PapaChad.SPRITESHEET,
-                Projectile.SPRITESHEET,
-                Slingshot.SPRITESHEET,
-                Sun.SPRITESHEET,
-                Sword.SPRITESHEET,
-                RuneItem.SPRITESHEET,
-                FoodDrop.SPRITESHEET,
-          
-                // Sounds:
-                SFX.JUMP1.path,
-                SFX.JUMP2.path,
-                SFX.LAND.path,
-                SFX.SLINGSHOT_LAUNCH1.path,
-                SFX.SLINGSHOT_LAUNCH2.path,
-                SFX.SLINGSHOT_LAUNCH3.path,
-                SFX.SLINGSHOT_LAUNCH4.path,
-                SFX.SLINGSHOT_STRETCH.path,
-                SFX.SWORD_SWING1.path,
-                SFX.SWORD_SWING2.path,
-                SFX.SWORD_SWING3.path,
-                SFX.SWORD_SWING4.path,
-                SFX.SWORD_SWING5.path,
-                SFX.SWORD_SWING6.path,
-                SFX.SWORD_SWING7.path,
-                SFX.SWORD_SWING8.path,
-                SFX.SWORD_SWING9.path,
-                SFX.SWORD_SWING10.path,
-                SFX.SWORD_HIT.path,
-                SFX.SWOOSH.path,
-                SFX.RICOCHET1.path,
-                SFX.RICOCHET2.path,
-                SFX.RICOCHET3.path,
-                SFX.RICOCHET4.path,
-                SFX.EXPLOSION_SMALL.path,
-                SFX.ITEM_EQUIP.path,
-                SFX.ITEM_COLLECT1.path,
-                SFX.ITEM_COLLECT2.path,
-                SFX.ITEM_COLLECT3.path,
-                SFX.GAME_OVER.path,
-                SFX.UI_HIGH_BEEP.path,
-                SFX.UI_GAMEBOY_BEEP.path,
-                SFX.FOOD_EAT1.path,
-                SFX.FOOD_EAT2.path,
-                SFX.FOOD_EAT3.path,
-                SFX.FOOD_EAT4.path,
+            // Entities:
+            Block.SPRITESHEET,
+            Chad.SPRITESHEET,
+            Crosshair.SPRITESHEET,
+            DialogBubble.SPRITESHEET,
+            OverheadIcon.SPRITESHEET,
+            PapaChad.SPRITESHEET,
+            Projectile.SPRITESHEET,
+            Slingshot.SPRITESHEET,
+            Sun.SPRITESHEET,
+            Sword.SPRITESHEET,
+            RuneDrop.SPRITESHEET,
+            RuneItem.SPRITESHEET,
+            FoodDrop.SPRITESHEET,
 
-                // Music:
-                MUSIC.PEACEFUL_CHIPTUNE.path,
-                MUSIC.HIGH_ENERGY.path,
-                MUSIC.VICTORY.path,
-                MUSIC.UPBEAT_CHIPTUNE_1.path,
-                MUSIC.UPBEAT_CHIPTUNE_2.path,
-                MUSIC.CHAD_PLAYFUL_ADVENTURE.path,
+            // Sounds:
+            SFX.JUMP1.path,
+            SFX.JUMP2.path,
+            SFX.LAND.path,
+            SFX.SLINGSHOT_LAUNCH1.path,
+            SFX.SLINGSHOT_LAUNCH2.path,
+            SFX.SLINGSHOT_LAUNCH3.path,
+            SFX.SLINGSHOT_LAUNCH4.path,
+            SFX.SLINGSHOT_STRETCH.path,
+            SFX.SWORD_SWING1.path,
+            SFX.SWORD_SWING2.path,
+            SFX.SWORD_SWING3.path,
+            SFX.SWORD_SWING4.path,
+            SFX.SWORD_SWING5.path,
+            SFX.SWORD_SWING6.path,
+            SFX.SWORD_SWING7.path,
+            SFX.SWORD_SWING8.path,
+            SFX.SWORD_SWING9.path,
+            SFX.SWORD_SWING10.path,
+            SFX.SWORD_HIT.path,
+            SFX.SWOOSH.path,
+            SFX.RICOCHET1.path,
+            SFX.RICOCHET2.path,
+            SFX.RICOCHET3.path,
+            SFX.RICOCHET4.path,
+            SFX.EXPLOSION_SMALL.path,
+            SFX.ITEM_EQUIP.path,
+            SFX.ITEM_COLLECT1.path,
+            SFX.ITEM_COLLECT2.path,
+            SFX.ITEM_COLLECT3.path,
+            SFX.GAME_OVER.path,
+            SFX.UI_HIGH_BEEP.path,
+            SFX.UI_GAMEBOY_BEEP.path,
+            SFX.FOOD_EAT1.path,
+            SFX.FOOD_EAT2.path,
+            SFX.FOOD_EAT3.path,
+            SFX.FOOD_EAT4.path,
+
+            // Music:
+            MUSIC.PEACEFUL_CHIPTUNE.path,
+            MUSIC.HIGH_ENERGY.path,
+            MUSIC.VICTORY.path,
+            MUSIC.UPBEAT_CHIPTUNE_1.path,
+            MUSIC.UPBEAT_CHIPTUNE_2.path,
+            MUSIC.CHAD_PLAYFUL_ADVENTURE.path,
+            DialogBubble.SPEAKERS.CHAD.spritesheet
         ];
     };
 };

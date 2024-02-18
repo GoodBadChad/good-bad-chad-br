@@ -31,6 +31,11 @@ class Chad {
         this.facing = "right";
         /** What is the Chad doing? */
         this.action = "idle";
+        /** Used to check for collisions with other applicable entities. */
+        // this.boundingBox = new BoundingBox(this.pos, Chad.SCALED_SIZE);
+        this.boundingBox = new BoundingBox(Vector.add(this.pos, Vector.multiply(new Vector(32, 16), Chad.SCALE)), Chad.SCALED_SIZE);
+
+
         /** Used to check how to deal with collisions with other applicable entities. */
         this.lastBoundingBox = this.boundingBox;
         /** The velocity at which Chad is moving. */
@@ -72,20 +77,60 @@ class Chad {
 
     /** The size, in pixels of the sprite ON THE SPRITESHEET. */
     static get SIZE() {
-        return new Vector(29, 49);
+        return new Vector(96, 64);
     }
 
+    /** The size, in pixels of the boundingbox of Chad. */
+    static get BOUNDING_BOX_SIZE() {
+        return new Vector(32, 64);
+    }
     /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
+    static get SCALE() {
+        return 2.4;
+    };
+
+    /** The offset applied to the bounding box's position from Chad's position. */
+    static get BOUNDING_BOX_OFFSET() {
+        return Vector.multiply(new Vector(44, 16), Chad.SCALE);
+    }
+
+    /** This will be the size of Chad ON THE CANVAS. */
+    static get SCALED_SIZE() {
+        return Vector.multiply(Chad.BOUNDING_BOX_SIZE, Chad.SCALE);
+    }
+
+    /** Chad's speed in pixels per second. */
+    static get SPEED() {
+        return Chad.SCALE * 115;
+    }
     static get DEFAULT_SCALE() {
         return new Vector(3, 3);
+
     };
 
     /** The filepath to Chad's spritesheet. */
     static get SPRITESHEET() {
-        return "./sprites/parents.png";
+        return "./sprites/CHAD1.png";
     };
 
-    /** How much faster Chad is while running than walking */
+    /** The velocity of the first jump */
+    static get FIRST_JUMP_VELOCITY() {
+        return -700
+    }
+    /** The velocity of the double jump. */
+    static get SECOND_JUMP_VELOCITY() {
+        return -800;
+    }
+
+    /** The mulitiplier that allows CHAD to run. */
+    static get SPRINT_SPEED() {
+        return Chad.SPEED * 1.8;
+    }
+    /** The mulitiplier that allows CHAD to run. */
+    static get DASH_SPEED() {
+        return Chad.SPEED * 3;
+    }
+    /** The mulitiplier that allows CHAD to run. */
     static get RUN_MULTIPLIER() {
         return 1.4;
     }
@@ -109,6 +154,10 @@ class Chad {
         return 100;
     };
 
+    /** Generate the bounding box for Chad based on his current position. */
+    createBoundingBox() {
+        return new BoundingBox(Vector.add(this.pos, Chad.BOUNDING_BOX_OFFSET), Chad.SCALED_SIZE);
+    }
     static get DEFAULT_SPEED() {
         return Chad.DEFAULT_SCALE.x * 110;
     }
@@ -188,8 +237,8 @@ class Chad {
 
             // if you're on the ground, running, AND moving, release dust particles
             if (this.isOnGround && (GAME.user.movingLeft || GAME.user.movingRight)) {
-                GAME.addEntity(new ParticleEffect(new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y-10), 
-                ParticleEffect.DUST));
+                GAME.addEntity(new ParticleEffect(new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y - 10),
+                    ParticleEffect.DUST));
             }
         } else {
             // Walk action
@@ -221,7 +270,6 @@ class Chad {
             if (GAME.gameTime % 0.05 < 0.01) { // we use `< 0.01` instead of `== 0` to avoid floating point errors
                 GAME.addEntity(new ParticleEffect(new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y/2), 
                                         ParticleEffect.WIND));
-            }
 
             this.action = "dashing";
             xVelocity = dirSign * this.speed * Chad.DASH_MULTIPLIER;
@@ -261,6 +309,8 @@ class Chad {
      */
     manageYDirectionMovement() {
         let yVelocity = this.velocity.y;
+        if (!this.isDashing && GAME.user.jumping) {
+            this.action = "jumping";
 
         if (this.isDashing && !this.isOnGround) {
             yVelocity = 0; // anti-gravity when dashing
@@ -303,6 +353,7 @@ class Chad {
         // The change in distance from the origin of Chad's second jump and his current height.
         let deltaHeight = Math.abs(this.pos.y - this.prevYPosOnGround);
 
+
         // This allows chad to jump if he is falling and has not jumped. 
         // Let's call it his recovery jump.
         if (!this.isOnGround && yVelocity >= 0) {
@@ -312,7 +363,15 @@ class Chad {
                 this.canDoubleJump = true;
             }
         }
-        
+        // Perform single jump.
+        //         if (this.isOnGround) {
+        //             ASSET_MGR.playAudio(SFX.JUMP1.path, SFX.JUMP1.volume);
+        //             this.velocity.y = Chad.FIRST_JUMP_VELOCITY;
+        //             this.hasDoubleJumped = false;
+        //             this.isOnGround = false;
+        //         }
+
+
         // Check that Chad has jumped high enough to jump again and allow a second jump if so.
         // Note that if chad has jumped and is falling he can jump at any point on the way down.
         if (!this.isOnGround && deltaHeight >= Math.abs(this.firstJumpVelocity / 5) + 32) {
@@ -362,7 +421,21 @@ class Chad {
         if (!(GAME.user.movingRight || GAME.user.movingLeft)) {
             this.action = "idle";
         }
-        
+        // User intends to for Chad to jump in any way possible.
+        //         if (GAME.user.jumping) {
+        //             if (!this.isDashing) {
+        //                 this.action = "jumping";
+
+        //             }
+        //             // Gets change in y from when CHAD left ground to current.
+        //             this.manageYDirectionMovement()
+        //         }
+
+        // this is for the slingshot
+        //         if (GAME.user.aiming) {
+
+        // TODO - decide whether this is necessary or not. Make it so that Chad moves in the correct direction
+        // when doing this.
         // Step 2: Face in the direction of a mouse click
         if (GAME.user.aiming || GAME.user.jabbing) {
             // determine if mouse is to the right or left of Chad
@@ -375,11 +448,24 @@ class Chad {
             }
         }
 
+        if (GAME.user.jabbing) {
+            this.action = "slicing";
+        }
+
+        if (this.isOnGround && !(GAME.user.movingRight || GAME.user.movingLeft)) {
+            this.action = "idle";
+
+        }
+
+        // Step 2: Account for gravity, which is always going to push you downward.
+        this.velocity.y += PHYSICS.GRAVITY_ACC * GAME.clockTick;
+
+
 
         // Step 4: Now move.
         this.pos = Vector.add(this.pos, Vector.multiply(this.velocity, GAME.clockTick));
         this.lastBoundingBox = this.boundingBox;
-        this.boundingBox = new BoundingBox(this.pos, this.scaledSize);
+        this.boundingBox = this.createBoundingBox();
 
         this.isOnGround = false;
 
@@ -402,7 +488,8 @@ class Chad {
                             && this.boundingBox.bottom > entity.boundingBox.top) {
                             // We are colliding with the top.
 
-                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - this.scaledSize.y);
+                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - Chad.SCALED_SIZE.y - Chad.BOUNDING_BOX_OFFSET.y);//Chad.SCALED_SIZE.y - Chad.BOUNDING_BOX_OFFSET.y);
+
                             this.velocity = new Vector(this.velocity.x, 0);
                             this.isOnGround = true;
                             this.prevYPosOnGround = this.pos.y;
@@ -411,18 +498,19 @@ class Chad {
                             && this.boundingBox.right > entity.boundingBox.left) {
                             // We are colliding with the left side.
 
-                            this.pos = new Vector(entity.boundingBox.left - this.scaledSize.x, this.pos.y);
+                            this.pos = new Vector(entity.boundingBox.left - Chad.SCALED_SIZE.x - Chad.BOUNDING_BOX_OFFSET.x, this.pos.y);
+
                         } else if (isOverlapY
                             && this.lastBoundingBox.left >= entity.boundingBox.right
                             && this.boundingBox.left < entity.boundingBox.right) {
                             // We are colliding with the right side.
 
-                            this.pos = new Vector(entity.boundingBox.right, this.pos.y);
+                            this.pos = new Vector(entity.boundingBox.right - Chad.BOUNDING_BOX_OFFSET.x, this.pos.y);
                         } else if (isOverlapX
                             && this.lastBoundingBox.top >= entity.boundingBox.bottom
                             && this.boundingBox.top < entity.boundingBox.bottom) {
                             // We are colliding with the bottom.
-                            this.pos = new Vector(this.pos.x, entity.boundingBox.bottom);
+                            this.pos = new Vector(this.pos.x, entity.boundingBox.bottom - Chad.BOUNDING_BOX_OFFSET.y);
                         }
                     }
                     else if (entity instanceof Border) {
@@ -441,8 +529,12 @@ class Chad {
             // There's no bounding box, so who gives a shrek?
         });
 
+        // Step 5: Now that your position is actually figured out, draw your correct bounding box.
+        this.boundingBox = this.createBoundingBox();
+
+
         // Step 6: Now that your position is actually figured out, draw your correct bounding box.
-        this.boundingBox = new BoundingBox(this.pos, this.scaledSize);
+        //         this.boundingBox = new BoundingBox(this.pos, this.scaledSize);
 
 
         // Step 7: Has Chad eaten any food?
@@ -535,6 +627,7 @@ class Chad {
         }*/
     };
 
+
     /** Draw Chad on the canvas. */
     draw() {
         this.animations[this.facing][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), this.scale);
@@ -545,59 +638,70 @@ class Chad {
         this.animations["left"] = [];
         this.animations["right"] = [];
 
-        this.animations["left"]["idle"] = new Animator(
-            Chad.SPRITESHEET,
-            new Vector(0, 0),
-            Chad.SIZE,
-            1, 1);
         this.animations["right"]["idle"] = new Animator(
             Chad.SPRITESHEET,
-            new Vector(0, Chad.SIZE.y),
-            Chad.SIZE,
-            1, 1);
-
-        this.animations["left"]["walking"] = new Animator(
-            Chad.SPRITESHEET,
-            new Vector(Chad.SIZE.x, 0),
-            Chad.SIZE,
-            6, 1 / 12);
-        this.animations["right"]["walking"] = new Animator(
-            Chad.SPRITESHEET,
-            Chad.SIZE,
-            Chad.SIZE,
-            6, 1 / 12);
-
-        this.animations["left"]["running"] = new Animator(
-            Chad.SPRITESHEET,
-            new Vector(Chad.SIZE.x, 0),
-            Chad.SIZE,
-            6, 1 / 18);
-        this.animations["right"]["running"] = new Animator(
-            Chad.SPRITESHEET,
-            Chad.SIZE,
-            Chad.SIZE,
-            6, 1 / 18);
-
-        this.animations["left"]["dashing"] = new Animator(
-            Chad.SPRITESHEET,
-            new Vector(Chad.SIZE.x, 0),
-            Chad.SIZE,
-            6, 1 / 18);
-        this.animations["right"]["dashing"] = new Animator(
-            Chad.SPRITESHEET,
-            Chad.SIZE,
-            Chad.SIZE,
-            6, 1 / 18);
-
-        this.animations["left"]["jumping"] = new Animator(
-            Chad.SPRITESHEET,
             new Vector(0, 0),
             Chad.SIZE,
             1, 1);
-        this.animations["right"]["jumping"] = new Animator(
+        this.animations["left"]["idle"] = new Animator(
             Chad.SPRITESHEET,
             new Vector(0, Chad.SIZE.y),
             Chad.SIZE,
             1, 1);
+
+        this.animations["right"]["walking"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, 0),
+            Chad.SIZE,
+            31, 1 / 10);
+        this.animations["left"]["walking"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(96, 64),
+            Chad.SIZE,
+            31, 1 / 10);
+        this.animations["right"]["running"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, 0),
+            Chad.SIZE,
+            31, 1 / 10);
+        this.animations["left"]["running"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(96, 64),
+            Chad.SIZE,
+            31, 1 / 10);
+
+        this.animations["right"]["dashing"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(32, 1600),
+            Chad.SIZE,
+            1, 1);
+        this.animations["left"]["dashing"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(144, 1600),
+            Chad.SIZE,
+            1, 1);
+
+        this.animations["right"]["jumping"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, 1664),
+            Chad.SIZE,
+            1, 1);
+        this.animations["left"]["jumping"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(96, 1664),
+            Chad.SIZE,
+            1, 1);
+        this.animations["right"]["slicing"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, 128),
+            Chad.SIZE,
+            32, 1 / 20);
+        this.animations["left"]["slicing"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(
+                0, 192),
+            Chad.SIZE,
+            32, 1 / 20);
+
     };
 };

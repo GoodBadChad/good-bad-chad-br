@@ -1,3 +1,7 @@
+
+/**
+ * @author ?? (modified) Caleb Krauter
+ */
 /** Creates an alias for requestAnimationFrame for backwards compatibility. */
 window.requestAnimFrame = (() => {
     return window.requestAnimationFrame ||
@@ -25,6 +29,11 @@ const COLORS = {
     // backgrounds
     SEA_FOAM_GREEN: "#a0d6b4",
     SKY_BLUE: "#5da6b3",
+    SKY_DARK_GREY: "#235654",
+    SKY_SNOW_GREY: "#91B3B2",
+    SKY_GREY: "#73908F",
+    SKY_HOT_BLUE_SKY: "#00EAFF",
+
     LIGHT_BLUE: "#add8e6",
 
     // misc
@@ -56,8 +65,9 @@ let BG_COLOR = null;
  * Acceleration: pixels/second^2
  */
 const PHYSICS = {
-    GRAVITY_ACC : 1200,
-    TERMINAL_VELOCITY : 700
+
+    GRAVITY_ACC: 1200,
+    TERMINAL_VELOCITY: 700
 };
 
 /** Declares constants for CTX.font. */
@@ -70,6 +80,7 @@ const FONT = {
  * The game's sound effects.
  */
 const SFX = {
+
 
     // Player
     JUMP1: {path: "./sfx/jump1.mp3", volume: 0.2},
@@ -105,17 +116,15 @@ const SFX = {
     FOOD_EAT2: {path: "./sfx/food_eat2.mp3", volume: 0.4},
     FOOD_EAT3: {path: "./sfx/food_eat3.mp3", volume: 0.4},
     FOOD_EAT4: {path: "./sfx/food_eat4.mp3", volume: 0.4},
-    
 
     // UI
-    UI_HIGH_BEEP: {path: "./sfx/ui_high_beep.mp3", volume: 0.4},
-    UI_SCIFI: {path: "./sfx/ui_scifi.mp3", volume: 0.4},
-    UI_SNAP: {path: "./sfx/ui_snap.mp3", volume: 0.4},
-    UI_GAMEBOY_BEEP: {path: "./sfx/ui_gameboy_beep.mp3", volume: 0.4},
+    UI_HIGH_BEEP: { path: "./sfx/ui_high_beep.mp3", volume: 0.4 },
+    UI_SCIFI: { path: "./sfx/ui_scifi.mp3", volume: 0.4 },
+    UI_SNAP: { path: "./sfx/ui_snap.mp3", volume: 0.4 },
+    UI_GAMEBOY_BEEP: { path: "./sfx/ui_gameboy_beep.mp3", volume: 0.4 },
 
     // Environment
-    GAME_OVER: {path: "./sfx/game_over.wav", volume: 0.4},
-
+    GAME_OVER: { path: "./sfx/game_over.wav", volume: 0.4 },
 }
 
 /**
@@ -123,36 +132,36 @@ const SFX = {
  */
 const MUSIC = {
     // Misc.
-    PEACEFUL_CHIPTUNE: {path: "./music/peaceful_chiptune.mp3", volume: 0.1}, // testing music
-    HIGH_ENERGY: {path: "./music/high_energy_sample.wav", volume: 0.1},
-    VICTORY: {path: "./music/victory_sample.wav", volume: 0.1},
-    UPBEAT_CHIPTUNE_1: {path: "./music/upbeat_chiptune_1_sample.wav", volume: 0.1},
-    UPBEAT_CHIPTUNE_2: {path: "./music/upbeat_chiptune_2_sample.wav", volume: 0.1},
+    PEACEFUL_CHIPTUNE: { path: "./music/peaceful_chiptune.mp3", volume: 0.1 }, // testing music
+    HIGH_ENERGY: { path: "./music/high_energy_sample.wav", volume: 0.1 },
+    VICTORY: { path: "./music/victory_sample.wav", volume: 0.1 },
+    UPBEAT_CHIPTUNE_1: { path: "./music/upbeat_chiptune_1_sample.wav", volume: 0.1 },
+    UPBEAT_CHIPTUNE_2: { path: "./music/upbeat_chiptune_2_sample.wav", volume: 0.1 },
 
     // Chad's themes
-    CHAD_PLAYFUL_ADVENTURE: {path: "./music/chad_playful_adventure.mp3", volume: 0.1},
-    CHAD_VICTORIOUS_EMOTIONAL: {path: "./music/chad_victorious_emotional.mp3", volume: 0.2},
+    CHAD_PLAYFUL_ADVENTURE: { path: "./music/chad_playful_adventure.mp3", volume: 0.1 },
+    CHAD_VICTORIOUS_EMOTIONAL: { path: "./music/chad_victorious_emotional.mp3", volume: 0.2 },
 
     // Village themes
-    VILLAGE_TOWN_SQUARE: {path: "./music/village_town_square_sample.wav", volume: 0.1},
+    VILLAGE_TOWN_SQUARE: { path: "./music/village_town_square_sample.wav", volume: 0.1 },
     // VILLAGE_CAVE: {path: "./music/village_cave.mp3", volume: 0.1},
 
     // Forest themes
-    FOREST_BOSS: {path: "./music/forest_boss.mp3", volume: 0.1},
+    FOREST_BOSS: { path: "./music/forest_boss.mp3", volume: 0.1 },
     // FOREST_NORMAL: {path: "./music/forest_normal.mp3", volume: 0.1},
 
     // Factory themes
-    FACTORY_BOSS: {path: "./music/factory_boss_sample.wav", volume: 0.1},
+    FACTORY_BOSS: { path: "./music/factory_boss_sample.wav", volume: 0.1 },
     // FACTORY_NORMAL: {path: "./music/factory_normal.mp3", volume: 0.1},
-    
+
     // Mountain themes
-    MOUNTAIN_MYSTERIOUS: {path: "./music/mountain_mysterious.mp3", volume: 0.1},
+    MOUNTAIN_MYSTERIOUS: { path: "./music/mountain_mysterious.mp3", volume: 0.1 },
     // MOUNTAIN_NORMAL: {path: "./music/mountain_normal.mp3", volume: 0.1}, // will be more peaceful, might contain an irish harp and flutes, and ice tinkling sfx
-    
+
     // Lava themes (all finished!)
-    LAVA_NORMAL: {path: "./music/lava_normal.mp3", volume: 0.1},
-    LAVA_UNDERGROUND: {path: "./music/lava_underground.mp3", volume: 0.1},
-    LAVA_TENSE: {path: "./music/lava_tense.mp3", volume: 0.1}, // might be timed task OR boss music
+    LAVA_NORMAL: { path: "./music/lava_normal.mp3", volume: 0.1 },
+    LAVA_UNDERGROUND: { path: "./music/lava_underground.mp3", volume: 0.1 },
+    LAVA_TENSE: { path: "./music/lava_tense.mp3", volume: 0.1 }, // might be timed task OR boss music
 }
 
 /**
@@ -161,13 +170,13 @@ const MUSIC = {
  * @param {Entity} entity the entity for which to check block collision
  * @returns {Object} an object indicating which side(s) of a block the entity collided with
  */
-const checkBlockCollisions = (entity) => {
+const checkBlockCollisions = (entity, entitySize) => {
     const collisions = {};
     // Have we collided with anything?
     GAME.entities.midground.forEach((otherEntity) => {
         // Does otherEntity even have a BB?
         if (otherEntity != entity && otherEntity.boundingBox) {
-            
+
             // Are they even colliding?
             if (entity.boundingBox.collide(otherEntity.boundingBox)) {
                 if (otherEntity instanceof Block) {
@@ -182,11 +191,11 @@ const checkBlockCollisions = (entity) => {
                         && entity.lastBoundingBox.bottom <= otherEntity.boundingBox.top
                         && entity.boundingBox.bottom > otherEntity.boundingBox.top) {
                         // We are colliding with the top.
-                        
+
                         collisions.top = true;
 
                         // NOTE: entity.constructor returns an instance's class. There may be a better way to do this.
-                        entity.pos = new Vector(entity.pos.x, otherEntity.boundingBox.top - entity.constructor.SCALED_SIZE.y);
+                        entity.pos = new Vector(entity.pos.x, otherEntity.boundingBox.top - entitySize.y);
                         entity.yVelocity = 0;
                     } else if (isOverlapY
                         && entity.lastBoundingBox.right <= otherEntity.boundingBox.left
@@ -195,7 +204,7 @@ const checkBlockCollisions = (entity) => {
 
                         collisions.left = true;
 
-                        entity.pos = new Vector(otherEntity.boundingBox.left - entity.constructor.SCALED_SIZE.x, entity.pos.y);
+                        entity.pos = new Vector(otherEntity.boundingBox.left - entitySize.x, entity.pos.y);
                     } else if (isOverlapY
                         && entity.lastBoundingBox.left >= otherEntity.boundingBox.right
                         && entity.boundingBox.left < otherEntity.boundingBox.right) {
@@ -221,7 +230,7 @@ const checkBlockCollisions = (entity) => {
     });
 
     // Now that your position is actually figured out, draw your correct bounding box.
-    entity.boundingBox = new BoundingBox(entity.pos, entity.constructor.SCALED_SIZE);
+    entity.boundingBox = new BoundingBox(entity.pos, entitySize);
 
     return collisions;
 };
@@ -348,9 +357,27 @@ const EVENT_HANDLERS = {
                 break;
         }
     },
-    dialogKeyPress: (key) => {
-        if (key.code === "KeyW") {
-            GAME.user.continuingConversation = true;
+    dialogKeyPress: (e) => {
+        switch (e.code) {
+            case "KeyS":
+                GAME.user.choiceDown = true;
+                break;
+            case "KeyW":
+                GAME.user.choiceUp = true;
+                break;
+        }
+    },
+    // KeyPress does not wanna work for spacebar. Oh well.
+    dialogKeyDown: (e) => {
+        switch (e.code) {
+            case "Space":
+                GAME.user.continuingConversation = true;
+        }
+    },
+    dialogKeyUp: (e) => {
+        switch (e.code) {
+            case "Space":
+                GAME.user.continuingConversation = false;
         }
     },
 };
