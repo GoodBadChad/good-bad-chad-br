@@ -31,13 +31,7 @@ class Chad {
         this.facing = "right";
         /** What is the Chad doing? */
         this.action = "idle";
-        /** Used to check for collisions with other applicable entities. */
-        // this.boundingBox = new BoundingBox(this.pos, Chad.SCALED_SIZE);
-        this.boundingBox = new BoundingBox(Vector.add(this.pos, Vector.multiply(new Vector(32, 16), Chad.SCALE)), Chad.SCALED_SIZE);
-
-
-        /** Used to check how to deal with collisions with other applicable entities. */
-        this.lastBoundingBox = this.boundingBox;
+       
         /** The velocity at which Chad is moving. */
         this.velocity = new Vector(0, 0);
         /** Name of character. */
@@ -53,9 +47,12 @@ class Chad {
         /** The scale of Chad on the canvas. A VECTOR */
         this.scale = Chad.DEFAULT_SCALE;
         /** The size of Chad on the canvas */
-        this.scaledSize = new Vector(Chad.SIZE.x * Chad.DEFAULT_SCALE.x, Chad.SIZE.y * Chad.DEFAULT_SCALE.y);
+        this.scaledSize = new Vector(Chad.BOUNDING_BOX_SIZE.x * Chad.DEFAULT_SCALE.x, 
+            Chad.BOUNDING_BOX_SIZE.y * Chad.DEFAULT_SCALE.y);
         /** Used to check for collisions with other applicable entities. */
-        this.boundingBox = new BoundingBox(this.pos, this.scaledSize);
+        this.boundingBox = this.createBoundingBox();
+        /** Used to check how to deal with collisions with other applicable entities. */
+        this.lastBoundingBox = this.boundingBox;
         /** The force of Chad's first jump. */
         this.firstJumpForce = Chad.DEFAULT_FIRST_JUMP_FORCE;
         /** The force of Chad's second jump. */
@@ -73,29 +70,16 @@ class Chad {
 
     /** The size, in pixels of the boundingbox of Chad. */
     static get BOUNDING_BOX_SIZE() {
-        return new Vector(32, 64);
+        return new Vector(28, 49);
     }
-    /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
-    static get SCALE() {
-        return 2.4;
-    };
 
     /** The offset applied to the bounding box's position from Chad's position. */
     static get BOUNDING_BOX_OFFSET() {
-        return Vector.multiply(new Vector(44, 16), Chad.SCALE);
+        return new Vector(33, 15);
     }
 
-    /** This will be the size of Chad ON THE CANVAS. */
-    static get SCALED_SIZE() {
-        return Vector.multiply(Chad.BOUNDING_BOX_SIZE, Chad.SCALE);
-    }
-
-    /** Chad's speed in pixels per second. */
-    static get SPEED() {
-        return Chad.SCALE * 115;
-    }
     static get DEFAULT_SCALE() {
-        return new Vector(3, 3);
+        return new Vector(2.2, 2.2);
 
     };
 
@@ -113,14 +97,6 @@ class Chad {
         return -800;
     }
 
-    /** The mulitiplier that allows CHAD to run. */
-    static get SPRINT_SPEED() {
-        return Chad.SPEED * 1.8;
-    }
-    /** The mulitiplier that allows CHAD to run. */
-    static get DASH_SPEED() {
-        return Chad.SPEED * 3;
-    }
     /** The mulitiplier that allows CHAD to run. */
     static get RUN_MULTIPLIER() {
         return 1.4;
@@ -142,7 +118,7 @@ class Chad {
 
     /** Generate the bounding box for Chad based on his current position. */
     createBoundingBox() {
-        return new BoundingBox(Vector.add(this.pos, Chad.BOUNDING_BOX_OFFSET), Chad.SCALED_SIZE);
+        return new BoundingBox(Vector.add(this.pos, this.scaleBoundingBoxOffset()), this.scaledSize);
     }
     static get DEFAULT_SPEED() {
         return Chad.DEFAULT_SCALE.x * 110;
@@ -158,6 +134,11 @@ class Chad {
 
     static get DEFAULT_SECOND_JUMP_FORCE() {
         return 900;
+    }
+
+    scaleBoundingBoxOffset() {
+        return new Vector(Chad.BOUNDING_BOX_OFFSET.x * this.scale.x,
+            Chad.BOUNDING_BOX_OFFSET.y * this.scale.y);
     }
 
     /** 
@@ -442,6 +423,7 @@ class Chad {
         GAME.entities.midground.forEach((entity) => {
             // Does entity even have a BB?
             if (entity.boundingBox) {
+                
                 // Are they even colliding?
                 if (this.boundingBox.collide(entity.boundingBox)) {
                     if (entity instanceof Block) {
@@ -452,12 +434,13 @@ class Chad {
                         const isOverlapY = this.lastBoundingBox.bottom > entity.boundingBox.top
                             && this.lastBoundingBox.top < entity.boundingBox.bottom;
 
+                        const bbOffset = this.scaleBoundingBoxOffset();
                         if (isOverlapX
                             && this.lastBoundingBox.bottom <= entity.boundingBox.top
                             && this.boundingBox.bottom > entity.boundingBox.top) {
                             // We are colliding with the top.
 
-                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - Chad.SCALED_SIZE.y - Chad.BOUNDING_BOX_OFFSET.y);//Chad.SCALED_SIZE.y - Chad.BOUNDING_BOX_OFFSET.y);
+                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - this.scaledSize.y - bbOffset.y);//Chad.SCALED_SIZE.y - Chad.BOUNDING_BOX_OFFSET.y);
 
                             this.velocity = new Vector(this.velocity.x, 0);
                             this.isOnGround = true;
@@ -467,19 +450,18 @@ class Chad {
                             && this.boundingBox.right > entity.boundingBox.left) {
                             // We are colliding with the left side.
 
-                            this.pos = new Vector(entity.boundingBox.left - Chad.SCALED_SIZE.x - Chad.BOUNDING_BOX_OFFSET.x, this.pos.y);
-
+                            this.pos = new Vector(entity.boundingBox.left - this.scaledSize.x - bbOffset.x, this.pos.y);
                         } else if (isOverlapY
                             && this.lastBoundingBox.left >= entity.boundingBox.right
                             && this.boundingBox.left < entity.boundingBox.right) {
                             // We are colliding with the right side.
 
-                            this.pos = new Vector(entity.boundingBox.right - Chad.BOUNDING_BOX_OFFSET.x, this.pos.y);
+                            this.pos = new Vector(entity.boundingBox.right - bbOffset.x, this.pos.y);
                         } else if (isOverlapX
                             && this.lastBoundingBox.top >= entity.boundingBox.bottom
                             && this.boundingBox.top < entity.boundingBox.bottom) {
                             // We are colliding with the bottom.
-                            this.pos = new Vector(this.pos.x, entity.boundingBox.bottom - Chad.BOUNDING_BOX_OFFSET.y);
+                            this.pos = new Vector(this.pos.x, entity.boundingBox.bottom - bbOffset.y);
                         }
                     }
                     else if (entity instanceof Border) {
