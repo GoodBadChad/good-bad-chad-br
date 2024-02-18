@@ -147,7 +147,7 @@ class EnemyBase {
      * @returns {number} the distance between the bottom left corners of Chad and the enemy
      */
     chadDistance() {
-        return Vector.distance(Vector.add(CHAD.pos, new Vector(0, Chad.SCALED_SIZE.y)), 
+        return Vector.distance(Vector.add(CHAD.pos, new Vector(0, CHAD.scaledSize.y)), 
             Vector.add(this.enemy.pos, new Vector(0, this.enemy.size.y)));
     }
     

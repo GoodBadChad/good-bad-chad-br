@@ -1,7 +1,11 @@
 /**
  * Chad is the main character controller by the player.
  * Chad has advanced movement and the ability to fight.
- * @author Devin, Caleb, Nathan, Trae
+ * 
+ * @author Devin Peevy
+ * @author Caleb Krauter
+ * @author Nathan Hinthorne
+ * @author Trae Claar
  */
 class Chad {
     /**
@@ -31,13 +35,7 @@ class Chad {
         this.facing = "right";
         /** What is the Chad doing? */
         this.action = "idle";
-        /** Used to check for collisions with other applicable entities. */
-        // this.boundingBox = new BoundingBox(this.pos, Chad.SCALED_SIZE);
-        this.boundingBox = new BoundingBox(Vector.add(this.pos, Vector.multiply(new Vector(32, 16), Chad.SCALE)), Chad.SCALED_SIZE);
-
-
-        /** Used to check how to deal with collisions with other applicable entities. */
-        this.lastBoundingBox = this.boundingBox;
+       
         /** The velocity at which Chad is moving. */
         this.velocity = new Vector(0, 0);
         /** Name of character. */
@@ -53,9 +51,12 @@ class Chad {
         /** The scale of Chad on the canvas. A VECTOR */
         this.scale = Chad.DEFAULT_SCALE;
         /** The size of Chad on the canvas */
-        this.scaledSize = new Vector(Chad.SIZE.x * Chad.DEFAULT_SCALE.x, Chad.SIZE.y * Chad.DEFAULT_SCALE.y);
+        this.scaledSize = new Vector(Chad.BOUNDING_BOX_SIZE.x * Chad.DEFAULT_SCALE.x, 
+            Chad.BOUNDING_BOX_SIZE.y * Chad.DEFAULT_SCALE.y);
         /** Used to check for collisions with other applicable entities. */
-        this.boundingBox = new BoundingBox(this.pos, this.scaledSize);
+        this.boundingBox = this.createBoundingBox();
+        /** Used to check how to deal with collisions with other applicable entities. */
+        this.lastBoundingBox = this.boundingBox;
         /** The force of Chad's first jump. */
         this.firstJumpForce = Chad.DEFAULT_FIRST_JUMP_FORCE;
         /** The force of Chad's second jump. */
@@ -73,30 +74,17 @@ class Chad {
 
     /** The size, in pixels of the boundingbox of Chad. */
     static get BOUNDING_BOX_SIZE() {
-        return new Vector(32, 64);
+        return new Vector(28, 49);
     }
-    /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
-    static get SCALE() {
-        return 2.4;
-    };
 
     /** The offset applied to the bounding box's position from Chad's position. */
     static get BOUNDING_BOX_OFFSET() {
-        return Vector.multiply(new Vector(44, 16), Chad.SCALE);
+        return new Vector(33, 15);
     }
 
-    /** This will be the size of Chad ON THE CANVAS. */
-    static get SCALED_SIZE() {
-        return Vector.multiply(Chad.BOUNDING_BOX_SIZE, Chad.SCALE);
-    }
-
-    /** Chad's speed in pixels per second. */
-    static get SPEED() {
-        return Chad.SCALE * 115;
-    }
+    /** The default scale factor applied to Chad. */
     static get DEFAULT_SCALE() {
-        return new Vector(3, 3);
-
+        return new Vector(2.2, 2.2);
     };
 
     /** The filepath to Chad's spritesheet. */
@@ -113,14 +101,6 @@ class Chad {
         return -800;
     }
 
-    /** The mulitiplier that allows CHAD to run. */
-    static get SPRINT_SPEED() {
-        return Chad.SPEED * 1.8;
-    }
-    /** The mulitiplier that allows CHAD to run. */
-    static get DASH_SPEED() {
-        return Chad.SPEED * 3;
-    }
     /** The mulitiplier that allows CHAD to run. */
     static get RUN_MULTIPLIER() {
         return 1.4;
@@ -140,24 +120,44 @@ class Chad {
         return 100;
     };
 
-    /** Generate the bounding box for Chad based on his current position. */
-    createBoundingBox() {
-        return new BoundingBox(Vector.add(this.pos, Chad.BOUNDING_BOX_OFFSET), Chad.SCALED_SIZE);
-    }
+    /** Chad's default speed, in pixels/s. */
     static get DEFAULT_SPEED() {
         return Chad.DEFAULT_SCALE.x * 110;
     }
 
+    /** Chad's default damage multiplier. */
     static get DEFAULT_DAMAGE_MULTIPLIER() {
         return 1;
     }
 
+    /** The default force applied to Chad during his first jump. */
     static get DEFAULT_FIRST_JUMP_FORCE() {
         return 800;
     }
 
+    /** The default force applied to Chad during his second jump. */
     static get DEFAULT_SECOND_JUMP_FORCE() {
         return 900;
+    }
+
+    /** 
+     * Generate the bounding box for Chad based on his current position. 
+     * 
+     * @returns {BoundingBox} Chad's new bounding box
+     */
+    createBoundingBox() {
+        return new BoundingBox(Vector.add(this.pos, this.scaleBoundingBoxOffset()), this.scaledSize);
+    }
+
+    /**
+     * Calculate the offset that should be applied to Chad's bounding box position based on his 
+     * current scale factor.
+     * 
+     * @returns {Vector} Chad's current bounding box offset
+     */
+    scaleBoundingBoxOffset() {
+        return new Vector(Chad.BOUNDING_BOX_OFFSET.x * this.scale.x,
+            Chad.BOUNDING_BOX_OFFSET.y * this.scale.y);
     }
 
     /** 
@@ -182,6 +182,7 @@ class Chad {
 
     /**
      * Increase the health of Chad by the provided amount
+     * 
      * @param {number} amount the amount by which to increase Chad's health
      */
     restoreHealth(amount) {
@@ -194,7 +195,6 @@ class Chad {
 
     /**
      * Deals with movement in the x direction including walking, running and dashing.
-     * @author Caleb Krauter
      */
     manageXDirectionMovement() {
         let xVelocity = this.velocity.x;
@@ -221,7 +221,8 @@ class Chad {
 
             // if you're on the ground, running, AND moving, release dust particles
             if (this.isOnGround && (GAME.user.movingLeft || GAME.user.movingRight)) {
-                GAME.addEntity(new ParticleEffect(new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y - 10),
+                GAME.addEntity(new ParticleEffect(Vector.add(this.scaleBoundingBoxOffset(), 
+                    new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y - 10)),
                     ParticleEffect.DUST));
             }
         } else {
@@ -242,7 +243,8 @@ class Chad {
 
             // release wind particles every 0.05 seconds
             if (GAME.gameTime % 0.05 < 0.01) {
-                GAME.addEntity(new ParticleEffect(new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y / 2),
+                GAME.addEntity(new ParticleEffect(Vector.add(this.scaleBoundingBoxOffset(), 
+                    new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y / 2)),
                     ParticleEffect.WIND));
             }
 
@@ -343,7 +345,8 @@ class Chad {
             ASSET_MGR.playAudio(SFX.JUMP2.path, SFX.JUMP2.volume);
             //             this.velocity.y = Chad.SECOND_JUMP_VELOCITY;
 
-            GAME.addEntity(new ParticleEffect(new Vector(CHAD.pos.x + this.scaledSize.x / 2, CHAD.pos.y + this.scaledSize.y - 10),
+            GAME.addEntity(new ParticleEffect(Vector.add(this.scaleBoundingBoxOffset(), 
+            new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y - 10)),
                 ParticleEffect.CLOUD));
             this.action = "jumping";
             yVelocity = -this.secondJumpForce;
@@ -442,6 +445,7 @@ class Chad {
         GAME.entities.midground.forEach((entity) => {
             // Does entity even have a BB?
             if (entity.boundingBox) {
+                
                 // Are they even colliding?
                 if (this.boundingBox.collide(entity.boundingBox)) {
                     if (entity instanceof Block) {
@@ -452,12 +456,13 @@ class Chad {
                         const isOverlapY = this.lastBoundingBox.bottom > entity.boundingBox.top
                             && this.lastBoundingBox.top < entity.boundingBox.bottom;
 
+                        const bbOffset = this.scaleBoundingBoxOffset();
                         if (isOverlapX
                             && this.lastBoundingBox.bottom <= entity.boundingBox.top
                             && this.boundingBox.bottom > entity.boundingBox.top) {
                             // We are colliding with the top.
 
-                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - Chad.SCALED_SIZE.y - Chad.BOUNDING_BOX_OFFSET.y);//Chad.SCALED_SIZE.y - Chad.BOUNDING_BOX_OFFSET.y);
+                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - this.scaledSize.y - bbOffset.y);
 
                             this.velocity = new Vector(this.velocity.x, 0);
                             this.isOnGround = true;
@@ -467,19 +472,18 @@ class Chad {
                             && this.boundingBox.right > entity.boundingBox.left) {
                             // We are colliding with the left side.
 
-                            this.pos = new Vector(entity.boundingBox.left - Chad.SCALED_SIZE.x - Chad.BOUNDING_BOX_OFFSET.x, this.pos.y);
-
+                            this.pos = new Vector(entity.boundingBox.left - this.scaledSize.x - bbOffset.x, this.pos.y);
                         } else if (isOverlapY
                             && this.lastBoundingBox.left >= entity.boundingBox.right
                             && this.boundingBox.left < entity.boundingBox.right) {
                             // We are colliding with the right side.
 
-                            this.pos = new Vector(entity.boundingBox.right - Chad.BOUNDING_BOX_OFFSET.x, this.pos.y);
+                            this.pos = new Vector(entity.boundingBox.right - bbOffset.x, this.pos.y);
                         } else if (isOverlapX
                             && this.lastBoundingBox.top >= entity.boundingBox.bottom
                             && this.boundingBox.top < entity.boundingBox.bottom) {
                             // We are colliding with the bottom.
-                            this.pos = new Vector(this.pos.x, entity.boundingBox.bottom - Chad.BOUNDING_BOX_OFFSET.y);
+                            this.pos = new Vector(this.pos.x, entity.boundingBox.bottom - bbOffset.y);
                         }
                     }
                     else if (entity instanceof Border) {
@@ -500,11 +504,6 @@ class Chad {
 
         // Step 5: Now that your position is actually figured out, draw your correct bounding box.
         this.boundingBox = this.createBoundingBox();
-
-
-        // Step 6: Now that your position is actually figured out, draw your correct bounding box.
-        //         this.boundingBox = new BoundingBox(this.pos, this.scaledSize);
-
 
         // Step 7: Has Chad eaten any food?
         // -Consider moving the effects of food into an effect() method in the FoodItem class. 

@@ -174,7 +174,7 @@ class Sword {
             this.isAttacking = false;
         }
 
-        const padding = (CHAD.facing === "left") ? -Sword.SCALED_SIZE.x : Chad.SCALED_SIZE.x;
+        const padding = (CHAD.facing === "left") ? -Sword.SCALED_SIZE.x : CHAD.scaledSize.x;
 
         const basePos = Vector.add(CHAD.pos, new Vector(padding, Sword.Y_OFFSET));
 

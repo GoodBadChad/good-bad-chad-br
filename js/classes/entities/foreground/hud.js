@@ -48,13 +48,13 @@ class Hud {
             new Vector(32, 15),
             new Vector(Chad.SIZE.x - 2, 17),
             1, 1)
-        const healthBarYPos = 15 + 17 * CHAD.scale;
+        const healthBarYPos = 15 + 17 * CHAD.scale.y;
         this.addComponent("healthBar", new HudHealthBar(
             new Vector(Hud.MARGIN, healthBarYPos)
         ));
         this.addComponent("runeCounter", new ItemCounter(
 
-            new Vector(Chad.SIZE.x * CHAD.scale + 20, (healthBarYPos - ItemCounter.HEIGHT) / 2),
+            new Vector(CHAD.scaledSize.x + 20, (healthBarYPos - ItemCounter.HEIGHT) / 2),
             new Animator("./sprites/runes.png", new Vector(0, 32), new Vector(32, 32), 1, 1),
             0 // TODO: replace with an access to the rune field once it exists
         ));
@@ -120,11 +120,12 @@ class Hud {
             "5"
         ));
 
+        // TODO: commented out because storing food is not currently implemented
         // add a food labels on the bottom right of the screen
-        this.addComponent("foodLabel", new FoodLabel(
-            new Vector(Camera.SIZE.x - ItemLabel.DEFAULT_SIZE.x - Hud.MARGIN, Camera.SIZE.y - ItemLabel.DEFAULT_SIZE.y - Hud.MARGIN),
-            FoodItem.STEAK
-        ));
+        // this.addComponent("foodLabel", new FoodLabel(
+        //     new Vector(Camera.SIZE.x - ItemLabel.DEFAULT_SIZE.x - Hud.MARGIN, Camera.SIZE.y - ItemLabel.DEFAULT_SIZE.y - Hud.MARGIN),
+        //     FoodItem.STEAK
+        // ));
 
     }
 
