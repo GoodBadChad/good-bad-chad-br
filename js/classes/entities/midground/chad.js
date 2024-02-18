@@ -167,16 +167,19 @@ class Chad {
      * @param {number} amount the amount by which to decrease Chad's health
      */
     takeDamage(amount) {
-        if (this.isInvincible) {
-            // playAudio(SFX.DING.path, SFX.DING.volume);
-            return;
-        }
-
-        this.health -= amount;
-        if (this.health <= 0) {
-            // Chad should die here
-            ASSET_MGR.playAudio(SFX.GAME_OVER.path, SFX.GAME_OVER.volume);
-            //TODO rotate chad 90 degrees on his back?
+        if (this.health > 0) {
+            if (this.isInvincible) {
+                // playAudio(SFX.DING.path, SFX.DING.volume);
+                return;
+            }
+    
+            this.health -= amount;
+            if (this.health <= 0) {
+                // Chad should die here
+                ASSET_MGR.playAudio(SFX.GAME_OVER.path, SFX.GAME_OVER.volume);
+                //TODO rotate chad 90 degrees on his back?
+                GAME.addEntity(new DeathScreen(), 1);
+            }
         }
     };
 
@@ -369,6 +372,10 @@ class Chad {
 
     /** Change what Chad is doing and where it is. */
     update() {
+        if (this.health <= 0) {
+            return;
+        }
+
         // Chad shouldn't be able to double jump by default.
         this.canDoubleJump = false;
         // Reset double jump if Chad is on the ground.
