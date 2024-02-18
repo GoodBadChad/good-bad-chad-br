@@ -152,6 +152,11 @@ class Hud {
             "5"
         ));
 
+        // this.addComponent("DashCharge", new DashCharge(
+        //     new Vector(Camera.SIZE.x - 100, Camera.SIZE.y - 100),
+
+        // ));
+
         // TODO: commented out because storing food is not currently implemented
         // add a food labels on the bottom right of the screen
         // this.addComponent("foodLabel", new FoodLabel(
