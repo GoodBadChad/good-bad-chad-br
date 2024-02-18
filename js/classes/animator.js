@@ -14,11 +14,11 @@ class Animator {
      * @param {number} frameDuration The amount of time (in SECONDS!) between each change in frame.
      * @param {boolean} looped Whether or not the animation should be looped
      */
-    constructor(spritesheet, start, size, frameCount, frameDuration, looped = true) {
+    constructor(spritesheet, start, size, frameCount, frameDuration, looped = true, reversed = false) {
         /** The path to the spritesheet that this specific Animator instance is going to be working with. */
         this.spritesheet = spritesheet;
         /** The starting position (on the SPRITESHEET!) of the first sprite of the animation. */
-        this.start = start;
+        this.start = (reversed) ? Vector.add(start, new Vector(frameCount * size.x, 0)) : start;
         /** The size in pixels of the sprites in this animation. */
         this.size = size;
         /** The number of frames that are included in this animation. */
@@ -31,6 +31,7 @@ class Animator {
         this.totalTime = frameCount * frameDuration;
         
         this.looped = looped;
+        this.reversed = reversed;
     };
 
     /**
@@ -50,9 +51,9 @@ class Animator {
         if (typeof scale === "number") {
             scale = new Vector(scale, scale);
         } 
-
+        
         CTX.drawImage(ASSET_MGR.getAsset(this.spritesheet),
-            this.start.x + this.size.x * frame, this.start.y,
+            this.start.x + ((this.reversed) ? -1 : 1) * this.size.x * frame, this.start.y,
             this.size.x, this.size.y,
             pos.x, pos.y,
             this.size.x * scale.x, this.size.y * scale.y);
