@@ -198,13 +198,6 @@ const loadPlaygroundNathan = () => {
             document.body.removeEventListener('click', playMusic);
         };
         document.body.addEventListener('click', playMusic);
-
-        CANVAS.addEventListener('dblclick', function (e) {
-            e.preventDefault();
-        });
-
-        loadingAnimation.stop(); // stop the loading animation because asset manager has everything it needs
-
     };
 
     // Set background color:
