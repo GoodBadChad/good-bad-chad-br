@@ -414,12 +414,20 @@ class Chad {
             }
         }
 
+
         if (GAME.user.jabbing) {
             this.action = "slicing";
         }
         if (this.isOnGround && !(GAME.user.movingRight || GAME.user.movingLeft)) {
             this.action = "idle";
+            if (GAME.user.jabbing) {
+                this.action = "slicingStill";
+            }
+            // Uncomment to see chad's death animation.
+            // if (true) {
+            //     this.action = "death";
 
+            // }
         } else if (!(this.isOnGround) && GAME.user.jumping && !(GAME.user.dashing)) {
             this.action = "jumping"
         }
@@ -672,5 +680,28 @@ class Chad {
                 0, 192),
             Chad.SIZE,
             32, 1 / 20);
+
+        this.animations["right"]["slicingStill"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, 1824),
+            Chad.SIZE,
+            8, 1 / 20);
+        this.animations["left"]["slicingStill"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(
+                0, 1888),
+            Chad.SIZE,
+            8, 1 / 20);
+
+        this.animations["right"]["death"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(432, 1664),
+            Chad.SIZE,
+            15, 1 / 10);
+        this.animations["left"]["death"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(432, 1728),
+            Chad.SIZE,
+            15, 1 / 10);
     };
 };
