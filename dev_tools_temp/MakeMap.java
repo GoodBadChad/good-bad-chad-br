@@ -25,27 +25,37 @@ public class MakeMap {
         System.out.print("[");
         int width = 100;
         int height = 25;
+        int startGround = 22;
+        int firstLayerBlock = 2;
+        int air = 0;
         // Change this value to match what the world type block uses the most. 1 is used for dirt.
         // For ice world you would choose the value that is used for ice block or whatever the ground will
         // be primarily made up of.
         int groundDefault = 1;
-        for (int y = 0; y <= height; y++) {
+        for (int y = air; y <= height; y++) {
             System.out.print("[");
-                if (y < height/2) {
+
+            if (y == startGround) {
+                System.out.print("\'" + firstLayerBlock + "\', ");
+
+            } else if (y < startGround) {
                     // Print blank space.
-                    System.out.print(0 + ", ");
+                    System.out.print("\'" + air + "\', ");
                 } else {
                     // Print the ground block value.
-                    System.out.print(groundDefault + ", ");
+                    System.out.print("\'" + groundDefault + "\', ");
                 }
 
             for (int x = 0;x <= width; x++) {
-                if (y < height/2) {
+                if (y == startGround) {
+                    System.out.print("\'" + firstLayerBlock + "\', ");
+    
+                } else if (y < startGround) {
                     // Print blank space.
-                    System.out.print(0 + ", ");
+                    System.out.print("\'" + air + "\', ");
                 } else {                    
                     // Print the ground block value.
-                    System.out.print(groundDefault + ", ");
+                    System.out.print("\'" + groundDefault + "\', ");
                 }
                 
             }

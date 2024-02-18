@@ -2,11 +2,12 @@
 <html>
 
 <head>
-    <!-- THIS LINE IS GOING TO SOLVE AN ERROR FROM FIREFOX.
-    TODO: It is a good idea for somebody to put this in though! The icon on the tab of the browser! -->
+    <!-- THIS LINE IS GOING TO SOLVE AN ERROR FROM FIREFOX. -->
     <link rel="icon" type="image/png" href="./sprites/html_tab_icon.png" />
-    
+
     <title>The Good, The Bad, and Chad!</title>
+
+
     <!-- Scripts containing info/functions for classes. -->
     <script type="text/javascript" src="./js/scripts/util.js"></script>
     <!-- Scripts containing dialog-building methods. -->
@@ -21,12 +22,14 @@
     <script type="text/javascript" src="./js/scripts/zone_loaders/village_zone_loaders.js"></script>
     <script type="text/javascript" src="./js/scripts/zone_loaders/woods_zone_loaders.js"></script>
     <!-- Scripts containing dimension-building methods. -->
-    <script type="text/javascript" src="./js/scripts/dimension/playground_dimension.js"></script>
+    <!-- <script type="text/javascript" src="./js/scripts/dimension/playground_dimension.js"></script>
     <script type="text/javascript" src="./js/scripts/dimension/village_dimension.js"></script>
-    <script type="text/javascript" src="./js/scripts/dimension/lava_dimension.js"></script>
-    
+    <script type="text/javascript" src="./js/scripts/dimension/lava_dimension.js"></script> -->
+
     <!-- Tile maps here. -->
     <script type="text/javascript" src="./js/scripts/tile_maps/caleb_zone_playground.js"></script>
+    <script type="text/javascript" src="./js/scripts/tile_maps/village_tilemap.js"></script>
+    <script type="text/javascript" src="./js/scripts/tile_maps/field_tilemap.js"></script>
 
 
     <!-- Put non-entity classes here! -->
@@ -34,7 +37,6 @@
     <script type="text/javascript" src="./js/classes/asset_manager.js"></script>
     <script type="text/javascript" src="./js/classes/bounding_box.js"></script>
     <script type="text/javascript" src="./js/classes/camera.js"></script>
-    <script type="text/javascript" src="./js/classes/conversation.js"></script>
     <script type="text/javascript" src="./js/classes/game_engine.js"></script>
     <script type="text/javascript" src="./js/classes/inventory.js"></script>
     <script type="text/javascript" src="./js/classes/timer.js"></script>
@@ -52,11 +54,14 @@
     <script type="text/javascript" src="./js/classes/entities/midground/border.js"></script>
     <script type="text/javascript" src="./js/classes/entities/midground/chad.js"></script>
     <script type="text/javascript" src="./js/classes/entities/midground/portal.js"></script>
+    <script type="text/javascript" src="./js/classes/entities/midground/particle_effect.js"></script>
     <!-- Collectables: -->
     <script type="text/javascript" src="./js/classes/entities/midground/collectables/ammo_drop.js"></script>
-    <script type="text/javascript" src="./js/classes/entities/midground/collectables/food.js"></script>
-    <script type="text/javascript" src="./js/classes/entities/midground/collectables/rune.js"></script>
+    <script type="text/javascript" src="./js/classes/entities/midground/collectables/food_drop.js"></script>
+    <script type="text/javascript" src="./js/classes/entities/midground/collectables/rune_drop.js"></script>
     <!-- Enemies: -->
+    <script type="text/javascript" src="./js/classes/entities/midground/enemies/enemyBase.js"></script>
+
     <script type="text/javascript" src="./js/classes/entities/midground/enemies/slime.js"></script>
 
     <script type="text/javascript" src="./js/classes/entities/midground/enemies/lava/fire_monkey.js"></script>
@@ -65,6 +70,9 @@
 
     <script type="text/javascript" src="./js/classes/entities/midground/enemies/village/bunny.js"></script>
     <script type="text/javascript" src="./js/classes/entities/midground/enemies/village/snake.js"></script>
+
+    <script type="text/javascript" src="./js/classes/entities/midground/enemies/snowy/yeti.js"></script>
+    >
     <!-- NPCs: -->
     <script type="text/javascript" src="./js/classes/entities/midground/npc/traveling_merchant.js"></script>
 
@@ -79,12 +87,20 @@
     <script type="text/javascript" src="./js/classes/entities/midground/weapon/slingshot.js"></script>
     <script type="text/javascript" src="./js/classes/entities/midground/weapon/sword.js"></script>
     <!-- Foreground: -->
+    <script type="text/javascript" src="./js/classes/entities/foreground/ammo_item.js"></script>
     <script type="text/javascript" src="./js/classes/entities/foreground/crosshair.js"></script>
-    <script type="text/javascript" src="./js/classes/entities/foreground/dialog_bubble.js"></script>
+    <script type="text/javascript" src="./js/classes/entities/foreground/food_item.js"></script>
     <script type="text/javascript" src="./js/classes/entities/foreground/health_bar.js"></script>
     <script type="text/javascript" src="./js/classes/entities/foreground/hud.js"></script>
     <script type="text/javascript" src="./js/classes/entities/foreground/loading_animation.js"></script>
     <script type="text/javascript" src="./js/classes/entities/foreground/overhead_icon.js"></script>
+    <script type="text/javascript" src="./js/classes/entities/midground/rain.js"></script>
+    <script type="text/javascript" src="./js/classes/entities/foreground/rune_item.js"></script>
+    <!-- Dialog: -->
+    <script type="text/javascript" src="./js/classes/entities/foreground/dialog/conversation.js"></script>
+    <script type="text/javascript" src="./js/classes/entities/foreground/dialog/decision_bubble.js"></script>
+    <script type="text/javascript" src="./js/classes/entities/foreground/dialog/dialog_bubble.js"></script>
+
     <!-- CSS: -->
     <link rel="stylesheet" href="./css/general.css" />
 </head>
@@ -109,7 +125,7 @@
         <label for="spanish">Spanish</label>
         <input type="checkbox" id="spanish" name="spanish" />
     </div>
-    
+
     <p>A and D for left and right.</p>
     <p>Space for jump and double jump.</p>
     <p>Shift for Sprint.</p>
