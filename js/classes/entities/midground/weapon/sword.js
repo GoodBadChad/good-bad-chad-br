@@ -20,6 +20,7 @@ class Sword {
         this.speed = 0;
         this.offsetX = 0;
         this.offsetDirX = 0;
+        this.delayTimer = 0;
 
         this.setType(type);
 
@@ -95,19 +96,24 @@ class Sword {
     static get PROPERTY_TABLE() {
         return {
             [Sword.TYPE_1]: {
-                DAMAGE: 5
+                DAMAGE: 5,
+                DELAY: 0.9
             },
             [Sword.TYPE_2]: {
-                DAMAGE: 10
+                DAMAGE: 10,
+                DELAY: 0.6
             },
             [Sword.TYPE_3]: {
-                DAMAGE: 20
+                DAMAGE: 20,
+                DELAY: 0.6
             },
             [Sword.TYPE_4]: {
-                DAMAGE: 40
+                DAMAGE: 40,
+                DELAY: 0.3
             },
             [Sword.TYPE_5]: {
-                DAMAGE: 80
+                DAMAGE: 80,
+                DELAY: 0.0
             }
         };
     };
@@ -118,7 +124,7 @@ class Sword {
      * @param {number} type the type value to check
      * @throws {Error} Will throw an error if type is invalid.
      */
-    static checkType(type) { 
+    static checkType(type) {
         if (typeof type !== "number" || type % 1 !== 0 || type < 0 || type > 4) {
             throw new Error("Invalid Sword type: please use a Sword member type (e.g. Sword.TYPE_1).");
         }
@@ -146,20 +152,30 @@ class Sword {
 
     /** Update the Sword. */
     update() {
-        if (GAME.user.jabbing && !this.isAttacking) {
+        this.delayTimer -= GAME.clockTick;
+
+        if (GAME.user.jabbing && !this.isAttacking && this.delayTimer <= 0) {
+            // choose from 3 different slash sounds
+            const rand = Math.floor(Math.random() * 3) + 8; //Math.floor(Math.random() * 8) + 1;  use this if you want all 8 sounds
+            const sfx = SFX["SWORD_SWING" + rand];
+            ASSET_MGR.playAudio(sfx.path, sfx.volume);
+
             this.isAttacking = true;
             this.offsetDirX = 1;
             this.speed = Sword.JAB_SPEED;
             this.hasHit = false;
-            //TODO: play jab sfx
+
+            this.delayTimer = this.getProperty("DELAY"); // reset the hit delay
+            
         } else if (this.offsetX >= Sword.MAX_OFFSET) {
             this.offsetDirX *= -1;
             this.speed = Sword.RETRACT_SPEED;
         } else if (this.offsetX <= 0) {
             this.isAttacking = false;
         }
-        
-        const padding = (CHAD.facing === "left") ? -Sword.SCALED_SIZE.x : Chad.SCALED_SIZE.x;
+
+        const padding = (CHAD.facing === "left") ? -Sword.SCALED_SIZE.x : CHAD.scaledSize.x;
+
         const basePos = Vector.add(CHAD.pos, new Vector(padding, Sword.Y_OFFSET));
 
         if (this.isAttacking) {
@@ -167,35 +183,36 @@ class Sword {
 
             // attack only once per animation cycle
             if (!this.hasHit) {
-                const bb = new BoundingBox(basePos, new Vector(Sword.SCALED_SIZE.x, Chad.SCALED_SIZE.y));
+                const bb = new BoundingBox(basePos, new Vector(Sword.SCALED_SIZE.x, CHAD.scaledSize.y));
                 GAME.entities.midground.forEach((entity) => {
                     if (this != entity && entity.boundingBox && entity.takeDamage) {
                         if (bb.collide(entity.boundingBox)) {
-                            entity.takeDamage(this.getProperty("DAMAGE"));
+                            entity.takeDamage(this.getProperty("DAMAGE") * CHAD.damageMultiplier);
                             this.hasHit = true;
+                            ASSET_MGR.playAudio(SFX.SWORD_HIT.path, SFX.SWORD_HIT.volume);
                         }
                     }
                 });
             }
         }
-        
+
         const chadDirX = (CHAD.facing === "left") ? -1 : 1;
         this.pos = Vector.add(basePos, new Vector(this.offsetX * chadDirX, 0));
     };
 
     /** Draw the Sword. */
     draw() {
-       if (this.isAttacking) {
-            this.animations[CHAD.facing].drawFrame(Vector.worldToCanvasSpace(this.pos), Sword.SCALE);
-       }
+        //    if (this.isAttacking) {
+        //         this.animations[CHAD.facing].drawFrame(Vector.worldToCanvasSpace(this.pos), Sword.SCALE);
+        //    }
     };
 
     /** Load the Sword's animations. */
     loadAnimations() {
         this.animations = [];
-        this.animations["left"] = new Animator(Sword.SPRITESHEET, 
+        this.animations["left"] = new Animator(Sword.SPRITESHEET,
             new Vector(0, this.type * Sword.SIZE.y), Sword.SIZE, 1, 1);
-        this.animations["right"] = new Animator(Sword.SPRITESHEET, 
+        this.animations["right"] = new Animator(Sword.SPRITESHEET,
             new Vector(Sword.SIZE.x, this.type * Sword.SIZE.y), Sword.SIZE, 1, 1);
     }
 };

@@ -30,5 +30,5 @@ class Border {
         // We don't draw these - they don't even exist within the visible world.
     };
 
-    
+
 }

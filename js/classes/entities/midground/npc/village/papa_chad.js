@@ -37,7 +37,7 @@ class PapaChad {
 
     /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {
-        return 3;
+        return 2.4;
     };
 
     /** This will be the size of Papa Chad ON THE CANVAS. */
@@ -52,7 +52,7 @@ class PapaChad {
 
     /** Change what Papa Chad is doing and where it is. */
     update() {
-        
+
         // Set the velocity, according to gravity.
         this.velocity = {
             x: this.velocity.x,
@@ -63,7 +63,7 @@ class PapaChad {
 
         this.pos = {
             x: this.pos.x,
-            y: this.pos.y + this.velocity.y * GAME.clockTick 
+            y: this.pos.y + this.velocity.y * GAME.clockTick
         };
 
         this.boundingBox = new BoundingBox(this.pos, PapaChad.SCALED_SIZE);
