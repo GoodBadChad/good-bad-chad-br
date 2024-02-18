@@ -228,12 +228,14 @@ const loadPlaygroundTrae = () => {
     const addEntities = () => {
         // Add a layer of blocks to the floor.
         for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
+            GAME.addEntity(new Block(new Vector(x, ZONE.MAX_BLOCK.y - 2), Block.DIRT));
+            GAME.addEntity(new Block(new Vector(x, ZONE.MAX_BLOCK.y - 1), Block.DIRT));
             GAME.addEntity(new Block(new Vector(x, ZONE.MAX_BLOCK.y), Block.DIRT));
         }
         GAME.addEntity(new Bunny(Vector.blockToWorldSpace(new Vector(60, 20))));
         GAME.addEntity(new Snake(Vector.blockToWorldSpace(new Vector(80, 20))));
         GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(100, 20))));
-        GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(120, 20))));
+        GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(120, 0))));
 
         CHAD.pos = Vector.blockToWorldSpace(new Vector(50, 20));
     };

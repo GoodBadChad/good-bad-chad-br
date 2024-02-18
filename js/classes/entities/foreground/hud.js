@@ -44,10 +44,7 @@ class Hud {
      */
     addComponents() {
         // add Chad's head, rune counter, and health bar
-        this.chadHead = new Animator(Chad.SPRITESHEET,
-            new Vector(32, 15),
-            new Vector(Chad.SIZE.x - 2, 17),
-            1, 1)
+        this.addComponent("chadHead", new ChadHead());
         const healthBarYPos = 15 + 17 * CHAD.scale.y;
         this.addComponent("healthBar", new HudHealthBar(
             new Vector(Hud.MARGIN, healthBarYPos)
@@ -146,7 +143,7 @@ class Hud {
      * Draw any HUD elements not drawn by individual components.
      */
     draw() {
-        this.chadHead.drawFrame(new Vector(10, 10), CHAD.scale);
+
     }
 }
 
@@ -541,4 +538,35 @@ class HudHealthBar {
             (HudHealthBar.SIZE.x - HudHealthBar.PADDING * 2) * CHAD.health / Chad.MAX_HEALTH,
             HudHealthBar.BAR_HEIGHT - HudHealthBar.PADDING * 2);
     };
+}
+
+/**
+ * Chad's head icon component.
+ * 
+ * @author Trae Claar
+ */
+class ChadHead {
+    /** 
+     * Constructor for the ChadHead.
+     */
+    constructor() {
+        this.animator = new Animator(Chad.SPRITESHEET,
+            new Vector(32, 15),
+            new Vector(Chad.SIZE.x - 2, 17),
+            1, 1)
+    }
+    
+    /**
+     * Update the ChadHead. Does nothing.
+     */
+    update() {
+
+    }
+
+    /**
+     * Draw the ChadHead.
+     */
+    draw() {
+        this.animator.drawFrame(new Vector(Hud.MARGIN, Hud.MARGIN), CHAD.scale);
+    }
 }

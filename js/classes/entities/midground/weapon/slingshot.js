@@ -96,7 +96,7 @@ class Slingshot {
     update() {
         this.timeSinceLastShot += GAME.clockTick;
 
-        if (!HUD.pauseButton.isMouseOver()) {
+        if (!HUD.pauseButton.isMouseOver() && CHAD.health > 0) {
             if (GAME.user.aiming) {
                 this.aim();
             } else if (GAME.user.firing && this.timeSinceLastShot > Slingshot.SHOOT_DELAY) {    
