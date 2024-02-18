@@ -210,9 +210,6 @@ class Chad {
      * Deals with movement in the x direction including walking, running and dashing.
      * 
      * @returns {number} the x velocity of Chad
-     * 
-     * @author Caleb Krauter
-     * @author Nathan Hinthorne
      */
     manageXDirectionMovement() {
         let xVelocity = this.velocity.x;
@@ -270,6 +267,7 @@ class Chad {
             if (GAME.gameTime % 0.05 < 0.01) { // we use `< 0.01` instead of `== 0` to avoid floating point errors
                 GAME.addEntity(new ParticleEffect(new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y/2), 
                                         ParticleEffect.WIND));
+            }
 
             this.action = "dashing";
             xVelocity = dirSign * this.speed * Chad.DASH_MULTIPLIER;
@@ -303,14 +301,9 @@ class Chad {
      * Deals with movement in the y direction including all types of jumping.
      * 
      * @returns {number} the y velocity of Chad
-     * 
-     * @author Caleb Krauter
-     * @author Nathan Hinthorne
      */
     manageYDirectionMovement() {
         let yVelocity = this.velocity.y;
-        if (!this.isDashing && GAME.user.jumping) {
-            this.action = "jumping";
 
         if (this.isDashing && !this.isOnGround) {
             yVelocity = 0; // anti-gravity when dashing
@@ -363,13 +356,6 @@ class Chad {
                 this.canDoubleJump = true;
             }
         }
-        // Perform single jump.
-        //         if (this.isOnGround) {
-        //             ASSET_MGR.playAudio(SFX.JUMP1.path, SFX.JUMP1.volume);
-        //             this.velocity.y = Chad.FIRST_JUMP_VELOCITY;
-        //             this.hasDoubleJumped = false;
-        //             this.isOnGround = false;
-        //         }
 
 
         // Check that Chad has jumped high enough to jump again and allow a second jump if so.
