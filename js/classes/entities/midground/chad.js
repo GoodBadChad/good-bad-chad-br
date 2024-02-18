@@ -64,7 +64,6 @@ class Chad {
         this.isJumping = false;
         /** The timer for the jump. Used to ensure the jump force is applied for a minimum amount of time. */
         this.firstJumpTimer = 0;
-        this.dashTimer = 0;
 
     };
 
@@ -225,10 +224,7 @@ class Chad {
 
 
         // Dash action
-        // When not CHAD is not on the ground and his dash is allowed and the user is trying to dash then enter conditional.
-        this.dashTimer -= GAME.clockTick; // Decrease the jump timer
-
-        if (GAME.user.dashing && !this.isOnGround && this.canDash && (this.dashTimer <= 0)) {
+        if (GAME.user.dashing && !this.isOnGround && this.canDash) {
             if (!this.isDashing) {
                 this.xDashAnchoredOrigin = this.pos.x;
                 this.isDashing = true
@@ -252,7 +248,6 @@ class Chad {
                 this.canDash = false;
                 this.hasDashed = true;
                 this.isDashing = false;
-                this.dashTimer = .5;
             } else {
                 this.canDash = true;
                 this.hasDashed = false;
