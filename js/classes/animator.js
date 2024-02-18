@@ -12,8 +12,9 @@ class Animator {
      * @param {Vector} size The size in pixels of the sprites in this animation.
      * @param {number} frameCount The number of frames that are included in this animation.
      * @param {number} frameDuration The amount of time (in SECONDS!) between each change in frame.
+     * @param {boolean} looped Whether or not the animation should be looped
      */
-    constructor(spritesheet, start, size, frameCount, frameDuration) {
+    constructor(spritesheet, start, size, frameCount, frameDuration, looped = true) {
         /** The path to the spritesheet that this specific Animator instance is going to be working with. */
         this.spritesheet = spritesheet;
         /** The starting position (on the SPRITESHEET!) of the first sprite of the animation. */
@@ -28,6 +29,8 @@ class Animator {
         this.elapsedTime = 0;
         /** The total amount of time that it takes to finish a single runthrough of an animation (no repeats!). */
         this.totalTime = frameCount * frameDuration;
+        
+        this.looped = looped;
     };
 
     /**
@@ -40,7 +43,7 @@ class Animator {
             this.elapsedTime += GAME.clockTick;
         }
         
-        if (this.elapsedTime > this.totalTime) this.elapsedTime -= this.totalTime;
+        if (this.elapsedTime > this.totalTime && this.looped) this.elapsedTime -= this.totalTime;
         const frame = this.currentFrame();
 
         // if scale is a vector, use it as a scale vector, otherwise use it as a uniform scale
@@ -59,7 +62,7 @@ class Animator {
      * @returns the current frame that this animation is on.
      */
     currentFrame() {
-        return Math.floor(this.elapsedTime / this.frameDuration);
+        return Math.min(Math.floor(this.elapsedTime / this.frameDuration), this.frameCount - 1);
     };
 
     /**
