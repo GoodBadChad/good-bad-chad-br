@@ -68,14 +68,17 @@ class Bunny {
      * Perform any necessary operations on Bunny death.
      */
     handleDeath() {
-        // if the enemy is now dead, remove it from the game
-        // TODO: replace this code with any death effects, state changes, etc.
-        this.removeFromWorld = true;
+        this.action = "dying";
     }
     
     /** Change what the Bunny is doing and where it is. */
     update() {
         this.base.update();
+
+        const deathAnim = this.animations[this.base.getFacing()]["dying"];
+        if (this.health <= 0 && deathAnim.currentFrame() === deathAnim.frameCount - 1) {
+            this.removeFromWorld = true;
+        }
     };
 
     /** Draw the Bunny on the canvas. */
@@ -111,5 +114,17 @@ class Bunny {
             Bunny.SIZE,
             Bunny.SIZE,
             4, 0.125);
+
+         // DEATH ANIMATIONS
+        this.animations["left"]["dying"] = new Animator(
+            Bunny.SPRITESHEET,
+            new Vector(0, 2 * Bunny.SIZE.y),
+            Bunny.SIZE,
+            7, 1/14);
+        this.animations["right"]["dying"] = new Animator(
+            Bunny.SPRITESHEET,
+            new Vector(0, 3 * Bunny.SIZE.y),
+            Bunny.SIZE,
+            7, 1/14);
     };
 };

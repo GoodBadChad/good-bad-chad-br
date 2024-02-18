@@ -76,7 +76,7 @@ class DialogBubble {
             dbPos.x, dbPos.y,
             DialogBubble.SCALED_SIZE.x, DialogBubble.SCALED_SIZE.y
         );
-            
+
         // (2) Draw the speaker.
         const scale = 6;
         const chadHeadX = (Camera.SIZE.x - DialogBubble.SCALED_SIZE.x) / 2 - (scale * this.speaker.size.x * 1.5);
@@ -205,18 +205,18 @@ class DialogBubble {
      */
     static get SPEAKERS() {
         return {
-            CHAD:       new Animator("./sprites/speaker_chad.png",
-                            new Vector(0, 0),
-                            new Vector(24, 17),
-                            1, 1),
-            NONE:       new Animator(Sun.SPRITESHEET,
-                            new Vector(0, 0),
-                            new Vector(0, 0),
-                            1, 1),
-            PAPA_CHAD:  new Animator(PapaChad.SPRITESHEET,
-                            new Vector(0, 0),
-                            new Vector(PapaChad.SIZE.x, 17),
-                            1, 1)
+            CHAD: new Animator("./sprites/speaker_chad.png",
+                new Vector(0, 0),
+                new Vector(24, 17),
+                1, 1),
+            NONE: new Animator(Sun.SPRITESHEET,
+                new Vector(0, 0),
+                new Vector(0, 0),
+                1, 1),
+            PAPA_CHAD: new Animator(PapaChad.SPRITESHEET,
+                new Vector(0, 0),
+                new Vector(PapaChad.SIZE.x, 17),
+                1, 1)
         };
     };
 };

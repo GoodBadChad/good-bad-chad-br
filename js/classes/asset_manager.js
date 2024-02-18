@@ -182,20 +182,21 @@ class AssetManager {
      * this.downloadQueue is reset to this every time that the ASSET_MGR is refreshed.
      */
     static get BAREBONES_DL_Q() {
-        return [ // Let's try and keep these alphabetized!
+        return [
             // Entities:
             Block.SPRITESHEET,
+            Chad.SPRITESHEET,
             Crosshair.SPRITESHEET,
             DialogBubble.SPRITESHEET,
-            DialogBubble.SPEAKERS.CHAD.spritesheet,
-            FoodDrop.SPRITESHEET,
             OverheadIcon.SPRITESHEET,
             PapaChad.SPRITESHEET,
             Projectile.SPRITESHEET,
-            RuneItem.SPRITESHEET,
             Slingshot.SPRITESHEET,
             Sun.SPRITESHEET,
             Sword.SPRITESHEET,
+            RuneDrop.SPRITESHEET,
+            RuneItem.SPRITESHEET,
+            FoodDrop.SPRITESHEET,
 
             // Sounds:
             SFX.JUMP1.path,
@@ -240,7 +241,9 @@ class AssetManager {
             MUSIC.VICTORY.path,
             MUSIC.UPBEAT_CHIPTUNE_1.path,
             MUSIC.UPBEAT_CHIPTUNE_2.path,
-            MUSIC.CHAD_PLAYFUL_ADVENTURE.path
+            MUSIC.CHAD_PLAYFUL_ADVENTURE.path,
+            DialogBubble.SPEAKERS.CHAD.spritesheet
+
         ];
     };
 };
