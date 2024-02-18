@@ -221,7 +221,8 @@ class Chad {
 
             // if you're on the ground, running, AND moving, release dust particles
             if (this.isOnGround && (GAME.user.movingLeft || GAME.user.movingRight)) {
-                GAME.addEntity(new ParticleEffect(new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y - 10),
+                GAME.addEntity(new ParticleEffect(Vector.add(this.scaleBoundingBoxOffset(), 
+                    new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y - 10)),
                     ParticleEffect.DUST));
             }
         } else {
@@ -242,7 +243,8 @@ class Chad {
 
             // release wind particles every 0.05 seconds
             if (GAME.gameTime % 0.05 < 0.01) {
-                GAME.addEntity(new ParticleEffect(new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y / 2),
+                GAME.addEntity(new ParticleEffect(Vector.add(this.scaleBoundingBoxOffset(), 
+                    new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y / 2)),
                     ParticleEffect.WIND));
             }
 
@@ -343,7 +345,8 @@ class Chad {
             ASSET_MGR.playAudio(SFX.JUMP2.path, SFX.JUMP2.volume);
             //             this.velocity.y = Chad.SECOND_JUMP_VELOCITY;
 
-            GAME.addEntity(new ParticleEffect(new Vector(CHAD.pos.x + this.scaledSize.x / 2, CHAD.pos.y + this.scaledSize.y - 10),
+            GAME.addEntity(new ParticleEffect(Vector.add(this.scaleBoundingBoxOffset(), 
+            new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y - 10)),
                 ParticleEffect.CLOUD));
             this.action = "jumping";
             yVelocity = -this.secondJumpForce;
@@ -459,7 +462,7 @@ class Chad {
                             && this.boundingBox.bottom > entity.boundingBox.top) {
                             // We are colliding with the top.
 
-                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - this.scaledSize.y - bbOffset.y);//Chad.SCALED_SIZE.y - Chad.BOUNDING_BOX_OFFSET.y);
+                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - this.scaledSize.y - bbOffset.y);
 
                             this.velocity = new Vector(this.velocity.x, 0);
                             this.isOnGround = true;
