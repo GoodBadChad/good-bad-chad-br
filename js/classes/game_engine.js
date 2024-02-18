@@ -145,10 +145,8 @@ class GameEngine {
                 }
             });
         }
-        // Update the HUD and Crosshair regardless of whether the game is running or not
+        // Update the HUD regardless of whether the game is running or not
         HUD.update();
-        CROSSHAIR.update();
-
         this.lastKeyTime.keyA += GAME.clockTick;
         this.lastKeyTime.keyD += GAME.clockTick;
 
@@ -181,9 +179,8 @@ class GameEngine {
       
         // (5) Draw the foreground entities.
         this.entities.foreground.forEach((entity) => {entity.draw();});
-        // Draw the HUD and Crosshair, which are not regular entities.
+        // Draw the HUD which is not a regular entity.
         HUD.draw();
-        CROSSHAIR.draw();
     };
 
     /**

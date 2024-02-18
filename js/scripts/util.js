@@ -74,6 +74,7 @@ const SFX = {
     // Player
     JUMP1: {path: "./sfx/jump1.mp3", volume: 0.2},
     JUMP2: {path: "./sfx/jump2.mp3", volume: 0.2},
+    LAND: {path: "./sfx/land.mp3", volume: 0.2},
     SLINGSHOT_LAUNCH1: {path: "./sfx/launch1.mp3", volume: 0.5},
     SLINGSHOT_LAUNCH2: {path: "./sfx/launch2.mp3", volume: 0.6},
     SLINGSHOT_LAUNCH3: {path: "./sfx/launch3.mp3", volume: 0.5},
@@ -353,3 +354,16 @@ const EVENT_HANDLERS = {
         }
     },
 };
+
+
+// custom CTX functions
+
+const roundRect = function(x, y, width, height, radius) {
+    CTX.beginPath();
+    CTX.moveTo(x + radius, y);
+    CTX.arcTo(x + width, y, x + width, y + height, radius);
+    CTX.arcTo(x + width, y + height, x, y + height, radius);
+    CTX.arcTo(x, y + height, x, y, radius);
+    CTX.arcTo(x, y, x + width, y, radius);
+    CTX.closePath();
+}
