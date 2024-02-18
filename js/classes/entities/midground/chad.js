@@ -64,6 +64,8 @@ class Chad {
         this.isJumping = false;
         /** The timer for the jump. Used to ensure the jump force is applied for a minimum amount of time. */
         this.firstJumpTimer = 0;
+        this.dashTimer = 0;
+
     };
 
     /** The size, in pixels of the sprite ON THE SPRITESHEET. */
@@ -103,15 +105,6 @@ class Chad {
     static get SPRITESHEET() {
         return "./sprites/CHAD1.png";
     };
-
-    /** The velocity of the first jump */
-    static get FIRST_JUMP_VELOCITY() {
-        return -700
-    }
-    /** The velocity of the double jump. */
-    static get SECOND_JUMP_VELOCITY() {
-        return -800;
-    }
 
     /** The mulitiplier that allows CHAD to run. */
     static get SPRINT_SPEED() {
@@ -233,11 +226,14 @@ class Chad {
 
         // Dash action
         // When not CHAD is not on the ground and his dash is allowed and the user is trying to dash then enter conditional.
-        if (GAME.user.dashing && !this.isOnGround && this.canDash) {
+        this.dashTimer -= GAME.clockTick; // Decrease the jump timer
+
+        if (GAME.user.dashing && !this.isOnGround && this.canDash && (this.dashTimer <= 0)) {
             if (!this.isDashing) {
                 this.xDashAnchoredOrigin = this.pos.x;
                 this.isDashing = true
                 ASSET_MGR.playAudio(SFX.SWOOSH.path, SFX.SWOOSH.volume);
+
             }
 
             // release wind particles every 0.05 seconds
@@ -256,6 +252,7 @@ class Chad {
                 this.canDash = false;
                 this.hasDashed = true;
                 this.isDashing = false;
+                this.dashTimer = .5;
             } else {
                 this.canDash = true;
                 this.hasDashed = false;
@@ -420,11 +417,13 @@ class Chad {
         if (GAME.user.jabbing) {
             this.action = "slicing";
         }
-
         if (this.isOnGround && !(GAME.user.movingRight || GAME.user.movingLeft)) {
             this.action = "idle";
 
+        } else if (!(this.isOnGround) && GAME.user.jumping && !(GAME.user.dashing)) {
+            this.action = "jumping"
         }
+
 
         // Step 2: Account for gravity, which is always going to push you downward.
         this.velocity.y += PHYSICS.GRAVITY_ACC * GAME.clockTick;
@@ -602,6 +601,8 @@ class Chad {
         this.animations[this.facing][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), this.scale);
     };
 
+
+
     /** Called by the constructor. Fills up the animations array. */
     loadAnimations() {
         this.animations["left"] = [];
@@ -671,6 +672,5 @@ class Chad {
                 0, 192),
             Chad.SIZE,
             32, 1 / 20);
-
     };
 };
