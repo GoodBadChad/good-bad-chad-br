@@ -1,7 +1,11 @@
 /**
  * Chad is the main character controller by the player.
  * Chad has advanced movement and the ability to fight.
- * @author Devin, Caleb, Nathan, Trae
+ * 
+ * @author Devin Peevy
+ * @author Caleb Krauter
+ * @author Nathan Hinthorne
+ * @author Trae Claar
  */
 class Chad {
     /**
@@ -78,9 +82,9 @@ class Chad {
         return new Vector(33, 15);
     }
 
+    /** The default scale factor applied to Chad. */
     static get DEFAULT_SCALE() {
         return new Vector(2.2, 2.2);
-
     };
 
     /** The filepath to Chad's spritesheet. */
@@ -116,26 +120,41 @@ class Chad {
         return 100;
     };
 
-    /** Generate the bounding box for Chad based on his current position. */
-    createBoundingBox() {
-        return new BoundingBox(Vector.add(this.pos, this.scaleBoundingBoxOffset()), this.scaledSize);
-    }
+    /** Chad's default speed, in pixels/s. */
     static get DEFAULT_SPEED() {
         return Chad.DEFAULT_SCALE.x * 110;
     }
 
+    /** Chad's default damage multiplier. */
     static get DEFAULT_DAMAGE_MULTIPLIER() {
         return 1;
     }
 
+    /** The default force applied to Chad during his first jump. */
     static get DEFAULT_FIRST_JUMP_FORCE() {
         return 800;
     }
 
+    /** The default force applied to Chad during his second jump. */
     static get DEFAULT_SECOND_JUMP_FORCE() {
         return 900;
     }
 
+    /** 
+     * Generate the bounding box for Chad based on his current position. 
+     * 
+     * @returns {BoundingBox} Chad's new bounding box
+     */
+    createBoundingBox() {
+        return new BoundingBox(Vector.add(this.pos, this.scaleBoundingBoxOffset()), this.scaledSize);
+    }
+
+    /**
+     * Calculate the offset that should be applied to Chad's bounding box position based on his 
+     * current scale factor.
+     * 
+     * @returns {Vector} Chad's current bounding box offset
+     */
     scaleBoundingBoxOffset() {
         return new Vector(Chad.BOUNDING_BOX_OFFSET.x * this.scale.x,
             Chad.BOUNDING_BOX_OFFSET.y * this.scale.y);
@@ -163,6 +182,7 @@ class Chad {
 
     /**
      * Increase the health of Chad by the provided amount
+     * 
      * @param {number} amount the amount by which to increase Chad's health
      */
     restoreHealth(amount) {
@@ -175,7 +195,6 @@ class Chad {
 
     /**
      * Deals with movement in the x direction including walking, running and dashing.
-     * @author Caleb Krauter
      */
     manageXDirectionMovement() {
         let xVelocity = this.velocity.x;
@@ -482,11 +501,6 @@ class Chad {
 
         // Step 5: Now that your position is actually figured out, draw your correct bounding box.
         this.boundingBox = this.createBoundingBox();
-
-
-        // Step 6: Now that your position is actually figured out, draw your correct bounding box.
-        //         this.boundingBox = new BoundingBox(this.pos, this.scaledSize);
-
 
         // Step 7: Has Chad eaten any food?
         // -Consider moving the effects of food into an effect() method in the FoodItem class. 
