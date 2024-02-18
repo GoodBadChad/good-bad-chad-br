@@ -18,8 +18,6 @@ const CHAD = new Chad(new Vector(0, 0));
 const INVENTORY = new Inventory();
 /** The player's HUD. */
 const HUD = new Hud();
-/** The player's crosshair. */
-const CROSSHAIR = new Crosshair();
 
 // (2) Minor details:
 
@@ -50,18 +48,41 @@ spanishButton.addEventListener("click", () => {
 	}
 });
 
-/** 
- * If specials keys are pressed, prevent their default action.
- */
+// If specials keys are pressed, prevent their default action.
 document.addEventListener("keydown", (key) => {
 	if (key.altKey || key.ctrlKey || key.metaKey) {
 		key.preventDefault();
 	}
 });
 
+// 1ST APPROACH: 
+// If the window loses focus, pause the game.
+CANVAS.onblur = () => {
+	GAME.running = false;
+	ASSET_MGR.playSFX(SFX.UI_HIGH_BEEP.path, SFX.UI_HIGH_BEEP.volume);
+	ASSET_MGR.pauseMusic();
+	HUD.swapToPointer();
+};
+// If the window regains focus, unpause the game.
+CANVAS.onfocus = () => {
+	GAME.running = true;
+	ASSET_MGR.playSFX(SFX.UI_HIGH_BEEP.path, SFX.UI_HIGH_BEEP.volume);
+	ASSET_MGR.resumeMusic();
+	HUD.swapToCrosshair();
+}
+
+// 2ND APPROACH:
+// If the window loses focus, refocus the window
+// CANVAS.onblur = () => {
+// 	CANVAS.focus();
+// };
+
+
+
+
 // (3) Set the current ZONE to be the first one we encounter - village.main.
 
-let ZONE = Zone.getZones().village.main;
+let ZONE = Zone.getZones().playground.nathan;
 let LAST_ZONE = null;
 // Load all assets, add all entities, place CHAD...
 ZONE.load();

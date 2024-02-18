@@ -10,6 +10,7 @@ class Hud {
      */
     constructor() {
         this.addComponents();
+        this.swapToCrosshair();
     }
 
     /** The default font size for text in the HUD. Certain components may use different font sizes. */
@@ -21,6 +22,37 @@ class Hud {
     static get MARGIN() {
         return 10;
     }
+
+    swapToCrosshair() {
+        let crosshairCursorUnclicked = 'url(../sprites/crosshair_unpressed.png) 16 16, auto';
+        let crosshairCursorClicked = 'url(../sprites/crosshair_pressed.png) 16 16, auto';
+
+        document.body.style.cursor = crosshairCursorUnclicked;
+
+        document.body.addEventListener('mousedown', () => {
+            document.body.style.cursor = crosshairCursorClicked;
+        });
+
+        document.body.addEventListener('mouseup', () => {
+            document.body.style.cursor = crosshairCursorUnclicked;
+        });
+    }
+
+    swapToPointer() {
+        let pointerCursorUnclicked = 'url(../sprites/pointer_unpressed.png), auto';
+        let pointerCursorClicked = 'url(../sprites/pointer_pressed.png), auto';
+
+        document.body.style.cursor = pointerCursorUnclicked;
+
+        document.body.addEventListener('mousedown', function() {
+            document.body.style.cursor = pointerCursorClicked;
+        });
+
+        document.body.addEventListener('mouseup', function() {
+            document.body.style.cursor = pointerCursorUnclicked;
+        });
+    }
+
 
     /**
      * Add a component to the HUD. Creates a field for the component and adds the component
@@ -134,10 +166,18 @@ class Hud {
     update() {
         // if the user clicks on the pause/play button, toggle GAME.running
         if (GAME.user.firing && this.pauseButton.isMouseOver()) {
-            GAME.running = !GAME.running;
-            ASSET_MGR.playAudio(SFX.UI_HIGH_BEEP.path, SFX.UI_HIGH_BEEP.volume);
-            // TODO: open options menu here
-
+            ASSET_MGR.playSFX(SFX.UI_HIGH_BEEP.path, SFX.UI_HIGH_BEEP.volume);
+            if (GAME.running) {
+                GAME.running = false;
+                this.swapToPointer();
+                ASSET_MGR.pauseMusic();
+                // TODO: open options menu here
+            } else {
+                GAME.running = true;
+                this.swapToCrosshair();
+                ASSET_MGR.resumeMusic();
+                // TODO: close options menu here
+            }
         }
     }
 

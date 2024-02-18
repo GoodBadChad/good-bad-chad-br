@@ -83,7 +83,7 @@ class Projectile {
                 ACTION: (targetEntity, projectile) => {
                     // setTimeout(() => {
                         GAME.addEntity(new ParticleEffect(projectile.pos, ParticleEffect.SMALL_EXPLOSION));
-                        ASSET_MGR.playAudio(SFX.EXPLOSION_SMALL.path, SFX.EXPLOSION_SMALL.volume);
+                        ASSET_MGR.playSFX(SFX.EXPLOSION_SMALL.path, SFX.EXPLOSION_SMALL.volume);
                         projectile.removeFromWorld = true;
                     // }, 1000);
                 },
@@ -94,7 +94,7 @@ class Projectile {
             [Projectile.WOOD]: {
                 ACTION: () => {
                     console.log("wood");
-                    ASSET_MGR.playAudio(SFX.RICOCHET1.path, SFX.RICOCHET1.volume);
+                    ASSET_MGR.playSFX(SFX.RICOCHET1.path, SFX.RICOCHET1.volume);
                 },
                 SPEED: 15,
                 WEIGHT: 0.001,
@@ -102,7 +102,7 @@ class Projectile {
             },
             [Projectile.STONE]: {
                 ACTION: (targetEntity) => {
-                    ASSET_MGR.playAudio(SFX.RICOCHET2.path, SFX.RICOCHET2.volume);
+                    ASSET_MGR.playSFX(SFX.RICOCHET2.path, SFX.RICOCHET2.volume);
                     if (targetEntity.takeDamage) {
                         targetEntity.takeDamage(5);
                     }
@@ -113,7 +113,7 @@ class Projectile {
             },
             [Projectile.METAL]: {
                 ACTION: () => {
-                    ASSET_MGR.playAudio(SFX.RICOCHET3.path, SFX.RICOCHET3.volume);
+                    ASSET_MGR.playSFX(SFX.RICOCHET3.path, SFX.RICOCHET3.volume);
                     console.log("metal");
                 },
                 SPEED: 12,

@@ -13,6 +13,8 @@ class AssetManager {
         this.downloadQueue = AssetManager.BAREBONES_DL_Q;
         /** An indexed array of filepaths which still need to be downloaded. */
         this.cache = [];
+        /** The current background music */
+        this.currentMusic = null;
     };
 
     /**
@@ -121,27 +123,56 @@ class AssetManager {
     };
 
     /**
-     * This method plays the audio associated with the given path.
+     * Plays the audio associated with the given path.
      * @param {string} path The filepath of the audio you are trying to play.
      * @param {number} volume The volume to which you want to set the audio.
-     * @param {boolean} loop True if you want the audio to loop, false otherwise.
      */
-    playAudio(path, volume, loop) {
-        loop ?? (loop = false);
+    playSFX(path, volume) {
         const audio = this.cache[path];
         audio.currentTime = 0;
         audio.volume = volume;
 
         audio.play();
-        if (loop) {
-            audio.addEventListener("ended", () => {
-                audio.play();
-            });
-        }
     };
 
     /**
-     * This method stops the audio associated with the given path.
+     * Plays the audio associated with the given path.
+     * @param {string} path The filepath of the audio you are trying to play.
+     * @param {number} volume The volume to which you want to set the audio.
+     */
+    playMusic(path, volume) {
+        const audio = this.cache[path];
+        audio.currentTime = 0;
+        audio.volume = volume;
+        this.currentMusic = audio;
+
+        audio.play();
+        audio.addEventListener("ended", () => { //! might have a bug where pauseMusic "ends" the music. Check it out
+            audio.play();
+        });
+    };
+
+    /**
+     * Pauses the currently playing background music.
+     */
+    pauseMusic() {
+        if (this.currentMusic) {
+            this.currentMusic.pause();
+        } else {
+            console.log("No music to pause.");
+        }
+    }
+
+    resumeMusic() {
+        if (this.currentMusic) {
+            this.currentMusic.play();
+        } else {
+            console.log("No music to unpause.");
+        }
+    }
+
+    /**
+     * Stops the audio associated with the given path.
      * @param {string} path The filepath of the audio you are trying to stop.
      */
     stopAudio(path) {
@@ -151,7 +182,7 @@ class AssetManager {
     };
 
     /** 
-     * This method sets the volume of all audio in the cache to the given volume.
+     * Sets the volume of all audio in the cache to the given volume.
      * @param {number} volume The volume to which you want to set the audio.
      */
     adjustVolume(volume) {
@@ -159,19 +190,6 @@ class AssetManager {
             const audio = this.cache[key];
             if (audio instanceof Audio) {
                 audio.volume = volume;
-            }
-        }
-    };
-
-    /**
-     * This method pauses all audio in the cache.
-     */
-    pauseBackgroundMusic() {
-        for (let key in this.cache) {
-            const audio = this.cache[key];
-            if (audio instanceof Audio) {
-                audio.pause();
-                audio.currentTime = 0;
             }
         }
     };
@@ -201,6 +219,7 @@ class AssetManager {
             // Sounds:
             SFX.JUMP1.path,
             SFX.JUMP2.path,
+            SFX.LAND.path,
             SFX.SLINGSHOT_LAUNCH1.path,
             SFX.SLINGSHOT_LAUNCH2.path,
             SFX.SLINGSHOT_LAUNCH3.path,
@@ -243,7 +262,6 @@ class AssetManager {
             MUSIC.UPBEAT_CHIPTUNE_2.path,
             MUSIC.CHAD_PLAYFUL_ADVENTURE.path,
             DialogBubble.SPEAKERS.CHAD.spritesheet
-
         ];
     };
 };

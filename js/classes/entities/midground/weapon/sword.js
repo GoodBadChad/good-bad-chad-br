@@ -158,7 +158,7 @@ class Sword {
             // choose from 3 different slash sounds
             const rand = Math.floor(Math.random() * 3) + 8; //Math.floor(Math.random() * 8) + 1;  use this if you want all 8 sounds
             const sfx = SFX["SWORD_SWING" + rand];
-            ASSET_MGR.playAudio(sfx.path, sfx.volume);
+            ASSET_MGR.playSFX(sfx.path, sfx.volume);
 
             this.isAttacking = true;
             this.offsetDirX = 1;
@@ -189,7 +189,7 @@ class Sword {
                         if (bb.collide(entity.boundingBox)) {
                             entity.takeDamage(this.getProperty("DAMAGE") * CHAD.damageMultiplier);
                             this.hasHit = true;
-                            ASSET_MGR.playAudio(SFX.SWORD_HIT.path, SFX.SWORD_HIT.volume);
+                            ASSET_MGR.playSFX(SFX.SWORD_HIT.path, SFX.SWORD_HIT.volume);
                         }
                     }
                 });
