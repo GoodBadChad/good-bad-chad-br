@@ -198,6 +198,13 @@ const loadVillageField = () => {
 
 
     }
+
+    if (STORY.invitedHunting) {
+        GAME.addEntity(new PapaChad(
+            new Vector(ZONE.MAX_PT.x - 2 * PapaChad.SCALED_SIZE.x, ZONE.MAX_PT.y - 17 * Block.SCALED_SIZE),
+            new Conversation(getAllConversationArrays().village.papaChad.huntingInstruction)
+        ));
+    }
     // Set background color:
     BG_COLOR = COLORS.SKY_BLUE;
     GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), -1);

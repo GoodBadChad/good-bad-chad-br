@@ -117,12 +117,19 @@ class PapaChad {
 
         // Step 5: Now that your position is actually figured out, draw your correct bounding box.
         this.boundingBox = new BoundingBox(this.pos, PapaChad.SCALED_SIZE);
+
+        // This is a way to update his convo in the field as you progress.
+        if (ZONE.name === "Village Field" && STORY.huntingInstructionsReceived && (STORY.bunniesKilled === undefined || STORY.snakesKilled === undefined)) {
+            this.conversation = new Conversation(getAllConversationArrays().village.papaChad.huntingInstructionShort, false);
+        } else if (ZONE.name === "Village Field" && STORY.bunniesKilled >= 1 && STORY.snakesKilled >= 1) {
+            this.conversation = new Conversation(getAllConversationArrays().village.papaChad.endOfHunt);
+        }
     };
 
     /** Draw Papa Chad on the canvas. */
     draw() {
         this.animations[this.facing][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), PapaChad.SCALE);
-        if (this.conversation.new) {
+        if (this.conversation && this.conversation.new) {
             const indicator = new OverheadIcon(this, PapaChad.SCALED_SIZE.x, OverheadIcon.TRIANGLE, OverheadIcon.GREEN);
             indicator.draw();
         }
