@@ -9,7 +9,7 @@ class Slingshot {
         this.pos = Vector.add(CHAD.pos, new Vector(10, -10)); // temp value
 
         this.isFiring = false;
-        this.rotation = 0;
+        this.rotation = 0; //TODO check slingshot.rotation in Chad class to determine which animation to use for him
 
         this.timeSinceLastShot = 0;
         // this.timeSinceReload = 0;
@@ -17,6 +17,8 @@ class Slingshot {
         this.playedStretchSound = false;
 
         this.start = new Vector(0, 0);
+
+        this.chadCenter = Vector.add(CHAD.pos, new Vector(CHAD.scaledSize.x / 2, CHAD.scaledSize.y / 2));
 
         // this.progressBar = new ProgressBar(new Vector(0, 0), 100, 10, "green", "red");
     }
@@ -26,10 +28,11 @@ class Slingshot {
 
         // play the slingshot stretch sound
         if (!this.playedStretchSound) {
-            ASSET_MGR.playAudio(SFX.SLINGSHOT_STRETCH.path, SFX.SLINGSHOT_STRETCH.volume);
+            ASSET_MGR.playSFX(SFX.SLINGSHOT_STRETCH.path, SFX.SLINGSHOT_STRETCH.volume);
             this.playedStretchSound = true;
         }
 
+        
         // position the image near Chad's hand
         let x;
         let startY = this.start.y;
@@ -43,6 +46,7 @@ class Slingshot {
         this.pos = new Vector(x, CHAD.pos.y + 15);
         this.start = new Vector(0, startY);
 
+        
         // find the angle in radians from the x axis to the mouse
         const delta = Vector.worldToCanvasSpace(Vector.subtract(GAME.mousePos, this.pos));
         let theta = Math.atan2(delta.y, delta.x);
@@ -58,17 +62,17 @@ class Slingshot {
 
     fire() {
         ASSET_MGR.stopAudio(SFX.SLINGSHOT_STRETCH.path);
-        
-        // choose from 4 different firing sounds
-        const rand = Math.floor(Math.random() * 4) + 1;
-        const sfx = SFX["SLINGSHOT_LAUNCH" + rand];
-        ASSET_MGR.playAudio(sfx.path, sfx.volume);
 
         this.isFiring = true;
         //this.startX = 26; // slingshot firing frame
 
         let ammoType = INVENTORY.useCurrentAmmo();
         if (ammoType != "Empty") {
+            // choose from 4 different firing sounds
+            const rand = Math.floor(Math.random() * 4) + 1;
+            const sfx = SFX["SLINGSHOT_LAUNCH" + rand];
+            ASSET_MGR.playSFX(sfx.path, sfx.volume);
+            
             // create a projectile and launch it in the direction of the mouse
             GAME.addEntity(new Projectile(
                 ammoType,
@@ -80,7 +84,7 @@ class Slingshot {
         setTimeout(() => {
             this.isFiring = false;
             this.isHidden = true;
-            //TODO take out slingshot from chad's animation
+            //TODO at this point, switch chad animations, taking out slingshot from chad's hand
         }, 1000);
 
         // reset the slingshot stretch sound
@@ -94,6 +98,7 @@ class Slingshot {
     }
 
     update() {
+        this.chadCenter = Vector.add(CHAD.pos, new Vector(CHAD.scaledSize.x / 2, CHAD.scaledSize.y / 2));
         this.timeSinceLastShot += GAME.clockTick;
 
         if (!HUD.pauseButton.isMouseOver() && CHAD.health > 0) {
@@ -105,6 +110,7 @@ class Slingshot {
         }
     }
 
+    //TODO remove this when we have a Chad animation containing the slingshot
     draw() {
         if (!this.isHidden) {
             CTX.drawImage(
@@ -117,6 +123,7 @@ class Slingshot {
                 Slingshot.SIZE.y * Slingshot.SCALE);
         }
     }
+
 
     /** The delay between shots in seconds */
     static get SHOOT_DELAY() {

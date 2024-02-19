@@ -486,6 +486,17 @@ const loadVillageMain = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
+        // NOTE: we can't activate music until the user has interacted with the canvas. (this issue is inherent to HTML5)
+        //  If listening for a click is the only way to activate music, that's fine. 
+        //  Our game's START button in the final version can be the trigger.
+        let playMusic = () => {
+            ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+        
+            // delete the event listener so that the music doesn't restart when the user clicks again
+            document.body.removeEventListener('click', playMusic);
+        };
+        document.body.addEventListener('click', playMusic);
+
         LoadingAnimation.stop();
     };
     // Weather should be added last.
@@ -561,7 +572,7 @@ const loadVillageMain = () => {
     // }
     // Set Background Color:
 
-
+    LoadingAnimation.start();
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);
 };

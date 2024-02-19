@@ -6,7 +6,6 @@ const loadPlaygroundCaleb = () => {
         ASSET_MGR.queueDownload(Block.SPRITESHEET);
         ASSET_MGR.queueDownload(Projectile.SPRITESHEET);
         ASSET_MGR.queueDownload(DialogBubble.SPRITESHEET);
-        ASSET_MGR.queueDownload(Crosshair.SPRITESHEET);
         ASSET_MGR.queueDownload(Slingshot.SPRITESHEET);
         ASSET_MGR.queueDownload(Snake.SPRITESHEET);
 
@@ -181,33 +180,24 @@ const loadPlaygroundNathan = () => {
         const startBlock = new Vector(5, 5);
         CHAD.pos = Vector.blockToWorldSpace(startBlock);
 
-        GAME.addEntity(new FoodDrop(FoodDrop.BACON, Vector.blockToWorldSpace(new Vector(10, 5))));
-        GAME.addEntity(new FoodDrop(FoodDrop.BURGER, Vector.blockToWorldSpace(new Vector(15, 5))));
-        GAME.addEntity(new FoodDrop(FoodDrop.ENERGY_DRINK, Vector.blockToWorldSpace(new Vector(10, 10))));
-        GAME.addEntity(new FoodDrop(FoodDrop.STEAK, Vector.blockToWorldSpace(new Vector(15, 10))));
-        GAME.addEntity(new FoodDrop(FoodDrop.HAM, Vector.blockToWorldSpace(new Vector(10, 15))));
-        GAME.addEntity(new FoodDrop(FoodDrop.CHICKEN, Vector.blockToWorldSpace(new Vector(20, 10))));
-        GAME.addEntity(new FoodDrop(FoodDrop.BEEF, Vector.blockToWorldSpace(new Vector(20, 15))));
+        // GAME.addEntity(new FoodDrop(FoodDrop.BACON, Vector.blockToWorldSpace(new Vector(10, 5))));
+        // GAME.addEntity(new FoodDrop(FoodDrop.BURGER, Vector.blockToWorldSpace(new Vector(15, 5))));
+        // GAME.addEntity(new FoodDrop(FoodDrop.ENERGY_DRINK, Vector.blockToWorldSpace(new Vector(10, 10))));
+        // GAME.addEntity(new FoodDrop(FoodDrop.STEAK, Vector.blockToWorldSpace(new Vector(15, 10))));
+        // GAME.addEntity(new FoodDrop(FoodDrop.HAM, Vector.blockToWorldSpace(new Vector(10, 15))));
+        // GAME.addEntity(new FoodDrop(FoodDrop.CHICKEN, Vector.blockToWorldSpace(new Vector(20, 10))));
+        // GAME.addEntity(new FoodDrop(FoodDrop.BEEF, Vector.blockToWorldSpace(new Vector(20, 15))));
 
         // NOTE: we can't activate music until the user has interacted with the canvas. (this issue is inherent to HTML5)
         //  If listening for a click is the only way to activate music, that's fine. 
         //  Our game's START button in the final version can be the trigger.
         let playMusic = () => {
-            ASSET_MGR.playAudio(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume, true);
-            // ASSET_MGR.playAudio(MUSIC.CHAD_PLAYFUL_ADVENTURE.path, MUSIC.CHAD_PLAYFUL_ADVENTURE.volume, true);
-
-
+            ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+        
             // delete the event listener so that the music doesn't restart when the user clicks again
             document.body.removeEventListener('click', playMusic);
         };
         document.body.addEventListener('click', playMusic);
-
-        CANVAS.addEventListener('dblclick', function (e) {
-            e.preventDefault();
-        });
-
-        loadingAnimation.stop(); // stop the loading animation because asset manager has everything it needs
-
     };
 
     // Set background color:
