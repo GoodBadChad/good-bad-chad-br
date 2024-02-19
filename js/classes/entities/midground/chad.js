@@ -188,7 +188,7 @@ class Chad {
             this.health -= amount;
             if (this.health <= 0) {
                 // Chad should die here
-                ASSET_MGR.playAudio(SFX.GAME_OVER.path, SFX.GAME_OVER.volume);
+                ASSET_MGR.playSFX(SFX.GAME_OVER.path, SFX.GAME_OVER.volume);
                 //TODO rotate chad 90 degrees on his back?
                 GAME.addEntity(new DeathScreen(), 1);
                 this.animations[this.facing]["death"].elapsedTime = 0;
