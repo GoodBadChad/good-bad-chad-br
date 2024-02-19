@@ -24,8 +24,8 @@ class Hud {
     }
 
     swapToCrosshair() {
-        let crosshairCursorUnclicked = 'url(../sprites/crosshair_unpressed.png) 16 16, auto';
-        let crosshairCursorClicked = 'url(../sprites/crosshair_pressed.png) 16 16, auto';
+        let crosshairCursorUnclicked = 'url(../sprites/crosshair_unclicked.png) 16 16, auto';
+        let crosshairCursorClicked = 'url(../sprites/crosshair_clicked.png) 16 16, auto';
 
         document.body.style.cursor = crosshairCursorUnclicked;
 
@@ -39,8 +39,8 @@ class Hud {
     }
 
     swapToPointer() {
-        let pointerCursorUnclicked = 'url(../sprites/pointer_unpressed.png), auto';
-        let pointerCursorClicked = 'url(../sprites/pointer_pressed.png), auto';
+        let pointerCursorUnclicked = 'url(../sprites/pointer_unclicked.png), auto';
+        let pointerCursorClicked = 'url(../sprites/pointer_clicked.png), auto';
 
         document.body.style.cursor = pointerCursorUnclicked;
 
