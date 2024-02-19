@@ -178,6 +178,7 @@ class Chad {
         if (this.health <= 0) {
             // Chad should die here
             ASSET_MGR.playSFX(SFX.GAME_OVER.path, SFX.GAME_OVER.volume);
+        }
         if (this.health > 0) {
             if (this.isInvincible) {
                 // playAudio(SFX.DING.path, SFX.DING.volume);
