@@ -124,6 +124,11 @@ class Snake {
             }
         } else if (deathAnim.currentFrame() === deathAnim.frameCount - 1) {
             this.removeFromWorld = true;
+            if (STORY.snakesKilled) {
+                STORY.snakesKilled++;
+            } else {
+                STORY.snakesKilled = 1;
+            }
         }
         
 

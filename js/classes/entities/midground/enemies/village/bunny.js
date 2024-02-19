@@ -78,6 +78,11 @@ class Bunny {
         const deathAnim = this.animations[this.base.getFacing()]["dying"];
         if (this.health <= 0 && deathAnim.currentFrame() === deathAnim.frameCount - 1) {
             this.removeFromWorld = true;
+            if (STORY.bunniesKilled) {
+                STORY.bunniesKilled++;
+            } else {
+                STORY.bunniesKilled = 1;
+            }
         }
     };
 
