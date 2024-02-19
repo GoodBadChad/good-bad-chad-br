@@ -10,11 +10,12 @@ class DialogBubble {
      * @param {Animator} speaker The person saying the dialog. Should be a constant from DialogBubble.SPEAKERS. If nobody, use null.
      * @param {string} text The text to be shown on this dialog bubble. If it would exceed 6 lines, throws an error.
      * @param {boolean} endOfConversation Is this the last dialog bubble in the conversation? Default: false.
-     * @param {Array<Choice>} choices Chad's responses (when applicable). Default: null.
+     * @param {function} callback Should anything happen after this bubble is eliminated? Default: undefined.
      */
-    constructor(speaker, text, endOfConversation = false, choices = null) {
+    constructor(speaker, text, endOfConversation = false, callback) {
         /** The animator to be displayed beside the dialog bubble. */
         this.speaker = speaker;
+
         /** These are the lines that represent all the text on a COMPLETELY TYPED dialog bubble. */
         this.targetLines = DialogBubble.splitText(text);
         /** These are the lines of text that will actually be drawn on the dialog bubble on the current frame. */
@@ -24,10 +25,10 @@ class DialogBubble {
         }
         /** This represents the line of text that is currently being typed. If it is equal to targetLines.length, typing is complete. */
         this.currentLine = 0;
+
         /** Is this dialog bubble the end of the current conversation? */
         this.isEnd = endOfConversation;
-        /** The list of Choice objects representing the different paths this conversation could take. */
-        this.choices = choices;
+        this.callback = callback;
         /** The type of bubble drawn. */
         this.type;
         switch (this.speaker.spritesheet) {

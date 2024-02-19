@@ -33,7 +33,7 @@ class PapaChad {
     /** The size, in pixels of the sprite ON THE SPRITESHEET. */
     static get SIZE() {
         return new Vector(29, 49);
-    }
+    };
 
     /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {
@@ -43,7 +43,7 @@ class PapaChad {
     /** This will be the size of Papa Chad ON THE CANVAS. */
     static get SCALED_SIZE() {
         return Vector.multiply(PapaChad.SIZE, PapaChad.SCALE);
-    }
+    };
 
     /** The filepath to Papa Chad's spritesheet. */
     static get SPRITESHEET() {
@@ -52,24 +52,21 @@ class PapaChad {
 
     /** Change what Papa Chad is doing and where it is. */
     update() {
-
-        // Set the velocity, according to gravity.
-        this.velocity = {
-            x: this.velocity.x,
-            y: this.velocity.y += PHYSICS.GRAVITY_ACC * GAME.clockTick
-        };
-
+        if (STORY.invitedHunting && !STORY.finishedHunting && ZONE.name === "Village Main") {
+            // Papa chad needs to walk left to the field.
+            this.facing = "left";
+            this.action = "walking";
+            // Set his x velocity.
+            this.velocity = new Vector(-Chad.DEFAULT_SPEED, 0);
+        }
+        // Add in gravity to the velocity.
+        this.velocity = Vector.add(this.velocity, new Vector(0, PHYSICS.GRAVITY_ACC));
+        this.pos = Vector.add(this.pos, Vector.multiply(this.velocity, GAME.clockTick));
         this.lastBoundingBox = this.boundingBox;
-
-        this.pos = {
-            x: this.pos.x,
-            y: this.pos.y + this.velocity.y * GAME.clockTick
-        };
-
         this.boundingBox = new BoundingBox(this.pos, PapaChad.SCALED_SIZE);
 
 
-        // Step 4: Have we collided with anything?
+        // Deal with collisions, so that he will fall onto the lower blocks on the hill.
         GAME.entities.midground.forEach((entity) => {
             // Does entity even have a BB?
             if (entity.boundingBox) {
@@ -90,18 +87,21 @@ class PapaChad {
 
                             this.pos = new Vector(this.pos.x, entity.boundingBox.top - PapaChad.SCALED_SIZE.y);
                             this.velocity = new Vector(this.velocity.x, 0);
+
                         } else if (isOverlapY
                             && this.lastBoundingBox.right <= entity.boundingBox.left
                             && this.boundingBox.right > entity.boundingBox.left) {
                             // We are colliding with the left side.
 
                             this.pos = new Vector(entity.boundingBox.left - PapaChad.SCALED_SIZE.x, this.pos.y);
+
                         } else if (isOverlapY
                             && this.lastBoundingBox.left >= entity.boundingBox.right
                             && this.boundingBox.left < entity.boundingBox.right) {
                             // We are colliding with the right side.
 
                             this.pos = new Vector(entity.boundingBox.right, this.pos.y);
+
                         } else if (isOverlapX
                             && this.lastBoundingBox.top >= entity.boundingBox.bottom
                             && this.boundingBox.top < entity.boundingBox.bottom) {
@@ -114,14 +114,22 @@ class PapaChad {
             }
             // There's no bounding box, so who gives a shrek?
         });
+
         // Step 5: Now that your position is actually figured out, draw your correct bounding box.
         this.boundingBox = new BoundingBox(this.pos, PapaChad.SCALED_SIZE);
+
+        // This is a way to update his convo in the field as you progress.
+        if (ZONE.name === "Village Field" && STORY.huntingInstructionsReceived && (STORY.bunniesKilled === undefined || STORY.snakesKilled === undefined)) {
+            this.conversation = new Conversation(getAllConversationArrays().village.papaChad.huntingInstructionShort, false);
+        } else if (ZONE.name === "Village Field" && STORY.bunniesKilled >= 1 && STORY.snakesKilled >= 1) {
+            this.conversation = new Conversation(getAllConversationArrays().village.papaChad.endOfHunt);
+        }
     };
 
     /** Draw Papa Chad on the canvas. */
     draw() {
         this.animations[this.facing][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), PapaChad.SCALE);
-        if (this.conversation.new) {
+        if (this.conversation && this.conversation.new) {
             const indicator = new OverheadIcon(this, PapaChad.SCALED_SIZE.x, OverheadIcon.TRIANGLE, OverheadIcon.GREEN);
             indicator.draw();
         }

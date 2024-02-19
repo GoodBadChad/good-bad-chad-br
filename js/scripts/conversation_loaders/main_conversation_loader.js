@@ -11,7 +11,7 @@ const getAllConversationArrays = () => {
         //mountain:   mountainConversationLoader(),
         playground: playgroundConversationLoader(),
         //spooky:     spookyConversationLoader(),
-        //village:    villageConversationLoader(),
+        village:    villageConversationLoader(),
         //woods:      woodsConversationLoader()
     };
 };
