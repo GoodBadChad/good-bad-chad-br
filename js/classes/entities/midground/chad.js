@@ -262,10 +262,9 @@ class Chad {
         if (GAME.user.dashing && canDash) {
             if (!this.isDashing) {
                 // we just started dashing
-                ASSET_MGR.playSFX(SFX.SWOOSH.path, SFX.SWOOSH.volume);
                 this.xDashAnchoredOrigin = this.pos.x;
                 this.isDashing = true
-                ASSET_MGR.playAudio(SFX.SWOOSH.path, SFX.SWOOSH.volume);
+                ASSET_MGR.playSFX(SFX.SWOOSH.path, SFX.SWOOSH.volume);
             }
 
             // release wind particles every 0.05 seconds
