@@ -34,7 +34,7 @@ class FoodDrop {
             // play a randomly chosen sound effect
             // const rand = Math.floor(Math.random() * 3) + 1; //! uncomment when HUD food-picker is implemented
             // const sfx = SFX["ITEM_COLLECT" + rand];
-            // ASSET_MGR.playAudio(sfx.path, sfx.volume);
+            // ASSET_MGR.playSFX(sfx.path, sfx.volume);
 
 
 
@@ -92,38 +92,33 @@ class FoodDrop {
                         CHAD.firstJumpForce = 650;
                         CHAD.secondJumpForce = 700;
                     }, 30000);
-                    console.log("*glug glug* Energy Drink");
                     break;
 
                 case FoodItem.CHICKEN:
                     // restore 20 HP
                     CHAD.restoreHealth(20);
-                    console.log("*munch munch* Chicken Leg");
                     break;
 
                 case FoodItem.STEAK:
                     // restore 40 HP
                     CHAD.restoreHealth(40);
-                    console.log("*munch munch* Steak");
                     break;
 
                 case FoodItem.HAM:
                     // restore 60 HP
                     CHAD.restoreHealth(60);
-                    console.log("*munch munch* Ham");
                     break;
 
                 case FoodItem.BEEF:
                     // fully restore HP
                     CHAD.restoreHealth(Chad.MAX_HEALTH);
-                    console.log("*munch munch* Beef");
                     break;
             }
 
             // play a randomly chosen sound effect
             const rand = Math.floor(Math.random() * 4) + 1;
             const sfx = SFX["FOOD_EAT" + rand];
-            ASSET_MGR.playAudio(sfx.path, sfx.volume);
+            ASSET_MGR.playSFX(sfx.path, sfx.volume);
         }
     }
 

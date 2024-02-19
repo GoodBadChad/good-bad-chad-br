@@ -58,13 +58,21 @@ class Chad {
         /** Used to check how to deal with collisions with other applicable entities. */
         this.lastBoundingBox = this.boundingBox;
         /** The force of Chad's first jump. */
-        this.firstJumpForce = Chad.DEFAULT_FIRST_JUMP_FORCE;
+        this.firstJumpVelocity = Chad.DEFAULT_FIRST_JUMP_VELOCITY;
         /** The force of Chad's second jump. */
-        this.secondJumpForce = Chad.DEFAULT_SECOND_JUMP_FORCE;
+        this.secondJumpVelocity = Chad.DEFAULT_SECOND_JUMP_VELOCITY;
 
         this.isJumping = false;
         /** The timer for the jump. Used to ensure the jump force is applied for a minimum amount of time. */
         this.firstJumpTimer = 0;
+        this.groundDashTimer = Chad.GROUND_DASH_COOLDOWN;
+        /** Ground dashes are reset based off a timer  */
+        this.canGroundDash = true;
+        /** Air dashes are reset when landing on the ground (we only want one air dash per jump) */
+        this.canAirDash = true;
+        
+        /** If Chad has landed on the ground. Used to determine when Chad first hit the ground. */
+        this.alreadyLanded = false;
     };
 
     /** The size, in pixels of the sprite ON THE SPRITESHEET. */
@@ -92,27 +100,23 @@ class Chad {
         return "./sprites/CHAD1.png";
     };
 
-    /** The velocity of the first jump */
-    static get FIRST_JUMP_VELOCITY() {
-        return -700
-    }
-    /** The velocity of the double jump. */
-    static get SECOND_JUMP_VELOCITY() {
-        return -800;
-    }
-
     /** The mulitiplier that allows CHAD to run. */
     static get RUN_MULTIPLIER() {
         return 1.4;
     }
-    /** The mulitiplier that allows CHAD to run. */
+    /** How much faster Chad is while dashing than walking */
     static get DASH_MULTIPLIER() {
         return 3.5;
     }
 
     /** The barrier that limits the length of the longest dash. */
-    static get DASH_BARRIER() {
-        return 250;
+    static get DASH_LIMIT() {
+        return 280;
+    }
+
+    /** The delay between dashes in seconds. */
+    static get GROUND_DASH_COOLDOWN() {
+        return 0.8;
     }
 
     /** The maximum amount of health Chad can have. */
@@ -130,14 +134,12 @@ class Chad {
         return 1;
     }
 
-    /** The default force applied to Chad during his first jump. */
-    static get DEFAULT_FIRST_JUMP_FORCE() {
-        return 800;
+    static get DEFAULT_FIRST_JUMP_VELOCITY() {
+        return 650;
     }
 
-    /** The default force applied to Chad during his second jump. */
-    static get DEFAULT_SECOND_JUMP_FORCE() {
-        return 900;
+    static get DEFAULT_SECOND_JUMP_VELOCITY() {
+        return 700;
     }
 
     /** 
@@ -168,15 +170,30 @@ class Chad {
      */
     takeDamage(amount) {
         if (this.isInvincible) {
-            // playAudio(SFX.DING.path, SFX.DING.volume);
+            // playSFX(SFX.DING.path, SFX.DING.volume);
             return;
         }
 
         this.health -= amount;
         if (this.health <= 0) {
             // Chad should die here
-            ASSET_MGR.playAudio(SFX.GAME_OVER.path, SFX.GAME_OVER.volume);
-            //TODO rotate chad 90 degrees on his back?
+            ASSET_MGR.playSFX(SFX.GAME_OVER.path, SFX.GAME_OVER.volume);
+        }
+        if (this.health > 0) {
+            if (this.isInvincible) {
+                // playAudio(SFX.DING.path, SFX.DING.volume);
+                return;
+            }
+    
+            this.health -= amount;
+            if (this.health <= 0) {
+                // Chad should die here
+                ASSET_MGR.playAudio(SFX.GAME_OVER.path, SFX.GAME_OVER.volume);
+                //TODO rotate chad 90 degrees on his back?
+                GAME.addEntity(new DeathScreen(), 1);
+                this.animations[this.facing]["death"].elapsedTime = 0;
+                this.action = "death";
+            }
         }
     };
 
@@ -195,6 +212,8 @@ class Chad {
 
     /**
      * Deals with movement in the x direction including walking, running and dashing.
+     * 
+     * @returns {number} the x velocity of Chad
      */
     manageXDirectionMovement() {
         let xVelocity = this.velocity.x;
@@ -209,9 +228,6 @@ class Chad {
             dirSign = 1;
         }
 
-        if (this.isOnGround) {
-            this.hasDoubleJumped = false;
-        }
 
         // Run action
         if (GAME.user.running) {
@@ -233,19 +249,29 @@ class Chad {
 
 
         // Dash action
-        // When not CHAD is not on the ground and his dash is allowed and the user is trying to dash then enter conditional.
-        if (GAME.user.dashing && !this.isOnGround && this.canDash) {
+        // console.log("DASH TIMER: " + this.dashTimer);
+        if (this.groundDashTimer > 0 && this.isOnGround) {
+            this.groundDashTimer -= GAME.clockTick;
+        } else if (this.groundDashTimer <= 0) {
+            this.canGroundDash = true;
+        }
+                    
+        const canDash = ((this.canAirDash && !this.isOnGround) || 
+                        (this.canGroundDash && this.isOnGround));
+
+        if (GAME.user.dashing && canDash) {
             if (!this.isDashing) {
+                // we just started dashing
+                ASSET_MGR.playSFX(SFX.SWOOSH.path, SFX.SWOOSH.volume);
                 this.xDashAnchoredOrigin = this.pos.x;
                 this.isDashing = true
                 ASSET_MGR.playAudio(SFX.SWOOSH.path, SFX.SWOOSH.volume);
             }
 
             // release wind particles every 0.05 seconds
-            if (GAME.gameTime % 0.05 < 0.01) {
-                GAME.addEntity(new ParticleEffect(Vector.add(this.scaleBoundingBoxOffset(), 
-                    new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y / 2)),
-                    ParticleEffect.WIND));
+            if (GAME.gameTime % 0.05 < 0.01) { // we use `< 0.01` instead of `== 0` to avoid floating point errors
+                GAME.addEntity(new ParticleEffect(new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y/2), 
+                                        ParticleEffect.WIND));
             }
 
             this.action = "dashing";
@@ -254,21 +280,23 @@ class Chad {
             let deltaX = Math.abs(this.pos.x - this.xDashAnchoredOrigin);
             // Limit the delta in x that CHAD can dash. Set booleans as necessary to ensure
             // correct limitations on dash functionality, i.e. no double dashing, no infinite dash.
-            if (deltaX >= Chad.DASH_BARRIER) {
-                this.canDash = false;
+            if (deltaX >= Chad.DASH_LIMIT) {
+                // we just finished dashing
+                this.canAirDash = false;
+                this.canGroundDash = false;
                 this.hasDashed = true;
                 this.isDashing = false;
-            } else {
-                this.canDash = true;
-                this.hasDashed = false;
-                this.isDashing = true;
+                this.groundDashTimer = Chad.GROUND_DASH_COOLDOWN;
             }
         }
         // Prevents continuing a dash after lifting the dash key.
         if (!GAME.user.dashing && this.isDashing) {
-            this.canDash = false;
+            // we just finished dashing
+            this.canAirDash = false;
+            this.canGroundDash = false;
             this.hasDashed = true;
             this.isDashing = false;
+            this.groundDashTimer = Chad.GROUND_DASH_COOLDOWN;
         }
 
         return xVelocity;
@@ -276,29 +304,42 @@ class Chad {
 
     /**
      * Deals with movement in the y direction including all types of jumping.
+     * 
+     * @returns {number} the y velocity of Chad
      */
     manageYDirectionMovement() {
         let yVelocity = this.velocity.y;
-        if (!this.isDashing && GAME.user.jumping) {
-            this.action = "jumping";
 
-        }
-        if (this.isDashing) {
-            yVelocity = 0;
+        if (this.isDashing && !this.isOnGround) {
+            yVelocity = 0; // anti-gravity when dashing
         } else {
             yVelocity += PHYSICS.GRAVITY_ACC * GAME.clockTick;
         }
 
-        // If the character is on the ground or within the coyote time window
+        if (this.isOnGround && !this.alreadyLanded) {
+            ASSET_MGR.playSFX(SFX.LAND.path, SFX.LAND.volume);
+            this.groundDashTimer = 0; // let the player dash immediately after landing
+            console.log("Landed on the ground");
+
+            // TODO add a landing animation?
+            // TODO more things related to landing
+
+            this.alreadyLanded = true;
+        }
+
+        if (!this.isOnGround) {
+            this.alreadyLanded = false;
+        }
+        
         if (GAME.user.jumping && this.isOnGround) {
-            yVelocity = -this.firstJumpForce;
-            ASSET_MGR.playAudio(SFX.JUMP1.path, SFX.JUMP1.volume);
+            yVelocity = -this.firstJumpVelocity;
+            ASSET_MGR.playSFX(SFX.JUMP1.path, SFX.JUMP1.volume);
             this.action = "jumping";
             this.isJumping = true; // Set jumping state to true
             this.isOnGround = false;
             this.firstJumpTimer = 0.13;
         }
-
+        
         // If the jump button is released early and the character is still moving upward, reduce the jump force
         if (!GAME.user.jumping && this.isJumping && yVelocity < 0) {
             this.firstJumpTimer -= GAME.clockTick; // Decrease the jump timer
@@ -306,7 +347,6 @@ class Chad {
                 yVelocity /= 2;
             }
         }
-
 
         // The change in distance from the origin of Chad's second jump and his current height.
         let deltaHeight = Math.abs(this.pos.y - this.prevYPosOnGround);
@@ -321,18 +361,11 @@ class Chad {
                 this.canDoubleJump = true;
             }
         }
-        // Perform single jump.
-        //         if (this.isOnGround) {
-        //             ASSET_MGR.playAudio(SFX.JUMP1.path, SFX.JUMP1.volume);
-        //             this.velocity.y = Chad.FIRST_JUMP_VELOCITY;
-        //             this.hasDoubleJumped = false;
-        //             this.isOnGround = false;
-        //         }
 
 
         // Check that Chad has jumped high enough to jump again and allow a second jump if so.
         // Note that if chad has jumped and is falling he can jump at any point on the way down.
-        if (!this.isOnGround && deltaHeight >= Math.abs(this.firstJumpForce / 5) + 32) {
+        if (!this.isOnGround && deltaHeight >= Math.abs(this.firstJumpVelocity / 5) + 32) {
             if (this.hasDoubleJumped) {
                 this.canDoubleJump = false;
             } else {
@@ -342,22 +375,15 @@ class Chad {
 
         // If Chad can double jump and user is trying to jump than do it!
         if (this.canDoubleJump && GAME.user.jumping && !this.isOnGround) {
-            ASSET_MGR.playAudio(SFX.JUMP2.path, SFX.JUMP2.volume);
-            //             this.velocity.y = Chad.SECOND_JUMP_VELOCITY;
-
+            ASSET_MGR.playSFX(SFX.JUMP2.path, SFX.JUMP2.volume);
             GAME.addEntity(new ParticleEffect(Vector.add(this.scaleBoundingBoxOffset(), 
-            new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y - 10)),
+            new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y-10)),
                 ParticleEffect.CLOUD));
             this.action = "jumping";
-            yVelocity = -this.secondJumpForce;
-
+            yVelocity = -this.secondJumpVelocity;
             this.canDoubleJump = false;
             this.hasDoubleJumped = true;
             this.isOnGround = false;
-            if (!this.hasDashed) {
-                this.canDash = true;
-                this.hasDashed = false;
-            }
         }
 
         if (yVelocity > PHYSICS.TERMINAL_VELOCITY) {
@@ -369,20 +395,18 @@ class Chad {
 
     /** Change what Chad is doing and where it is. */
     update() {
-        // Chad shouldn't be able to double jump by default.
-        this.canDoubleJump = false;
-        // Reset double jump if Chad is on the ground.
-        // Check that CHAD is on the ground and reset his ability to dash.
-        if (this.isOnGround) {
-            this.hasDoubleJumped = false;
-            this.canDash = true;
-            this.hasDashed = false;
+        if (this.health <= 0) {
+            return;
         }
 
-        // Set the anchor point to measure the delta in dashing distance used to create a dash barrier
-        // which to limit Chad's dash distance.
-        if (!this.isOnGround && GAME.user.running && this.canDash && !this.hasDashed) {
-            Chad.xDashAnchoredOrigin = this.pos.x;
+        // Chad shouldn't be able to double jump by default.
+        this.canDoubleJump = false;
+
+        // Reset double jump and air dash if Chad is on the ground.
+        if (this.isOnGround) {
+            this.hasDoubleJumped = false;
+            this.canAirDash = true;
+            this.hasDashed = false;
         }
 
         // Step 1: Listen for user input.
@@ -420,14 +444,19 @@ class Chad {
             }
         }
 
+
         if (GAME.user.jabbing) {
             this.action = "slicing";
         }
-
         if (this.isOnGround && !(GAME.user.movingRight || GAME.user.movingLeft)) {
             this.action = "idle";
-
+            if (GAME.user.jabbing) {
+                this.action = "slicingStill";
+            }
+        } else if (!(this.isOnGround) && GAME.user.jumping && !(GAME.user.dashing)) {
+            this.action = "jumping"
         }
+
 
         // Step 2: Account for gravity, which is always going to push you downward.
         this.velocity.y += PHYSICS.GRAVITY_ACC * GAME.clockTick;
@@ -589,7 +618,7 @@ class Chad {
             // play a randomly chosen sound effect
             const rand = Math.floor(Math.random() * 4) + 1;
             const sfx = SFX["FOOD_EAT" + rand];
-            ASSET_MGR.playAudio(sfx.path, sfx.volume);
+            ASSET_MGR.playSFX(sfx.path, sfx.volume);
 
             GAME.user.eatFood = false; // we only want to eat once per click
         }*/
@@ -600,6 +629,8 @@ class Chad {
     draw() {
         this.animations[this.facing][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), this.scale);
     };
+
+
 
     /** Called by the constructor. Fills up the animations array. */
     loadAnimations() {
@@ -626,7 +657,7 @@ class Chad {
             Chad.SPRITESHEET,
             new Vector(96, 64),
             Chad.SIZE,
-            31, 1 / 10);
+            31, 1 / 10, true, true);
         this.animations["right"]["running"] = new Animator(
             Chad.SPRITESHEET,
             new Vector(0, 0),
@@ -636,7 +667,7 @@ class Chad {
             Chad.SPRITESHEET,
             new Vector(96, 64),
             Chad.SIZE,
-            31, 1 / 10);
+            31, 1 / 10, true, true);
 
         this.animations["right"]["dashing"] = new Animator(
             Chad.SPRITESHEET,
@@ -669,7 +700,29 @@ class Chad {
             new Vector(
                 0, 192),
             Chad.SIZE,
-            32, 1 / 20);
+            32, 1 / 20, true, true);
 
+        this.animations["right"]["slicingStill"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, 1824),
+            Chad.SIZE,
+            8, 1 / 20);
+        this.animations["left"]["slicingStill"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(
+                0, 1888),
+            Chad.SIZE,
+            8, 1 / 20);
+
+        this.animations["right"]["death"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(432, 1664),
+            Chad.SIZE,
+            15, 1 / 10, false);
+        this.animations["left"]["death"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(432, 1728),
+            Chad.SIZE,
+            15, 1 / 10, false, true);
     };
 };

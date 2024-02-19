@@ -109,7 +109,7 @@ class Snake {
                 if (secondsSinceLastAttack > Snake.ATTACK_COOLDOWN) {
                     // if it's been long enough, start a new attack 
                     this.state = "pursue";
-                    this.base.setTargetX(CHAD.pos.x);
+                    this.base.setTargetX(CHAD.pos.x + CHAD.scaleBoundingBoxOffset().x);
                     this.animations[this.base.getFacing()]["attacking"].elapsedTime = 0;
                     this.action = "attacking";
                     this.lastAttack = Date.now() / 1000;

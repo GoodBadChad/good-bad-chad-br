@@ -19,6 +19,8 @@ class Inventory {
         /** The current runes that the player has collected. Filled with RuneItem objects */
         this.runeBag = [];
         this.intializeRuneBag();
+        /** Permanent items Chad collects and potentially has abilities tied to */
+        this.unlockables = [];
     }
 
     intializeAmmoBag() {
