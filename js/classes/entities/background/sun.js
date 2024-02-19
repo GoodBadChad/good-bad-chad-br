@@ -1,11 +1,11 @@
 class Sun {
     constructor(pos, type) {
-        if (pos.x < 0 
-            || pos.y < 0 
-            || pos.x > ZONE.MAX_PT.x - Sun.SCALED_SIZE 
+        if (pos.x < 0
+            || pos.y < 0
+            || pos.x > ZONE.MAX_PT.x - Sun.SCALED_SIZE
             || pos.y > ZONE.MAX_PT.y - Sun.SCALED_SIZE) {
-            
-            throw new Error("Your sun exists outside the bounds of the Zone!");            
+
+            throw new Error("Your sun exists outside the bounds of the Zone!");
         }
         if (type % 1 !== 0 || type < 0 || type > 3) {
             throw new Error("Your sun is of an improper type! Try Sun.VILLAGE, .MOUNTAIN, .LAVA, .MOON")
@@ -16,13 +16,13 @@ class Sun {
             Sun.SPRITESHEET,
             new Vector(0, type * Sun.SIZE),
             new Vector(Sun.SIZE, Sun.SIZE),
-            1, 1);
+            2, 0.8);
     };
 
     static get VILLAGE() {
         return 0;
     };
-    
+
     static get MOUNTAIN() {
         return 1;
     };
@@ -48,7 +48,7 @@ class Sun {
     };
 
     static get SPRITESHEET() {
-        return "./sprites/suns.png";
+        return "./sprites/suns2.png";
     };
 
     /** The sun does not change. Do not update. */

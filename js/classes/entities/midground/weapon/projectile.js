@@ -1,5 +1,5 @@
 /**
- * A class which represents a projectile fired from the player's slingshot.
+ * A class which represents a projectile fired by an entity.
  * 
  * @author Trae Claar
  * @author Nathan Hinthorne
@@ -80,8 +80,12 @@ class Projectile {
     static get PROPERTY_TABLE() {
         return {
             [Projectile.BOMB]: {
-                ACTION: () => {
-                    console.log("boom");
+                ACTION: (targetEntity, projectile) => {
+                    // setTimeout(() => {
+                        GAME.addEntity(new ParticleEffect(projectile.pos, ParticleEffect.SMALL_EXPLOSION));
+                        ASSET_MGR.playSFX(SFX.EXPLOSION_SMALL.path, SFX.EXPLOSION_SMALL.volume);
+                        projectile.removeFromWorld = true;
+                    // }, 1000);
                 },
                 SPEED: 15,
                 WEIGHT: 0.05,
@@ -90,15 +94,17 @@ class Projectile {
             [Projectile.WOOD]: {
                 ACTION: () => {
                     console.log("wood");
+                    ASSET_MGR.playSFX(SFX.RICOCHET1.path, SFX.RICOCHET1.volume);
                 },
                 SPEED: 15,
                 WEIGHT: 0.001,
                 SIZE: new Vector(4, 4)
             },
             [Projectile.STONE]: {
-                ACTION: (target) => {
-                    if (target.takeDamage) {
-                        target.takeDamage(5);
+                ACTION: (targetEntity) => {
+                    ASSET_MGR.playSFX(SFX.RICOCHET2.path, SFX.RICOCHET2.volume);
+                    if (targetEntity.takeDamage) {
+                        targetEntity.takeDamage(5);
                     }
                 },
                 SPEED: 14,
@@ -107,6 +113,7 @@ class Projectile {
             },
             [Projectile.METAL]: {
                 ACTION: () => {
+                    ASSET_MGR.playSFX(SFX.RICOCHET3.path, SFX.RICOCHET3.volume);
                     console.log("metal");
                 },
                 SPEED: 12,
@@ -116,6 +123,18 @@ class Projectile {
             [Projectile.LASER]: {
                 ACTION: () => {
                     console.log("laser");
+                },
+                SPEED: 20,
+                WEIGHT: 0,
+                SIZE: new Vector(5, 5)
+            },
+            [Projectile.ANTIGRAVITY]: {
+                ACTION: () => {
+                    console.log("anti-gravity");
+
+                    // check what entity it collides with
+                        // if enemy, damage it and destroy projectile
+                        // if block, bounce off and create new projectile in proper direction
                 },
                 SPEED: 20,
                 WEIGHT: 0,
@@ -169,17 +188,19 @@ class Projectile {
             
             if (this.yVelocity > PHYSICS.TERMINAL_VELOCITY) {
                 this.yVelocity = PHYSICS.TERMINAL_VELOCITY;
-            } 
+            }
           
             const posChange = Vector.multiply(this.dir, this.speed);
             this.pos = Vector.add(this.pos, new Vector(posChange.x, posChange.y + this.yVelocity))
 
             this.updateBoundingBox();
             GAME.entities.midground.forEach((entity) => {
-                if (this != entity && entity.boundingBox) {
+                if (this != entity && entity.boundingBox && !(entity instanceof FoodDrop)) {
                     if (this.boundingBox.collide(entity.boundingBox)) {
-                        this.action(entity);
-                        this.removeFromWorld = true;
+                        this.action(entity, this);
+
+                        
+
                     }
                 }
             });

@@ -10,11 +10,12 @@ class DialogBubble {
      * @param {Animator} speaker The person saying the dialog. Should be a constant from DialogBubble.SPEAKERS. If nobody, use null.
      * @param {string} text The text to be shown on this dialog bubble. If it would exceed 6 lines, throws an error.
      * @param {boolean} endOfConversation Is this the last dialog bubble in the conversation? Default: false.
-     * @param {Array<Choice>} choices Chad's responses (when applicable). Default: null.
+     * @param {function} callback Should anything happen after this bubble is eliminated? Default: undefined.
      */
-    constructor(speaker, text, endOfConversation = false, choices = null) {
+    constructor(speaker, text, endOfConversation = false, callback) {
         /** The animator to be displayed beside the dialog bubble. */
         this.speaker = speaker;
+
         /** These are the lines that represent all the text on a COMPLETELY TYPED dialog bubble. */
         this.targetLines = DialogBubble.splitText(text);
         /** These are the lines of text that will actually be drawn on the dialog bubble on the current frame. */
@@ -24,17 +25,17 @@ class DialogBubble {
         }
         /** This represents the line of text that is currently being typed. If it is equal to targetLines.length, typing is complete. */
         this.currentLine = 0;
+
         /** Is this dialog bubble the end of the current conversation? */
         this.isEnd = endOfConversation;
-        /** The list of Choice objects representing the different paths this conversation could take. */
-        this.choices = choices;
+        this.callback = callback;
         /** The type of bubble drawn. */
         this.type;
-        switch (this.speaker) {
-            case DialogBubble.SPEAKERS.CHAD:
+        switch (this.speaker.spritesheet) {
+            case DialogBubble.SPEAKERS.CHAD.spritesheet:
                 this.type = DialogBubble.LEFT_BUBBLE;
                 break;
-            case null:
+            case Sun.SPRITESHEET:
                 this.type = DialogBubble.INSTRUCTION;
                 break;
             default:
@@ -63,29 +64,28 @@ class DialogBubble {
      */
     draw() {
         // three steps:
+
+        // (1) Draw the DialogBubble sprite.
         const dbPos = new Vector(
             (Camera.SIZE.x - DialogBubble.SCALED_SIZE.x) / 2,
             Camera.SIZE.y - DialogBubble.SCALED_SIZE.y
         );
-
-        // (1) Draw the DialogBubble sprite.
         CTX.drawImage(
             ASSET_MGR.getAsset(DialogBubble.SPRITESHEET),
             0, DialogBubble.SIZE.y * this.type,
             DialogBubble.SIZE.x, DialogBubble.SIZE.y,
             dbPos.x, dbPos.y,
-            DialogBubble.SCALED_SIZE.x, DialogBubble.SCALED_SIZE.y);
-            
+            DialogBubble.SCALED_SIZE.x, DialogBubble.SCALED_SIZE.y
+        );
+
         // (2) Draw the speaker.
         const scale = 6;
+        const chadHeadX = (Camera.SIZE.x - DialogBubble.SCALED_SIZE.x) / 2 - (scale * this.speaker.size.x * 1.5);
+        const otherHeadX = Camera.SIZE.x - ((Camera.SIZE.x - DialogBubble.SCALED_SIZE.x) / 2) + (scale * this.speaker.size.x * 0.5);
         const speakerStart = this.speaker.spritesheet === DialogBubble.SPEAKERS.CHAD.spritesheet ?
-            new Vector(
-                ((Camera.SIZE.x - DialogBubble.SCALED_SIZE.x) / 2) - (this.speaker.size.x * 0.5),
-                Camera.SIZE.y - DialogBubble.SCALED_SIZE.y
-            ) : new Vector(
-                Camera.SIZE.x - ((Camera.SIZE.x - DialogBubble.SCALED_SIZE.x) / 2) + (this.speaker.size.x * 0.5),
-                Camera.SIZE.y - DialogBubble.SCALED_SIZE.y
-            );
+            new Vector(chadHeadX, Camera.SIZE.y - DialogBubble.SCALED_SIZE.y) :
+            new Vector(otherHeadX, Camera.SIZE.y - DialogBubble.SCALED_SIZE.y);
+
         this.speaker.drawFrame(speakerStart, scale);
 
         // (3) Draw the text.
@@ -206,33 +206,18 @@ class DialogBubble {
      */
     static get SPEAKERS() {
         return {
-            CHAD:       new Animator(Chad.SPRITESHEET,
-                            new Vector(0, 0),
-                            new Vector(PapaChad.SIZE.x, 17),
-                            1, 1),
-            PAPA_CHAD:  new Animator(PapaChad.SPRITESHEET,
-                            new Vector(0, 0),
-                            new Vector(PapaChad.SIZE.x, 17),
-                            1, 1)
+            CHAD: new Animator("./sprites/speaker_chad.png",
+                new Vector(0, 0),
+                new Vector(24, 17),
+                1, 1),
+            NONE: new Animator(Sun.SPRITESHEET,
+                new Vector(0, 0),
+                new Vector(0, 0),
+                1, 1),
+            PAPA_CHAD: new Animator(PapaChad.SPRITESHEET,
+                new Vector(0, 0),
+                new Vector(PapaChad.SIZE.x, 17),
+                1, 1)
         };
-    };
-};
-
-// NOTE: There's a lot that needs to be done for choices still: the following is just an idea of what it'll look like.
-
-/**
- * A Choice is how a conversation is made dynamic.
- * A Choice is NOT a dialog bubble - it does not display what Chad SAYS, just indicates which decision he makes.
- * The nextIndex should point toward the DialogBubble representing Chad's true response.
- * @author Devin Peevy
- */
-class Choice {
-    /**
-     * @param {string} text A short description of the choice one is making.
-     * @param {number} nextIndex The conversation index that should be displayed next.
-     */
-    constructor(text, nextIndex) {
-        this.text = text;
-        this.nextIndex = nextIndex;
     };
 };

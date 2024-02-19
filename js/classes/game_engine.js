@@ -24,15 +24,22 @@ class GameEngine {
             movingRight: false,
             movingLeft: false,
             jumping: false,
-            sprinting: false,
+            running: false,
             dashing: false,
             aiming: false,
             firing: false,
             jabbing: false,
             interacting: false,
+            cycleFood: false,
+            eatFood: false,
             // Dialog
-            continuingConversation: false
+            continuingConversation: false,
+            choiceUp: false,
+            choiceDown: false
         };
+
+        /** used to detect double taps */
+        this.lastKeyTime = { keyA: 0,  keyD: 0 };
 
         // /** Where is the x coordinate of the user's mouse? */
         // this.mouseX = 0;
@@ -42,11 +49,21 @@ class GameEngine {
 
         /** The timer tells you how long it's been since the last tick! */
         this.timer = new Timer();
+
+        /** How long has the game been running? */
+        this.gameTime = 0;
         
         this.conversation = null;
 
         this.mode = GameEngine.GAMEPLAY_MODE;
     };
+
+    /**
+     * The threshold in seconds at which a double tap is recognized.
+     */
+    static get DOUBLE_TAP_THRESHOLD() {
+        return 0.25;
+    }
 
     /**
      * This adds a new entity to the entities array.
@@ -86,6 +103,7 @@ class GameEngine {
     /** This is the update-render loop. */
     loop() {
         this.clockTick = this.timer.tick();
+        this.gameTime += this.clockTick;
         this.update();
         this.draw();
     };
@@ -129,14 +147,20 @@ class GameEngine {
                 }
             });
         }
-        // Update the HUD and Crosshair regardless of whether the game is running or not
+        // Update the HUD regardless of whether the game is running or not
         HUD.update();
-        CROSSHAIR.update();
+        this.lastKeyTime.keyA += GAME.clockTick;
+        this.lastKeyTime.keyD += GAME.clockTick;
+
 
         // I'm not gonna touch this because I don't know why it's here, but I don't think it belongs here:
         if (this.user.firing) {
             this.user.firing = false;
         }
+        // This fixed a bug where once you switched choices, it switched in an infinite loop.
+        this.user.choiceUp  = false;
+        this.user.choiceDown = false;
+        this.user.continuingConversation = false;
     };
 
     /**
@@ -161,9 +185,6 @@ class GameEngine {
       
         // (5) Draw the foreground entities.
         this.entities.foreground.forEach((entity) => {entity.draw();});
-        // Draw the HUD and Crosshair, which are not regular entities.
-        HUD.draw();
-        CROSSHAIR.draw();
     };
 
     /**
@@ -171,13 +192,16 @@ class GameEngine {
      * to interaction with either the WASD keys or arrows.
      */
     configureEventListeners() {
-        Object.keys(GAME.user).forEach((key) => {
-            GAME.user[key] = false;
+        // Set all listeners to false.
+        Object.keys(this.user).forEach((key) => {
+            this.user[key] = false;
         });
 
         if (this.mode === GameEngine.GAMEPLAY_MODE) {
             // Remove all other listeners.
             CANVAS.removeEventListener("keypress", EVENT_HANDLERS.dialogKeyPress, false);
+            CANVAS.removeEventListener("keyup", EVENT_HANDLERS.dialogKeyUp, false);
+            CANVAS.removeEventListener("keydown", EVENT_HANDLERS.dialogKeyDown, false);
             // Add the gameplay listeners.
             CANVAS.addEventListener("mousedown", EVENT_HANDLERS.gameplayMouseDown, false);
             CANVAS.addEventListener("mouseup", EVENT_HANDLERS.gameplayMouseUp, false);
@@ -193,6 +217,12 @@ class GameEngine {
             CANVAS.removeEventListener("keyup", EVENT_HANDLERS.gameplayKeyUp, false);
             // Add the dialog listeners
             CANVAS.addEventListener("keypress", EVENT_HANDLERS.dialogKeyPress, false);
+            /*
+            Note: For whatever reason, "keypress" event with code "Space" does not work -
+            so I fixed it by doing keyup and keydown. Works fine now.
+            */
+            CANVAS.addEventListener("keyup", EVENT_HANDLERS.dialogKeyUp, false);
+            CANVAS.addEventListener("keydown", EVENT_HANDLERS.dialogKeyDown, false);
         } else if (this.mode === GameEngine.MENU_MODE) {
             // This isn't set up yet. Possibly won't ever be necessary.
         }

@@ -2,17 +2,17 @@
  * A Slime can appear in all dimensions except village.
  * He is able to face right or left, move, launch, and die.
  * @author Devin Peevy
+ * @author Trae Claar
  */
 class Slime {
     // TODO: edit the Slime spritesheet so that idle is first, making the walking animation flow better.
     /**
+     * Constructor for a Slime.
+     * 
      * @param {Vector} pos The position at which the Slime should start.
      * @param {number} type The type of Slime that should be generated. Slime.SAP, .POLLUTED, .FROST, .MAGMA, or .EVIL.
      */
     constructor(pos, type) {
-        /** The position of the Slime (in the game world). */
-        this.pos = pos;
-
         // Did we pass in a type? Is it valid?
         if (type && (type % 1 !== 0 || type < 0 || type > 4)) {
             throw new Error("Invalid Slime type: try Slime.SAP, .POLLUTED, .FROST, .MAGMA, or .EVIL.");
@@ -20,58 +20,46 @@ class Slime {
         /** The type of Slime that this is. Slime.SAP, .POLLUTED, .FROST, .MAGMA, or .EVIL. Default SAP. */
         this.type = type ?? Slime.SAP; // If no type parameter input, assume SAP.
 
-        /** An associative array of the animations for this Slime. Arranged [facing][action]. */
+        this.base = new EnemyBase(
+            this, 
+            pos, 
+            Slime.SCALED_SIZE, 
+            Slime.SPEED, 
+            Slime.MAX_HEALTH, 
+            Slime.PACE_DISTANCE, 
+            () => this.handleDeath(),
+            EnemyBase.AGGRESSIVE_STANCE
+        );
+
+        /** An associative array of the animations for this Snake. Arranged [facing][action]. */
         this.animations = [];
         this.loadAnimations();
-        /** What way is the Slime looking? */
-        this.facing = "left"; // "left", "right"
-        /** What is the Slime doing? */
-        this.action = "idle";
-        /** Used to check for collisions with other applicable entities. */
-        this.boundingBox = new BoundingBox();
-        /** Used to check how to deal with collisions with other applicable entities. */
-        this.lastBoundingBox = this.boundingBox;
-        this.elapsedTime = 0;
-        this.hops = 0;
+
+        this.lastAttack = 0;
     };
 
     // Types:
-    /** 
-     * A constant for the type field. 
-     * @returns How many types of slimes are above Sap on the spritesheet. 
-     */
+   /** A constant for the Sap type that can be passed to the constructor. */
     static get SAP() {
         return 0;
     }
 
-    /** 
-     * A constant for the type field. 
-     * @returns How many types of slimes are above Polluted on the spritesheet.
-     */
+    /** A constant for the Polluted type that can be passed to the constructor. */
     static get POLLUTED() {
         return 1;
     }
 
-    /** 
-     * A constant for the type field. 
-     * @returns How many types of slimes are above Frost on the spritesheet.
-     */
+    /** A constant for the Frost type that can be passed to the constructor. */
     static get FROST() {
         return 2;
     };
 
-    /** 
-     * A constant for the type field. 
-     * @returns How many types of slimes are above Magma on the spritesheet.
-      */
+    /** A constant for the Magma type that can be passed to the constructor. */
     static get MAGMA() {
         return 3;
     };
 
-    /** 
-     * A constant for the type field.
-     * @returns How many types of slimes are above Evil on the spritesheet
-     */
+    /** A constant for the Evil type that can be passed to the constructor. */
     static get EVIL() {
         return 4;
     };
@@ -87,56 +75,70 @@ class Slime {
         return 3;
     };
 
-    // /** This will be the height of the Slime ON THE CANVAS. */
-    // static get SCALED_HEIGHT() {
-    //     return Slime.SCALE * Slime.HEIGHT;
-    // };
-
-    // /** This will be the width of the Slime ON THE CANVAS. */
-    // static get SCALED_WIDTH() {
-    //     return Slime.SCALE * Slime.WIDTH;
-    // };
-
     /** This will be the size of the Slime ON THE CANVAS. */
     static get SCALED_SIZE() {
         return Vector.multiply(Slime.SIZE, Slime.SCALE);
     }
 
+    /** The speed of a Slime in pixels/s. */
     static get SPEED() {
         return Slime.SCALE * 30;
     }
+
+    /** The maximum health of a Slime. */
+    static get MAX_HEALTH() {
+        return 20;
+    }
+
+    /** The distance (in pixels) that a Slime will stray from its initial position when roaming. */
+    static get PACE_DISTANCE() {
+        return Slime.SCALED_SIZE.x * 5;
+    }
+
+     /** The number of seconds between attacks. */
+     static get ATTACK_COOLDOWN() {
+        return 1;
+    };
+
+    /** The amount of damage a Slime deals during an attack. */
+    static get ATTACK_DAMAGE() {
+        return 5;
+    };
 
     /** The filepath to the spritesheet of the Slime. */
     static get SPRITESHEET() {
         // TODO: make Slime death sprite.
         return "./sprites/slimes.png";
     };
+
+    /**
+     * Perform any necessary operations when the Slime dies.
+     */
+    handleDeath() {
+        this.action = "dying";
+    }
     
     /** Change what the Slime is doing and where it is. */
     update() {
-        // WHAT SHOULD HIS CONDITIONS BE?
+        this.base.update();
 
-        // He's gonna (wait 0.5s, move) x2, turn, repeat.
-        if (this.elapsedTime % 1.5 < 0.5) {
-            this.action = "idle";
-        } else {
-            this.action = "moving";
-        }
-        // His animation takes 1 second. So: 
-        this.hops = Math.floor(this.elapsedTime / 1.5);
-        this.facing = (Math.floor(this.hops / 2) % 2 === 0) ? "right" : "left";
-        this.elapsedTime += GAME.clockTick;
+        const deathAnim = this.animations[this.base.getFacing()]["dying"];
 
-        // HOW SHOULD WE MOVE HIM BASED ON HIS CONDITIONS?
-        const mult = (this.facing === "left") ? -1 : 1;
-        if (this.action === "moving") {
-            this.pos = Vector.add(this.pos, new Vector(mult * Slime.SPEED * GAME.clockTick, 0));
+        if (this.health > 0) {
+            if (this.base.chadDistance() < Slime.SCALED_SIZE.x / 2
+                && Date.now() - Slime.ATTACK_COOLDOWN * 1000 > this.lastAttack) {
+
+                this.lastAttack = Date.now();
+                CHAD.takeDamage(Slime.ATTACK_DAMAGE);
+            }
+        } else if (deathAnim.currentFrame() === deathAnim.frameCount - 1) {
+            this.removeFromWorld = true;
         }
     };
 
     /** Draw the Slime on the canvas. */
     draw() {
-        this.animations[this.facing][this.action].drawFrame(this.pos, Slime.SCALE);
+        this.animations[this.base.getFacing()][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), Slime.SCALE);
     };
 
     /** Called by the constructor. Fills up the animations array. */
@@ -147,26 +149,37 @@ class Slime {
         // Idle Animations
         this.animations["right"]["idle"] = new Animator(
             Slime.SPRITESHEET,
-            new Vector(Slime.SIZE.x, this.type * 2 * Slime.SIZE.y),
+            new Vector(Slime.SIZE.x, this.type * 4 * Slime.SIZE.y),
             Slime.SIZE,
             1, 1);
         this.animations["left"]["idle"] = new Animator(
             Slime.SPRITESHEET,
-            new Vector(Slime.SIZE.x, this.type * 2 * Slime.SIZE.y + Slime.SIZE.y),
+            new Vector(Slime.SIZE.x, this.type * 4 * Slime.SIZE.y + Slime.SIZE.y),
             Slime.SIZE,
             1, 1);
         
         // Moving animations
         this.animations["right"]["moving"] = new Animator(
             Slime.SPRITESHEET,
-            new Vector(0, this.type * 2 * Slime.SIZE.y),
+            new Vector(0, this.type * 4 * Slime.SIZE.y),
             Slime.SIZE,
             4, 0.25);
         this.animations["left"]["moving"] = new Animator(
             Slime.SPRITESHEET,
-            new Vector(0, this.type * 2 * Slime.SIZE.y + Slime.SIZE.y),
+            new Vector(0, this.type * 4 * Slime.SIZE.y + Slime.SIZE.y),
             Slime.SIZE,
             4, 0.25);
         
+        // Death animations
+        this.animations["right"]["dying"] = new Animator(
+            Slime.SPRITESHEET,
+            new Vector(0, this.type * 4 * Slime.SIZE.y + 2 * Slime.SIZE.y),
+            Slime.SIZE,
+            7, 1/14);
+        this.animations["left"]["dying"] = new Animator(
+            Slime.SPRITESHEET,
+            new Vector(0, this.type * 4 * Slime.SIZE.y + 3 * Slime.SIZE.y),
+            Slime.SIZE,
+            7, 1/14);
     };
 };

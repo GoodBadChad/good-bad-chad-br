@@ -6,7 +6,6 @@ const loadPlaygroundCaleb = () => {
         ASSET_MGR.queueDownload(Block.SPRITESHEET);
         ASSET_MGR.queueDownload(Projectile.SPRITESHEET);
         ASSET_MGR.queueDownload(DialogBubble.SPRITESHEET);
-        ASSET_MGR.queueDownload(Crosshair.SPRITESHEET);
         ASSET_MGR.queueDownload(Slingshot.SPRITESHEET);
         ASSET_MGR.queueDownload(Snake.SPRITESHEET);
 
@@ -53,12 +52,12 @@ const loadPlaygroundCaleb = () => {
 
         // Draw Sun.
         GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE), Sun.VILLAGE));
-};
-        // Set background color:
-        BG_COLOR = "red";
+    };
+    // Set background color:
+    BG_COLOR = "red";
 
-        queueAssets();
-        ASSET_MGR.downloadAll(addEntities);
+    queueAssets();
+    ASSET_MGR.downloadAll(addEntities);
 };
 
 /**
@@ -102,8 +101,8 @@ const loadPlaygroundDevin = () => {
         // Add papa chad (he'll fall until he's on some blocks.)
         const papaChadBlockPos = new Vector(15, 15);
         const papa = new PapaChad(
-            Vector.blockToWorldSpace(papaChadBlockPos), 
-            new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)); // his conversation.
+            Vector.blockToWorldSpace(papaChadBlockPos),
+            new Conversation(getAllConversationArrays().playground.papaChad.huntingInvitation)); // his conversation.
 
         GAME.addEntity(papa);
     };
@@ -132,30 +131,12 @@ const loadPlaygroundEverybody = () => {
 
 const loadPlaygroundNathan = () => {
     const queueAssets = () => {
-        ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
-        ASSET_MGR.queueDownload(Block.SPRITESHEET);
-        ASSET_MGR.queueDownload(Projectile.SPRITESHEET);
-        ASSET_MGR.queueDownload(DialogBubble.SPRITESHEET);
-        ASSET_MGR.queueDownload(Crosshair.SPRITESHEET);
-        ASSET_MGR.queueDownload(Slingshot.SPRITESHEET);
-        ASSET_MGR.queueDownload(Snake.SPRITESHEET);
 
         // queue music
-        ASSET_MGR.queueDownload(MUSIC.PEACEFUL_CHIPTUNE.path);
-        ASSET_MGR.queueDownload(MUSIC.UPBEAT_CHIPTUNE_1.path);
-        ASSET_MGR.queueDownload(MUSIC.UPBEAT_CHIPTUNE_2.path);
-        ASSET_MGR.queueDownload(MUSIC.CHAD_PLAYFUL_ADVENTURE.path);
-        ASSET_MGR.queueDownload(MUSIC.CHAD_VICTORIOUS_EMOTIONAL.path);
-        ASSET_MGR.queueDownload(MUSIC.VILLAGE_TOWN_SQUARE.path);
-        ASSET_MGR.queueDownload(MUSIC.FOREST_BOSS.path);
-        ASSET_MGR.queueDownload(MUSIC.FACTORY_BOSS.path);
-        ASSET_MGR.queueDownload(MUSIC.MOUNTAIN_MYSTERIOUS.path);
-        ASSET_MGR.queueDownload(MUSIC.LAVA_NORMAL.path);
-        ASSET_MGR.queueDownload(MUSIC.LAVA_UNDERGROUND.path);
-        ASSET_MGR.queueDownload(MUSIC.LAVA_TENSE.path);
+
 
         // ASSET_MGR.queueDownload(MUSIC.TEST_FILE_10MB.path);
-        
+
         // queue sound effects
     };
 
@@ -169,7 +150,7 @@ const loadPlaygroundNathan = () => {
         ));
         for (let y = ZONE.MAX_BLOCK.y; y >= ZONE.MIN_BLOCK.y; y--) {
             for (let x = ZONE.MAX_BLOCK.x; x >= ZONE.MIN_BLOCK.x; x--) {
-                // GAME.addEntity(new Block(i, j, Block.DIRT));a
+                // GAME.addEntity(new Block(i, j, Block.DIRT));
 
                 // const pos = new Vector(y, x);
 
@@ -195,36 +176,32 @@ const loadPlaygroundNathan = () => {
         // Draw Sun.
         GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE), Sun.VILLAGE));
 
-
         // Place chad above the blocks.
         const startBlock = new Vector(5, 5);
         CHAD.pos = Vector.blockToWorldSpace(startBlock);
+
+        // GAME.addEntity(new FoodDrop(FoodDrop.BACON, Vector.blockToWorldSpace(new Vector(10, 5))));
+        // GAME.addEntity(new FoodDrop(FoodDrop.BURGER, Vector.blockToWorldSpace(new Vector(15, 5))));
+        // GAME.addEntity(new FoodDrop(FoodDrop.ENERGY_DRINK, Vector.blockToWorldSpace(new Vector(10, 10))));
+        // GAME.addEntity(new FoodDrop(FoodDrop.STEAK, Vector.blockToWorldSpace(new Vector(15, 10))));
+        // GAME.addEntity(new FoodDrop(FoodDrop.HAM, Vector.blockToWorldSpace(new Vector(10, 15))));
+        // GAME.addEntity(new FoodDrop(FoodDrop.CHICKEN, Vector.blockToWorldSpace(new Vector(20, 10))));
+        // GAME.addEntity(new FoodDrop(FoodDrop.BEEF, Vector.blockToWorldSpace(new Vector(20, 15))));
 
         // NOTE: we can't activate music until the user has interacted with the canvas. (this issue is inherent to HTML5)
         //  If listening for a click is the only way to activate music, that's fine. 
         //  Our game's START button in the final version can be the trigger.
         let playMusic = () => {
-            ASSET_MGR.playAudio(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume, true);
-            // ASSET_MGR.playAudio(MUSIC.CHAD_PLAYFUL_ADVENTURE.path, MUSIC.CHAD_PLAYFUL_ADVENTURE.volume, true);
-            
+            ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
         
             // delete the event listener so that the music doesn't restart when the user clicks again
             document.body.removeEventListener('click', playMusic);
         };
         document.body.addEventListener('click', playMusic);
-
-        CANVAS.addEventListener('dblclick', function(e) {
-            e.preventDefault();
-        });
-
-        loadingAnimation.stop(); // stop the loading animation because asset manager has everything it needs
     };
 
     // Set background color:
-    BG_COLOR = "skyblue";
-
-    let loadingAnimation = new LoadingAnimation();
-    loadingAnimation.start();
+    BG_COLOR = COLORS.SKY_BLUE;
 
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);
@@ -233,14 +210,22 @@ const loadPlaygroundNathan = () => {
 const loadPlaygroundTrae = () => {
     const queueAssets = () => {
         ASSET_MGR.queueDownload(Snake.SPRITESHEET);
+        ASSET_MGR.queueDownload(Slime.SPRITESHEET);
+        ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
+        ASSET_MGR.queueDownload(Yeti.SPRITESHEET);
     };
 
     const addEntities = () => {
         // Add a layer of blocks to the floor.
         for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
+            GAME.addEntity(new Block(new Vector(x, ZONE.MAX_BLOCK.y - 2), Block.DIRT));
+            GAME.addEntity(new Block(new Vector(x, ZONE.MAX_BLOCK.y - 1), Block.DIRT));
             GAME.addEntity(new Block(new Vector(x, ZONE.MAX_BLOCK.y), Block.DIRT));
         }
-        GAME.addEntity(new Snake(Vector.blockToWorldSpace(new Vector(65, 20))));
+        GAME.addEntity(new Bunny(Vector.blockToWorldSpace(new Vector(60, 20))));
+        GAME.addEntity(new Snake(Vector.blockToWorldSpace(new Vector(80, 20))));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(100, 20))));
+        GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(120, 0))));
 
         CHAD.pos = Vector.blockToWorldSpace(new Vector(50, 20));
     };

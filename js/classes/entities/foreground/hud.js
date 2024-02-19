@@ -10,6 +10,7 @@ class Hud {
      */
     constructor() {
         this.addComponents();
+        this.swapToCrosshair();
     }
 
     /** The default font size for text in the HUD. Certain components may use different font sizes. */
@@ -21,6 +22,37 @@ class Hud {
     static get MARGIN() {
         return 10;
     }
+
+    swapToCrosshair() {
+        let crosshairCursorUnclicked = 'url(../sprites/crosshair_unclicked.png) 16 16, auto';
+        let crosshairCursorClicked = 'url(../sprites/crosshair_clicked.png) 16 16, auto';
+
+        document.body.style.cursor = crosshairCursorUnclicked;
+
+        document.body.addEventListener('mousedown', () => {
+            document.body.style.cursor = crosshairCursorClicked;
+        });
+
+        document.body.addEventListener('mouseup', () => {
+            document.body.style.cursor = crosshairCursorUnclicked;
+        });
+    }
+
+    swapToPointer() {
+        let pointerCursorUnclicked = 'url(../sprites/pointer_unclicked.png), auto';
+        let pointerCursorClicked = 'url(../sprites/pointer_clicked.png), auto';
+
+        document.body.style.cursor = pointerCursorUnclicked;
+
+        document.body.addEventListener('mousedown', function() {
+            document.body.style.cursor = pointerCursorClicked;
+        });
+
+        document.body.addEventListener('mouseup', function() {
+            document.body.style.cursor = pointerCursorUnclicked;
+        });
+    }
+
 
     /**
      * Add a component to the HUD. Creates a field for the component and adds the component
@@ -44,17 +76,15 @@ class Hud {
      */
     addComponents() {
         // add Chad's head, rune counter, and health bar
-        this.chadHead = new Animator(Chad.SPRITESHEET,
-            new Vector(0, 0),
-            new Vector(Chad.SIZE.x, 17),
-            1, 1)
-        const healthBarYPos = 15 + 17 * Chad.SCALE;
+        this.addComponent("chadHead", new ChadHead());
+        const healthBarYPos = 15 + 17 * CHAD.scale.y;
         this.addComponent("healthBar", new HudHealthBar(
             new Vector(Hud.MARGIN, healthBarYPos)
         ));
         this.addComponent("runeCounter", new ItemCounter(
-            new Vector(Chad.SIZE.x * Chad.SCALE + 20, (healthBarYPos - ItemCounter.HEIGHT) / 2),
-            new Animator("./sprites/runes.png", new Vector(0, 32), new Vector(32, 32), 1, 1), 
+
+            new Vector(CHAD.scaledSize.x + 20, (healthBarYPos - ItemCounter.HEIGHT) / 2),
+            new Animator("./sprites/runes.png", new Vector(0, 32), new Vector(32, 32), 1, 1),
             0 // TODO: replace with an access to the rune field once it exists
         ));
 
@@ -63,22 +93,28 @@ class Hud {
             new Vector(Camera.SIZE.x - PauseButton.SIZE.x - Hud.MARGIN, Hud.MARGIN)
         ));
 
+        //TODO: add a hidden options button to the center-right of the screen
+        //TODO: add a hidden options menu (will contain volume sliders, spanish mode, debug mode, save progress, etc.)
+        //TODO: add a hidden game over screen
+
+
         // add weapon labels
         const weaponLabelWidth = 150;
         const weaponLabelYPos = Camera.SIZE.y - ItemLabel.DEFAULT_SIZE.y - Hud.MARGIN;
         this.addComponent("slingshotLabel", new ItemLabel(
-            new Vector(Hud.MARGIN, weaponLabelYPos), 
+            new Vector(Hud.MARGIN, weaponLabelYPos),
             new Animator(Slingshot.SPRITESHEET, new Vector(0, 0), Slingshot.SIZE, 1, 1),
-            "LMC", 
-            null, 
+
+            "Left-click",
+            null,
             weaponLabelWidth,
             5
         ));
         this.addComponent("swordLabel", new ItemLabel(
-            new Vector(weaponLabelWidth + Hud.MARGIN, weaponLabelYPos), 
+            new Vector(weaponLabelWidth + Hud.MARGIN, weaponLabelYPos),
             new Animator(Sword.SPRITESHEET, new Vector(0, 0), Sword.SIZE, 1, 1),
-            "Q", 
-            null, 
+            "Right-click",
+            null,
             weaponLabelWidth,
             -15 // yes I'm using a negative padding don't judge me, it makes the sword bigger
         ));
@@ -112,6 +148,19 @@ class Hud {
             Projectile.LASER,
             "5"
         ));
+
+        // this.addComponent("DashCharge", new DashCharge(
+        //     new Vector(Camera.SIZE.x - 100, Camera.SIZE.y - 100),
+
+        // ));
+
+        // TODO: commented out because storing food is not currently implemented
+        // add a food labels on the bottom right of the screen
+        // this.addComponent("foodLabel", new FoodLabel(
+        //     new Vector(Camera.SIZE.x - ItemLabel.DEFAULT_SIZE.x - Hud.MARGIN, Camera.SIZE.y - ItemLabel.DEFAULT_SIZE.y - Hud.MARGIN),
+        //     FoodItem.STEAK
+        // ));
+
     }
 
     /**
@@ -120,8 +169,18 @@ class Hud {
     update() {
         // if the user clicks on the pause/play button, toggle GAME.running
         if (GAME.user.firing && this.pauseButton.isMouseOver()) {
-            GAME.running = !GAME.running;
-            // TODO: open options menu here
+            ASSET_MGR.playSFX(SFX.UI_HIGH_BEEP.path, SFX.UI_HIGH_BEEP.volume);
+            if (GAME.running) {
+                GAME.running = false;
+                this.swapToPointer();
+                ASSET_MGR.pauseMusic();
+                // TODO: open options menu here
+            } else {
+                GAME.running = true;
+                this.swapToCrosshair();
+                ASSET_MGR.resumeMusic();
+                // TODO: close options menu here
+            }
         }
     }
 
@@ -129,7 +188,7 @@ class Hud {
      * Draw any HUD elements not drawn by individual components.
      */
     draw() {
-        this.chadHead.drawFrame(new Vector(10, 10), Chad.SCALE);
+
     }
 }
 
@@ -174,7 +233,7 @@ class ItemCounter {
 
     /** Update the ItemCounter. Does nothing. */
     update() {
-        
+
     }
 
     /** Draw the ItemCounter. */
@@ -186,8 +245,41 @@ class ItemCounter {
         // draw the count
         CTX.fillStyle = "white";
         CTX.font = ItemCounter.TEXT_SIZE + "px vt323";
-        CTX.fillText(this.count, this.pos.x + this.animation.size.x * animScale + ItemCounter.TEXT_LEFT_MARGIN, 
+        CTX.fillText(this.count, this.pos.x + this.animation.size.x * animScale + ItemCounter.TEXT_LEFT_MARGIN,
             this.pos.y + ItemCounter.HEIGHT - (ItemCounter.HEIGHT - CTX.measureText(this.count).emHeightAscent) / 2);
+    }
+}
+
+/**
+ * Component that serves as a label for the currently selected food item.
+ * 
+ * @author Nathan Hinthorne
+ */
+class FoodLabel {
+    /**
+     * Constructor for an FoodLabel.
+     * 
+     * @param {Vector} pos the position of the FoodLabel on the canvas
+     * @param {number} type the fodo type associated with the FoodLabel (should be a FoodItem member type)
+     */
+    constructor(pos, type) {
+        this.foodItem = INVENTORY.getFood(type);
+        this.type = type;
+        this.label = new ItemLabel(
+            pos,
+            this.foodItem.animator,
+        );
+    }
+
+    /** Update the quantity and selection status of the FoodLabel. */
+    update() {
+        this.label.setQuantity(this.foodItem.amount);
+        this.label.setSelected(INVENTORY.getCurrentFood().type === this.type);
+    }
+
+    /** Draw the FoodLabel. */
+    draw() {
+        this.label.draw();
     }
 }
 
@@ -203,14 +295,15 @@ class AmmoLabel {
      * 
      * @param {Vector} pos the position of the AmmoLabel on the canvas
      * @param {number} type the ammo type associated with the AmmoLabel (should be a Projectile member type)
-     * @param {string} inputName the key used to select this ammo type
+     * @param {string} inputName the input key used to select this ammo type
      */
     constructor(pos, type, inputName) {
         this.type = type;
         this.label = new ItemLabel(
-            pos, 
-            new Animator(Projectile.SPRITESHEET, new Vector(0, type * Projectile.SPRITESHEET_ENTRY_HEIGHT), 
-                Projectile.PROPERTY_TABLE[type].SIZE, 1, 1),
+
+            pos,
+            new Animator(AmmoItem.SPRITESHEET, new Vector(0, type * AmmoItem.SPRITESHEET_ENTRY_HEIGHT),
+                AmmoItem.SIZE, 1, 1),
             inputName,
             INVENTORY.getAmmo(type).amount
         );
@@ -245,7 +338,7 @@ class ItemLabel {
      * @param {number} [width] (OPTIONAL) the width (in pixels) of the ItemLabel on the canvas
      * @param {number} [imgPadding] (OPTIONAL) the padding (in pixels) of the ItemLabel's image
      */
-    constructor(pos, animation, inputName, quantity, width = ItemLabel.DEFAULT_SIZE.x, 
+    constructor(pos, animation, inputName, quantity, width = ItemLabel.DEFAULT_SIZE.x,
         imgPadding = ItemLabel.DEFAULT_IMG_PADDING) {
 
         this.pos = pos;
@@ -295,7 +388,7 @@ class ItemLabel {
     setQuantity(quantity) {
         this.quantity = quantity;
     }
-    
+
     /** 
      * Set whether or not this ItemLabel is selected. 
      * 
@@ -309,7 +402,7 @@ class ItemLabel {
      * Update the ItemLabel. Does nothing.
      */
     update() {
-       
+
     }
 
     /**
@@ -329,7 +422,7 @@ class ItemLabel {
         // the image's height will be scaled to the height of the ItemLabel
         // the image will be centered horizontally within the ItemLabel
         const animScale = (this.size.y - 2 * this.imgPadding) / this.animation.size.y;
-        this.animation.drawFrame(Vector.add(this.pos, new Vector((this.size.x - animScale * this.animation.size.x) 
+        this.animation.drawFrame(Vector.add(this.pos, new Vector((this.size.x - animScale * this.animation.size.x)
             / 2, + this.imgPadding)), animScale);
 
         // draw the inputName text
@@ -346,7 +439,7 @@ class ItemLabel {
             }
 
             CTX.fillStyle = "white";
-            CTX.fillText(text, this.pos.x + this.size.x - ItemLabel.TEXT_MARGIN - CTX.measureText(text).width, 
+            CTX.fillText(text, this.pos.x + this.size.x - ItemLabel.TEXT_MARGIN - CTX.measureText(text).width,
                 this.pos.y + this.size.y - ItemLabel.TEXT_MARGIN);
         }
     }
@@ -399,7 +492,7 @@ class PauseButton {
      */
     isMouseOver() {
         return GAME.mousePos.x > Camera.SIZE.x - PauseButton.SIZE.x
-        && GAME.mousePos.y < PauseButton.SIZE.y;
+            && GAME.mousePos.y < PauseButton.SIZE.y;
     }
 
     /** Update the PauseButton. */
@@ -424,10 +517,10 @@ class PauseButton {
         CTX.fillStyle = "white";
         if (GAME.running) {
             // if the game is running, draw a pause icon
-            CTX.fillRect(this.pos.x + (size.x - PauseButton.BAR_DISTANCE) / 2 - barSize.x, 
+            CTX.fillRect(this.pos.x + (size.x - PauseButton.BAR_DISTANCE) / 2 - barSize.x,
                 this.pos.y + (size.y - barSize.y) / 2, barSize.x, barSize.y);
-            CTX.fillRect(this.pos.x + (size.x + PauseButton.BAR_DISTANCE) / 2, this.pos.y + (size.y - barSize.y) / 2, 
-                barSize.x, barSize.y);    
+            CTX.fillRect(this.pos.x + (size.x + PauseButton.BAR_DISTANCE) / 2, this.pos.y + (size.y - barSize.y) / 2,
+                barSize.x, barSize.y);
         } else {
             // if the game is paused, draw a play icon
             const margin = PauseButton.PLAY_ICON_MARGIN;
@@ -437,9 +530,11 @@ class PauseButton {
             CTX.lineTo(this.pos.x + margin, this.pos.y + size.y - margin);
             CTX.fill();
         }
-        
+
     }
 }
+
+
 
 /**
  * A class used to display Chad's health in the HUD.
@@ -473,7 +568,7 @@ class HudHealthBar {
 
     /** Update the HealthBar. */
     update() {
-        
+
     };
 
     /** Draw the HealthBar. */
@@ -488,4 +583,35 @@ class HudHealthBar {
             (HudHealthBar.SIZE.x - HudHealthBar.PADDING * 2) * CHAD.health / Chad.MAX_HEALTH,
             HudHealthBar.BAR_HEIGHT - HudHealthBar.PADDING * 2);
     };
+}
+
+/**
+ * Chad's head icon component.
+ * 
+ * @author Trae Claar
+ */
+class ChadHead {
+    /** 
+     * Constructor for the ChadHead.
+     */
+    constructor() {
+        this.animator = new Animator(Chad.SPRITESHEET,
+            new Vector(32, 15),
+            new Vector(Chad.SIZE.x - 2, 17),
+            1, 1)
+    }
+    
+    /**
+     * Update the ChadHead. Does nothing.
+     */
+    update() {
+
+    }
+
+    /**
+     * Draw the ChadHead.
+     */
+    draw() {
+        this.animator.drawFrame(new Vector(Hud.MARGIN, Hud.MARGIN), CHAD.scale);
+    }
 }

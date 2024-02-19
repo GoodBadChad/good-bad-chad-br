@@ -12,12 +12,13 @@ class Animator {
      * @param {Vector} size The size in pixels of the sprites in this animation.
      * @param {number} frameCount The number of frames that are included in this animation.
      * @param {number} frameDuration The amount of time (in SECONDS!) between each change in frame.
+     * @param {boolean} looped Whether or not the animation should be looped
      */
-    constructor(spritesheet, start, size, frameCount, frameDuration) {
+    constructor(spritesheet, start, size, frameCount, frameDuration, looped = true, reversed = false) {
         /** The path to the spritesheet that this specific Animator instance is going to be working with. */
         this.spritesheet = spritesheet;
         /** The starting position (on the SPRITESHEET!) of the first sprite of the animation. */
-        this.start = start;
+        this.start = (reversed) ? Vector.add(start, new Vector(frameCount * size.x, 0)) : start;
         /** The size in pixels of the sprites in this animation. */
         this.size = size;
         /** The number of frames that are included in this animation. */
@@ -28,32 +29,41 @@ class Animator {
         this.elapsedTime = 0;
         /** The total amount of time that it takes to finish a single runthrough of an animation (no repeats!). */
         this.totalTime = frameCount * frameDuration;
+        
+        this.looped = looped;
+        this.reversed = reversed;
     };
 
     /**
      * This method is going to draw the appropriate frame on the Canvas (to which ctx belongs to).
      * @param {Vector} pos The position (of the CANVAS!) at which we'd like our sprite to be drawn.
-     * @param {number} scale How much the image should be scaled when drawing. 1 pixel on the spritesheet = (scale x scale) pixels on the canvas.
+     * @param {number|Vector} scale How much the image should be scaled when drawing. 1 pixel on the spritesheet = (scale x scale) pixels on the canvas.
      */
     drawFrame(pos, scale) {
         if (GAME.running) {
             this.elapsedTime += GAME.clockTick;
         }
         
-        if (this.elapsedTime > this.totalTime) this.elapsedTime -= this.totalTime;
-        const frame = this.currentFrame();
+        if (this.elapsedTime > this.totalTime && this.looped) this.elapsedTime -= this.totalTime;
+        const frame = this.currentFrame() + ((this.reversed) ? 1 : 0);
+
+        // if scale is a vector, use it as a scale vector, otherwise use it as a uniform scale
+        if (typeof scale === "number") {
+            scale = new Vector(scale, scale);
+        } 
+        
         CTX.drawImage(ASSET_MGR.getAsset(this.spritesheet),
-            this.start.x + this.size.x * frame, this.start.y,
+            this.start.x + ((this.reversed) ? -1 : 1) * this.size.x * frame, this.start.y,
             this.size.x, this.size.y,
             pos.x, pos.y,
-            this.size.x * scale, this.size.y * scale);
+            this.size.x * scale.x, this.size.y * scale.y);
     };
 
     /**
      * @returns the current frame that this animation is on.
      */
     currentFrame() {
-        return Math.floor(this.elapsedTime / this.frameDuration);
+        return Math.min(Math.floor(this.elapsedTime / this.frameDuration), this.frameCount - 1);
     };
 
     /**

@@ -13,13 +13,15 @@ class AssetManager {
         this.downloadQueue = AssetManager.BAREBONES_DL_Q;
         /** An indexed array of filepaths which still need to be downloaded. */
         this.cache = [];
+        /** The current background music */
+        this.currentMusic = null;
     };
 
     /**
      * This method simply adds a filepath to the downloadQueue.
      */
     queueDownload(path) {
-        console.log("Queueing " + path);
+        // console.log("Queueing " + path);
         this.downloadQueue.push(path);
     };
 
@@ -40,7 +42,6 @@ class AssetManager {
         for (let i = 0; i < this.downloadQueue.length; i++) {
 
             const path = this.downloadQueue[i];
-            console.log(path);
 
             // make sure the path is a string
             if (typeof path !== 'string') {
@@ -54,17 +55,17 @@ class AssetManager {
                 case 'png':
                     const img = new Image();
                     img.addEventListener("load", () => {
-                        console.log("Loaded " + path);
+                        // console.log("Loaded " + path);
                         this.successCount++;
                         if (this.isDone()) callback();
                     });
-        
+
                     img.addEventListener("error", () => {
                         console.log("Error loading " + path);
                         this.errorCount++;
                         if (this.isDone()) callback();
                     });
-        
+
                     img.src = path;
                     this.cache[path] = img;
                     break;
@@ -73,7 +74,7 @@ class AssetManager {
                 case 'wav':
                     const audio = new Audio();
                     audio.addEventListener("loadeddata", () => {
-                        console.log("Loaded " + path);
+                        // console.log("Loaded " + path);
                         this.successCount++;
                         if (this.isDone()) callback();
                     });
@@ -83,7 +84,7 @@ class AssetManager {
                         this.errorCount++;
                         if (this.isDone()) callback();
                     });
-                
+
                     audio.addEventListener("ended", () => {
                         audio.pause();
                         audio.currentTime = 0;
@@ -94,7 +95,7 @@ class AssetManager {
 
                     this.cache[path] = audio;
                     break;
-                
+
                 default:
                     console.log("Error loading " + path + ": unknown file extension");
                     this.errorCount++;
@@ -122,27 +123,56 @@ class AssetManager {
     };
 
     /**
-     * This method plays the audio associated with the given path.
+     * Plays the audio associated with the given path.
      * @param {string} path The filepath of the audio you are trying to play.
      * @param {number} volume The volume to which you want to set the audio.
-     * @param {boolean} loop True if you want the audio to loop, false otherwise.
      */
-    playAudio(path, volume, loop) {
-        loop ?? (loop = false);
+    playSFX(path, volume) {
         const audio = this.cache[path];
         audio.currentTime = 0;
         audio.volume = volume;
 
         audio.play();
-        if (loop) {
-            audio.addEventListener("ended", () => {
-                audio.play();
-            });
-        }
     };
 
     /**
-     * This method stops the audio associated with the given path.
+     * Plays the audio associated with the given path.
+     * @param {string} path The filepath of the audio you are trying to play.
+     * @param {number} volume The volume to which you want to set the audio.
+     */
+    playMusic(path, volume) {
+        const audio = this.cache[path];
+        audio.currentTime = 0;
+        audio.volume = volume;
+        this.currentMusic = audio;
+
+        audio.play();
+        audio.addEventListener("ended", () => { //! might have a bug where pauseMusic "ends" the music. Check it out
+            audio.play();
+        });
+    };
+
+    /**
+     * Pauses the currently playing background music.
+     */
+    pauseMusic() {
+        if (this.currentMusic) {
+            this.currentMusic.pause();
+        } else {
+            console.log("No music to pause.");
+        }
+    }
+
+    resumeMusic() {
+        if (this.currentMusic) {
+            this.currentMusic.play();
+        } else {
+            console.log("No music to unpause.");
+        }
+    }
+
+    /**
+     * Stops the audio associated with the given path.
      * @param {string} path The filepath of the audio you are trying to stop.
      */
     stopAudio(path) {
@@ -152,7 +182,7 @@ class AssetManager {
     };
 
     /** 
-     * This method sets the volume of all audio in the cache to the given volume.
+     * Sets the volume of all audio in the cache to the given volume.
      * @param {number} volume The volume to which you want to set the audio.
      */
     adjustVolume(volume) {
@@ -165,45 +195,72 @@ class AssetManager {
     };
 
     /**
-     * This method pauses all audio in the cache.
-     */
-    pauseBackgroundMusic() {
-        for (let key in this.cache) {
-            const audio = this.cache[key];
-            if (audio instanceof Audio) {
-                audio.pause();
-                audio.currentTime = 0;
-            }
-        }
-    };
-
-    /**
      * The BAREBONES_DL_Q is an array of strings, filepaths to the most essential assets in our game.
      * Those so essential that it would be tedious and more error prone to have to load them in every zone.
      * this.downloadQueue is reset to this every time that the ASSET_MGR is refreshed.
      */
     static get BAREBONES_DL_Q() {
         return [
-                // Entities:
-                Block.SPRITESHEET,
-                Crosshair.SPRITESHEET,
-                DialogBubble.SPRITESHEET,
-                OverheadIcon.SPRITESHEET,
-                PapaChad.SPRITESHEET,
-                Projectile.SPRITESHEET,
-                Slingshot.SPRITESHEET,
-                Sun.SPRITESHEET,
-                Sword.SPRITESHEET,
-                Rune.SPRITESHEET,
-          
-                // Sounds:
-                SFX.JUMP1.path,
-                SFX.JUMP2.path,
-                SFX.SLINGSHOT_LAUNCH1.path,
-                SFX.SLINGSHOT_LAUNCH2.path,
-                SFX.SLINGSHOT_LAUNCH3.path,
-                SFX.SLINGSHOT_LAUNCH4.path,
-                SFX.SLINGSHOT_STRETCH.path,
+            // Entities:
+            Block.SPRITESHEET,
+            Chad.SPRITESHEET,
+            DialogBubble.SPRITESHEET,
+            OverheadIcon.SPRITESHEET,
+            PapaChad.SPRITESHEET,
+            Projectile.SPRITESHEET,
+            Slingshot.SPRITESHEET,
+            Sun.SPRITESHEET,
+            Sword.SPRITESHEET,
+            RuneDrop.SPRITESHEET,
+            RuneItem.SPRITESHEET,
+            FoodDrop.SPRITESHEET,
+
+            // Sounds:
+            SFX.JUMP1.path,
+            SFX.JUMP2.path,
+            SFX.LAND.path,
+            SFX.SLINGSHOT_LAUNCH1.path,
+            SFX.SLINGSHOT_LAUNCH2.path,
+            SFX.SLINGSHOT_LAUNCH3.path,
+            SFX.SLINGSHOT_LAUNCH4.path,
+            SFX.SLINGSHOT_STRETCH.path,
+            SFX.SWORD_SWING1.path,
+            SFX.SWORD_SWING2.path,
+            SFX.SWORD_SWING3.path,
+            SFX.SWORD_SWING4.path,
+            SFX.SWORD_SWING5.path,
+            SFX.SWORD_SWING6.path,
+            SFX.SWORD_SWING7.path,
+            SFX.SWORD_SWING8.path,
+            SFX.SWORD_SWING9.path,
+            SFX.SWORD_SWING10.path,
+            SFX.SWORD_HIT.path,
+            SFX.SWOOSH.path,
+            SFX.RICOCHET1.path,
+            SFX.RICOCHET2.path,
+            SFX.RICOCHET3.path,
+            SFX.RICOCHET4.path,
+            SFX.EXPLOSION_SMALL.path,
+            SFX.ITEM_EQUIP.path,
+            SFX.ITEM_COLLECT1.path,
+            SFX.ITEM_COLLECT2.path,
+            SFX.ITEM_COLLECT3.path,
+            SFX.GAME_OVER.path,
+            SFX.UI_HIGH_BEEP.path,
+            SFX.UI_GAMEBOY_BEEP.path,
+            SFX.FOOD_EAT1.path,
+            SFX.FOOD_EAT2.path,
+            SFX.FOOD_EAT3.path,
+            SFX.FOOD_EAT4.path,
+
+            // Music:
+            MUSIC.PEACEFUL_CHIPTUNE.path,
+            MUSIC.HIGH_ENERGY.path,
+            MUSIC.VICTORY.path,
+            MUSIC.UPBEAT_CHIPTUNE_1.path,
+            MUSIC.UPBEAT_CHIPTUNE_2.path,
+            MUSIC.CHAD_PLAYFUL_ADVENTURE.path,
+            DialogBubble.SPEAKERS.CHAD.spritesheet
         ];
     };
 };
