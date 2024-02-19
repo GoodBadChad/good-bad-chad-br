@@ -152,6 +152,10 @@ class Sword {
 
     /** Update the Sword. */
     update() {
+        if (CHAD.health <= 0) {
+            return;
+        }
+
         this.delayTimer -= GAME.clockTick;
 
         if (GAME.user.jabbing && !this.isAttacking && this.delayTimer <= 0) {

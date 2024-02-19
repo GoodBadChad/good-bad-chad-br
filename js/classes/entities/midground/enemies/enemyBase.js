@@ -147,7 +147,8 @@ class EnemyBase {
      * @returns {number} the distance between the bottom left corners of Chad and the enemy
      */
     chadDistance() {
-        return Vector.distance(Vector.add(CHAD.pos, new Vector(0, CHAD.scaledSize.y)), 
+        return Vector.distance(Vector.add(CHAD.pos, 
+            Vector.add(CHAD.scaleBoundingBoxOffset(), new Vector(0, CHAD.scaledSize.y))),
             Vector.add(this.enemy.pos, new Vector(0, this.enemy.size.y)));
     }
     
@@ -177,7 +178,7 @@ class EnemyBase {
             // if we're pursuing Chad, update the target position to Chad's position
             // also avoid changing direction in the middle of an attack animation
             if (this.enemy.state === "pursue" && this.enemy.action != "attacking") {
-                this.setTargetX(CHAD.pos.x);
+                this.setTargetX(CHAD.pos.x + CHAD.scaleBoundingBoxOffset().x);
             }
 
             if (Math.abs(this.targetX - this.enemy.pos.x) < this.enemy.size.x / 2) {
