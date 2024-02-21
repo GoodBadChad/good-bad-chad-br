@@ -85,7 +85,11 @@ class Projectile {
                         GAME.addEntity(new ParticleEffect(projectile.pos, ParticleEffect.SMALL_EXPLOSION));
                         ASSET_MGR.playSFX(SFX.EXPLOSION_SMALL.path, SFX.EXPLOSION_SMALL.volume);
                         projectile.removeFromWorld = true;
+                        if (targetEntity.takeDamage) {
+                            targetEntity.takeDamage(10);
+                        }
                     // }, 1000);
+                    
                 },
                 SPEED: 15,
                 WEIGHT: 0.05,
@@ -95,6 +99,9 @@ class Projectile {
                 ACTION: () => {
                     console.log("wood");
                     ASSET_MGR.playSFX(SFX.RICOCHET1.path, SFX.RICOCHET1.volume);
+                    if (targetEntity.takeDamage) {
+                        targetEntity.takeDamage(5);
+                    }
                 },
                 SPEED: 15,
                 WEIGHT: 0.001,
@@ -115,6 +122,9 @@ class Projectile {
                 ACTION: () => {
                     ASSET_MGR.playSFX(SFX.RICOCHET3.path, SFX.RICOCHET3.volume);
                     console.log("metal");
+                    if (targetEntity.takeDamage) {
+                        targetEntity.takeDamage(5);
+                    }
                 },
                 SPEED: 12,
                 WEIGHT: 0.07,
@@ -123,6 +133,9 @@ class Projectile {
             [Projectile.LASER]: {
                 ACTION: () => {
                     console.log("laser");
+                    if (targetEntity.takeDamage) {
+                        targetEntity.takeDamage(5);
+                    }
                 },
                 SPEED: 20,
                 WEIGHT: 0,
