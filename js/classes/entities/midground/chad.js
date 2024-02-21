@@ -169,19 +169,9 @@ class Chad {
      * @param {number} amount the amount by which to decrease Chad's health
      */
     takeDamage(amount) {
-        if (this.isInvincible) {
-            // playSFX(SFX.DING.path, SFX.DING.volume);
-            return;
-        }
-
-        this.health -= amount;
-        if (this.health <= 0) {
-            // Chad should die here
-            ASSET_MGR.playSFX(SFX.GAME_OVER.path, SFX.GAME_OVER.volume);
-        }
         if (this.health > 0) {
             if (this.isInvincible) {
-                // playAudio(SFX.DING.path, SFX.DING.volume);
+                // playSFX(SFX.DING.path, SFX.DING.volume);
                 return;
             }
     
