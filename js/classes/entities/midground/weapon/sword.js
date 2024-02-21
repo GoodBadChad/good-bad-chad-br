@@ -1,6 +1,9 @@
 /**
  * A class that represents Chad's sword.
  * 
+ * NOTE: Based on new design of the Chad sprite CONTAINING the sword, we need to change some things.
+ * All positions are used purely for hitboxes, not for drawing.
+ * 
  * @author Trae Claar
  * @author Nathan Hinthorne
  */
@@ -14,12 +17,12 @@ class Sword {
     constructor(type) {
         Sword.checkType(type);
 
-        this.pos = CHAD.pos;
+        this.pos = 0;
         this.isAttacking = false;
         this.hasHit = false;
         this.speed = 0;
-        this.offsetX = 0;
-        this.offsetDirX = 0;
+        this.offsetX = 100;
+        this.dirX = 0;
         this.delayTimer = 0;
 
         this.setType(type);
@@ -158,21 +161,20 @@ class Sword {
 
         this.delayTimer -= GAME.clockTick;
 
-        if (GAME.user.jabbing && !this.isAttacking && this.delayTimer <= 0) {
+        if (GAME.user.jabbing && this.delayTimer <= 0) {
             // choose from 3 different slash sounds
             const rand = Math.floor(Math.random() * 3) + 8; //Math.floor(Math.random() * 8) + 1;  use this if you want all 8 sounds
             const sfx = SFX["SWORD_SWING" + rand];
             ASSET_MGR.playSFX(sfx.path, sfx.volume);
 
             this.isAttacking = true;
-            this.offsetDirX = 1;
-            this.speed = Sword.JAB_SPEED;
+            this.dirX = 1;
             this.hasHit = false;
 
             this.delayTimer = this.getProperty("DELAY"); // reset the hit delay
             
         } else if (this.offsetX >= Sword.MAX_OFFSET) {
-            this.offsetDirX *= -1;
+            this.dirX *= -1;
             this.speed = Sword.RETRACT_SPEED;
         } else if (this.offsetX <= 0) {
             this.isAttacking = false;
@@ -183,7 +185,7 @@ class Sword {
         const basePos = Vector.add(CHAD.pos, new Vector(padding, Sword.Y_OFFSET));
 
         if (this.isAttacking) {
-            this.offsetX = Math.min(this.offsetX + this.offsetDirX * this.speed * GAME.clockTick, Sword.MAX_OFFSET);
+            this.offsetX = Math.min(this.offsetX + this.dirX * this.speed * GAME.clockTick, Sword.MAX_OFFSET);
 
             // attack only once per animation cycle
             if (!this.hasHit) {

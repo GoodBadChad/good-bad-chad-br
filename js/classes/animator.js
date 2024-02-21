@@ -59,6 +59,31 @@ class Animator {
             this.size.x * scale.x, this.size.y * scale.y);
     };
 
+    
+    /**
+     * UNKNOWN BUG. DO NOT USE YET. This method will come in handy later on when functional. 
+     * 
+     * Draws a SPECIFIED frame of the animation, with no time-based calculations.
+     * @param {Vector} pos The position (of the CANVAS!) at which we'd like our sprite to be drawn.
+     * @param {number|Vector} scale How much the image should be scaled when drawing. 1 pixel on the spritesheet = (scale x scale) pixels on the canvas.
+     * @param {number} frame The frame to draw.
+     */
+    // drawGivenFrame(pos, scale, frame) {
+    //     // if scale is a vector, use it as a scale vector, otherwise use it as a uniform scale
+    //     if (typeof scale === "number") {
+    //         scale = new Vector(scale, scale);
+    //     } 
+
+    //     console.log("Drawing frame " + frame + " of " + this.spritesheet + " at " + pos.x + ", " + pos.y);
+        
+    //     CTX.drawImage(ASSET_MGR.getAsset(this.spritesheet),
+    //         this.start.x + (this.size.x * frame), this.start.y,
+    //         this.size.x, this.size.y,
+    //         pos.x, pos.y,
+    //         this.size.x * scale.x, this.size.y * scale.y);
+    // }
+    
+
     /**
      * @returns the current frame that this animation is on.
      */

@@ -62,7 +62,7 @@ class FoodDrop {
                         CHAD.isInvincible = false;
                         CHAD.scale = Chad.DEFAULT_SCALE;
                         CHAD.scaledSize = new Vector(Chad.SIZE.x * CHAD.scale.x, Chad.SIZE.y * CHAD.scale.y); // update scaled size accordingly
-                    }, 10000);
+                    }, 20_000);
                     console.log("*munch munch* Bacon");
                     break;
 
@@ -78,7 +78,7 @@ class FoodDrop {
                         CHAD.speed = Chad.DEFAULT_SPEED;
                         CHAD.scale = Chad.DEFAULT_SCALE;
                         CHAD.scaledSize = new Vector(Chad.SIZE.x * CHAD.scale.x, Chad.SIZE.y * CHAD.scale.y); // update scaled size accordingly
-                    }, 20000);
+                    }, 20_000);
                     console.log("BIG CHUNGUS");
                     break;
 
@@ -91,7 +91,7 @@ class FoodDrop {
                         CHAD.speed = Chad.DEFAULT_SPEED;
                         CHAD.firstJumpForce = 650;
                         CHAD.secondJumpForce = 700;
-                    }, 30000);
+                    }, 30_000);
                     break;
 
                 case FoodItem.CHICKEN:

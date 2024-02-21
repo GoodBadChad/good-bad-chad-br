@@ -19,6 +19,7 @@ const INVENTORY = new Inventory();
 /** The player's HUD. */
 const HUD = new Hud();
 
+
 // (2) Minor details:
 
 // Game looks bad if we try to smooth. Hard lines = good.

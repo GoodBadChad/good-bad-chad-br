@@ -214,6 +214,7 @@ class AssetManager {
             RuneDrop.SPRITESHEET,
             RuneItem.SPRITESHEET,
             FoodDrop.SPRITESHEET,
+            DashCooldown.SPRITESHEET,
 
             // Sounds:
             SFX.JUMP1.path,
@@ -252,6 +253,15 @@ class AssetManager {
             SFX.FOOD_EAT2.path,
             SFX.FOOD_EAT3.path,
             SFX.FOOD_EAT4.path,
+            SFX.DING.path,
+
+            //TEMPORARY
+            SFX.GROWL1.path,
+            SFX.GROWL2.path,
+            SFX.SMASH1.path,
+            SFX.SMASH2.path,
+            SFX.SMASH3.path,
+            Yeti.SPRITESHEET,
 
             // Music:
             MUSIC.PEACEFUL_CHIPTUNE.path,
