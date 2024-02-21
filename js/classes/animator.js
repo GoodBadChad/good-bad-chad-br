@@ -45,7 +45,7 @@ class Animator {
         }
         
         if (this.elapsedTime > this.totalTime && this.looped) this.elapsedTime -= this.totalTime;
-        const frame = this.currentFrame();
+        const frame = this.currentFrame() + ((this.reversed) ? 1 : 0);
 
         // if scale is a vector, use it as a scale vector, otherwise use it as a uniform scale
         if (typeof scale === "number") {

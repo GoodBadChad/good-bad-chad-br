@@ -88,5 +88,9 @@ let LAST_ZONE = null;
 // Load all assets, add all entities, place CHAD...
 ZONE.load();
 
+const STORY = {};
+console.log(STORY);
+
+console.log(Block.SCALED_SIZE);
 // (4) Start the game! :)
 GAME.start();

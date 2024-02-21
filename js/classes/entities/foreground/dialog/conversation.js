@@ -35,6 +35,9 @@ class Conversation {
                     // player wants to move onto next bubble.
 
                     currentBubble.removeFromWorld = true;
+                    if (currentBubble.callback) {
+                        currentBubble.callback();
+                    }
 
                     if (currentBubble.isEnd || this.currentIndex + 1 >= this.array.length) {
                         // They are on the last bubble! Exit conversation.
@@ -42,7 +45,7 @@ class Conversation {
                     } else {
                         // Move onto the next bubble.
                         this.currentIndex++;
-                        GAME.addEntity(this.array[this.currentIndex]);
+                        GAME.addEntity(this.array[this.currentIndex], 1);
                     }
                 } else {
                     // currentBubble has not finished its typing.
@@ -53,9 +56,10 @@ class Conversation {
                 //currentBubble is a DecisionBubble. No typewriter effect.
                 currentBubble.removeFromWorld = true;
                 this.currentIndex = currentBubble.choices[currentBubble.selected].next;
-                GAME.addEntity(this.array[this.currentIndex]);
+                GAME.addEntity(this.array[this.currentIndex], 1);
             }
         }
+        // Make sure we don't accidentally count the button press twice.
         GAME.user.continuingConversation = false;
     };
 
@@ -85,7 +89,7 @@ class Conversation {
         GAME.configureEventListeners();
 
         // Add the first dialog bubble.
-        GAME.addEntity(this.array[this.currentIndex]);
+        GAME.addEntity(this.array[this.currentIndex], 1);
     };
 
     /**
