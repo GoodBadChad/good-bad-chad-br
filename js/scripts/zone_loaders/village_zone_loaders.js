@@ -198,10 +198,10 @@ const loadVillageField = () => {
 
 
     }
-
-    if (STORY.invitedHunting) {
+    STORY.huntingInvite = true;
+    if (STORY.huntingInvite) {
         GAME.addEntity(new PapaChad(
-            new Vector(ZONE.MAX_PT.x - 2 * PapaChad.SCALED_SIZE.x, ZONE.MAX_PT.y - 17 * Block.SCALED_SIZE),
+            new Vector(ZONE.MAX_PT.x - 2 * PapaChad.SCALED_SIZE.x, ZONE.MAX_PT.y - 30 * Block.SCALED_SIZE),
             new Conversation(getAllConversationArrays().village.papaChad.huntingInstruction)
         ));
     }
@@ -498,7 +498,7 @@ const loadVillageMain = () => {
         //  Our game's START button in the final version can be the trigger.
         let playMusic = () => {
             ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
-        
+
             // delete the event listener so that the music doesn't restart when the user clicks again
             document.body.removeEventListener('click', playMusic);
         };
