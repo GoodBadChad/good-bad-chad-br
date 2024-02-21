@@ -63,13 +63,11 @@ class Chad {
         this.secondJumpVelocity = Chad.DEFAULT_SECOND_JUMP_VELOCITY;
 
         this.isJumping = false;
-        /** The timer for the jump. Used to ensure the jump force is applied for a minimum amount of time. */
+        /** The timer for the jump. Used to ensure the jump velocity is applied for a minimum amount of time. */
         this.firstJumpTimer = 0;
-        this.groundDashTimer = Chad.GROUND_DASH_COOLDOWN;
-        /** Ground dashes are reset based off a timer  */
-        this.canGroundDash = true;
-        /** Air dashes are reset when landing on the ground (we only want one air dash per jump) */
-        // this.canAirDash = true;
+        this.dashTimer = Chad.DASH_COOLDOWN;
+        /** Dashes are reset based off a timer  */
+        this.canDash = true;
         
         /** If Chad has landed on the ground. Used to determine when Chad first hit the ground. */
         this.alreadyLanded = false;
@@ -115,7 +113,7 @@ class Chad {
     }
 
     /** The delay between dashes in seconds. */
-    static get GROUND_DASH_COOLDOWN() {
+    static get DASH_COOLDOWN() {
         return 1;
     }
 
@@ -241,20 +239,14 @@ class Chad {
 
 
         // Dash action
-        // if (this.groundDashTimer > 0 && this.isOnGround) {
-        if (this.groundDashTimer > 0) {
+        if (this.dashTimer > 0) {
             // keep the timer from being negative
-            this.groundDashTimer = Math.max(this.groundDashTimer - GAME.clockTick, 0);
-        } else if (this.groundDashTimer <= 0) {
-            this.canGroundDash = true;
+            this.dashTimer = Math.max(this.dashTimer - GAME.clockTick, 0);
+        } else if (this.dashTimer <= 0) {
+            this.canDash = true;
         }
                     
-        // const canDash = ((this.canAirDash && !this.isOnGround) || 
-        //                 (this.canGroundDash && this.isOnGround));
-
-        const canDash = this.canGroundDash;
-
-        if (GAME.user.dashing && canDash) {
+        if (GAME.user.dashing && this.canDash) {
             if (!this.isDashing) {
                 // we just started dashing
                 this.xDashAnchoredOrigin = this.pos.x;
@@ -275,21 +267,19 @@ class Chad {
             // correct limitations on dash functionality, i.e. no double dashing, no infinite dash.
             if (deltaX >= Chad.DASH_LIMIT) {
                 // we just finished dashing
-                // this.canAirDash = false;
-                this.canGroundDash = false;
+                this.canDash = false;
                 this.hasDashed = true;
                 this.isDashing = false;
-                this.groundDashTimer = Chad.GROUND_DASH_COOLDOWN;
+                this.dashTimer = Chad.DASH_COOLDOWN;
             }
         }
         // Prevents continuing a dash after lifting the dash key.
         if (!GAME.user.dashing && this.isDashing) {
             // we just finished dashing
-            // this.canAirDash = false;
-            this.canGroundDash = false;
+            this.canDash = false;
             this.hasDashed = true;
             this.isDashing = false;
-            this.groundDashTimer = Chad.GROUND_DASH_COOLDOWN;
+            this.dashTimer = Chad.DASH_COOLDOWN;
         }
 
         return xVelocity;
@@ -394,10 +384,9 @@ class Chad {
         // Chad shouldn't be able to double jump by default.
         this.canDoubleJump = false;
 
-        // Reset double jump and air dash if Chad is on the ground.
+        // Reset double jump and dash if Chad is on the ground.
         if (this.isOnGround) {
             this.hasDoubleJumped = false;
-            this.canAirDash = true;
             this.hasDashed = false;
         }
 
