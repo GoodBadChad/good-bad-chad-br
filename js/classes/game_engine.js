@@ -185,8 +185,6 @@ class GameEngine {
       
         // (5) Draw the foreground entities.
         this.entities.foreground.forEach((entity) => {entity.draw();});
-        // Draw the Crosshair, which is not a regular entity.
-        CROSSHAIR.draw();
     };
 
     /**

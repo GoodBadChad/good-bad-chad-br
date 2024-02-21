@@ -70,10 +70,16 @@ class Chad {
         /** Ground dashes are reset based off a timer  */
         this.canGroundDash = true;
         /** Air dashes are reset when landing on the ground (we only want one air dash per jump) */
-        this.canAirDash = true;
+        // this.canAirDash = true;
         
         /** If Chad has landed on the ground. Used to determine when Chad first hit the ground. */
         this.alreadyLanded = false;
+
+        // create the weapons and add them to the game
+        this.sword = new Sword(Sword.TYPE_1);
+        this.slingshot = new Slingshot();
+        GAME.addEntity(this.sword);
+        GAME.addEntity(this.slingshot);
     };
 
     /** The size, in pixels of the sprite ON THE SPRITESHEET. */
@@ -117,7 +123,7 @@ class Chad {
 
     /** The delay between dashes in seconds. */
     static get GROUND_DASH_COOLDOWN() {
-        return 0.8;
+        return 1;
     }
 
     /** The maximum amount of health Chad can have. */
@@ -136,11 +142,13 @@ class Chad {
     }
 
     static get DEFAULT_FIRST_JUMP_VELOCITY() {
-        return 650;
+        // return 650;
+        return 800;
     }
 
     static get DEFAULT_SECOND_JUMP_VELOCITY() {
-        return 700;
+        // return 700;
+        return 850;
     }
 
     /** 
@@ -172,7 +180,7 @@ class Chad {
     takeDamage(amount) {
         if (this.health > 0) {
             if (this.isInvincible) {
-                // playAudio(SFX.DING.path, SFX.DING.volume);
+                ASSET_MGR.playSFX(SFX.DING.path, SFX.DING.volume);
                 return;
             }
     
@@ -240,14 +248,18 @@ class Chad {
 
 
         // Dash action
-        if (this.groundDashTimer > 0 && this.isOnGround) {
-            this.groundDashTimer -= GAME.clockTick;
+        // if (this.groundDashTimer > 0 && this.isOnGround) {
+        if (this.groundDashTimer > 0) {
+            // keep the timer from being negative
+            this.groundDashTimer = Math.max(this.groundDashTimer - GAME.clockTick, 0);
         } else if (this.groundDashTimer <= 0) {
             this.canGroundDash = true;
         }
                     
-        const canDash = ((this.canAirDash && !this.isOnGround) || 
-                        (this.canGroundDash && this.isOnGround));
+        // const canDash = ((this.canAirDash && !this.isOnGround) || 
+        //                 (this.canGroundDash && this.isOnGround));
+
+        const canDash = this.canGroundDash;
 
         if (GAME.user.dashing && canDash) {
             if (!this.isDashing) {
@@ -271,7 +283,7 @@ class Chad {
             // correct limitations on dash functionality, i.e. no double dashing, no infinite dash.
             if (deltaX >= Chad.DASH_LIMIT) {
                 // we just finished dashing
-                this.canAirDash = false;
+                // this.canAirDash = false;
                 this.canGroundDash = false;
                 this.hasDashed = true;
                 this.isDashing = false;
@@ -281,7 +293,7 @@ class Chad {
         // Prevents continuing a dash after lifting the dash key.
         if (!GAME.user.dashing && this.isDashing) {
             // we just finished dashing
-            this.canAirDash = false;
+            // this.canAirDash = false;
             this.canGroundDash = false;
             this.hasDashed = true;
             this.isDashing = false;
@@ -307,8 +319,7 @@ class Chad {
 
         if (this.isOnGround && !this.alreadyLanded) {
             ASSET_MGR.playSFX(SFX.LAND.path, SFX.LAND.volume);
-            this.groundDashTimer = 0; // let the player dash immediately after landing
-            console.log("Landed on the ground");
+            // this.groundDashTimer = 0; // let the player dash immediately after landing
 
             // TODO add a landing animation?
             // TODO more things related to landing
@@ -406,18 +417,6 @@ class Chad {
         if (!(GAME.user.movingRight || GAME.user.movingLeft)) {
             this.action = "idle";
         }
-        // User intends to for Chad to jump in any way possible.
-        //         if (GAME.user.jumping) {
-        //             if (!this.isDashing) {
-        //                 this.action = "jumping";
-
-        //             }
-        //             // Gets change in y from when CHAD left ground to current.
-        //             this.manageYDirectionMovement()
-        //         }
-
-        // this is for the slingshot
-        //         if (GAME.user.aiming) {
 
         // TODO - decide whether this is necessary or not. Make it so that Chad moves in the correct direction
         // when doing this.
@@ -436,7 +435,11 @@ class Chad {
 
         if (GAME.user.jabbing) {
             this.action = "slicing";
+            // GAME.user.aiming = false; // might want to disable aiming while jabbing, giving priority to jabbing
         }
+        // if (GAME.user.aiming) {
+        //     this.action = this.slingshot.getAction(); // leave it up to the slingshot to decide where chad is aiming
+        // }
         if (this.isOnGround && !(GAME.user.movingRight || GAME.user.movingLeft)) {
             this.action = "idle";
             if (GAME.user.jabbing) {
@@ -702,6 +705,37 @@ class Chad {
                 0, 1888),
             Chad.SIZE,
             8, 1 / 20);
+
+        this.animations["right"]["slingshotUp"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, 448), //TODO adjust as necessary
+            Chad.SIZE,
+            1, 1);
+        this.animations["left"]["slingshotUp"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, 512), //TODO adjust as necessary
+            Chad.SIZE,
+            1, 1, true);
+        this.animations["right"]["slingshotDown"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, 576), //TODO adjust as necessary
+            Chad.SIZE,
+            1, 1);
+        this.animations["left"]["slingshotDown"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, 640), //TODO adjust as necessary
+            Chad.SIZE,
+            1, 1, true);
+        this.animations["right"]["slingshotStraight"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, 704), //TODO adjust as necessary
+            Chad.SIZE,
+            1, 1, true);
+        this.animations["left"]["slingshotStraight"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, 768), //TODO adjust as necessary
+            Chad.SIZE,
+            1, 1, true); 
 
         this.animations["right"]["death"] = new Animator(
             Chad.SPRITESHEET,

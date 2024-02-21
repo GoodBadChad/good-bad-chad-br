@@ -1,13 +1,16 @@
 /**
  * A slingshot that Chad holds and uses to launch projectiles. It can support various types of ammo.
+ * 
+ * NOTE: Based on new design of the Chad sprite CONTAINING the slingshot, we need to change some things.
+ * 
  * @author Nathan Hinthorne
  */
 class Slingshot {
     constructor() {
-        this.isHidden = true;
-
-        this.pos = Vector.add(CHAD.pos, new Vector(10, -10)); // temp value
-
+        
+        this.pos = 0;
+        
+        this.isAiming = false;
         this.isFiring = false;
         this.rotation = 0; //TODO check slingshot.rotation in Chad class to determine which animation to use for him
 
@@ -18,20 +21,19 @@ class Slingshot {
 
         this.start = new Vector(0, 0);
 
-        this.chadCenter = Vector.add(CHAD.pos, new Vector(CHAD.scaledSize.x / 2, CHAD.scaledSize.y / 2));
+        // this.chadCenter = Vector.add(CHAD.pos, new Vector(CHAD.scaledSize.x / 2, CHAD.scaledSize.y / 2));
 
         // this.progressBar = new ProgressBar(new Vector(0, 0), 100, 10, "green", "red");
     }
 
     aim() { 
-        this.isHidden = false;
+        this.isAiming = true;
 
         // play the slingshot stretch sound
         if (!this.playedStretchSound) {
             ASSET_MGR.playSFX(SFX.SLINGSHOT_STRETCH.path, SFX.SLINGSHOT_STRETCH.volume);
             this.playedStretchSound = true;
         }
-
         
         // position the image near Chad's hand
         let x;
@@ -64,6 +66,7 @@ class Slingshot {
         ASSET_MGR.stopAudio(SFX.SLINGSHOT_STRETCH.path);
 
         this.isFiring = true;
+        this.isAiming = false;
         //this.startX = 26; // slingshot firing frame
 
         let ammoType = INVENTORY.useCurrentAmmo();
@@ -83,8 +86,6 @@ class Slingshot {
         // trigger an async operation that will erase the slingshot after it fires
         setTimeout(() => {
             this.isFiring = false;
-            this.isHidden = true;
-            //TODO at this point, switch chad animations, taking out slingshot from chad's hand
         }, 1000);
 
         // reset the slingshot stretch sound
@@ -98,7 +99,7 @@ class Slingshot {
     }
 
     update() {
-        this.chadCenter = Vector.add(CHAD.pos, new Vector(CHAD.scaledSize.x / 2, CHAD.scaledSize.y / 2));
+        // this.chadCenter = Vector.add(CHAD.pos, new Vector(CHAD.scaledSize.x / 2, CHAD.scaledSize.y / 2));
         this.timeSinceLastShot += GAME.clockTick;
 
         if (!HUD.pauseButton.isMouseOver() && CHAD.health > 0) {
@@ -112,7 +113,7 @@ class Slingshot {
 
     //TODO remove this when we have a Chad animation containing the slingshot
     draw() {
-        if (!this.isHidden) {
+        if (!this.isAiming) {
             CTX.drawImage(
                 ASSET_MGR.getAsset(Slingshot.SPRITESHEET),
                 this.start.x, this.start.y,
@@ -121,6 +122,28 @@ class Slingshot {
                 this.pos.y - CAMERA.pos.y,
                 Slingshot.SIZE.x * Slingshot.SCALE,
                 Slingshot.SIZE.y * Slingshot.SCALE);
+        }
+    }
+
+    getAction() {
+        if (this.isFiring) {
+            if (this.rotation < 0 && this.rotation > -Math.PI / 2) {
+                return "FiringUp";
+            } else if (this.rotation < -Math.PI / 2 && this.rotation > -Math.PI) {
+                return "FiringDown";
+            } else {
+                return "FiringStraight";
+            }
+        } else if (this.isAiming) {
+            if (this.rotation < 0 && this.rotation > -Math.PI / 2) {
+                return "AimingUp";
+            } else if (this.rotation < -Math.PI / 2 && this.rotation > -Math.PI) {
+                return "AimingDown";
+            } else {
+                return "AimingStraight";
+            }
+        } else {
+            throw new Error("Slingshot.getAction() called when not firing or aiming.");
         }
     }
 
