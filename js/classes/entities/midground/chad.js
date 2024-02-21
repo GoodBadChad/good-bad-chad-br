@@ -65,7 +65,6 @@ class Chad {
         this.isJumping = false;
         /** The timer for the jump. Used to ensure the jump force is applied for a minimum amount of time. */
         this.firstJumpTimer = 0;
-
         this.groundDashTimer = Chad.GROUND_DASH_COOLDOWN;
         /** Ground dashes are reset based off a timer  */
         this.canGroundDash = true;
@@ -74,12 +73,6 @@ class Chad {
         
         /** If Chad has landed on the ground. Used to determine when Chad first hit the ground. */
         this.alreadyLanded = false;
-
-        // create the weapons and add them to the game
-        this.sword = new Sword(Sword.TYPE_1);
-        this.slingshot = new Slingshot();
-        GAME.addEntity(this.sword);
-        GAME.addEntity(this.slingshot);
     };
 
     /** The size, in pixels of the sprite ON THE SPRITESHEET. */
