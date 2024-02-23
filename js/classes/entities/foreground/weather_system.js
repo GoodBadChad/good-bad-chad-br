@@ -1,4 +1,20 @@
+/**
+ * WeatherSystem manages what weather to spawn into a zone.
+ * 
+ * @author Caleb Krauter
+ */
 class WeatherSystem {
+
+    /**
+     * Pass in the type of weather, intensity and time of day.
+     * Direction of rain or snow is random.
+     * Rain or snow will always include clouds.
+     * Intensity is used for both rain/snow and clouds.
+     * 
+     * @param {String} type warm, hot, cloudy, rain, snow.
+     * @param {int} intensity a value between 0 and 5.
+     * @param {String} time day or night.
+     */
     constructor(type, intensity, time) {
         this.type = type;
         this.intensity = intensity;
@@ -9,11 +25,11 @@ class WeatherSystem {
 
         if (this.type === "rain") {
             this.makeClouds();
-            this.makeRainOrSnow();
+            this.makePrecipitation();
         }
         else if (this.type === "snow") {
             this.makeClouds();
-            this.makeRainOrSnow();
+            this.makePrecipitation();
             this.addSurfaceSnow();
         } else if (this.type === "cloudy") {
             this.makeClouds();
@@ -23,8 +39,11 @@ class WeatherSystem {
         else {
             this.makeHeavens();
         }
-    } s
+    }
 
+    /**
+     * Adds a sun/moon and updates the sky color.
+     */
     makeHeavens() {
         if (this.time === "night") {
             BG_COLOR = COLORS.SKY_DARK_GREY;
@@ -56,6 +75,9 @@ class WeatherSystem {
 
     }
 
+    /**
+     * Adds clouds.
+     */
     makeClouds() {
         // Make sure to only have a number of clouds that is divisble by 100. For example, 15 is bad value but 25 is a good value.
         const numOfClouds = [2, 5, 10, 20, 25, 50];
@@ -105,7 +127,10 @@ class WeatherSystem {
 
     }
 
-    makeRainOrSnow() {
+    /**
+     * Adds rain or snow.
+     */
+    makePrecipitation() {
         let dir = ["left", "down", "right", "down", "down"];
         let rainintensity = [2, 5, 10, 20, 25, 30];
         let dirIndex = Math.floor(Math.random() * dir.length);
@@ -131,13 +156,26 @@ class WeatherSystem {
         }
     }
 
+    // TODO - complete SurfaceSnow.
+    /**
+     * Will add snow to the surface of the ground or any blocks on the top layer.
+     * Use collision and gravity to do this and add in a loading animation so that the snow
+     * is unseen until it hits the ground.
+     */
     addSurfaceSnow() {
-        new SurfaceSnow();
+        // new SurfaceSnow();
     }
 
+    /**
+     * Update does nothing.
+     */
     update() {
 
     }
+
+    /**
+     * Draw does nothing.
+     */
     draw() {
 
     }

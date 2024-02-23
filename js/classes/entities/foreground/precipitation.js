@@ -1,5 +1,18 @@
+/**
+ * Creates falling rain or snow.
+ * 
+ * @author Caleb Krauter
+ */
 class Precipitation {
 
+    /**
+     * Based on the parameters a single raindrop or snowflake is added creating precipitation.
+     * 
+     * @param {*} dir direction that the drop should be falling.
+     * @param {*} pos initial position of the drop.
+     * @param {*} type rain or snow.
+     * @param {*} scale scale of the rain or snow will vary.
+     */
     constructor(dir, pos, type, scale) {
         this.dir = dir;
         this.origin = pos;
@@ -44,13 +57,23 @@ class Precipitation {
         this.stopRain = false;
     }
 
+    /**
+     * Image used for precipitation.
+     */
     static get SPRITESHEET() {
         return "./sprites/snow_and_rain.png";
     }
+
+    /**
+     * Size used for the image drawn.
+     */
     static get SIZE() {
         return new Vector(32, 32);
     }
 
+    /**
+     * Resets the rain or snow to the top of the screen.
+     */
     reset() {
         let variationY = Math.random() * (50 + 100) - 50;
         // Ensure that the rain/snow covers the screen when resetting its origin.
@@ -72,7 +95,7 @@ class Precipitation {
     }
 
     /**
-     * @author Caleb Krauter
+     * Each update the rain or snow will fall in some direction and reset.
      */
     update() {
         this.velocity.y = PHYSICS.GRAVITY_ACC * GAME.clockTick;
@@ -100,6 +123,9 @@ class Precipitation {
 
     }
 
+    /**
+     * Draw the rain or snow on the screen.
+     */
     draw() {
         this.animator.drawFrame(Vector.worldToCanvasSpace(this.pos), this.scale);
 
