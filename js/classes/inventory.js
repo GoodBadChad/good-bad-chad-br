@@ -31,7 +31,7 @@ class Inventory {
         this.ammoBag.push(new AmmoItem(AmmoItem.LASER, 0));
 
         // temporary, for testing purposes
-        this.adjustAmmo(AmmoItem.BOMB, 10);
+        this.adjustAmmo(AmmoItem.BOMB, 80);
         this.switchToAmmo(AmmoItem.BOMB);
     }
 

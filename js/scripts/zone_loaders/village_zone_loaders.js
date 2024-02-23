@@ -416,6 +416,7 @@ const loadVillageMain = () => {
         GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)), 0);
         GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)), 0);
 
+
         BG_COLOR = COLORS.SKY_BLUE;
         let makeRain = false;
 
@@ -493,16 +494,19 @@ const loadVillageMain = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
+        GAME.addEntity(new FoodDrop(FoodDrop.BACON, Vector.blockToWorldSpace(new Vector(20, aboveGroundLevel - 2))));
+        GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(20, aboveGroundLevel - 5))));
+
         // NOTE: we can't activate music until the user has interacted with the canvas. (this issue is inherent to HTML5)
         //  If listening for a click is the only way to activate music, that's fine. 
         //  Our game's START button in the final version can be the trigger.
-        let playMusic = () => {
-            ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+        // let playMusic = () => {
+        //     ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
         
-            // delete the event listener so that the music doesn't restart when the user clicks again
-            document.body.removeEventListener('click', playMusic);
-        };
-        document.body.addEventListener('click', playMusic);
+        //     // delete the event listener so that the music doesn't restart when the user presses a key
+        //     document.body.removeEventListener('keydown', playMusic);
+        // };
+        // document.body.addEventListener('keydown', playMusic);
 
         LoadingAnimation.stop();
     };

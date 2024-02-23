@@ -125,6 +125,14 @@ const SFX = {
 
     // Environment
     GAME_OVER: { path: "./sfx/game_over.wav", volume: 0.4 },
+    DING: { path: "./sfx/ding.mp3", volume: 0.4 },
+
+    // Enemies
+    GROWL1: { path: "./sfx/growl1.mp3", volume: 0.4 },
+    GROWL2: { path: "./sfx/growl2.mp3", volume: 0.4 },
+    SMASH1: { path: "./sfx/smash1.mp3", volume: 0.4 },
+    SMASH2: { path: "./sfx/smash2.mp3", volume: 0.4 },
+    SMASH3: { path: "./sfx/smash3.mp3", volume: 0.4 },
 }
 
 /**
