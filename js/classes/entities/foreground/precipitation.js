@@ -1,48 +1,61 @@
-class Rain {
-    constructor(dir, pos) {
-        // TODO use direction to rotate raindrop and choose different travel path.
+class Precipitation {
+
+    constructor(dir, pos, type, scale) {
         this.dir = dir;
         this.origin = pos;
-        this.pos = pos;
+        // Setting this.pos to (0, 0) makes rain/snow fall naturally when it starts falling.
+        this.pos = new Vector(0, 0);
+        this.type = type;
         this.velocity = new Vector(0, 0);
-        Rain.spriteSheet = Rain.SPRITESHEET_DOWN;
-        if (dir == "down") {
-            Rain.spriteSheet = Rain.SPRITESHEET_DOWN;
-        } else if (dir == "left") {
-            Rain.spriteSheet = Rain.SPRITESHEET_LEFT;
-        } else if (dir == "right") {
-            Rain.spriteSheet = Rain.SPRITESHEET_RIGHT;
+        this.scale = scale;
+        this.imgIndex = 0;
+        // Precipitation.SPRITESHEET = Precipitation.SPRITESHEET_RAIN_DOWN;
+
+        if (type === "rain") {
+            if (dir === "down") {
+                this.imgIndex = 0;
+            } else if (dir === "left") {
+                this.imgIndex = 1;
+            } else if (dir === "right") {
+                this.imgIndex = 2;
+            }
+        } else if (type === "snow") {
+            let varient = Math.ceil(Math.random() * 4);
+            switch (varient) {
+                case 1:
+                    this.imgIndex = 3;
+                    break;
+                case 2:
+                    this.imgIndex = 4;
+                    break;
+                case 3:
+                    this.imgIndex = 5;
+                    break;
+                case 4:
+                    this.imgIndex = 6;
+                    break;
+                default:
+                    break;
+            }
+
         }
-        this.animator = new Animator(Rain.spriteSheet, new Vector(0, 0), new Vector(Rain.SIZE.x, Rain.SIZE.y), 1, 1);
+        this.animator = new Animator(Precipitation.SPRITESHEET, new Vector(0, this.imgIndex * Precipitation.SIZE.x), new Vector(Precipitation.SIZE.x, Precipitation.SIZE.y), 1, 1);
         this.hasStartedRaining = false;
         this.stopRain = false;
     }
-    static get SPRITESHEET_DOWN() {
-        return "./sprites/rain_drop.png";
 
-    }
-    static get SPRITESHEET_LEFT() {
-        return "./sprites/rain_drop_left.png";
-
-    }
-    static get SPRITESHEET_RIGHT() {
-        return "./sprites/rain_drop_right.png";
-
+    static get SPRITESHEET() {
+        return "./sprites/snow_and_rain.png";
     }
     static get SIZE() {
-        return new Vector(16, 16);
+        return new Vector(32, 32);
     }
-    static get SCALE_RAIN_DROP() {
-        return 1.5;
-    }
-    static get SCALE_RAIN_DROP_DIRECTIONAL() {
-        return 1;
-    }
+
     reset() {
         let variationY = Math.random() * (50 + 100) - 50;
-        // Ensure that the rain covers the screen when resetting its origin.
+        // Ensure that the rain/snow covers the screen when resetting its origin.
         let variationX = Math.random() * (1920 + 3000);
-        // We use CHAD.pos.x - 1920 to ensure that the rain follows Chad and that the rain begins at the left of the screen as it covers it.
+        // We use CHAD.pos.x - 1920 to ensure that the rain/snow follows Chad and that the rain/snow begins at the left of the screen as it covers it.
         if (this.dir == "right") {
             variationX = Math.random() * (1920 + 3000);
             this.pos = new Vector(variationX + CHAD.pos.x - 3000, this.origin.y + variationY);
@@ -63,6 +76,7 @@ class Rain {
      */
     update() {
         this.velocity.y = PHYSICS.GRAVITY_ACC * GAME.clockTick;
+        // Change velocity depending on direction.
         if (this.dir == "left") {
             this.velocity.x = -(PHYSICS.GRAVITY_ACC * GAME.clockTick - 5);
         } else if (this.dir == "right") {
@@ -87,11 +101,7 @@ class Rain {
     }
 
     draw() {
-        let dropScale = Rain.SCALE_RAIN_DROP;
-        if (this.dir != "down") {
-            dropScale = Rain.SCALE_RAIN_DROP_DIRECTIONAL;
-        }
-        this.animator.drawFrame(Vector.worldToCanvasSpace(this.pos), dropScale);
+        this.animator.drawFrame(Vector.worldToCanvasSpace(this.pos), this.scale);
 
     }
 }
