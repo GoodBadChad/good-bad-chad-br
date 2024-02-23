@@ -305,6 +305,15 @@ const EVENT_HANDLERS = {
             case "KeyF":
                 GAME.user.eatFood = true; // this should disable automatically after food is eaten
                 break;
+            case "Digit1":
+            case "Digit2":
+            case "Digit3":
+            case "Digit4":
+            case "Digit5":
+                const index = key.code.slice(-1) - 1;
+                if (!INVENTORY.ammoBag[index]) return; // make sure an ammo actually exists for this key
+                INVENTORY.switchToAmmo(INVENTORY.ammoBag[index].type);
+                break;
         }
     },
     doubleTap: (key) => {
