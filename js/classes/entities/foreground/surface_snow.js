@@ -56,6 +56,5 @@ class SurfaceSnow {
         this.pos = new Vector(variationX + CHAD.pos.x, this.origin.y + variationY);
 
         this.animator.drawFrame(Vector.worldToCanvasSpace(this.pos), this.scale);
-
     }
 }
