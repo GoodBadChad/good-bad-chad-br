@@ -106,16 +106,13 @@ class WeatherSystem {
                 let randomOrigin = xVariation + i * spaceBetweenMultiplier;
                 let cloudPosition = Vector.blockToWorldSpace(new Vector(randomOrigin, aboveGroundLevel - yVariation));
                 let cloudVarient = Decoration.DECORATIONS.clouds.CLOUD_BUSHY;
-                switch (cloudType) {
-                    case 1:
-                        cloudVarient = Decoration.DECORATIONS.clouds.CLOUD_LANKY;
-                        break;
-                    case 2:
-                        cloudVarient = Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD;
-                        break;
-                    default:
-                        break;
-                }
+const cloudVariants = {
+  1: Decoration.DECORATIONS.clouds.CLOUD_LANKY,
+  2: Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD,
+};
+
+// Assign cloudVariant based on cloudType, defaulting to undefined if not found
+let cloudVariant = cloudVariants[cloudType];
                 GAME.addEntity(new Decoration(cloudVarient, cloudPosition), foreground);
 
             }
