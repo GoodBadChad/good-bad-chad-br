@@ -43,7 +43,7 @@ class WeatherSystem {
     makeHeavens() {
         if (this.time === "night") {
             BG_COLOR = COLORS.SKY_DARK_GREY;
-            GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.MOON), -1);
+            GAME.addEntity(new Sun(sunVector, Sun.MOON), -1);
 
         } else {
             switch (this.type) {
