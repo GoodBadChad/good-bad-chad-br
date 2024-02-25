@@ -90,7 +90,6 @@ class Precipitation {
             this.velocity.x = -(PHYSICS.GRAVITY_ACC * GAME.clockTick - 5);
         } else if (this.dir == "right") {
             this.velocity.x = (PHYSICS.GRAVITY_ACC * GAME.clockTick - 5);
-
         }
 
         // Sets y velocity to terminal velocity just like in projectile.js
