@@ -134,7 +134,6 @@ let cloudVariant = cloudVariants[cloudType];
                 for (let k = 0; k < 4; k++) {
                     if (this.type === "snow") {
                         scale = Math.random() * (.5 - .2) + .2;
-
                     } else if (dir[dirIndex] !== "down") {
                         scale = Math.random() * (.8 - .4) + .4;
                     } else {
