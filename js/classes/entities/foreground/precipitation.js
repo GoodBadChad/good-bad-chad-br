@@ -33,22 +33,8 @@ class Precipitation {
                 this.imgIndex = 2;
             }
         } else if (type === "snow") {
-            let varient = Math.ceil(Math.random() * 4);
-            switch (varient) {
-                case 1:
-                    this.imgIndex = 3;
-                    break;
-                case 2:
-                    this.imgIndex = 4;
-                    break;
-                case 3:
-                    this.imgIndex = 5;
-                    break;
-                case 4:
-                    this.imgIndex = 6;
-                    break;
-                default:
-                    break;
+            const variant = Math.ceil(Math.random() * 4);
+            this.imgIndex = variant + 2;
             }
 
         }
