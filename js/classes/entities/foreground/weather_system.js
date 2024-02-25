@@ -35,10 +35,6 @@ class WeatherSystem {
             this.makeClouds();
             // Default to sunny with white clouds
         }
-        // Defaults to sunny/(night with moon) and no clouds.
-        else {
-            this.makeHeavens();
-        }
     }
 
     /**
