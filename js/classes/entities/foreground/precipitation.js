@@ -8,10 +8,10 @@ class Precipitation {
     /**
      * Based on the parameters a single raindrop or snowflake is added creating precipitation.
      * 
-     * @param {*} dir direction that the drop should be falling.
-     * @param {*} pos initial position of the drop.
-     * @param {*} type rain or snow.
-     * @param {*} scale scale of the rain or snow will vary.
+     * @param {String} dir direction that the drop should be falling.
+     * @param {Vector} pos initial position of the drop.
+     * @param {String} type rain or snow.
+     * @param {int} scale scale of the rain or snow will vary.
      */
     constructor(dir, pos, type, scale) {
         this.dir = dir;
@@ -22,7 +22,6 @@ class Precipitation {
         this.velocity = new Vector(0, 0);
         this.scale = scale;
         this.imgIndex = 0;
-        // Precipitation.SPRITESHEET = Precipitation.SPRITESHEET_RAIN_DOWN;
 
         if (type === "rain") {
             if (dir === "down") {
@@ -35,9 +34,8 @@ class Precipitation {
         } else if (type === "snow") {
             const variant = Math.ceil(Math.random() * 4);
             this.imgIndex = variant + 2;
-            }
-
         }
+
         this.animator = new Animator(Precipitation.SPRITESHEET, new Vector(0, this.imgIndex * Precipitation.SIZE.x), new Vector(Precipitation.SIZE.x, Precipitation.SIZE.y), 1, 1);
         this.isRaining = false;
         this.stopPrecipitiation = false;
@@ -61,19 +59,27 @@ class Precipitation {
      * Resets the rain or snow to the top of the screen.
      */
     reset() {
-        let variationY = Math.random() * (50 + 100) - 50;
+        // These values are somewhat arbitrary but are necessary to ensure that the precipitation covers the whole canvas.
+        const precipitionBoundR = 3000;
+        const precipitionBoundL = 1920;
+        const originMin = 0;
+        const originMax = 50;
+        let variationY = Math.random() * (originMin + originMax);
         // Ensure that the rain/snow covers the screen when resetting its origin.
-        let variationX = Math.random() * (1920 + 3000);
+        let variationX = Math.random() * (precipitionBoundL + precipitionBoundR);
         // We use CHAD.pos.x - 1920 to ensure that the rain/snow follows Chad and that the rain/snow begins at the left of the screen as it covers it.
         if (this.dir == "right") {
-            variationX = Math.random() * (1920 + 3000);
-            this.pos = new Vector(variationX + CHAD.pos.x - 3000, this.origin.y + variationY);
+            // The left and right bounds are used as values to ensure that the precipitation covers the whole canvas and a bit outside of it
+            // to ensure there are no odd gaps when the precipiation falls at an angle.
+            variationX = Math.random() * (precipitionBoundL + precipitionBoundR);
+            this.pos = new Vector(variationX + CHAD.pos.x - precipitionBoundR, this.origin.y + variationY);
         } else if (this.dir == "left") {
-            variationX = Math.random() * (1920 + 3000);
-            this.pos = new Vector(variationX + CHAD.pos.x - 1920, this.origin.y + variationY);
+            variationX = Math.random() * (precipitionBoundL + precipitionBoundR);
+            this.pos = new Vector(variationX + CHAD.pos.x - precipitionBoundL, this.origin.y + variationY);
         } else {
-            variationX = Math.random() * (1920 + 1920);
-            this.pos = new Vector(variationX + CHAD.pos.x - 1920, this.origin.y + variationY);
+            // precipitionBoundL is used twice here to cover the screen with precipitation.
+            variationX = Math.random() * (precipitionBoundL * 2);
+            this.pos = new Vector(variationX + CHAD.pos.x - precipitionBoundL, this.origin.y + variationY);
         }
         this.velocity = new Vector(0, 0);
 

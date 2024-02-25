@@ -449,7 +449,7 @@ const loadVillageMain = () => {
         LoadingAnimation.stop();
     };
 
-    new WeatherSystem("snow", 3, "night");
+    new WeatherSystem("snow", 5, "night");
 
     LoadingAnimation.start();
     queueAssets();
