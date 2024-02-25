@@ -53,31 +53,27 @@ class FoodDrop {
             switch (this.type) {
                 case FoodItem.BACON:
                     // give chad invincibility for 10 seconds
-                    // grow chad total size by 1.5x 
+                    // grow chad total size by 1.2x 
                     CHAD.isInvincible = true;
-                    CHAD.scale = new Vector(Chad.DEFAULT_SCALE.x * 1.2, Chad.DEFAULT_SCALE.y * 1.2);
-                    CHAD.scaledSize = new Vector(Chad.SIZE.x * CHAD.scale.x, Chad.SIZE.y * CHAD.scale.y); // update scaled size accordingly
+                    CHAD.scale = Vector.multiply(Chad.DEFAULT_SCALE, 1.2);
                     CHAD.pos = new Vector(CHAD.pos.x, CHAD.pos.y - 10);
                     setTimeout(() => {
                         CHAD.isInvincible = false;
                         CHAD.scale = Chad.DEFAULT_SCALE;
-                        CHAD.scaledSize = new Vector(Chad.SIZE.x * CHAD.scale.x, Chad.SIZE.y * CHAD.scale.y); // update scaled size accordingly
                     }, 20_000);
                     console.log("*munch munch* Bacon");
                     break;
 
                 case FoodItem.BURGER:
                     // give chad extra attack power for 20 seconds
-                    // grow chad's width by 1.5x
+                    // grow chad's width by 1.2x
                     CHAD.damageMultiplier = 2;
                     CHAD.speed /= 1.3;
                     CHAD.scale = new Vector(Chad.DEFAULT_SCALE.x * 1.5, Chad.DEFAULT_SCALE.y);
-                    CHAD.scaledSize = new Vector(Chad.SIZE.x * CHAD.scale.x, Chad.SIZE.y * CHAD.scale.y); // update scaled size accordingly
                     setTimeout(() => {
                         CHAD.damageMultiplier = Chad.DEFAULT_DAMAGE_MULTIPLIER;
                         CHAD.speed = Chad.DEFAULT_SPEED;
                         CHAD.scale = Chad.DEFAULT_SCALE;
-                        CHAD.scaledSize = new Vector(Chad.SIZE.x * CHAD.scale.x, Chad.SIZE.y * CHAD.scale.y); // update scaled size accordingly
                     }, 20_000);
                     console.log("BIG CHUNGUS");
                     break;

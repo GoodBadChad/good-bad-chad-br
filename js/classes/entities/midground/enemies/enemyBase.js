@@ -29,9 +29,11 @@ class EnemyBase {
         enemy.action = "idle";
         enemy.size = size;
         enemy.speed = speed; // *
+        enemy.baseSpeed = speed;
         enemy.health = health; // *
         enemy.maxRoamDistance = maxRoamDistance; // *
         enemy.yVelocity = 0;
+        enemy.isEnemy = true; // used for collision checks
 
         enemy.boundingBox = new BoundingBox(pos, size);
         enemy.lastBoundingBox = this.enemy.boundingBox;
@@ -105,6 +107,16 @@ class EnemyBase {
     };
 
     /**
+     * NOTE: Slight bug where enemy is considered "out of view" when it's at the LEFT edge of the camera. Should be insignificant.
+     * Fix with an offset if it becomes a problem.
+     * 
+     * @returns {boolean} true if the enemy is within the camera's view, false otherwise
+     */
+    isInView() {
+        return this.enemy.pos.x > CAMERA.pos.x && this.enemy.pos.x < CAMERA.pos.x + Camera.SIZE.x;
+    }
+
+    /**
      * Set the target x-coordinate of the enemy.
      * 
      * @param {number} targetX the x-coordinate the enemy should move towards
@@ -148,7 +160,7 @@ class EnemyBase {
      */
     chadDistance() {
         return Vector.distance(Vector.add(CHAD.pos, 
-            Vector.add(CHAD.scaleBoundingBoxOffset(), new Vector(0, CHAD.scaledSize.y))),
+             new Vector(0, CHAD.scaledSize.y)),
             Vector.add(this.enemy.pos, new Vector(0, this.enemy.size.y)));
     }
     
@@ -178,7 +190,7 @@ class EnemyBase {
             // if we're pursuing Chad, update the target position to Chad's position
             // also avoid changing direction in the middle of an attack animation
             if (this.enemy.state === "pursue" && this.enemy.action != "attacking") {
-                this.setTargetX(CHAD.pos.x + CHAD.scaleBoundingBoxOffset().x);
+                this.setTargetX(CHAD.pos.x);
             }
 
             if (Math.abs(this.targetX - this.enemy.pos.x) < this.enemy.size.x / 2) {

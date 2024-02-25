@@ -23,19 +23,20 @@ class DashCooldown {
     }
 
     update() {
-        this.progress = (CHAD.groundDashTimer / Chad.GROUND_DASH_COOLDOWN) * 100;
+        this.progress = (CHAD.dashCooldownTimer / Chad.DASH_COOLDOWN) * 100;
         
         if (this.progress < 0 || this.progress > 100) {
             throw new Error("DashCooldown progress out of bounds: " + this.progress);
         }
-
     }
 
     draw() {
         const currFrame = DashCooldown.NUMBER_OF_FRAMES - Math.floor(this.progress / (DashCooldown.MAX_CHARGE / DashCooldown.NUMBER_OF_FRAMES));
+        
+        // APPROACH 1: Using the animator
         // this.animator.drawGivenFrame(this.pos, DashCooldown.SCALED_SIZE, currFrame);
 
-
+        // APPROACH 2: Using the context
         CTX.drawImage(ASSET_MGR.getAsset(DashCooldown.SPRITESHEET), 
             (DashCooldown.SIZE.x * (currFrame-1)), 0,
             DashCooldown.SIZE.x, DashCooldown.SIZE.y,

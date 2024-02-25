@@ -215,6 +215,8 @@ class AssetManager {
             RuneItem.SPRITESHEET,
             FoodDrop.SPRITESHEET,
             DashCooldown.SPRITESHEET,
+            Bomb.SPRITESHEET,
+            Rock.SPRITESHEET,
 
             // Sounds:
             SFX.JUMP1.path,
@@ -235,7 +237,9 @@ class AssetManager {
             SFX.SWORD_SWING8.path,
             SFX.SWORD_SWING9.path,
             SFX.SWORD_SWING10.path,
-            SFX.SWORD_HIT.path,
+            SFX.SWORD_HIT1.path,
+            SFX.SWORD_HIT2.path,
+            SFX.SWORD_HIT3.path,
             SFX.SWOOSH.path,
             SFX.RICOCHET1.path,
             SFX.RICOCHET2.path,
@@ -262,6 +266,14 @@ class AssetManager {
             SFX.SMASH2.path,
             SFX.SMASH3.path,
             Yeti.SPRITESHEET,
+            SFX.SNOW_CRUNCH1.path,
+            SFX.SNOW_CRUNCH2.path,
+            Snowball.SPRITESHEET,
+            SusSnowball.SPRITESHEET,
+            Slimeball.SPRITESHEET,
+            SFX.SLIME_SPLAT.path,
+            Broccoli.SPRITESHEET,
+            SFX.BLEH.path,
 
             // Music:
             MUSIC.PEACEFUL_CHIPTUNE.path,

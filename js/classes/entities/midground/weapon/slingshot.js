@@ -1,8 +1,6 @@
 /**
  * A slingshot that Chad holds and uses to launch projectiles. It can support various types of ammo.
  * 
- * NOTE: Based on new design of the Chad sprite CONTAINING the slingshot, we need to change some things.
- * 
  * @author Nathan Hinthorne
  */
 class Slingshot {
@@ -20,10 +18,6 @@ class Slingshot {
         this.playedStretchSound = false;
 
         this.start = new Vector(0, 0);
-
-        // this.chadCenter = Vector.add(CHAD.pos, new Vector(CHAD.scaledSize.x / 2, CHAD.scaledSize.y / 2));
-
-        // this.progressBar = new ProgressBar(new Vector(0, 0), 100, 10, "green", "red");
     }
 
     aim() { 
@@ -75,12 +69,15 @@ class Slingshot {
             const rand = Math.floor(Math.random() * 4) + 1;
             const sfx = SFX["SLINGSHOT_LAUNCH" + rand];
             ASSET_MGR.playSFX(sfx.path, sfx.volume);
+
+            const chadCenter = Vector.add(CHAD.pos, new Vector(CHAD.scaledSize.x / 2, CHAD.scaledSize.y / 2));
             
             // create a projectile and launch it in the direction of the mouse
-            GAME.addEntity(new Projectile(
-                ammoType,
-                Vector.round(this.pos),
-                Vector.round(Vector.canvasToWorldSpace(GAME.mousePos))));
+            GAME.addEntity(ProjectileFactory.create(
+                ProjectileFactory.BOMB, 
+                Vector.round(chadCenter), 
+                Vector.round(Vector.canvasToWorldSpace(GAME.mousePos)))
+            );
         }
 
         // trigger an async operation that will erase the slingshot after it fires

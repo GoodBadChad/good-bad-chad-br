@@ -73,7 +73,16 @@ class ParticleEffect {
             } else if (this.behavior == ParticleEffect.WIGGLE) {
                 currParticle.pos.x += Math.random() * 2 - 1;
                 currParticle.pos.y += Math.random() * 2 - 1;
+            } else if (this.behavior == ParticleEffect.EXPAND_UP) {
+                const speed = 1.5;
+                const displacement = Vector.direction(this.center, currParticle.pos);
+                // freeze any downward movement
+                if (displacement.y > 0) {
+                    displacement.y = 0;
+                }
+                currParticle.pos = Vector.add(currParticle.pos, Vector.multiply(displacement, speed));
             }
+
             // if FREEZE, do nothing
         }
     }
@@ -141,6 +150,20 @@ class ParticleEffect {
         return 5;
     }
 
+    /**
+     * A behavior for particles that expand upwards.
+    */
+    static get EXPAND_UP() {
+        return 6;
+    }
+
+    /**
+     * A behavior for particles that spray upwards in a fountain.
+     */
+    // static get FOUNTAIN() {
+    //     return 6;
+    // }
+
 
 
 
@@ -149,15 +172,85 @@ class ParticleEffect {
     /**
      * A "preset" particle effect for dust being kicked up.
      */
-    static get DUST() {
+    static get LITTLE_DUST() {
         return {
             spread: 30,
             size: 2,
             amount: 1,
-            lifetime: 1,
+            lifetime: 0.3,
             color: COLORS.LIGHT_BROWN,
             opacity: 0.7,
-            behavior: ParticleEffect.FALL
+            behavior: ParticleEffect.FREEZE
+        };
+    }
+
+    static get BIG_DUST() {
+        return {
+            spread: 50,
+            size: 2,
+            amount: 6,
+            lifetime: 0.5,
+            color: COLORS.BROWN,
+            opacity: 0.7,
+            behavior: ParticleEffect.RISE
+        };
+    }
+
+
+    /**
+     * A "preset" particle effect for dirt spraying.
+     */
+    static get DIRT_SPRAY() {
+        return {
+            spread: 30,
+            size: 3,
+            amount: 5,
+            lifetime: 1,
+            color: COLORS.BROWN,
+            opacity: 0.9,
+            behavior: ParticleEffect.RISE
+        };
+    }
+
+    /**
+     * A "preset" particle effect for snow spraying.
+     */
+    static get SNOW_SPRAY() {
+        return {
+            spread: 30,
+            size: 3,
+            amount: 7,
+            lifetime: 1,
+            color: COLORS.WHITE,
+            opacity: 0.9,
+            behavior: ParticleEffect.EXPAND
+        };
+    }
+
+    /**
+     * A "preset" particle effect for snow impacting.
+    */
+    static get SNOW_SPLAT() {
+        return {
+            spread: 70,
+            size: 4,
+            amount: 10,
+            lifetime: 0.3,
+            color: COLORS.WHITE,
+            opacity: 0.9,
+            behavior: ParticleEffect.EXPAND_UP
+        };
+    }
+
+    static get SLIME_SPLAT() {
+        return {
+            spread: 50,
+            size: 4,
+            amount: 10,
+            lifetime: 0.3,
+            color: COLORS.LIGHT_GREEN,
+            opacity: 0.9,
+            behavior: ParticleEffect.EXPAND_UP
         };
     }
 
@@ -200,21 +293,6 @@ class ParticleEffect {
             color: COLORS.ORANGE,
             opacity: 1.0,
             behavior: ParticleEffect.EXPAND
-        };
-    }
-
-    /**
-     * A "preset" particle effect for stone hitting the ground.
-     */
-    static get STONE_HIT() {
-        return {
-            spread: 1,
-            size: 3,
-            amount: 1,
-            lifetime: 1,
-            color: COLORS.BROWN,
-            opacity: 1.0,
-            behavior: ParticleEffect.FALL
         };
     }
 

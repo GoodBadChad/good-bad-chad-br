@@ -55,7 +55,7 @@ class Yeti {
 
     /** The maximum health of the Yeti. */
     static get MAX_HEALTH() {
-        return 100;
+        return 180;
     };
 
     /** The distance the Yeti will wander from its original position when roaming. */
@@ -87,7 +87,7 @@ class Yeti {
         this.removeFromWorld = true;
 
         // add a piece of bacon in the Yeti's place at bottom-center of yeti
-        const baconPos = new Vector(this.pos.x, this.pos.y + Yeti.SCALED_SIZE.y / 2);
+        const baconPos = new Vector(this.pos.x + Yeti.SCALED_SIZE.x / 2, this.pos.y + Yeti.SCALED_SIZE.y / 2);
         GAME.addEntity(new FoodDrop(FoodDrop.BACON, baconPos));
     }
     
@@ -96,12 +96,16 @@ class Yeti {
         this.base.update();
 
         // random chance to growl
-        //TODO (incorporate GAME.clock to sync to every machine's clock)
-        if (Math.random() < 0.003) {
-            const rand = Math.floor(Math.random() * 2) + 1;
-            const sfx = SFX["GROWL" + rand];
-            ASSET_MGR.playSFX(sfx.path, sfx.volume);
-        }
+        //TODO incorporate GAME.clock to sync to every machine's clock
+
+        //only make noise when within the camera view
+        // if (this.base.isInView()) {
+        //     if (Math.random() < 0.003) {
+        //         const rand = Math.floor(Math.random() * 2) + 1;
+        //         const sfx = SFX["GROWL" + rand];
+        //         ASSET_MGR.playSFX(sfx.path, sfx.volume);
+        //     }
+        // }
 
         const secondsSinceLastAttack = Date.now() / 1000 - this.lastAttack;
 
@@ -130,6 +134,12 @@ class Yeti {
                 const rand = Math.floor(Math.random() * 3) + 1;
                 const sfx = SFX["SMASH" + rand];
                 ASSET_MGR.playSFX(sfx.path, sfx.volume);
+
+                // create a wide, horizontal spray of dirt particles
+                const center = new Vector(this.pos.x + Yeti.SCALED_SIZE.x / 2, this.pos.y + Yeti.SCALED_SIZE.y - 10);
+                GAME.addEntity(new ParticleEffect(Vector.subtract(center, new Vector(-100, 0)), ParticleEffect.DIRT_SPRAY));
+                GAME.addEntity(new ParticleEffect(Vector.subtract(center, new Vector(0, 0)), ParticleEffect.DIRT_SPRAY));
+                GAME.addEntity(new ParticleEffect(Vector.subtract(center, new Vector(100, 0)), ParticleEffect.DIRT_SPRAY));
             }
         }
     };

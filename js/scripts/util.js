@@ -41,6 +41,7 @@ const COLORS = {
     BLACK: "#000000",
     RED: "#ff0000",
     GREEN: "#00ff00",
+    LIGHT_GREEN: "#90ee90",
     BLUE: "#0000ff",
     YELLOW: "#ffff00",
     PURPLE: "#800080",
@@ -67,7 +68,8 @@ let BG_COLOR = null;
 const PHYSICS = {
 
     GRAVITY_ACC: 1200,
-    TERMINAL_VELOCITY: 700
+    TERMINAL_VELOCITY: 700,
+    FRICTION: 0.8
 };
 
 /** Declares constants for CTX.font. */
@@ -101,12 +103,10 @@ const SFX = {
     SWORD_SWING8: {path: "./sfx/sword_swing8.mp3", volume: 0.2},
     SWORD_SWING9: {path: "./sfx/sword_swing9.mp3", volume: 0.2},
     SWORD_SWING10: {path: "./sfx/sword_swing10.mp3", volume: 0.2},
-    SWORD_HIT: {path: "./sfx/sword_hit.mp3", volume: 0.4},
+    SWORD_HIT1: {path: "./sfx/sword_hit1.mp3", volume:0.1},
+    SWORD_HIT2: {path: "./sfx/sword_hit2.mp3", volume:0.1},
+    SWORD_HIT3: {path: "./sfx/sword_hit3.mp3", volume:0.1},
     SWOOSH: {path: "./sfx/swoosh.mp3", volume: 0.4},
-    RICOCHET1: {path: "./sfx/ricochet1.mp3", volume: 0.4},
-    RICOCHET2: {path: "./sfx/ricochet2.mp3", volume: 0.4},
-    RICOCHET3: {path: "./sfx/ricochet3.mp3", volume: 0.4},
-    RICOCHET4: {path: "./sfx/ricochet4.mp3", volume: 0.4},
     EXPLOSION_SMALL: {path: "./sfx/explosion_small.mp3", volume: 0.4},
     ITEM_EQUIP: {path: "./sfx/item_equip.mp3", volume: 0.4},
     ITEM_COLLECT1: {path: "./sfx/item_collect1.mp3", volume: 0.4},
@@ -116,16 +116,23 @@ const SFX = {
     FOOD_EAT2: {path: "./sfx/food_eat2.mp3", volume: 0.4},
     FOOD_EAT3: {path: "./sfx/food_eat3.mp3", volume: 0.4},
     FOOD_EAT4: {path: "./sfx/food_eat4.mp3", volume: 0.4},
-
+    
     // UI
     UI_HIGH_BEEP: { path: "./sfx/ui_high_beep.mp3", volume: 0.4 },
     UI_SCIFI: { path: "./sfx/ui_scifi.mp3", volume: 0.4 },
     UI_SNAP: { path: "./sfx/ui_snap.mp3", volume: 0.4 },
     UI_GAMEBOY_BEEP: { path: "./sfx/ui_gameboy_beep.mp3", volume: 0.4 },
-
+    
     // Environment
+    RICOCHET1: {path: "./sfx/ricochet1.mp3", volume: 0.4},
+    RICOCHET2: {path: "./sfx/ricochet2.mp3", volume: 0.4},
+    RICOCHET3: {path: "./sfx/ricochet3.mp3", volume: 0.4},
+    RICOCHET4: {path: "./sfx/ricochet4.mp3", volume: 0.4},
     GAME_OVER: { path: "./sfx/game_over.wav", volume: 0.4 },
     DING: { path: "./sfx/ding.mp3", volume: 0.4 },
+    SNOW_CRUNCH1: { path: "./sfx/snow_crunch1.mp3", volume: 0.4 },
+    SNOW_CRUNCH2: { path: "./sfx/snow_crunch2.mp3", volume: 0.4 },
+    SLIME_SPLAT: { path: "./sfx/slime_splat.mp3", volume: 0.4 },
 
     // Enemies
     GROWL1: { path: "./sfx/growl1.mp3", volume: 0.4 },
@@ -133,6 +140,7 @@ const SFX = {
     SMASH1: { path: "./sfx/smash1.mp3", volume: 0.4 },
     SMASH2: { path: "./sfx/smash2.mp3", volume: 0.4 },
     SMASH3: { path: "./sfx/smash3.mp3", volume: 0.4 },
+    BLEH: { path: "./sfx/bleh.mp3", volume: 0.3 },
 }
 
 /**
@@ -173,9 +181,57 @@ const MUSIC = {
 }
 
 /**
+ * Gets an array of nearby entities from the midground.
+ * The entities must have a bounding box.
+ * 
+ * NOTE: I tried to optimize this as much as possible, but it still looks expensive with all the distance calculations.
+ * 
+ * @param {Vector} centerPos the central position from which to check for entities
+ * @param {number} range the radius of the circle to check for entities
+ * 
+ * @returns An array of entities within the range of the provided position
+ */
+const getNearbyEntities = (centerPos, range) => {
+    const nearbyEntities = [];
+    GAME.entities.midground.forEach((entity) => {
+        if (!entity.boundingBox) return;
+        // find the distance between the entity's CLOSEST SIDE of its bounding box and the center of the circle
+        const leftDist = Math.abs(entity.boundingBox.left - centerPos.x);
+        const rightDist = Math.abs(entity.boundingBox.right - centerPos.x);
+        const topDist = Math.abs(entity.boundingBox.top - centerPos.y);
+        const bottomDist = Math.abs(entity.boundingBox.bottom - centerPos.y);
+        const closestX = leftDist < rightDist ? entity.boundingBox.left : entity.boundingBox.right;
+        const closestY = topDist < bottomDist ? entity.boundingBox.top : entity.boundingBox.bottom;
+        const distToBB = Vector.distance(new Vector(closestX, closestY), centerPos);
+        
+        if (distToBB < range) {
+            nearbyEntities.push(entity);
+        }
+    });
+    
+    // put chad in array if neccessary
+    // find the distance between Chad's CLOSEST SIDE of his bounding box and the center of the circle
+    const leftDist = Math.abs(CHAD.boundingBox.left - centerPos.x);
+    const rightDist = Math.abs(CHAD.boundingBox.right - centerPos.x);
+    const topDist = Math.abs(CHAD.boundingBox.top - centerPos.y);
+    const bottomDist = Math.abs(CHAD.boundingBox.bottom - centerPos.y);
+    const closestX = leftDist < rightDist ? CHAD.boundingBox.left : CHAD.boundingBox.right;
+    const closestY = topDist < bottomDist ? CHAD.boundingBox.top : CHAD.boundingBox.bottom;
+    const distToBB = Vector.distance(new Vector(closestX, closestY), centerPos);
+
+    if (distToBB < range) {
+        nearbyEntities.push(CHAD);
+    }
+
+    return nearbyEntities;
+}
+
+
+/**
  * Check if the provided entity is colliding with any blocks and correct its position if so.
  * 
  * @param {Entity} entity the entity for which to check block collision
+ * @param {Vector} entitySize the size of the entity
  * @returns {Object} an object indicating which side(s) of a block the entity collided with
  */
 const checkBlockCollisions = (entity, entitySize) => {
@@ -242,6 +298,7 @@ const checkBlockCollisions = (entity, entitySize) => {
 
     return collisions;
 };
+
 
 // The following is necessary because we must change the listeners for different modes (right now, gameplay and dialog).
 /** Contains all functions called as event handlers. */

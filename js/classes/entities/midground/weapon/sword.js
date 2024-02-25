@@ -28,6 +28,8 @@ class Sword {
         this.setType(type);
 
         this.loadAnimations();
+
+        this.bb = new BoundingBox(this.pos, Sword.SCALED_SIZE);
     };
 
     /** The size of the Sword on the spritesheet. */
@@ -187,15 +189,17 @@ class Sword {
         if (this.isAttacking) {
             this.offsetX = Math.min(this.offsetX + this.dirX * this.speed * GAME.clockTick, Sword.MAX_OFFSET);
 
-            // attack only once per animation cycle
+            // attack only once per animation cyclep
             if (!this.hasHit) {
-                const bb = new BoundingBox(basePos, new Vector(Sword.SCALED_SIZE.x, CHAD.scaledSize.y));
+                this.bb = new BoundingBox(basePos, new Vector(Sword.SCALED_SIZE.x, CHAD.scaledSize.y));
                 GAME.entities.midground.forEach((entity) => {
                     if (this != entity && entity.boundingBox && entity.takeDamage) {
-                        if (bb.collide(entity.boundingBox)) {
+                        if (this.bb.collide(entity.boundingBox)) {
                             entity.takeDamage(this.getProperty("DAMAGE") * CHAD.damageMultiplier);
                             this.hasHit = true;
-                            ASSET_MGR.playSFX(SFX.SWORD_HIT.path, SFX.SWORD_HIT.volume);
+                            const rand = Math.floor(Math.random() * 3) + 1;
+                            const sfx = SFX["SWORD_HIT" + rand];
+                            ASSET_MGR.playSFX(sfx.path, sfx.volume);
                         }
                     }
                 });
@@ -211,6 +215,11 @@ class Sword {
         //    if (this.isAttacking) {
         //         this.animations[CHAD.facing].drawFrame(Vector.worldToCanvasSpace(this.pos), Sword.SCALE);
         //    }
+
+        // draw the bounding box
+        // CTX.strokeStyle = "red";
+        // const pos = Vector.worldToCanvasSpace(this.pos);
+        // CTX.strokeRect(pos.x, pos.y, this.bb.size.x, this.bb.size.y);
     };
 
     /** Load the Sword's animations. */

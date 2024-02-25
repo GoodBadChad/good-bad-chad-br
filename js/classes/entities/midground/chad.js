@@ -26,8 +26,6 @@ class Chad {
         this.prevYPosOnGround = 0;
         /** The position of the Chad (in the game world). */
         this.pos = pos;
-        /** Gets the the x position of CHAD from the origin of where he started dashing. */
-        this.xDashAnchoredOrigin = 0;
         /** An associative array of the animations for this Chad. Arranged [facing][action]. */
         this.animations = [];
         this.loadAnimations();
@@ -35,7 +33,6 @@ class Chad {
         this.facing = "right";
         /** What is the Chad doing? */
         this.action = "idle";
-       
         /** The velocity at which Chad is moving. */
         this.velocity = new Vector(0, 0);
         /** Name of character. */
@@ -48,29 +45,31 @@ class Chad {
         this.damageMultiplier = 1;
         /** Chad's invincibility state. */
         this.isInvincible = false;
-        /** The scale of Chad on the canvas. A VECTOR */
-        this.scale = Chad.DEFAULT_SCALE;
         /** The size of Chad on the canvas */
-        this.scaledSize = new Vector(Chad.BOUNDING_BOX_SIZE.x * Chad.DEFAULT_SCALE.x, 
-            Chad.BOUNDING_BOX_SIZE.y * Chad.DEFAULT_SCALE.y);
-        /** Used to check for collisions with other applicable entities. */
-        this.boundingBox = this.createBoundingBox();
+        this.scaledSize = new Vector(Chad.DEFAULT_BOUNDING_BOX_SIZE.x * Chad.DEFAULT_SCALE.x, 
+            Chad.DEFAULT_BOUNDING_BOX_SIZE.y * Chad.DEFAULT_SCALE.y);
         /** Used to check how to deal with collisions with other applicable entities. */
         this.lastBoundingBox = this.boundingBox;
         /** The force of Chad's first jump. */
         this.firstJumpVelocity = Chad.DEFAULT_FIRST_JUMP_VELOCITY;
         /** The force of Chad's second jump. */
         this.secondJumpVelocity = Chad.DEFAULT_SECOND_JUMP_VELOCITY;
-
+        /** If Chad is currently jumping. */
         this.isJumping = false;
         /** The timer for the jump. Used to ensure the jump velocity is applied for a minimum amount of time. */
         this.firstJumpTimer = 0;
-        this.dashTimer = Chad.DASH_COOLDOWN;
         /** Dashes are reset based off a timer  */
         this.canDash = true;
-        
+        /** The cooldown timer for the dash. */
+        this.dashCooldownTimer = Chad.DASH_COOLDOWN;
+        /** The timer for how long Chad has been dashing. */
+        this.dashStopTimer = 0;
         /** If Chad has landed on the ground. Used to determine when Chad first hit the ground. */
         this.alreadyLanded = false;
+        /** The scale of Chad on the canvas. A VECTOR */
+        this.scale = Chad.DEFAULT_SCALE;
+        /** Used to check for collisions with other applicable entities. */
+        this.boundingBox = this.createBoundingBox();
     };
 
     /** The size, in pixels of the sprite ON THE SPRITESHEET. */
@@ -79,13 +78,8 @@ class Chad {
     }
 
     /** The size, in pixels of the boundingbox of Chad. */
-    static get BOUNDING_BOX_SIZE() {
+    static get DEFAULT_BOUNDING_BOX_SIZE() {
         return new Vector(28, 49);
-    }
-
-    /** The offset applied to the bounding box's position from Chad's position. */
-    static get BOUNDING_BOX_OFFSET() {
-        return new Vector(33, 15);
     }
 
     /** The default scale factor applied to Chad. */
@@ -107,9 +101,9 @@ class Chad {
         return 3.5;
     }
 
-    /** The barrier that limits the length of the longest dash. */
-    static get DASH_LIMIT() {
-        return 280;
+    /** The barrier that limits the time of the longest dash. */
+    static get DASH_TIME_LIMIT() {
+        return 0.32;
     }
 
     /** The delay between dashes in seconds. */
@@ -132,14 +126,41 @@ class Chad {
         return 1;
     }
 
+    /**
+     * @returns {number} the force of Chad's first jump
+     */
     static get DEFAULT_FIRST_JUMP_VELOCITY() {
-        // return 650;
-        return 800;
+        return Chad.DEFAULT_SCALE.y * 360;
     }
 
+    /**
+     * @returns {number} the force of Chad's second jump
+    */
     static get DEFAULT_SECOND_JUMP_VELOCITY() {
-        // return 700;
-        return 850;
+        return Chad.DEFAULT_SCALE.y * 380;
+    }
+
+    /**
+     * Update the scale of Chad along with his scaled size.
+     * @param {Vector} newScale the new scale of Chad
+     */
+    set scale(newScale) {
+        this._scale = newScale;
+
+        // we need to update the scaled size of Chad when we change his scale
+        // this is the reason we have a getter and setter for scale
+        this.scaledSize = new Vector(Chad.SIZE.x * this._scale.x, Chad.SIZE.y * this._scale.y);
+
+        // this.scaledSize = new Vector(Chad.BOUNDING_BOX_SIZE.x * this._scale.x, 
+        //     Chad.BOUNDING_BOX_SIZE.y * this._scale.y);
+    }
+
+    /**
+     * Get the scale of Chad.
+     * @returns {Vector} the scale of Chad
+     */
+    get scale() {
+        return this._scale;
     }
 
     /** 
@@ -148,18 +169,9 @@ class Chad {
      * @returns {BoundingBox} Chad's new bounding box
      */
     createBoundingBox() {
-        return new BoundingBox(Vector.add(this.pos, this.scaleBoundingBoxOffset()), this.scaledSize);
-    }
-
-    /**
-     * Calculate the offset that should be applied to Chad's bounding box position based on his 
-     * current scale factor.
-     * 
-     * @returns {Vector} Chad's current bounding box offset
-     */
-    scaleBoundingBoxOffset() {
-        return new Vector(Chad.BOUNDING_BOX_OFFSET.x * this.scale.x,
-            Chad.BOUNDING_BOX_OFFSET.y * this.scale.y);
+        const bbSize = new Vector(Chad.DEFAULT_BOUNDING_BOX_SIZE.x * this.scale.x, Chad.DEFAULT_BOUNDING_BOX_SIZE.y * this.scale.y);
+        const bbPos = new Vector(this.pos.x + (this.scaledSize.x - bbSize.x) / 2, this.pos.y + (this.scaledSize.y - bbSize.y));
+        return new BoundingBox(bbPos, bbSize);
     }
 
     /** 
@@ -224,12 +236,11 @@ class Chad {
             this.action = "running";
             xVelocity = dirSign * this.speed * Chad.RUN_MULTIPLIER;
 
-
             // if you're on the ground, running, AND moving, release dust particles
             if (this.isOnGround && (GAME.user.movingLeft || GAME.user.movingRight)) {
-                GAME.addEntity(new ParticleEffect(Vector.add(this.scaleBoundingBoxOffset(), 
-                    new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y - 10)),
-                    ParticleEffect.DUST));
+                GAME.addEntity(new ParticleEffect(
+                    new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y - 10),
+                    ParticleEffect.LITTLE_DUST));
             }
         } else {
             // Walk action
@@ -239,17 +250,24 @@ class Chad {
 
 
         // Dash action
-        if (this.dashTimer > 0) {
-            // keep the timer from being negative
-            this.dashTimer = Math.max(this.dashTimer - GAME.clockTick, 0);
-        } else if (this.dashTimer <= 0) {
+
+        // update dash conditions
+        if (this.dashCooldownTimer > 0) {
+            this.dashCooldownTimer = Math.max(this.dashCooldownTimer - GAME.clockTick, 0);
+        }
+
+        if (this.isDashing) {
+            this.dashStopTimer += GAME.clockTick;
+        }
+        
+        if (this.dashCooldownTimer <= 0 && this.dashStopTimer < Chad.DASH_TIME_LIMIT) {
             this.canDash = true;
         }
-                    
+
+        // do the dash
         if (GAME.user.dashing && this.canDash) {
             if (!this.isDashing) {
                 // we just started dashing
-                this.xDashAnchoredOrigin = this.pos.x;
                 this.isDashing = true;
             }
 
@@ -261,16 +279,14 @@ class Chad {
 
             this.action = "dashing";
             xVelocity = dirSign * this.speed * Chad.DASH_MULTIPLIER;
-            // Used to limit the distance of the dash.
-            let deltaX = Math.abs(this.pos.x - this.xDashAnchoredOrigin);
-            // Limit the delta in x that CHAD can dash. Set booleans as necessary to ensure
-            // correct limitations on dash functionality, i.e. no double dashing, no infinite dash.
-            if (deltaX >= Chad.DASH_LIMIT) {
+
+            if (this.dashStopTimer >= Chad.DASH_TIME_LIMIT) {
                 // we just finished dashing
                 this.canDash = false;
                 this.hasDashed = true;
                 this.isDashing = false;
-                this.dashTimer = Chad.DASH_COOLDOWN;
+                this.dashCooldownTimer = Chad.DASH_COOLDOWN;
+                this.dashStopTimer = 0;
             }
         }
         // Prevents continuing a dash after lifting the dash key.
@@ -279,7 +295,8 @@ class Chad {
             this.canDash = false;
             this.hasDashed = true;
             this.isDashing = false;
-            this.dashTimer = Chad.DASH_COOLDOWN;
+            this.dashCooldownTimer = Chad.DASH_COOLDOWN;
+            this.dashStopTimer = 0;
         }
 
         return xVelocity;
@@ -358,8 +375,8 @@ class Chad {
         // If Chad can double jump and user is trying to jump than do it!
         if (this.canDoubleJump && GAME.user.jumping && !this.isOnGround) {
             ASSET_MGR.playSFX(SFX.JUMP2.path, SFX.JUMP2.volume);
-            GAME.addEntity(new ParticleEffect(Vector.add(this.scaleBoundingBoxOffset(), 
-            new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y-10)),
+            GAME.addEntity(new ParticleEffect( 
+            new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y-10),
                 ParticleEffect.CLOUD));
             this.action = "jumping";
             yVelocity = -this.secondJumpVelocity;
@@ -458,13 +475,12 @@ class Chad {
                         const isOverlapY = this.lastBoundingBox.bottom > entity.boundingBox.top
                             && this.lastBoundingBox.top < entity.boundingBox.bottom;
 
-                        const bbOffset = this.scaleBoundingBoxOffset();
                         if (isOverlapX
                             && this.lastBoundingBox.bottom <= entity.boundingBox.top
                             && this.boundingBox.bottom > entity.boundingBox.top) {
                             // We are colliding with the top.
 
-                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - this.scaledSize.y - bbOffset.y);
+                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - this.scaledSize.y);
 
                             this.velocity = new Vector(this.velocity.x, 0);
                             this.isOnGround = true;
@@ -474,18 +490,18 @@ class Chad {
                             && this.boundingBox.right > entity.boundingBox.left) {
                             // We are colliding with the left side.
 
-                            this.pos = new Vector(entity.boundingBox.left - this.scaledSize.x - bbOffset.x, this.pos.y);
+                            this.pos = new Vector(entity.boundingBox.left - this.scaledSize, this.pos.y);
                         } else if (isOverlapY
                             && this.lastBoundingBox.left >= entity.boundingBox.right
                             && this.boundingBox.left < entity.boundingBox.right) {
                             // We are colliding with the right side.
 
-                            this.pos = new Vector(entity.boundingBox.right - bbOffset.x, this.pos.y);
+                            this.pos = new Vector(entity.boundingBox.right, this.pos.y);
                         } else if (isOverlapX
                             && this.lastBoundingBox.top >= entity.boundingBox.bottom
                             && this.boundingBox.top < entity.boundingBox.bottom) {
                             // We are colliding with the bottom.
-                            this.pos = new Vector(this.pos.x, entity.boundingBox.bottom - bbOffset.y);
+                            this.pos = new Vector(this.pos.x, entity.boundingBox.bottom);
                         }
                     }
                     else if (entity instanceof Border) {
@@ -506,101 +522,22 @@ class Chad {
 
         // Step 5: Now that your position is actually figured out, draw your correct bounding box.
         this.boundingBox = this.createBoundingBox();
-
-        // Step 7: Has Chad eaten any food?
-        // -Consider moving the effects of food into an effect() method in the FoodItem class. 
-        //      -This would allow for easier management of food effects
-        //      -This would result in tighter coupling between Chad and FoodItem
-        /*if (GAME.user.eatFood) {                                                  //! uncomment when HUD food-picker is implemented
-            const foodType = INVENTORY.useCurrentFood();
-
-            if (foodType === "Empty") { // no food to eat
-                return;
-            }
-
-            switch (foodType) {
-                case FoodItem.BACON:
-                    // give chad invincibility for 10 seconds
-                    // grow chad total size by 1.5x 
-                    this.isInvincible = true;
-                    this.scale = new Vector(Chad.DEFAULT_SCALE.x * 1.2, Chad.DEFAULT_SCALE.y * 1.2);
-                    this.scaledSize = new Vector(Chad.SIZE.x * this.scale.x, Chad.SIZE.y * this.scale.y); // update scaled size accordingly
-                    this.pos = new Vector(this.pos.x, this.pos.y - 10);
-                    setTimeout(() => {
-                        this.isInvincible = false;
-                        this.scale = Chad.DEFAULT_SCALE;
-                        this.scaledSize = new Vector(Chad.SIZE.x * this.scale.x, Chad.SIZE.y * this.scale.y); // update scaled size accordingly
-                    }, 10000);
-                    console.log("*munch munch* Bacon");
-                    break;
-
-                case FoodItem.BURGER:
-                    // give chad extra attack power for 20 seconds
-                    // grow chad's width by 1.5x
-                    this.damageMultiplier = 2;
-                    this.speed /= 1.3;
-                    this.scale = new Vector(Chad.DEFAULT_SCALE.x * 1.5, Chad.DEFAULT_SCALE.y);
-                    this.scaledSize = new Vector(Chad.SIZE.x * this.scale.x, Chad.SIZE.y * this.scale.y); // update scaled size accordingly
-                    setTimeout(() => {
-                        this.damageMultiplier = Chad.DEFAULT_DAMAGE_MULTIPLIER;
-                        this.speed = Chad.DEFAULT_SPEED;
-                        this.scale = Chad.DEFAULT_SCALE;
-                        this.scaledSize = new Vector(Chad.SIZE.x * this.scale.x, Chad.SIZE.y * this.scale.y); // update scaled size accordingly
-                    }, 20000);
-                    console.log("*munch munch* Burger");
-                    break;
-
-                case FoodItem.ENERGY_DRINK:
-                    // give chad extra speed and jump height for 30 seconds
-                    this.speed = Chad.DEFAULT_SPEED * 1.5;
-                    this.firstJumpForce = Chad.DEFAULT_FIRST_JUMP_FORCE * 1.2;
-                    this.secondJumpForce = Chad.DEFAULT_SECOND_JUMP_FORCE * 1.2;
-                    setTimeout(() => {
-                        this.speed = Chad.DEFAULT_SPEED;
-                        this.firstJumpForce = 650;
-                        this.secondJumpForce = 700;
-                    }, 30000);
-                    console.log("*glug glug* Energy Drink");
-                    break;
-
-                case FoodItem.CHICKEN:
-                    // restore 20 HP
-                    this.restoreHealth(20);
-                    console.log("*munch munch* Chicken Leg");
-                    break;
-
-                case FoodItem.STEAK:
-                    // restore 40 HP
-                    this.restoreHealth(40);
-                    console.log("*munch munch* Steak");
-                    break;
-
-                case FoodItem.HAM:
-                    // restore 60 HP
-                    this.restoreHealth(60);
-                    console.log("*munch munch* Ham");
-                    break;
-
-                case FoodItem.BEEF:
-                    // fully restore HP
-                    this.restoreHealth(Chad.MAX_HEALTH);
-                    console.log("*munch munch* Beef");
-                    break;
-            }
-
-            // play a randomly chosen sound effect
-            const rand = Math.floor(Math.random() * 4) + 1;
-            const sfx = SFX["FOOD_EAT" + rand];
-            ASSET_MGR.playSFX(sfx.path, sfx.volume);
-
-            GAME.user.eatFood = false; // we only want to eat once per click
-        }*/
     };
 
 
     /** Draw Chad on the canvas. */
     draw() {
         this.animations[this.facing][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), this.scale);
+
+        //* draw scaled size in blue
+        // CTX.strokeStyle = "blue";
+        // const pos = Vector.worldToCanvasSpace(this.pos);
+        // CTX.strokeRect(pos.x, pos.y, this.scaledSize.x, this.scaledSize.y);
+
+        //* draw bounding box in red
+        // CTX.strokeStyle = "red";
+        // const pos2 = Vector.worldToCanvasSpace(this.boundingBox.pos);
+        // CTX.strokeRect(pos2.x, pos2.y, this.boundingBox.size.x, this.boundingBox.size.y);
     };
 
 
