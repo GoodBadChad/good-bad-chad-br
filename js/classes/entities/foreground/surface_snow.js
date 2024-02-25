@@ -2,7 +2,13 @@ class SurfaceSnow {
     constructor() {
         this.pos = new Vector(0, 0);
 
-        this.animator = new Animator(Precipitation.SPRITESHEET, new Vector(0, 7 * Precipitation.SIZE.x), new Vector(Precipitation.SIZE.x, Precipitation.SIZE.y), 1, 1);
+        this.animator = new Animator(
+            Precipitation.SPRITESHEET,
+            new Vector(0, 7 * Precipitation.SIZE.x),
+            new Vector(Precipitation.SIZE.x, Precipitation.SIZE.y),
+            1,
+            1,
+        );
 
     }
     static get SPRITESHEET() {
