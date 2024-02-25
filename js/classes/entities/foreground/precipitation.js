@@ -39,7 +39,7 @@ class Precipitation {
 
         }
         this.animator = new Animator(Precipitation.SPRITESHEET, new Vector(0, this.imgIndex * Precipitation.SIZE.x), new Vector(Precipitation.SIZE.x, Precipitation.SIZE.y), 1, 1);
-        this.hasStartedRaining = false;
+        this.isRaining = false;
         this.stopRain = false;
     }
 
