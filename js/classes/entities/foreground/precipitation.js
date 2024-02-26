@@ -22,16 +22,19 @@ class Precipitation {
         this.velocity = new Vector(0, 0);
         this.scale = scale;
         this.imgIndex = 0;
+        const dirToImgIndex = {
+            down: 0,
+            left: 1,
+            right: 2,
+        }
+        const weatherType = {
+            RAIN: "rain",
+            SNOW: "snow"
+        };
 
-        if (type === "rain") {
-            if (dir === "down") {
-                this.imgIndex = 0;
-            } else if (dir === "left") {
-                this.imgIndex = 1;
-            } else if (dir === "right") {
-                this.imgIndex = 2;
-            }
-        } else if (type === "snow") {
+        if (type === weatherType.RAIN) {
+            this.imgIndex = dirToImgIndex[this.dir];
+        } else if (type === weatherType.SNOW) {
             const variant = Math.ceil(Math.random() * 4);
             this.imgIndex = variant + 2;
         }
