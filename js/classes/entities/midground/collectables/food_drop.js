@@ -51,6 +51,15 @@ class FoodDrop {
             // immediately consume the food
 
             switch (this.type) {
+                case FoodItem.IDK_YET:
+                    // grow chad total size by 4x 
+                    CHAD.scale = Vector.multiply(Chad.DEFAULT_SCALE, 4);
+                    CHAD.pos = new Vector(CHAD.pos.x, CHAD.pos.y - 500);
+                    console.log("JUMBO CHAD");
+                    setTimeout(() => {
+                        CHAD.scale = Chad.DEFAULT_SCALE;
+                    }, 20_000);
+                    break;
                 case FoodItem.BACON:
                     // give chad invincibility for 10 seconds
                     // grow chad total size by 1.2x 
@@ -61,17 +70,18 @@ class FoodDrop {
                         CHAD.isInvincible = false;
                         CHAD.scale = Chad.DEFAULT_SCALE;
                     }, 20_000);
-                    console.log("*munch munch* Bacon");
                     break;
 
                 case FoodItem.BURGER:
                     // give chad extra attack power for 20 seconds
                     // grow chad's width by 1.2x
                     CHAD.damageMultiplier = 2;
+                    CHAD.isStrong = true;
                     CHAD.speed /= 1.3;
                     CHAD.scale = new Vector(Chad.DEFAULT_SCALE.x * 1.5, Chad.DEFAULT_SCALE.y);
                     setTimeout(() => {
                         CHAD.damageMultiplier = Chad.DEFAULT_DAMAGE_MULTIPLIER;
+                        CHAD.isStrong = false;
                         CHAD.speed = Chad.DEFAULT_SPEED;
                         CHAD.scale = Chad.DEFAULT_SCALE;
                     }, 20_000);
@@ -81,12 +91,14 @@ class FoodDrop {
                 case FoodItem.ENERGY_DRINK:
                     // give chad extra speed and jump height for 30 seconds
                     CHAD.speed = Chad.DEFAULT_SPEED * 1.5;
-                    CHAD.firstJumpForce = Chad.DEFAULT_FIRST_JUMP_FORCE * 1.2;
-                    CHAD.secondJumpForce = Chad.DEFAULT_SECOND_JUMP_FORCE * 1.2;
+                    CHAD.isFast = true;
+                    CHAD.firstJumpVelocity = Chad.DEFAULT_FIRST_JUMP_VELOCITY * 1.2;
+                    CHAD.secondJumpVelocity = Chad.DEFAULT_SECOND_JUMP_VELOCITY * 1.2;
                     setTimeout(() => {
                         CHAD.speed = Chad.DEFAULT_SPEED;
-                        CHAD.firstJumpForce = 650;
-                        CHAD.secondJumpForce = 700;
+                        CHAD.isFast = false;
+                        CHAD.firstJumpVelocity = Chad.DEFAULT_FIRST_JUMP_VELOCITY;
+                        CHAD.secondJumpVelocity = Chad.DEFAULT_SECOND_JUMP_VELOCITY;
                     }, 30_000);
                     break;
 

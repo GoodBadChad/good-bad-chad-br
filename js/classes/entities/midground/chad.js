@@ -45,6 +45,10 @@ class Chad {
         this.damageMultiplier = 1;
         /** Chad's invincibility state. */
         this.isInvincible = false;
+        /** Chad's strength state. */
+        this.isStrong = false;
+        /** Chad's speed state. */
+        this.isFast = false;
         /** The size of Chad on the canvas */
         this.scaledSize = new Vector(Chad.DEFAULT_BOUNDING_BOX_SIZE.x * Chad.DEFAULT_SCALE.x, 
             Chad.DEFAULT_BOUNDING_BOX_SIZE.y * Chad.DEFAULT_SCALE.y);
@@ -416,18 +420,37 @@ class Chad {
             this.action = "idle";
         }
 
-        // TODO - decide whether this is necessary or not. Make it so that Chad moves in the correct direction
-        // when doing this.
         // Step 2: Face in the direction of a mouse click
         if (GAME.user.aiming || GAME.user.jabbing) {
             // determine if mouse is to the right or left of Chad
             // remember, the mouse is in screen coordinates, not world coordinates
             const mouseX = GAME.mousePos.x + CAMERA.pos.x;
-            if (mouseX > this.pos.x) {
+            const chadCenterX = this.pos.x + this.scaledSize.x / 2;
+            if (mouseX > chadCenterX) {
                 this.facing = "right";
             } else {
                 this.facing = "left";
             }
+        }
+
+        // if chad has invincibility, release gold particles every 0.05 seconds
+        if (this.isInvincible && GAME.gameTime % 0.05 < 0.01) {
+            GAME.addEntity(new ParticleEffect(
+                new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y/2),
+                ParticleEffect.GOLD_SPARKLE)
+            );
+        }
+        if (this.isStrong && GAME.gameTime % 0.05 < 0.01) {
+            GAME.addEntity(new ParticleEffect(
+                new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y/2),
+                ParticleEffect.RED_SPARKLE)
+            );
+        }
+        if (this.isFast && GAME.gameTime % 0.05 < 0.01) {
+            GAME.addEntity(new ParticleEffect(
+                new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y/2),
+                ParticleEffect.GREEN_SPARKLE)
+            );
         }
 
 
@@ -475,33 +498,42 @@ class Chad {
                         const isOverlapY = this.lastBoundingBox.bottom > entity.boundingBox.top
                             && this.lastBoundingBox.top < entity.boundingBox.bottom;
 
+                        const bbSize = new Vector(Chad.DEFAULT_BOUNDING_BOX_SIZE.x * this.scale.x, Chad.DEFAULT_BOUNDING_BOX_SIZE.y * this.scale.y);
+                        const topGap = Math.abs(bbSize.y - this.scaledSize.y);
+                        const bottomGap = 0;
+                        const leftGap = Math.abs(bbSize.x - this.scaledSize.x)/2;
+                        const rightGap = Math.abs(bbSize.x - this.scaledSize.x)/2;
+
                         if (isOverlapX
                             && this.lastBoundingBox.bottom <= entity.boundingBox.top
                             && this.boundingBox.bottom > entity.boundingBox.top) {
                             // We are colliding with the top.
 
-                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - this.scaledSize.y);
+                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - this.scaledSize.y - bottomGap);
 
                             this.velocity = new Vector(this.velocity.x, 0);
                             this.isOnGround = true;
                             this.prevYPosOnGround = this.pos.y;
-                        } else if (isOverlapY
-                            && this.lastBoundingBox.right <= entity.boundingBox.left
-                            && this.boundingBox.right > entity.boundingBox.left) {
-                            // We are colliding with the left side.
-
-                            this.pos = new Vector(entity.boundingBox.left - this.scaledSize, this.pos.y);
-                        } else if (isOverlapY
+                        }
+                        else if (isOverlapY
                             && this.lastBoundingBox.left >= entity.boundingBox.right
                             && this.boundingBox.left < entity.boundingBox.right) {
                             // We are colliding with the right side.
 
-                            this.pos = new Vector(entity.boundingBox.right, this.pos.y);
-                        } else if (isOverlapX
+                            this.pos = new Vector(entity.boundingBox.right - leftGap, this.pos.y);
+                        } 
+                        else if (isOverlapY
+                            && this.lastBoundingBox.right <= entity.boundingBox.left
+                            && this.boundingBox.right > entity.boundingBox.left) {
+                            // We are colliding with the left side.
+
+                            this.pos = new Vector(entity.boundingBox.left - this.scaledSize.x + rightGap, this.pos.y);
+                        } 
+                        else if (isOverlapX
                             && this.lastBoundingBox.top >= entity.boundingBox.bottom
                             && this.boundingBox.top < entity.boundingBox.bottom) {
                             // We are colliding with the bottom.
-                            this.pos = new Vector(this.pos.x, entity.boundingBox.bottom);
+                            this.pos = new Vector(this.pos.x, entity.boundingBox.bottom - topGap);
                         }
                     }
                     else if (entity instanceof Border) {
@@ -524,20 +556,19 @@ class Chad {
         this.boundingBox = this.createBoundingBox();
     };
 
-
     /** Draw Chad on the canvas. */
     draw() {
         this.animations[this.facing][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), this.scale);
 
         //* draw scaled size in blue
-        // CTX.strokeStyle = "blue";
-        // const pos = Vector.worldToCanvasSpace(this.pos);
-        // CTX.strokeRect(pos.x, pos.y, this.scaledSize.x, this.scaledSize.y);
+        CTX.strokeStyle = "blue";
+        const pos = Vector.worldToCanvasSpace(this.pos);
+        CTX.strokeRect(pos.x, pos.y, this.scaledSize.x, this.scaledSize.y);
 
         //* draw bounding box in red
-        // CTX.strokeStyle = "red";
-        // const pos2 = Vector.worldToCanvasSpace(this.boundingBox.pos);
-        // CTX.strokeRect(pos2.x, pos2.y, this.boundingBox.size.x, this.boundingBox.size.y);
+        CTX.strokeStyle = "red";
+        const pos2 = Vector.worldToCanvasSpace(this.boundingBox.pos);
+        CTX.strokeRect(pos2.x, pos2.y, this.boundingBox.size.x, this.boundingBox.size.y);
     };
 
 

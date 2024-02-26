@@ -44,7 +44,7 @@ class SusSnowball {
 
     /** The speed of the SusSnowball projectile as flies through the air */
     static get INITIAL_SPEED() {
-        return 9;
+        return 13;
     }
 
     /** The weight of the SusSnowball. */

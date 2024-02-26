@@ -23,6 +23,8 @@ class Broccoli {
         this.animations = [];
         this.loadAnimations();
 
+        this.hasHitEnemy = false;
+
         this.aliveTimer = 0;
         this.action = "firing";
     }
@@ -44,7 +46,7 @@ class Broccoli {
 
     /** The speed of the Broccoli projectile as flies through the air */
     static get INITIAL_SPEED() {
-        return 11;
+        return 17;
     }
 
     /** The weight of the Broccoli. */
@@ -85,11 +87,12 @@ class Broccoli {
 
     /** Called when the broccoli collides with an enemy. */
     onEnemyCollision(enemy) {
-        if (!this.hasHit) {
+        if (!this.hasHitEnemy) {
             ASSET_MGR.playSFX(SFX.BLEH.path, SFX.BLEH.volume);
+            console.log("Vile weed!");
             enemy.base.flee();
 
-            this.hasHit = true;
+            this.hasHitEnemy = true;
         }
 
         this.removeFromWorld = true;

@@ -44,7 +44,7 @@ class Slimeball {
 
     /** The speed of the Slimeball projectile as flies through the air */
     static get INITIAL_SPEED() {
-        return 14;
+        return 18;
     }
 
     /** The weight of the Slimeball. */

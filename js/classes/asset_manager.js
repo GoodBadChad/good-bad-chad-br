@@ -253,6 +253,7 @@ class AssetManager {
             SFX.GAME_OVER.path,
             SFX.UI_HIGH_BEEP.path,
             SFX.UI_GAMEBOY_BEEP.path,
+            SFX.UI_SNAP.path,
             SFX.FOOD_EAT1.path,
             SFX.FOOD_EAT2.path,
             SFX.FOOD_EAT3.path,

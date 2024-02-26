@@ -48,7 +48,7 @@ class Bomb {
 
     /** The speed of the Bomb projectile as flies through the air */
     static get INITIAL_SPEED() {
-        return 10;
+        return 15;
     }
 
     /** The weight of the Bomb. */

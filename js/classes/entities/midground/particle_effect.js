@@ -81,6 +81,10 @@ class ParticleEffect {
                     displacement.y = 0;
                 }
                 currParticle.pos = Vector.add(currParticle.pos, Vector.multiply(displacement, speed));
+            } else if (this.behavior == ParticleEffect.SLOW_EXPAND) {
+                const speed = 1.5;
+                const displacement = Vector.direction(this.center, currParticle.pos);
+                currParticle.pos = Vector.add(currParticle.pos, Vector.multiply(displacement, speed));
             }
 
             // if FREEZE, do nothing
@@ -157,12 +161,11 @@ class ParticleEffect {
         return 6;
     }
 
-    /**
-     * A behavior for particles that spray upwards in a fountain.
-     */
-    // static get FOUNTAIN() {
-    //     return 6;
-    // }
+
+    static get SLOW_EXPAND() {
+        return 7;
+    }
+
 
 
 
@@ -308,6 +311,42 @@ class ParticleEffect {
             color: COLORS.YELLOW,
             opacity: 0.8,
             behavior: ParticleEffect.RISE
+        };
+    }
+
+    static get GOLD_SPARKLE() {
+        return {
+            spread: 80,
+            size: 4,
+            amount: 10,
+            lifetime: 0.3,
+            color: COLORS.GOLD,
+            opacity: 0.7,
+            behavior: ParticleEffect.EXPAND
+        };
+    }
+
+    static get RED_SPARKLE() {
+        return {
+            spread: 80,
+            size: 4,
+            amount: 10,
+            lifetime: 0.3,
+            color: COLORS.RED,
+            opacity: 0.7,
+            behavior: ParticleEffect.EXPAND
+        };
+    }
+
+    static get GREEN_SPARKLE() {
+        return {
+            spread: 80,
+            size: 4,
+            amount: 10,
+            lifetime: 0.3,
+            color: COLORS.GREEN,
+            opacity: 0.7,
+            behavior: ParticleEffect.EXPAND
         };
     }
 }

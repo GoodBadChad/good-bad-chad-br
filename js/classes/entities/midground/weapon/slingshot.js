@@ -17,6 +17,8 @@ class Slingshot {
 
         this.playedStretchSound = false;
 
+        this.chadCenter = new Vector(0, 0);
+
         this.start = new Vector(0, 0);
     }
 
@@ -30,27 +32,25 @@ class Slingshot {
         }
         
         // position the image near Chad's hand
-        let x;
-        let startY = this.start.y;
-        if (CHAD.facing == "right") {
-            x = CHAD.pos.x + 80;
-            startY = 0; // slingshot facing right frame
-        } else if (CHAD.facing == "left") {
-            x = CHAD.pos.x - 80;
-            // startY = 29; // slingshot facing left frame
-        }
-        this.pos = new Vector(x, CHAD.pos.y + 15);
-        this.start = new Vector(0, startY);
+        // let x;
+        // let startY = this.start.y;
+        // if (CHAD.facing == "right") {
+        //     x = CHAD.pos.x + 80;
+        //     startY = 0; // slingshot facing right frame
+        // } else if (CHAD.facing == "left") {
+        //     x = CHAD.pos.x - 80;
+        //     // startY = 29; // slingshot facing left frame
+        // }
+        // this.start = new Vector(0, startY);
 
         
         // find the angle in radians from the x axis to the mouse
-        const delta = Vector.worldToCanvasSpace(Vector.subtract(GAME.mousePos, this.pos));
+        const delta = Vector.subtract(Vector.worldToCanvasSpace(this.chadCenter), GAME.mousePos);
+        console.log(Vector.worldToCanvasSpace(this.chadCenter), GAME.mousePos);
         let theta = Math.atan2(delta.y, delta.x);
         this.rotation = theta;
 
-        //TODO: swap animation frames based on rotation
-
-        // console.log("rotation: " + " (" + this.rotation * 180 / Math.PI + " degrees)");
+        // console.log("rotation: " + this.rotation * (180 / Math.PI) + " degrees");
 
 
         // this.timeSinceReload += GAME.clockTick;
@@ -70,12 +70,10 @@ class Slingshot {
             const sfx = SFX["SLINGSHOT_LAUNCH" + rand];
             ASSET_MGR.playSFX(sfx.path, sfx.volume);
 
-            const chadCenter = Vector.add(CHAD.pos, new Vector(CHAD.scaledSize.x / 2, CHAD.scaledSize.y / 2));
-            
             // create a projectile and launch it in the direction of the mouse
             GAME.addEntity(ProjectileFactory.create(
-                ProjectileFactory.BOMB, 
-                Vector.round(chadCenter), 
+                ProjectileFactory.SLIMEBALL, 
+                Vector.round(this.chadCenter), 
                 Vector.round(Vector.canvasToWorldSpace(GAME.mousePos)))
             );
         }
@@ -96,7 +94,8 @@ class Slingshot {
     }
 
     update() {
-        // this.chadCenter = Vector.add(CHAD.pos, new Vector(CHAD.scaledSize.x / 2, CHAD.scaledSize.y / 2));
+        this.chadCenter = Vector.add(CHAD.pos, new Vector(CHAD.pos.x + (CHAD.scaledSize.x / 2), CHAD.pos.y + (CHAD.scaledSize.y / 2)));
+        this.pos = this.chadCenter;
         this.timeSinceLastShot += GAME.clockTick;
 
         if (!HUD.pauseButton.isMouseOver() && CHAD.health > 0) {

@@ -51,29 +51,57 @@ class AmmoItem {
     }
 
 
-    /** The Stone Ammo type. */
+    //! TEMPORARY
     static get STONE() {
         return 0;
     };
-
-    /** The Wood Ammo type. */
     static get WOOD() {
         return 1;
     };
-
-    /** The Bomb Ammo type. */
     static get BOMB() {
         return 2;
     };
-
-    /** The Metal Ammo type. */
     static get METAL() {
         return 3;
     };
-
-    /** The Laser Ammo type. */
     static get LASER() {
         return 5;
     };
+
+
+
+
+
+    static get ROCK() {
+        return 1;
+    }
+
+    static get BOMB() {
+        return 2;
+    }
+
+    static get SNOWBALL() {
+        return 3;
+    }
+
+    static get SLIMEBALL() {
+        return 4;
+    }
+
+    static get LASER() {
+        return 5;
+    }
+
+    static get SONIC_WAVE() {
+        return 6;
+    }
+
+    static get BROCCOLI() {
+        return 7;
+    }
+
+    static get SUS_SNOWBALL() {
+        return 8;
+    }
 
 }

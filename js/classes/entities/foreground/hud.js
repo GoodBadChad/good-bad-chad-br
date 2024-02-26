@@ -10,7 +10,8 @@ class Hud {
      */
     constructor() {
         this.addComponents();
-        this.swapToCrosshair();
+        
+        this.addMouseListeners();
     }
 
     /** The default font size for text in the HUD. Certain components may use different font sizes. */
@@ -25,31 +26,36 @@ class Hud {
 
     swapToCrosshair() {
         const crosshairUnclicked = 'url(../sprites/crosshair_unclicked.png) 16 16, auto';
-        const crosshairClicked = 'url(../sprites/crosshair_clicked.png) 16 16, auto';
-
         document.body.style.cursor = crosshairUnclicked;
-
-        document.body.addEventListener('mousedown', () => {
-            document.body.style.cursor = crosshairClicked;
-        });
-
-        document.body.addEventListener('mouseup', () => {
-            document.body.style.cursor = crosshairUnclicked;
-        });
     }
 
     swapToPointer() {
-        const pointerUnclicked = 'url(../sprites/pointer_unclicked.png), auto';
-        const pointerClicked = 'url(../sprites/pointer_clicked.png), auto';
-
+        const pointerUnclicked = 'url(../sprites/pointer_unclicked.png) 10 4, auto';
         document.body.style.cursor = pointerUnclicked;
+    }
 
-        document.body.addEventListener('mousedown', function() {
-            document.body.style.cursor = pointerClicked;
+    addMouseListeners() {
+        document.body.addEventListener('mousedown', () => {
+            if (GAME.running) {
+                const crosshairClicked = 'url(../sprites/crosshair_clicked.png) 16 16, auto';
+                document.body.style.cursor = crosshairClicked;
+                
+            } else {
+                const pointerClicked = 'url(../sprites/pointer_clicked.png) 10 4, auto';
+                document.body.style.cursor = pointerClicked;
+                ASSET_MGR.playSFX(SFX.UI_SNAP.path, SFX.UI_SNAP.volume);
+            }
         });
 
-        document.body.addEventListener('mouseup', function() {
-            document.body.style.cursor = pointerUnclicked;
+        document.body.addEventListener('mouseup', () => {
+            if (GAME.running) {
+                const crosshairUnclicked = 'url(../sprites/crosshair_unclicked.png) 16 16, auto';
+                document.body.style.cursor = crosshairUnclicked;
+                
+            } else {
+                const pointerUnclicked = 'url(../sprites/pointer_unclicked.png) 10 4, auto';
+                document.body.style.cursor = pointerUnclicked;
+            }
         });
     }
 

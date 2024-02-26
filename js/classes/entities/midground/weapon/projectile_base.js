@@ -52,13 +52,15 @@ class ProjectileBase {
             this.projectile.yVelocity += PHYSICS.GRAVITY_ACC * GAME.clockTick * this.projectile.weight;
 
             // max out all downwards speed at the terminal velocity
-            if (this.yVelocity > PHYSICS.TERMINAL_VELOCITY) {
-                this.yVelocity = PHYSICS.TERMINAL_VELOCITY;
-            }
+            // if (this.yVelocity > PHYSICS.TERMINAL_VELOCITY) {
+            //     this.yVelocity = PHYSICS.TERMINAL_VELOCITY;
+            // }
         }
 
         const pos = Vector.multiply(this.projectile.dir, this.projectile.speed);
-        this.projectile.pos = Vector.add(this.projectile.pos, new Vector(pos.x, pos.y + this.projectile.yVelocity));
+        const syncedPos = Vector.multiply(pos, GAME.clockTick * 100);
+
+        this.projectile.pos = Vector.add(this.projectile.pos, new Vector(syncedPos.x, syncedPos.y + this.projectile.yVelocity));
 
         // update the bounding box
         this.projectile.lastBoundingBox = this.projectile.boundingBox;

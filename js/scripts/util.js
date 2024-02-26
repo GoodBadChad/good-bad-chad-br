@@ -44,6 +44,7 @@ const COLORS = {
     LIGHT_GREEN: "#90ee90",
     BLUE: "#0000ff",
     YELLOW: "#ffff00",
+    GOLD: "#ffd700",
     PURPLE: "#800080",
     ORANGE: "#ffa500",
     PINK: "#ffc0cb",
