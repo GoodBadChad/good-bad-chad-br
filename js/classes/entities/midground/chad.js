@@ -86,6 +86,11 @@ class Chad {
         return new Vector(28, 49);
     }
 
+    /** The offset applied to the bounding box's position from Chad's position. */
+    static get DEFAULT_BOUNDING_BOX_OFFSET() {
+        return new Vector(33, 15);
+    }
+
     /** The default scale factor applied to Chad. */
     static get DEFAULT_SCALE() {
         return new Vector(2.2, 2.2);
@@ -176,6 +181,19 @@ class Chad {
         const bbSize = new Vector(Chad.DEFAULT_BOUNDING_BOX_SIZE.x * this.scale.x, Chad.DEFAULT_BOUNDING_BOX_SIZE.y * this.scale.y);
         const bbPos = new Vector(this.pos.x + (this.scaledSize.x - bbSize.x) / 2, this.pos.y + (this.scaledSize.y - bbSize.y));
         return new BoundingBox(bbPos, bbSize);
+
+        // return new BoundingBox(Vector.add(this.pos, this.scaleBoundingBoxOffset()), this.scaledSize);
+    }
+
+    /**
+     * Calculate the offset that should be applied to Chad's bounding box position based on his 
+     * current scale factor.
+     * 
+     * @returns {Vector} Chad's current bounding box offset
+     */
+    scaleBoundingBoxOffset() {
+        return new Vector(Chad.DEFAULT_BOUNDING_BOX_OFFSET.x * this.scale.x,
+            Chad.DEFAULT_BOUNDING_BOX_OFFSET.y * this.scale.y);
     }
 
     /** 
@@ -504,36 +522,39 @@ class Chad {
                         const leftGap = Math.abs(bbSize.x - this.scaledSize.x)/2;
                         const rightGap = Math.abs(bbSize.x - this.scaledSize.x)/2;
 
-                        if (isOverlapX
-                            && this.lastBoundingBox.bottom <= entity.boundingBox.top
-                            && this.boundingBox.bottom > entity.boundingBox.top) {
-                            // We are colliding with the top.
-
-                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - this.scaledSize.y - bottomGap);
-
-                            this.velocity = new Vector(this.velocity.x, 0);
-                            this.isOnGround = true;
-                            this.prevYPosOnGround = this.pos.y;
+                        // First, check for X-axis collisions
+                        if (isOverlapY) {
+                            if (this.lastBoundingBox.right <= entity.boundingBox.left
+                                && this.boundingBox.right > entity.boundingBox.left) {
+                                // We are colliding with the left side.
+                                console.log("colliding with left side of block");
+                                this.pos = new Vector(entity.boundingBox.left - this.scaledSize.x + rightGap - 1, this.pos.y);
+                            } else if (this.lastBoundingBox.left >= entity.boundingBox.right
+                                && this.boundingBox.left < entity.boundingBox.right) {
+                                // We are colliding with the right side.
+                                this.pos = new Vector(entity.boundingBox.right - leftGap, this.pos.y);
+                            }
                         }
-                        else if (isOverlapY
-                            && this.lastBoundingBox.left >= entity.boundingBox.right
-                            && this.boundingBox.left < entity.boundingBox.right) {
-                            // We are colliding with the right side.
 
-                            this.pos = new Vector(entity.boundingBox.right - leftGap, this.pos.y);
-                        } 
-                        else if (isOverlapY
-                            && this.lastBoundingBox.right <= entity.boundingBox.left
-                            && this.boundingBox.right > entity.boundingBox.left) {
-                            // We are colliding with the left side.
+                        // Updating the bounding box after resolving X-axis collisions 
+                        // is necessary to ensure that the bounding box accurately represents
+                        // the new position of the entity after the collision.
+                        this.boundingBox = this.createBoundingBox();
 
-                            this.pos = new Vector(entity.boundingBox.left - this.scaledSize.x + rightGap, this.pos.y);
-                        } 
-                        else if (isOverlapX
-                            && this.lastBoundingBox.top >= entity.boundingBox.bottom
-                            && this.boundingBox.top < entity.boundingBox.bottom) {
-                            // We are colliding with the bottom.
-                            this.pos = new Vector(this.pos.x, entity.boundingBox.bottom - topGap);
+                        // Then, check for Y-axis collisions
+                        if (isOverlapX) {
+                            if (this.lastBoundingBox.bottom <= entity.boundingBox.top
+                                && this.boundingBox.bottom > entity.boundingBox.top) {
+                                // We are colliding with the top.
+                                this.pos = new Vector(this.pos.x, entity.boundingBox.top - this.scaledSize.y - bottomGap);
+                                this.velocity = new Vector(this.velocity.x, 0);
+                                this.isOnGround = true;
+                                this.prevYPosOnGround = this.pos.y;
+                            } else if (this.lastBoundingBox.top >= entity.boundingBox.bottom
+                                && this.boundingBox.top < entity.boundingBox.bottom) {
+                                // We are colliding with the bottom.
+                                this.pos = new Vector(this.pos.x, entity.boundingBox.bottom - topGap);
+                            }
                         }
                     }
                     else if (entity instanceof Border) {
