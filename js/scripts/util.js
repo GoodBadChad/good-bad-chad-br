@@ -32,8 +32,7 @@ const COLORS = {
     SKY_DARK_GREY: "#235654",
     SKY_SNOW_GREY: "#91B3B2",
     SKY_GREY: "#73908F",
-    SKY_HOT_BLUE_SKY: "#00EAFF",
-
+    SKY_HOT_SKY: "#59979c",
     LIGHT_BLUE: "#add8e6",
 
     // misc
@@ -451,7 +450,7 @@ const EVENT_HANDLERS = {
 
 // custom CTX functions
 
-const roundRect = function(x, y, width, height, radius) {
+const roundRect = function (x, y, width, height, radius) {
     CTX.beginPath();
     CTX.moveTo(x + radius, y);
     CTX.arcTo(x + width, y, x + width, y + height, radius);
