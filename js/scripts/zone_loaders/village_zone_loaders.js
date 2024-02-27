@@ -48,89 +48,15 @@ const loadVillageField = () => {
     };
 
     const addEntities = () => {
-        // Add a border to the right side of the map, leading to the field.
+        // Add a border to the right side of the map, leading to the village.
         GAME.addEntity(new Border(
             new Vector(ZONE.MAX_PT.x, 0), // start at the far right side of the Zone, and at the top
             new Vector(1, ZONE.PIXEL_SIZE.y), // only one pixel wide, but as tall as the entire Zone.
             Zone.getZones().village.main
         ));
 
+        new tilemapInterpreter(fieldTilemap);
 
-        // Add 10 layers of blocks to the bottom
-        for (let y = ZONE.MAX_BLOCK.y; y >= ZONE.MIN_BLOCK.y; y--) {
-            for (let x = ZONE.MAX_BLOCK.x; x >= ZONE.MIN_BLOCK.x; x--) {
-                // GAME.addEntity(new Block(i, j, Block.DIRT));a
-
-                // const pos = new Vector(y, x);
-                // console.log('Starting block x ' + x);
-                // console.log('Starting block y ' + y);
-
-                switch (fieldTilemap[y][x]) {
-
-                    case 'j':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_SPRUCE_STAIRS_RIGHT));
-                        break;
-                    case 'i':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_SPRUCE_STAIRS_LEFT));
-                        break;
-                    case 'h':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_OAK_STAIRS_RIGHT), 0);
-                        break;
-                    case 'g':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_OAK_STAIRS_LEFT), -1);
-                        break;
-                    case 'f':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE_VOLCANIC));
-                        break;
-                    case 'e':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE_DARK));
-                        break;
-                    case 'd':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE));
-                        break;
-                    case 'c':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_REDWOOD_LIGHT));
-                        break;
-                    case 'b':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_REDWOOD));
-                        break;
-                    case 'a':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.LOG_SPRUCE_VIRTICAL));
-                        break;
-                    case '9':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.LOG_SPRUCE_HORIZONTAL));
-                        break;
-                    case '8':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_SPRUCE));
-                        break;
-                    case '7':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_OAK));
-                        break;
-                    case '6':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.BARS));
-                        break;
-                    case '5':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.LAVA_ROCK));
-                        break;
-                    case '4':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.SNOWY_ICE));
-                        break;
-                    case '3':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.SNOWY_DIRT));
-                        break;
-                    case '2':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.GRASS));
-                        break;
-                    case '1':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.DIRT), -1);
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-        }
 
         for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
             if (x % 3 == 0) {
@@ -271,86 +197,18 @@ const loadVillageMain = () => {
             new Vector(1, ZONE.PIXEL_SIZE.y), // only one pixel wide, but as tall as the entire Zone.
             Zone.getZones().village.field
         ));
+
+        GAME.addEntity(new Border(
+            new Vector(ZONE.MAX_PT.x, 0), // start at the far right side of the Zone, and at the top
+            new Vector(1, ZONE.PIXEL_SIZE.y), // only one pixel wide, but as tall as the entire Zone.
+            Zone.getZones().village.outsideCave
+        ));
         // Add a layer of blocks to the floor.
         // for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
         //     GAME.addEntity(new Block(new Vector(x, ZONE.MAX_BLOCK.y), Block.DIRT));
         // }
         // TODO - make this its own class for interpreting the tile map so to clean up code.
-        for (let y = ZONE.MAX_BLOCK.y; y >= ZONE.MIN_BLOCK.y; y--) {
-            for (let x = ZONE.MAX_BLOCK.x; x >= ZONE.MIN_BLOCK.x; x--) {
-                // GAME.addEntity(new Block(i, j, Block.DIRT));a
-
-                // const pos = new Vector(y, x);
-                // console.log('Starting block x ' + x);
-                // console.log('Starting block y ' + y);
-
-                switch (villageMainTileMap[y][x]) {
-
-                    case 'j':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_SPRUCE_STAIRS_RIGHT));
-                        break;
-                    case 'i':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_SPRUCE_STAIRS_LEFT));
-                        break;
-                    case 'h':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_OAK_STAIRS_RIGHT), 0);
-                        break;
-                    case 'g':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_OAK_STAIRS_LEFT), -1);
-                        break;
-                    case 'f':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE_VOLCANIC));
-                        break;
-                    case 'e':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE_DARK));
-                        break;
-                    case 'd':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE));
-                        break;
-                    case 'c':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_REDWOOD_LIGHT));
-                        break;
-                    case 'b':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_REDWOOD));
-                        break;
-                    case 'a':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.LOG_SPRUCE_VIRTICAL));
-                        break;
-                    case '9':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.LOG_SPRUCE_HORIZONTAL));
-                        break;
-                    case '8':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_SPRUCE));
-                        break;
-                    case '7':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_OAK));
-                        break;
-                    case '6':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.BARS));
-                        break;
-                    case '5':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.LAVA_ROCK));
-                        break;
-                    case '4':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.SNOWY_ICE));
-                        break;
-                    case '3':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.SNOWY_DIRT));
-                        break;
-                    case '2':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.GRASS));
-                        break;
-                    case '1':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.DIRT), -1);
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-        }
-
+        new tilemapInterpreter(villageMainTileMap);
         // const gamePos = Vector.blockToWorldSpace(new Vector(5, 15));
         // GAME.addEntity(new House(gamePos, 1));
         // Decorations
@@ -418,7 +276,7 @@ const loadVillageMain = () => {
         // Place chad.
         if (LAST_ZONE === null) { // We've just started the game.
             // Spawn in middle.
-            const blockPos = new Vector(26, chadOnGround);
+            const blockPos = new Vector(90, chadOnGround);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
             // console.log(CHAD.pos);
 
@@ -428,7 +286,7 @@ const loadVillageMain = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         } else if (LAST_ZONE.equals(Zone.getZones().village.outsideCave)) { // Coming from outside cave.
             // spawn on left.
-            const blockPos = new Vector(1, 20);
+            const blockPos = new Vector(98, 15);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
@@ -471,10 +329,52 @@ const loadVillageMountain = () => {
 
 const loadVillageOutsideCave = () => {
     const queueAssets = () => {
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_BUSHY.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_LANKY.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.CARROT.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.MED_RED_FLOWER_1.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.MED_RED_FLOWER_2.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.MED_RED_FLOWER_3.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.POTATO.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.PRIDE_FLOWER_1.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.PRIDE_FLOWER_2.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.PRIDE_FLOWER_3.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_1.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_2.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_3.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.houses.BLACKSMITH_HOUSE.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.houses.CHAD_HOUSE.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.houses.MAYOR_HOUSE.SPRITESHEET);
+        ASSET_MGR.queueDownload(Precipitation.SPRITESHEET);
 
+
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_1.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_2.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_3.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_2.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_3.SPRITESHEET);
+
+        // NPCs
+        ASSET_MGR.queueDownload(BlackSmith.SPRITESHEET);
+        ASSET_MGR.queueDownload(Mayor.SPRITESHEET);
+        ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
     };
 
     const addEntities = () => {
+        GAME.addEntity(new Border(
+            new Vector(ZONE.MIN_PT.x, 0), // start at the far left side of the Zone, and at the top
+            new Vector(1, ZONE.PIXEL_SIZE.y), // only one pixel wide, but as tall as the entire Zone.
+            Zone.getZones().village.main
+        ));
+        new tilemapInterpreter(caveTilemap);
+
+        if (LAST_ZONE.equals(Zone.getZones().village.main)) { // Coming from main.
+            // Set spawn point on the right.
+            const blockPos = new Vector(ZONE.MIN_PT.x, 15);
+            CHAD.pos = Vector.blockToWorldSpace(blockPos);
+        }
 
     };
 

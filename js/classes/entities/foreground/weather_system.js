@@ -1,3 +1,11 @@
+const weatherType = {
+    HOT: "hot",
+    WARM: "warm",
+    CLOUDS: "clouds",
+    RAIN: "rain",
+    SNOW: "snow"
+};
+
 /**
  * WeatherSystem manages what weather to spawn into a zone.
  * 
@@ -17,22 +25,18 @@ class WeatherSystem {
         this.intensity = intensity;
         this.time = time;
         this.clouds = false;
+        this.isRain = this.type === weatherType.RAIN;
+        this.isSnow = this.type === weatherType.SNOW;
+        this.isClouds = this.type === weatherType.CLOUDS;
 
-        WeatherSystem.weatherType = {
-            HOT: "hot",
-            WARM: "warm",
-            CLOUDS: "clouds",
-            RAIN: "rain",
-            SNOW: "snow"
-        };
-        if (this.type === WeatherSystem.weatherType.RAIN) {
+        if (this.isRain) {
             this.makeClouds();
             this.makePrecipitation();
         }
-        else if (this.type === WeatherSystem.weatherType.SNOW) {
+        else if (this.isSnow) {
             this.makeClouds();
             this.makePrecipitation();
-        } else if (this.type === WeatherSystem.weatherType.CLOUDS) {
+        } else if (this.isClouds) {
             this.makeClouds();
             // Default to sunny with white clouds
         }
@@ -60,7 +64,7 @@ class WeatherSystem {
             BG_COLOR = bgColors[this.type];
             if (!this.clouds) {
 
-                let sunType = this.type == WeatherSystem.weatherType.HOT ? Sun.LAVA : Sun.VILLAGE;
+                let sunType = this.type == weatherType.HOT ? Sun.LAVA : Sun.VILLAGE;
                 GAME.addEntity(new Sun(sunVector, sunType), -1);
             }
 
@@ -76,7 +80,7 @@ class WeatherSystem {
         this.clouds = true;
         let aboveGroundLevel = 19;
         // TODO add in dark clouds.
-        if (this.makeRain) {
+        if (weatherType.RAIN) {
             // Add dark clouds
         } else {
             // Add white clouds
