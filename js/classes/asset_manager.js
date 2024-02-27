@@ -275,6 +275,7 @@ class AssetManager {
             SFX.SLIME_SPLAT.path,
             Broccoli.SPRITESHEET,
             SFX.BLEH.path,
+            Portal.SPRITESHEET,
 
             // Music:
             MUSIC.PEACEFUL_CHIPTUNE.path,

@@ -12,7 +12,7 @@ class FoodDrop {
      * @param {Vector} pos The position at which the FoodDrop should start.
      */
     constructor(type, pos) {
-        if (typeof type !== "number" || type % 1 !== 0 || type < 0 || type > 6) {
+        if (typeof type !== "number" || type % 1 !== 0 || type < 0) {
             throw new Error("Invalid FoodDrop type: please use a FoodDrop member type (e.g. FoodDrop.STEAK).");
         }
 
@@ -51,13 +51,15 @@ class FoodDrop {
             // immediately consume the food
 
             switch (this.type) {
-                case FoodItem.IDK_YET:
-                    // grow chad total size by 4x 
-                    CHAD.scale = Vector.multiply(Chad.DEFAULT_SCALE, 4);
+                case FoodItem.GIANT_MUSHROOM:
+                    // grow chad total size by 3.5x 
+                    CHAD.scale = Vector.multiply(Chad.DEFAULT_SCALE, 3.5);
                     CHAD.pos = new Vector(CHAD.pos.x, CHAD.pos.y - 500);
-                    console.log("JUMBO CHAD");
+                    CHAD.isInvincible = true;
+                    console.log("GIGA CHAD");
                     setTimeout(() => {
                         CHAD.scale = Chad.DEFAULT_SCALE;
+                        CHAD.isInvincible = false;
                     }, 20_000);
                     break;
                 case FoodItem.BACON:
@@ -74,11 +76,11 @@ class FoodDrop {
 
                 case FoodItem.BURGER:
                     // give chad extra attack power for 20 seconds
-                    // grow chad's width by 1.2x
+                    // grow chad's width by 1.3x
                     CHAD.damageMultiplier = 2;
                     CHAD.isStrong = true;
                     CHAD.speed /= 1.3;
-                    CHAD.scale = new Vector(Chad.DEFAULT_SCALE.x * 1.5, Chad.DEFAULT_SCALE.y);
+                    CHAD.scale = new Vector(Chad.DEFAULT_SCALE.x * 1.3, Chad.DEFAULT_SCALE.y);
                     setTimeout(() => {
                         CHAD.damageMultiplier = Chad.DEFAULT_DAMAGE_MULTIPLIER;
                         CHAD.isStrong = false;
@@ -193,4 +195,9 @@ class FoodDrop {
     static get BEEF() {
         return 6;
     };
+
+    /** The Giant Mushroom FoodDrop type. */
+    static get GIANT_MUSHROOM() {
+        return 7;
+    }
 }

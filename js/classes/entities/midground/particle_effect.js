@@ -318,11 +318,11 @@ class ParticleEffect {
         return {
             spread: 80,
             size: 4,
-            amount: 10,
+            amount: 5,
             lifetime: 0.3,
             color: COLORS.GOLD,
             opacity: 0.7,
-            behavior: ParticleEffect.EXPAND
+            behavior: ParticleEffect.SLOW_EXPAND
         };
     }
 
@@ -330,11 +330,11 @@ class ParticleEffect {
         return {
             spread: 80,
             size: 4,
-            amount: 10,
+            amount: 5,
             lifetime: 0.3,
             color: COLORS.RED,
             opacity: 0.7,
-            behavior: ParticleEffect.EXPAND
+            behavior: ParticleEffect.SLOW_EXPAND
         };
     }
 
@@ -342,9 +342,33 @@ class ParticleEffect {
         return {
             spread: 80,
             size: 4,
-            amount: 10,
+            amount: 5,
             lifetime: 0.3,
             color: COLORS.GREEN,
+            opacity: 0.7,
+            behavior: ParticleEffect.SLOW_EXPAND
+        };
+    }
+
+    static get MAGIC_PURPLE() {
+        return {
+            spread: 80,
+            size: 4,
+            amount: 10,
+            lifetime: 0.3,
+            color: COLORS.PURPLE,
+            opacity: 0.7,
+            behavior: ParticleEffect.EXPAND
+        };
+    }
+
+    static get MAGIC_YELLOW() {
+        return {
+            spread: 80,
+            size: 4,
+            amount: 10,
+            lifetime: 0.3,
+            color: COLORS.YELLOW,
             opacity: 0.7,
             behavior: ParticleEffect.EXPAND
         };

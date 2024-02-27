@@ -46,7 +46,7 @@ class Slingshot {
         
         // find the angle in radians from the x axis to the mouse
         const delta = Vector.subtract(Vector.worldToCanvasSpace(this.chadCenter), GAME.mousePos);
-        console.log(Vector.worldToCanvasSpace(this.chadCenter), GAME.mousePos);
+        // console.log(Vector.worldToCanvasSpace(this.chadCenter), GAME.mousePos);
         let theta = Math.atan2(delta.y, delta.x);
         this.rotation = theta;
 

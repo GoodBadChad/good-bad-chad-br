@@ -88,18 +88,23 @@ class Snake {
         this.action = "dying";
 
         // add a piece of food in the snake's place at bottom-center of snake
-        if (Math.random() < 0.5) {
-            GAME.addEntity(new FoodDrop(
-                FoodItem.STEAK,
-                new Vector(this.pos.x, this.pos.y - 30)
-            ));
+        // if (Math.random() < 0.5) {
+        //     GAME.addEntity(new FoodDrop(
+        //         FoodItem.STEAK,
+        //         new Vector(this.pos.x, this.pos.y - 30)
+        //     ));
 
-        } else {
-            GAME.addEntity(new FoodDrop(
-                FoodItem.ENERGY_DRINK,
-                new Vector(this.pos.x, this.pos.y - 30)
-            ));
-        }
+        // } else {
+        //     GAME.addEntity(new FoodDrop(
+        //         FoodItem.ENERGY_DRINK,
+        //         new Vector(this.pos.x, this.pos.y - 30)
+        //     ));
+        // }
+
+        GAME.addEntity(new FoodDrop(
+            FoodItem.GIANT_MUSHROOM,
+            new Vector(this.pos.x, this.pos.y - 30)
+        ));
     }
     
     /** Change what the Snake is doing and where it is. */

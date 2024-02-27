@@ -451,20 +451,20 @@ class Chad {
             }
         }
 
-        // if chad has invincibility, release gold particles every 0.05 seconds
-        if (this.isInvincible && GAME.gameTime % 0.05 < 0.01) {
+        // check if Chad has special effects
+        if (this.isInvincible && GAME.gameTime % 0.1 < 0.01) {
             GAME.addEntity(new ParticleEffect(
                 new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y/2),
                 ParticleEffect.GOLD_SPARKLE)
             );
         }
-        if (this.isStrong && GAME.gameTime % 0.05 < 0.01) {
+        if (this.isStrong && GAME.gameTime % 0.1 < 0.01) {
             GAME.addEntity(new ParticleEffect(
                 new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y/2),
                 ParticleEffect.RED_SPARKLE)
             );
         }
-        if (this.isFast && GAME.gameTime % 0.05 < 0.01) {
+        if (this.isFast && GAME.gameTime % 0.1 < 0.01) {
             GAME.addEntity(new ParticleEffect(
                 new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y/2),
                 ParticleEffect.GREEN_SPARKLE)
@@ -517,18 +517,17 @@ class Chad {
                             && this.lastBoundingBox.top < entity.boundingBox.bottom;
 
                         const bbSize = new Vector(Chad.DEFAULT_BOUNDING_BOX_SIZE.x * this.scale.x, Chad.DEFAULT_BOUNDING_BOX_SIZE.y * this.scale.y);
-                        const topGap = Math.abs(bbSize.y - this.scaledSize.y);
-                        const bottomGap = 0;
-                        const leftGap = Math.abs(bbSize.x - this.scaledSize.x)/2;
-                        const rightGap = Math.abs(bbSize.x - this.scaledSize.x)/2;
+                        const topGap = Math.floor(Math.abs(bbSize.y - this.scaledSize.y));
+                        const bottomGap = 0; // as of now, there is no gap at the bottom
+                        const leftGap = Math.floor(Math.abs(bbSize.x - this.scaledSize.x)/2);
+                        const rightGap = Math.floor(Math.abs(bbSize.x - this.scaledSize.x)/2);
 
                         // First, check for X-axis collisions
                         if (isOverlapY) {
                             if (this.lastBoundingBox.right <= entity.boundingBox.left
                                 && this.boundingBox.right > entity.boundingBox.left) {
                                 // We are colliding with the left side.
-                                console.log("colliding with left side of block");
-                                this.pos = new Vector(entity.boundingBox.left - this.scaledSize.x + rightGap - 1, this.pos.y);
+                                this.pos = new Vector(entity.boundingBox.left - this.scaledSize.x + rightGap, this.pos.y);
                             } else if (this.lastBoundingBox.left >= entity.boundingBox.right
                                 && this.boundingBox.left < entity.boundingBox.right) {
                                 // We are colliding with the right side.
