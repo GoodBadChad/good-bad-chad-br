@@ -124,6 +124,12 @@ class Slimeball {
                 this.removeFromWorld = true;
             }
         }
+
+        if (this.action == "firing" && GAME.gameTime % 0.1 < 0.01) {
+            // release particle trail
+            const center = Vector.add(this.pos, Vector.divide(Slimeball.SCALED_SIZE, 2));
+            GAME.addEntity(new ParticleEffect(center, ParticleEffect.SLIME_TRAIL));
+        }
     }
 
     draw() {

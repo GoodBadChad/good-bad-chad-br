@@ -259,6 +259,7 @@ class AssetManager {
             SFX.FOOD_EAT3.path,
             SFX.FOOD_EAT4.path,
             SFX.DING.path,
+            SFX.MEGA_MUSHROOM.path,
 
             //TEMPORARY
             SFX.GROWL1.path,
@@ -276,6 +277,7 @@ class AssetManager {
             Broccoli.SPRITESHEET,
             SFX.BLEH.path,
             Portal.SPRITESHEET,
+            MUSIC.CHAD_VICTORIOUS_EMOTIONAL.path,
 
             // Music:
             MUSIC.PEACEFUL_CHIPTUNE.path,

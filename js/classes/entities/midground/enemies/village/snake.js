@@ -103,7 +103,7 @@ class Snake {
 
         GAME.addEntity(new FoodDrop(
             FoodItem.GIANT_MUSHROOM,
-            new Vector(this.pos.x, this.pos.y - 30)
+            new Vector(this.pos.x, this.pos.y - 50)
         ));
     }
     

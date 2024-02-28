@@ -257,6 +257,18 @@ class ParticleEffect {
         };
     }
 
+    static get SLIME_TRAIL() {
+        return {
+            spread: 15,
+            size: 5,
+            amount: 1,
+            lifetime: 0.3,
+            color: COLORS.LIGHT_GREEN,
+            opacity: 0.7,
+            behavior: ParticleEffect.FALL
+        };
+    }
+
     /**
      * A "preset" particle effect for wind blowing.
      */

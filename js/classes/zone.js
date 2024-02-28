@@ -38,8 +38,13 @@ class Zone {
             // TODO: this is a bandaid fix! Let's figure out how to make this better!!!
             setTimeout(() => {
                 // Add entities essential to any Zone.
-                GAME.addEntity(new Slingshot());
+                
+                // GAME.addEntity(new Slingshot());
                 GAME.addEntity(new Sword(Sword.TYPE_1));
+
+                //! temporary
+                CHAD.slingshot = new Slingshot();
+                GAME.addEntity(CHAD.slingshot);
 
                 HUD.addComponents();
             }, 1_000);

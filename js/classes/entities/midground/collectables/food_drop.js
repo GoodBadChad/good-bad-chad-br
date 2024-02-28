@@ -48,26 +48,32 @@ class FoodDrop {
 
 
             //! remove this when HUD food-picker is implemented
+            
             // immediately consume the food
-
             switch (this.type) {
                 case FoodItem.GIANT_MUSHROOM:
                     // grow chad total size by 3.5x 
                     CHAD.scale = Vector.multiply(Chad.DEFAULT_SCALE, 3.5);
+                    ASSET_MGR.playSFX(SFX.MEGA_MUSHROOM.path, SFX.MEGA_MUSHROOM.volume);
                     CHAD.pos = new Vector(CHAD.pos.x, CHAD.pos.y - 500);
                     CHAD.isInvincible = true;
+                    CHAD.touchKill = true;
                     console.log("GIGA CHAD");
                     setTimeout(() => {
                         CHAD.scale = Chad.DEFAULT_SCALE;
                         CHAD.isInvincible = false;
+                        CHAD.touchKill = false;
+
                     }, 20_000);
                     break;
                 case FoodItem.BACON:
                     // give chad invincibility for 10 seconds
                     // grow chad total size by 1.2x 
                     CHAD.isInvincible = true;
-                    CHAD.scale = Vector.multiply(Chad.DEFAULT_SCALE, 1.2);
-                    CHAD.pos = new Vector(CHAD.pos.x, CHAD.pos.y - 10);
+                    if (!CHAD.touchKill) { // if he doesn't already have the mushroom effect
+                        CHAD.scale = Vector.multiply(Chad.DEFAULT_SCALE, 1.2);
+                        CHAD.pos = new Vector(CHAD.pos.x, CHAD.pos.y - 10);
+                    }
                     setTimeout(() => {
                         CHAD.isInvincible = false;
                         CHAD.scale = Chad.DEFAULT_SCALE;
@@ -80,7 +86,9 @@ class FoodDrop {
                     CHAD.damageMultiplier = 2;
                     CHAD.isStrong = true;
                     CHAD.speed /= 1.3;
-                    CHAD.scale = new Vector(Chad.DEFAULT_SCALE.x * 1.3, Chad.DEFAULT_SCALE.y);
+                    if (!CHAD.touchKill) { // if he doesn't already have the mushroom effect
+                        CHAD.scale = new Vector(Chad.DEFAULT_SCALE.x * 1.3, Chad.DEFAULT_SCALE.y);
+                    }
                     setTimeout(() => {
                         CHAD.damageMultiplier = Chad.DEFAULT_DAMAGE_MULTIPLIER;
                         CHAD.isStrong = false;

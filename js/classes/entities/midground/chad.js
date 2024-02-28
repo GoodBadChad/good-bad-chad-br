@@ -43,12 +43,14 @@ class Chad {
         this.speed = Chad.DEFAULT_SPEED;
         /** Chad's damage multiplier (applied on sword/slingshot hit) */
         this.damageMultiplier = 1;
-        /** Chad's invincibility state. */
+        /** Chad's invincibility state. (bacon ability) */
         this.isInvincible = false;
-        /** Chad's strength state. */
+        /** Chad's strength state. (burger ability) */
         this.isStrong = false;
-        /** Chad's speed state. */
+        /** Chad's speed state. (energy drink ability )*/
         this.isFast = false;
+        /** Whether Chad can damage enemies by simply colliding with them. (giant mushroom ability) */
+        this.touchKill = false;
         /** The size of Chad on the canvas */
         this.scaledSize = new Vector(Chad.DEFAULT_BOUNDING_BOX_SIZE.x * Chad.DEFAULT_SCALE.x, 
             Chad.DEFAULT_BOUNDING_BOX_SIZE.y * Chad.DEFAULT_SCALE.y);
@@ -252,22 +254,25 @@ class Chad {
             dirSign = 1;
         }
 
+        xVelocity = dirSign * this.speed;
 
         // Run action
-        if (GAME.user.running) {
-            this.action = "running";
-            xVelocity = dirSign * this.speed * Chad.RUN_MULTIPLIER;
+        if (GAME.user.movingLeft || GAME.user.movingRight) {
+            if (GAME.user.running) {
+                this.action = "running";
+                xVelocity = dirSign * this.speed * Chad.RUN_MULTIPLIER;
 
-            // if you're on the ground, running, AND moving, release dust particles
-            if (this.isOnGround && (GAME.user.movingLeft || GAME.user.movingRight)) {
-                GAME.addEntity(new ParticleEffect(
-                    new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y - 10),
-                    ParticleEffect.LITTLE_DUST));
+                // if you're on the ground, running, AND moving, release dust particles
+                if (this.isOnGround) {
+                    GAME.addEntity(new ParticleEffect(
+                        new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y - 10),
+                        ParticleEffect.LITTLE_DUST)
+                    );
+                }
+            } else {
+                // Walk action
+                this.action = "walking";
             }
-        } else {
-            // Walk action
-            this.action = "walking";
-            xVelocity = dirSign * this.speed;
         }
 
 
@@ -429,14 +434,12 @@ class Chad {
             this.hasDashed = false;
         }
 
+        this.action = "idle"; // default action
+
         // Step 1: Listen for user input.
         const newXVelocity = this.manageXDirectionMovement();
         const newYVelocity = this.manageYDirectionMovement();
         this.velocity = new Vector(newXVelocity, newYVelocity);
-
-        if (!(GAME.user.movingRight || GAME.user.movingLeft)) {
-            this.action = "idle";
-        }
 
         // Step 2: Face in the direction of a mouse click
         if (GAME.user.aiming || GAME.user.jabbing) {
@@ -450,6 +453,30 @@ class Chad {
                 this.facing = "left";
             }
         }
+
+        
+        if (GAME.user.jabbing) {
+            this.action = "slicing";
+            // GAME.user.aiming = false; // might want to disable aiming while jabbing, giving priority to jabbing
+        }
+
+        // leave it up to the slingshot to decide where chad is aiming
+        const slingshotAction = this.slingshot != null ? this.slingshot.getAction() : "idle";
+        if (slingshotAction != "idle") {
+            // provided the slingshot is doing something, override chad's action to a combination of the two
+            switch (this.action) {
+                case "idle":
+                    this.action = "idle" + slingshotAction;
+                    break;
+                case "walking":
+                    this.action = "walking" + slingshotAction;
+                    break;
+                case "running":
+                    this.action = "running" + slingshotAction;
+                    break;
+            }
+        }
+
 
         // check if Chad has special effects
         if (this.isInvincible && GAME.gameTime % 0.1 < 0.01) {
@@ -472,15 +499,8 @@ class Chad {
         }
 
 
-        if (GAME.user.jabbing) {
-            this.action = "slicing";
-            // GAME.user.aiming = false; // might want to disable aiming while jabbing, giving priority to jabbing
-        }
-        // if (GAME.user.aiming) {
-        //     this.action = this.slingshot.getAction(); // leave it up to the slingshot to decide where chad is aiming
-        // }
         if (this.isOnGround && !(GAME.user.movingRight || GAME.user.movingLeft)) {
-            this.action = "idle";
+            // this.action = "idle";
             if (GAME.user.jabbing) {
                 this.action = "slicingStill";
             }
@@ -565,6 +585,10 @@ class Chad {
                         if (GAME.user.interacting) {
                             entity.conversation.initiateConversation();
                         }
+                    } else if (entity.isEnemy) {
+                        if (this.touchKill && GAME.gameTime % 0.5 < 0.01) { // every 0.5 seconds
+                            entity.takeDamage(5);
+                        }
                     }
                 }
                 // There's no collision - don't do anything!
@@ -581,14 +605,14 @@ class Chad {
         this.animations[this.facing][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), this.scale);
 
         //* draw scaled size in blue
-        CTX.strokeStyle = "blue";
-        const pos = Vector.worldToCanvasSpace(this.pos);
-        CTX.strokeRect(pos.x, pos.y, this.scaledSize.x, this.scaledSize.y);
+        // CTX.strokeStyle = "blue";
+        // const pos = Vector.worldToCanvasSpace(this.pos);
+        // CTX.strokeRect(pos.x, pos.y, this.scaledSize.x, this.scaledSize.y);
 
         //* draw bounding box in red
-        CTX.strokeStyle = "red";
-        const pos2 = Vector.worldToCanvasSpace(this.boundingBox.pos);
-        CTX.strokeRect(pos2.x, pos2.y, this.boundingBox.size.x, this.boundingBox.size.y);
+        // CTX.strokeStyle = "red";
+        // const pos2 = Vector.worldToCanvasSpace(this.boundingBox.pos);
+        // CTX.strokeRect(pos2.x, pos2.y, this.boundingBox.size.x, this.boundingBox.size.y);
     };
 
 
@@ -675,36 +699,128 @@ class Chad {
             Chad.SIZE,
             8, 1 / 20);
 
-        this.animations["right"]["slingshotUp"] = new Animator(
+        this.animations["right"]["idleUpAiming"] = new Animator(
             Chad.SPRITESHEET,
-            new Vector(0, 448), //TODO adjust as necessary
-            Chad.SIZE,
-            1, 1);
-        this.animations["left"]["slingshotUp"] = new Animator(
-            Chad.SPRITESHEET,
-            new Vector(0, 512), //TODO adjust as necessary
+            new Vector(0, Chad.SIZE.y * 6),
             Chad.SIZE,
             1, 1, true);
-        this.animations["right"]["slingshotDown"] = new Animator(
+        this.animations["left"]["idleUpAiming"] = new Animator(
             Chad.SPRITESHEET,
-            new Vector(0, 576), //TODO adjust as necessary
-            Chad.SIZE,
-            1, 1);
-        this.animations["left"]["slingshotDown"] = new Animator(
-            Chad.SPRITESHEET,
-            new Vector(0, 640), //TODO adjust as necessary
+            new Vector(0, Chad.SIZE.y * 7),
             Chad.SIZE,
             1, 1, true);
-        this.animations["right"]["slingshotStraight"] = new Animator(
+        this.animations["right"]["idleUpFiring"] = new Animator(
             Chad.SPRITESHEET,
-            new Vector(0, 704), //TODO adjust as necessary
+            new Vector(0, Chad.SIZE.y * 8),
             Chad.SIZE,
             1, 1, true);
-        this.animations["left"]["slingshotStraight"] = new Animator(
+        this.animations["left"]["idleUpFiring"] = new Animator(
             Chad.SPRITESHEET,
-            new Vector(0, 768), //TODO adjust as necessary
+            new Vector(0, Chad.SIZE.y * 9),
             Chad.SIZE,
-            1, 1, true); 
+            1, 1, true);
+        this.animations["right"]["idleDownAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 10),
+            Chad.SIZE,
+            1, 1, true);
+        this.animations["left"]["idleDownAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 11),
+            Chad.SIZE,
+            1, 1, true);
+        this.animations["right"]["idleDownFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 12),
+            Chad.SIZE,
+            1, 1, true);
+        this.animations["left"]["idleDownFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 13),
+            Chad.SIZE,
+            1, 1, true);
+
+        this.animations["right"]["walkingUpAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 6),
+            Chad.SIZE,
+            32, 1 / 10, true);
+        this.animations["left"]["walkingUpAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 7),
+            Chad.SIZE,
+            32, 1 / 10, true);
+        this.animations["right"]["walkingUpFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 8),
+            Chad.SIZE,
+            32, 1 / 10, true);
+        this.animations["left"]["walkingUpFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 9),
+            Chad.SIZE,
+            32, 1 / 10, true);
+        this.animations["right"]["walkingDownAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 10),
+            Chad.SIZE,
+            32, 1 / 10, true);
+        this.animations["left"]["walkingDownAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 11),
+            Chad.SIZE,
+            32, 1 / 10, true);
+        this.animations["right"]["walkingDownFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 12),
+            Chad.SIZE,
+            32, 1 / 10, true);
+        this.animations["left"]["walkingDownFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 13),
+            Chad.SIZE,
+            32, 1 / 10, true);
+
+        this.animations["right"]["runningUpAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 6),
+            Chad.SIZE,
+            32, 1 / 20, true);
+        this.animations["left"]["runningUpAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 7),
+            Chad.SIZE,
+            32, 1 / 20, true);
+        this.animations["right"]["runningUpFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 8),
+            Chad.SIZE,
+            32, 1 / 20, true);
+        this.animations["left"]["runningUpFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 9),
+            Chad.SIZE,
+            32, 1 / 20, true);
+        this.animations["right"]["runningDownAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 10),
+            Chad.SIZE,
+            32, 1 / 20, true);
+        this.animations["left"]["runningDownAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 11),
+            Chad.SIZE,
+            32, 1 / 20, true);
+        this.animations["right"]["runningDownFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 12),
+            Chad.SIZE,
+            32, 1 / 20, true);
+        this.animations["left"]["runningDownFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 13),
+            Chad.SIZE,
+            32, 1 / 20, true);
 
         this.animations["right"]["death"] = new Animator(
             Chad.SPRITESHEET,

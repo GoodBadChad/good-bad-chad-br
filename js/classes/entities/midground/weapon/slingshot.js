@@ -5,9 +5,6 @@
  */
 class Slingshot {
     constructor() {
-        
-        this.pos = 0;
-        
         this.isAiming = false;
         this.isFiring = false;
         this.rotation = 0; //TODO check slingshot.rotation in Chad class to determine which animation to use for him
@@ -17,9 +14,7 @@ class Slingshot {
 
         this.playedStretchSound = false;
 
-        this.chadCenter = new Vector(0, 0);
-
-        this.start = new Vector(0, 0);
+        this.chadCenter = Vector.add(CHAD.pos, new Vector(CHAD.scaledSize.x / 2, CHAD.scaledSize.y / 2));
     }
 
     aim() { 
@@ -31,27 +26,10 @@ class Slingshot {
             this.playedStretchSound = true;
         }
         
-        // position the image near Chad's hand
-        // let x;
-        // let startY = this.start.y;
-        // if (CHAD.facing == "right") {
-        //     x = CHAD.pos.x + 80;
-        //     startY = 0; // slingshot facing right frame
-        // } else if (CHAD.facing == "left") {
-        //     x = CHAD.pos.x - 80;
-        //     // startY = 29; // slingshot facing left frame
-        // }
-        // this.start = new Vector(0, startY);
-
-        
         // find the angle in radians from the x axis to the mouse
         const delta = Vector.subtract(Vector.worldToCanvasSpace(this.chadCenter), GAME.mousePos);
-        // console.log(Vector.worldToCanvasSpace(this.chadCenter), GAME.mousePos);
         let theta = Math.atan2(delta.y, delta.x);
         this.rotation = theta;
-
-        // console.log("rotation: " + this.rotation * (180 / Math.PI) + " degrees");
-
 
         // this.timeSinceReload += GAME.clockTick;
     }
@@ -61,7 +39,6 @@ class Slingshot {
 
         this.isFiring = true;
         this.isAiming = false;
-        //this.startX = 26; // slingshot firing frame
 
         let ammoType = INVENTORY.useCurrentAmmo();
         if (ammoType != "Empty") {
@@ -81,7 +58,7 @@ class Slingshot {
         // trigger an async operation that will erase the slingshot after it fires
         setTimeout(() => {
             this.isFiring = false;
-        }, 1000);
+        }, 300); // 0.3 seconds
 
         // reset the slingshot stretch sound
         this.playedStretchSound = false;
@@ -94,8 +71,7 @@ class Slingshot {
     }
 
     update() {
-        this.chadCenter = Vector.add(CHAD.pos, new Vector(CHAD.pos.x + (CHAD.scaledSize.x / 2), CHAD.pos.y + (CHAD.scaledSize.y / 2)));
-        this.pos = this.chadCenter;
+        this.chadCenter = Vector.add(CHAD.pos, new Vector(CHAD.scaledSize.x / 2, CHAD.scaledSize.y / 2));
         this.timeSinceLastShot += GAME.clockTick;
 
         if (!HUD.pauseButton.isMouseOver() && CHAD.health > 0) {
@@ -105,41 +81,31 @@ class Slingshot {
                 this.fire();
             }
         }
+
+        if (GAME.user.firing) {
+            GAME.user.firing = false; // reset the firing state
+        }
     }
 
-    //TODO remove this when we have a Chad animation containing the slingshot
     draw() {
-        if (!this.isAiming) {
-            CTX.drawImage(
-                ASSET_MGR.getAsset(Slingshot.SPRITESHEET),
-                this.start.x, this.start.y,
-                Slingshot.SIZE.x, Slingshot.SIZE.y,
-                this.pos.x - CAMERA.pos.x,
-                this.pos.y - CAMERA.pos.y,
-                Slingshot.SIZE.x * Slingshot.SCALE,
-                Slingshot.SIZE.y * Slingshot.SCALE);
-        }
+
     }
 
     getAction() {
         if (this.isFiring) {
-            if (this.rotation < 0 && this.rotation > -Math.PI / 2) {
-                return "FiringUp";
-            } else if (this.rotation < -Math.PI / 2 && this.rotation > -Math.PI) {
-                return "FiringDown";
+            if (this.rotation > 0 && this.rotation < Math.PI) {
+                return "UpFiring";
             } else {
-                return "FiringStraight";
+                return "DownFiring";
             }
         } else if (this.isAiming) {
-            if (this.rotation < 0 && this.rotation > -Math.PI / 2) {
-                return "AimingUp";
-            } else if (this.rotation < -Math.PI / 2 && this.rotation > -Math.PI) {
-                return "AimingDown";
+            if (this.rotation > 0 && this.rotation < Math.PI) {
+                return "UpAiming";
             } else {
-                return "AimingStraight";
+                return "DownAiming";
             }
         } else {
-            throw new Error("Slingshot.getAction() called when not firing or aiming.");
+            return "idle";
         }
     }
 
@@ -154,6 +120,7 @@ class Slingshot {
     //     return 0.5;
     // }
 
+
     static get SPRITESHEET() {
         return "./sprites/slingshot.png";
     }
@@ -165,5 +132,5 @@ class Slingshot {
     static get SCALE() {
         return 2.5;
     }
-
+    
 };
