@@ -97,6 +97,9 @@ class Block {
     static get PLANK_SPRUCE_STAIRS_RIGHT() {
         return 20;
     };
+    static get SNOW_SURFACE() {
+        return 21;
+    };
     /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {
         return 2;

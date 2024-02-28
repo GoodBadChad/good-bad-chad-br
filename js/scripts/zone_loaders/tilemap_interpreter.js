@@ -1,7 +1,8 @@
 class tilemapInterpreter {
 
-    constructor(tilemap) {
+    constructor(tilemap, isSnow = false) {
         this.tilemap = tilemap;
+        this.isSnow = isSnow;
 
         this.interpretTilemap();
     }
@@ -11,8 +12,13 @@ class tilemapInterpreter {
             for (let x = ZONE.MAX_BLOCK.x; x >= ZONE.MIN_BLOCK.x; x--) {
 
                 switch (this.tilemap[y][x]) {
-                    case 'k':// TODO make this surface snow.
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_SPRUCE_STAIRS_RIGHT));
+                    case 'l':
+                        if (this.isSnow) {
+                            GAME.addEntity(new Block(new Vector(x, y), Block.SNOW_SURFACE), 1);
+                        }
+                        break;
+                    case 'k':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.ICE));
                         break;
                     case 'j':
                         GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_SPRUCE_STAIRS_RIGHT));
@@ -24,7 +30,7 @@ class tilemapInterpreter {
                         GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_OAK_STAIRS_RIGHT), 0);
                         break;
                     case 'g':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_OAK_STAIRS_LEFT), -1);
+                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_OAK_STAIRS_LEFT));
                         break;
                     case 'f':
                         GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE_VOLCANIC));

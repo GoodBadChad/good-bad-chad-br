@@ -208,7 +208,6 @@ const loadVillageMain = () => {
         //     GAME.addEntity(new Block(new Vector(x, ZONE.MAX_BLOCK.y), Block.DIRT));
         // }
         // TODO - make this its own class for interpreting the tile map so to clean up code.
-        new tilemapInterpreter(villageMainTileMap);
         // const gamePos = Vector.blockToWorldSpace(new Vector(5, 15));
         // GAME.addEntity(new House(gamePos, 1));
         // Decorations
@@ -273,7 +272,14 @@ const loadVillageMain = () => {
         GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)), 0);
 
 
-        // Place chad.
+        let weather = "snow";
+        let surfaceSnow = false;
+        if (weather === "snow") {
+            surfaceSnow = true
+        }
+        new tilemapInterpreter(villageMainTileMap, surfaceSnow);
+        new WeatherSystem("snow", 5, "night");
+
         if (LAST_ZONE === null) { // We've just started the game.
             // Spawn in middle.
             const blockPos = new Vector(90, chadOnGround);
@@ -307,7 +313,6 @@ const loadVillageMain = () => {
         LoadingAnimation.stop();
     };
 
-    new WeatherSystem("snow", 5, "night");
 
     LoadingAnimation.start();
     queueAssets();
@@ -364,11 +369,11 @@ const loadVillageOutsideCave = () => {
 
     const addEntities = () => {
         GAME.addEntity(new Border(
-            new Vector(ZONE.MIN_PT.x, 0), // start at the far left side of the Zone, and at the top
+            new Vector(ZONE.MIN_PT.x, 0), // start at the far right side of the Zone, and at the top
             new Vector(1, ZONE.PIXEL_SIZE.y), // only one pixel wide, but as tall as the entire Zone.
             Zone.getZones().village.main
         ));
-        new tilemapInterpreter(caveTilemap);
+        new tilemapInterpreter(outsideCaveTilemap, true);
 
         if (LAST_ZONE.equals(Zone.getZones().village.main)) { // Coming from main.
             // Set spawn point on the right.
