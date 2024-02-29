@@ -245,6 +245,16 @@ const checkBlockCollisions = (entity, entitySize) => {
 
 // The following is necessary because we must change the listeners for different modes (right now, gameplay and dialog).
 /** Contains all functions called as event handlers. */
+let mickeyCount = 0;
+const keyPressCountMax = 1;
+let keyPressCounter = {
+    M_KEY: 0,
+    I_KEY: 0,
+    C_KEY: 0,
+    K_KEY: 0,
+    E_KEY: 0,
+    Y_KEY: 0,
+}
 const EVENT_HANDLERS = {
     gameplayMouseDown: (mouse) => {
         // check if mouse button is left click
@@ -271,7 +281,48 @@ const EVENT_HANDLERS = {
         const scaleY = CANVAS.height / rect.height;
         GAME.mousePos = new Vector((mouse.clientX - rect.left) * scaleX, (mouse.clientY - rect.top) * scaleY);
     },
+
     gameplayKeyDown: (key) => {
+
+        if (key.code === "KeyM" && mickeyCount < 1 && keyPressCounter.M_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.M_KEY++;
+
+
+        } else if (key.code === "KeyI" && mickeyCount < 2 && keyPressCounter.I_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.I_KEY++;
+
+        } else if (key.code === "KeyC" && mickeyCount < 3 && keyPressCounter.C_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.C_KEY++;
+
+        } else if (key.code === "KeyK" && mickeyCount < 4 && keyPressCounter.K_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.K_KEY++;
+
+        } else if (key.code === "KeyE" && mickeyCount < 5 && keyPressCounter.E_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.E_KEY++;
+
+        } else if (key.code === "KeyY" && mickeyCount < 6 && keyPressCounter.Y_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.Y_KEY++;
+
+        } else {
+            mickeyCount = 0;
+            keyPressCounter.M_KEY = 0;
+            keyPressCounter.I_KEY = 0;
+            keyPressCounter.C_KEY = 0;
+            keyPressCounter.K_KEY = 0;
+            keyPressCounter.E_KEY = 0;
+            keyPressCounter.Y_KEY = 0;
+
+        }
+        console.log(mickeyCount);
+        if (mickeyCount == 6) {
+            window.location.href = "https://www.youtube.com/watch?v=hmzO--ox7X0";
+        }
         switch (key.code) {
             case "KeyA":
                 GAME.user.movingLeft = true;
@@ -306,6 +357,7 @@ const EVENT_HANDLERS = {
                 GAME.user.eatFood = true; // this should disable automatically after food is eaten
                 break;
         }
+
     },
     doubleTap: (key) => {
         //TODO: implement double tap (stuff below is hacky and contains bugs)
