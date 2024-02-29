@@ -64,10 +64,10 @@ class Block {
     static get PLANKS_SPRUCE() {
         return 9;
     };
-    static get LOG_SPRUCE_VIRTICAL() {
+    static get LOG_SPRUCE_HORIZONTAL() {
         return 10;
     };
-    static get LOG_SPRUCE_HORIZONTAL() {
+    static get LOG_SPRUCE_VIRTICAL() {
         return 11;
     };
     static get PLANKS_REDWOOD() {
@@ -100,6 +100,33 @@ class Block {
     static get SNOW_SURFACE() {
         return 21;
     };
+    static get BR_LEFT_FULL() {
+        return 22;
+    };
+    static get BR_RIGHT_FULL() {
+        return 23;
+    };
+    static get BRANCH_LEFT_HALF() {
+        return 24;
+    };
+    static get BRANCH_RIGHT_HALF() {
+        return 25;
+    };
+    static get BRANCH_TOP() {
+        return 26;
+    };
+    static get BRANCH_FILL_LOG() {
+        return 27;
+    };
+    static get BRANCH_FILL() {
+        return 28;
+    };
+    static get TWIG_RIGHT() {
+        return 29;
+    }
+    static get TWIG_LEFT() {
+        return 30;
+    }
     /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {
         return 2;

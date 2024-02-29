@@ -220,6 +220,14 @@ class Decoration {
                     SIZE: new Vector(64, 64),
                     SCALE: 12
                 },
+                SPRUCE_5: {
+                    SPRITESHEET: "./sprites/tree_spruce.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(64, 64),
+                    SCALE: 24
+                },
 
             },
             clouds: {

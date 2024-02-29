@@ -12,6 +12,54 @@ class tilemapInterpreter {
             for (let x = ZONE.MAX_BLOCK.x; x >= ZONE.MIN_BLOCK.x; x--) {
 
                 switch (this.tilemap[y][x]) {
+                    case 'A':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.TWIG_RIGHT), 1);
+                        break;
+                    case 'B':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.TWIG_LEFT), -1);
+                        break;
+                    case 'z':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.LOG_SPRUCE_VIRTICAL), 1);
+                        break;
+                    case 'y':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.LOG_SPRUCE_VIRTICAL), -1);
+                        break;
+                    case 'x':
+                        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_1, Vector.blockToWorldSpace(new Vector(x, 20))), 1);
+                        break;
+                    case 'w':
+                        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(x + 10, 20))), -1);
+                        break;
+                    case 'v':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.TWIG_RIGHT), 1);
+                        break;
+                    case 'u':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.TWIG_LEFT), 1);
+                        break;
+                    case 't':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.BR_RIGHT_HALF), 0);
+                        break;
+                    case 's':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.BR_RIGHT_FULL), 0);
+                        break;
+                    case 'r':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.BR_LEFT_HALF), 0);
+                        break;
+                    case 'q':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.BR_LEFT_FULL), 0);
+                        break;
+                    case 'p':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.BRANCH_TOP), 0);
+                        break;
+                    case 'o':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.BRANCH_FILL_LOG), 0);
+                        break;
+                    case 'n':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.BRANCH_FILL), 0);
+                        break;
+                    case 'm':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.DIRT), 0);
+                        break;
                     case 'l':
                         if (this.isSnow) {
                             GAME.addEntity(new Block(new Vector(x, y), Block.SNOW_SURFACE), 1);
