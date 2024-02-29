@@ -12,11 +12,23 @@ class tilemapInterpreter {
             for (let x = ZONE.MAX_BLOCK.x; x >= ZONE.MIN_BLOCK.x; x--) {
 
                 switch (this.tilemap[y][x]) {
+                    case 'F':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.BR_RIGHT), 0);
+                        break;
+                    case 'E':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.BR_LEFT), 0);
+                        break;
+                    case 'D':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.BR_RIGHT_END), 0);
+                        break;
+                    case 'C':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.BR_LEFT_END), 0);
+                        break;
                     case 'A':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.TWIG_RIGHT), 1);
+                        GAME.addEntity(new Block(new Vector(x, y), Block.TWIG_LEFT), -1);
                         break;
                     case 'B':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.TWIG_LEFT), -1);
+                        GAME.addEntity(new Block(new Vector(x, y), Block.TWIG_RIGHT), -1);
                         break;
                     case 'z':
                         GAME.addEntity(new Block(new Vector(x, y), Block.LOG_SPRUCE_VIRTICAL), 1);
@@ -25,16 +37,19 @@ class tilemapInterpreter {
                         GAME.addEntity(new Block(new Vector(x, y), Block.LOG_SPRUCE_VIRTICAL), -1);
                         break;
                     case 'x':
-                        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_1, Vector.blockToWorldSpace(new Vector(x, 20))), 1);
+                        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_1, Vector.blockToWorldSpace(new Vector(x, y + 1))), 1);
+                        break;
+                    case '@':
+                        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_1, Vector.blockToWorldSpace(new Vector(x, y + 1))), 1);
                         break;
                     case 'w':
-                        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(x + 10, 20))), -1);
+                        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(x, y + 1))), -1);
                         break;
                     case 'v':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.TWIG_RIGHT), 1);
+                        GAME.addEntity(new Block(new Vector(x, y), Block.TWIG_LEFT), 1);
                         break;
                     case 'u':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.TWIG_LEFT), 1);
+                        GAME.addEntity(new Block(new Vector(x, y), Block.TWIG_RIGHT), 1);
                         break;
                     case 't':
                         GAME.addEntity(new Block(new Vector(x, y), Block.BR_RIGHT_HALF), 0);

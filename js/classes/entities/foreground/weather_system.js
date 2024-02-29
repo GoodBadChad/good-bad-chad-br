@@ -20,7 +20,7 @@ class WeatherSystem {
      * @param {int} intensity a value between 0 and 5.
      * @param {String} time day or night.
      */
-    constructor(type, intensity, time) {
+    constructor(type, intensity, time, startingYOfClouds = 19) {
         this.type = type;
         this.intensity = intensity;
         this.time = time;
@@ -28,6 +28,7 @@ class WeatherSystem {
         this.isRain = this.type === weatherType.RAIN;
         this.isSnow = this.type === weatherType.SNOW;
         this.isClouds = this.type === weatherType.CLOUDS;
+        this.startingYOfClouds = startingYOfClouds;
 
         if (this.isRain) {
             this.makeClouds();
@@ -78,35 +79,37 @@ class WeatherSystem {
     makeClouds() {
         const cloudIntensity = [2, 5, 10, 20, 25, 50];
         this.clouds = true;
-        let aboveGroundLevel = 19;
         // TODO add in dark clouds.
-        if (weatherType.RAIN) {
-            // Add dark clouds
-        } else {
-            // Add white clouds
-        }
+
 
         let cloudNum = cloudIntensity[this.intensity];
         const cloudVariants = {
             0: Decoration.DECORATIONS.clouds.CLOUD_BUSHY,
             1: Decoration.DECORATIONS.clouds.CLOUD_LANKY,
             2: Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD,
+            3: Decoration.DECORATIONS.clouds.CLOUD_BUSHY_DARK,
+            4: Decoration.DECORATIONS.clouds.CLOUD_LANKY_DARK,
+            5: Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD_DARK,
         };
         for (let cloudType = 0; cloudType < 3; cloudType++) {
+
             let spaceBetweenMultiplier = 0;
             spaceBetweenMultiplier = ZONE.MAX_BLOCK.x / cloudNum;
 
             for (let curCloud = 0; curCloud < cloudNum; curCloud++) {
-                let foreground = 0;
+                let foreground = -1;
                 let yVariation = Math.random() * (10 - 16) + 14;
                 let xVariation = Math.random() * (20 - 50) + 20;
                 let cloudSpawnX = curCloud * spaceBetweenMultiplier + xVariation;
-                let cloudSpawnY = aboveGroundLevel - yVariation;
+                let cloudSpawnY = this.startingYOfClouds - yVariation;
                 let cloudPosition = Vector.blockToWorldSpace(new Vector(cloudSpawnX, cloudSpawnY));
 
-
+                let cloudTypeOffset = 0;
+                if (weatherType.RAIN) {
+                    cloudTypeOffset = 3;
+                }
                 // Assign cloudVariant based on cloudType, defaulting to undefined if not found
-                let cloudVariant = cloudVariants[cloudType];
+                let cloudVariant = cloudVariants[cloudType + cloudTypeOffset];
                 GAME.addEntity(new Decoration(cloudVariant, cloudPosition), foreground);
 
             }

@@ -121,11 +121,26 @@ class Block {
     static get BRANCH_FILL() {
         return 28;
     };
-    static get TWIG_RIGHT() {
+    static get TWIG_LEFT() {
         return 29;
     }
-    static get TWIG_LEFT() {
+    static get TWIG_RIGHT() {
         return 30;
+    }
+    static get BR_LEFT_END() {
+        return 31;
+    }
+    static get BR_RIGHT_END() {
+        return 32;
+    }
+    static get BR_LEFT() {
+        return 33;
+    }
+    static get BR_RIGHT() {
+        return 34;
+    }
+    static get HIDDEN_BLOCK_CLOUD() {
+        return 35;
     }
     /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {
