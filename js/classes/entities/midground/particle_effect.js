@@ -26,13 +26,14 @@ class ParticleEffect {
         this.behavior = behavior;
         this.center = center;
         this.size = size;
+        this.bounds = spread;
         this.removeFromWorld = false;
 
         for (let i = 0; i < amount; i++) {
             const newPos = new Vector(center.x + Math.random() * spread - spread / 2,
                                         center.y + Math.random() * spread - spread / 2);
 
-            this.particles.push({pos: newPos, size: size});
+            this.particles.push({pos: newPos, size: size, dir: new Vector(0, 1)});
         }
     }
 
@@ -85,6 +86,18 @@ class ParticleEffect {
                 const speed = 1.5;
                 const displacement = Vector.direction(this.center, currParticle.pos);
                 currParticle.pos = Vector.add(currParticle.pos, Vector.multiply(displacement, speed));
+            } else if (this.behavior == ParticleEffect.WANDER) {
+                // create new dir based off old dir
+                const speed = 0.1;
+                const newXDir = Math.random() * 2 - 1;
+                const newYDir = Math.random() * 2 - 1;
+                currParticle.dir = Vector.add(currParticle.dir, new Vector(newXDir, newYDir));
+
+                // const testPos = Vector.add(currParticle.pos, Vector.multiply(currParticle.dir, speed));
+                // if (testPos.x > this.bounds || testPos.x < -this.bounds || testPos.y > this.bounds || testPos.y < -this.bounds) {
+                //     currParticle.dir = Vector.multiply(currParticle.dir, -1);
+                // }
+                currParticle.pos = Vector.add(currParticle.pos, Vector.multiply(currParticle.dir, speed));
             }
 
             // if FREEZE, do nothing
@@ -164,6 +177,10 @@ class ParticleEffect {
 
     static get SLOW_EXPAND() {
         return 7;
+    }
+
+    static get WANDER() {
+        return 8;
     }
 
 
@@ -365,12 +382,12 @@ class ParticleEffect {
     static get MAGIC_PURPLE() {
         return {
             spread: 80,
-            size: 4,
+            size: 6,
             amount: 10,
-            lifetime: 0.3,
+            lifetime: 10,
             color: COLORS.PURPLE,
             opacity: 0.7,
-            behavior: ParticleEffect.EXPAND
+            behavior: ParticleEffect.WANDER
         };
     }
 
@@ -382,7 +399,7 @@ class ParticleEffect {
             lifetime: 0.3,
             color: COLORS.YELLOW,
             opacity: 0.7,
-            behavior: ParticleEffect.EXPAND
+            behavior: ParticleEffect.WANDER
         };
     }
 }

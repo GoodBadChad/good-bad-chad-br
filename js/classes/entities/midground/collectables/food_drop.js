@@ -58,6 +58,7 @@ class FoodDrop {
                     CHAD.pos = new Vector(CHAD.pos.x, CHAD.pos.y - 500);
                     CHAD.isInvincible = true;
                     CHAD.touchKill = true;
+                    
                     console.log("GIGA CHAD");
                     setTimeout(() => {
                         CHAD.scale = Chad.DEFAULT_SCALE;

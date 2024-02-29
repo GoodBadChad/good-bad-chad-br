@@ -54,7 +54,7 @@ class Slimeball {
 
     /** The file path to the Slimeball's spritesheet. */
     static get SPRITESHEET() {
-        return "./sprites/projectile_slimeball.png";
+        return "./sprites/projectile_slimeball_face.png";
     }
 
     static get ALIVE_TIME() {
