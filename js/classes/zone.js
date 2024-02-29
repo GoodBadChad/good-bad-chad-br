@@ -145,7 +145,7 @@ class Zone {
             village: {
                 canyon: new Zone(zeros, defaultMaxBlock, loadVillageCanyon, "Village Canyon"),
                 field: new Zone(zeros, defaultMaxBlock, loadVillageField, "Village Field"),
-                insideCave: new Zone(zeros, defaultMaxBlock, loadVillageInsideCave, "Village Inside Cave"),
+                insideCave: new Zone(zeros, new Vector(100, 100), loadVillageInsideCave, "Village Inside Cave"),
                 main: new Zone(zeros, defaultMaxBlock, loadVillageMain, "Village Main"),
                 hillDownFromMain: new Zone(zeros, new Vector(75, 50), loadHillDownFromMain, "Hill Down From Main"),
                 woods: new Zone(zeros, new Vector(150, 25), loadWoods, "Hill Down From Main"),

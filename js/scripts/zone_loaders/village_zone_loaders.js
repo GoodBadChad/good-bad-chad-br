@@ -135,11 +135,53 @@ const loadVillageField = () => {
 
 const loadVillageInsideCave = () => {
     const queueAssets = () => {
-
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_BUSHY.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_LANKY.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.CARROT.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.MED_RED_FLOWER_1.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.POTATO.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.PRIDE_FLOWER_1.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.PRIDE_FLOWER_2.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.PRIDE_FLOWER_3.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_1.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.grass.GRASS_1.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.grass.GRASS_2.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.grass.GRASS_3.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.houses.BLACKSMITH_HOUSE.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.houses.CHAD_HOUSE.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.houses.MAYOR_HOUSE.SPRITESHEET);
+        ASSET_MGR.queueDownload(Precipitation.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_1.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_2.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_3.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_2.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_3.SPRITESHEET);
+        // NPCs
+        ASSET_MGR.queueDownload(Bird.SPRITESHEET);
+        ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
+        ASSET_MGR.queueDownload(Snake.SPRITESHEET);
     };
 
     const addEntities = () => {
+        GAME.addEntity(new Border(
+            new Vector(ZONE.MIN_PT.x, 0),
+            new Vector(1, ZONE.PIXEL_SIZE.y),
+            Zone.getZones().village.woods
+        ));
 
+        BG_COLOR = COLORS.DARK_CAVE_PURPLE;
+
+        new tilemapInterpreter(caveTilemap);
+
+        if (LAST_ZONE.equals(Zone.getZones().village.woods)) { // Coming from woods.
+            // if (LAST_ZONE == null) { // Coming from mountain.
+
+            // Set spawn point on the right.
+            const blockPos = new Vector(ZONE.MIN_BLOCK.x, 5);
+            CHAD.pos = Vector.blockToWorldSpace(blockPos);
+        }
     };
 
     queueAssets();
@@ -285,7 +327,7 @@ const loadVillageMain = () => {
                 CHAD.pos = Vector.blockToWorldSpace(blockPos);
             } else if (LAST_ZONE.equals(Zone.getZones().village.hillDownFromMain)) { // Coming from outside cave.
                 // spawn on left.
-                const blockPos = new Vector(98, 14);
+                const blockPos = new Vector(98, 16);
                 CHAD.pos = Vector.blockToWorldSpace(blockPos);
             }
 
@@ -373,10 +415,10 @@ const loadHillDownFromMain = () => {
         ));
         new tilemapInterpreter(hillDownFromMainTilemap);
 
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(-3.5, 12))), 1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(-1.5, 12))), -1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(1, 14))), 1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(7, 29))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(-3.5, 30))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(-1.5, 30))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(1, 30))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(7, 32))), -1);
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(10, 34))), -1);
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(20, 45))), -1);
 
@@ -397,6 +439,7 @@ const loadHillDownFromMain = () => {
         //     GAME.addEntity(new Bird(ZONE.MIN_PT.x, i, ZONE.MAX_PT.x, ZONE.MAX_PT.y))
 
         // }
+        GAME.addEntity(new FoodDrop(FoodDrop.CHICKEN, Vector.blockToWorldSpace(new Vector(8, 8))), -1);
 
         GAME.addEntity(new FoodDrop(FoodDrop.ENERGY_DRINK, Vector.blockToWorldSpace(new Vector(49, 25))));
         GAME.addEntity(new FoodDrop(FoodDrop.STEAK, Vector.blockToWorldSpace(new Vector(39, 37))));
@@ -413,6 +456,11 @@ const loadHillDownFromMain = () => {
         if (weatherType === "rain") {
             cloudTypeLanky = Decoration.DECORATIONS.clouds.CLOUD_LANKY_DARK;
             cloudTypeBushy = Decoration.DECORATIONS.clouds.CLOUD_BUSHY_DARK;
+
+        }
+        GAME.addEntity(new Decoration(cloudTypeLanky, Vector.blockToWorldSpace(new Vector(8, 12))), 1);
+        for (let i = 0; i < 3; i++) {
+            GAME.addEntity(new Block(new Vector(8 + i, 10), Block.HIDDEN_BLOCK_CLOUD));
 
         }
         GAME.addEntity(new Decoration(cloudTypeLanky, Vector.blockToWorldSpace(new Vector(60, 22))), 1);
@@ -435,14 +483,14 @@ const loadHillDownFromMain = () => {
             GAME.addEntity(new Block(new Vector(50 + i, 6), Block.HIDDEN_BLOCK_CLOUD));
 
         }
-        if (LAST_ZONE.equals(Zone.getZones().village.main)) {
-            // if (LAST_ZONE === null) { // Coming from main.
+        // if (LAST_ZONE.equals(Zone.getZones().village.main)) {
+        if (LAST_ZONE === null) { // Coming from main.
             // Set spawn point on the right.
-            const blockPos = new Vector(1, 8);
+            const blockPos = new Vector(1, 27);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         } else if (LAST_ZONE.equals(Zone.getZones().village.main)) { // Coming from main.
             // Set spawn point on the right.
-            const blockPos = new Vector(ZONE.MIN_PT.x, 8);
+            const blockPos = new Vector(ZONE.MIN_PT.x, 27);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         } else if (LAST_ZONE.equals(Zone.getZones().village.woods)) { // Coming from main.
             // Set spawn point on the right.
@@ -503,6 +551,11 @@ const loadWoods = () => {
             new Vector(1, ZONE.PIXEL_SIZE.y),
             Zone.getZones().village.hillDownFromMain
         ));
+        GAME.addEntity(new Border(
+            new Vector(ZONE.MAX_PT.x, 0),
+            new Vector(1, ZONE.PIXEL_SIZE.y),
+            Zone.getZones().village.insideCave
+        ));
         new tilemapInterpreter(woodsTilemap);
 
         let treeDistOffset = 0;
@@ -547,6 +600,7 @@ const loadWoods = () => {
 
 
         }
+        new WeatherSystem("rain", 5, "night", 22);
 
         if (LAST_ZONE.equals(Zone.getZones().village.hillDownFromMain)) { // Coming from main.
             // Set spawn point on the right.
@@ -554,13 +608,13 @@ const loadWoods = () => {
 
             const blockPos = new Vector(1, 17.5);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
-        } else if (LAST_ZONE.equals(Zone.getZones().village.main)) { // Coming from main.
+        } else if (LAST_ZONE.equals(Zone.getZones().village.insideCave)) { // Coming from main.
             // Set spawn point on the right.
-            const blockPos = new Vector(ZONE.MIN_PT.x, 0);
+            const blockPos = new Vector(ZONE.MIN_PT.x, 15);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
-        new WeatherSystem("rain", 5, "night", 22);
+
     };
 
     queueAssets();

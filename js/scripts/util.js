@@ -29,11 +29,12 @@ const COLORS = {
     // backgrounds
     SEA_FOAM_GREEN: "#a0d6b4",
     SKY_BLUE: "#5da6b3",
-    SKY_DARK_GREY: "#235654",
+    SKY_DARK: "#235654",
     SKY_SNOW_GREY: "#91B3B2",
     SKY_GREY: "#73908F",
     SKY_HOT_SKY: "#59979c",
     LIGHT_BLUE: "#add8e6",
+    DARK_CAVE_PURPLE: "#131339",
 
     // misc
     WHITE: "#ffffff",

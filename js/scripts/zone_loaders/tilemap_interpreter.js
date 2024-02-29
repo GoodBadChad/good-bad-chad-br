@@ -12,6 +12,45 @@ class tilemapInterpreter {
             for (let x = ZONE.MAX_BLOCK.x; x >= ZONE.MIN_BLOCK.x; x--) {
 
                 switch (this.tilemap[y][x]) {
+                    case 'S':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_UP_GROUP_GREY));
+                        break;
+                    case 'R':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_DOWN_GROUP_GREY));
+                        break;
+                    case 'Q':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_UP_1_GREY));
+                        break;
+                    case 'P':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_DOWN_1_GREY));
+                        break;
+                    case 'O':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_UP_GROUP));
+                        break;
+                    case 'N':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_DOWN_GROUP));
+                        break;
+                    case 'M':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_UP_1));
+                        break;
+                    case 'L':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_DOWN_1));
+                        break;
+                    case 'K':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_4), 1);
+                        break;
+                    case 'J':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_3));
+                        break;
+                    case 'I':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_2));
+                        break;
+                    case 'H':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_1));
+                        break;
+                    case 'G':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE_DARK), -1);
+                        break;
                     case 'F':
                         GAME.addEntity(new Block(new Vector(x, y), Block.BR_RIGHT), 0);
                         break;

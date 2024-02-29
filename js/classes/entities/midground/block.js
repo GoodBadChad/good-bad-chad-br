@@ -142,6 +142,42 @@ class Block {
     static get HIDDEN_BLOCK_CLOUD() {
         return 35;
     }
+    static get CAVE_1() {
+        return 36;
+    }
+    static get CAVE_2() {
+        return 37;
+    }
+    static get CAVE_3() {
+        return 38;
+    }
+    static get CAVE_4() {
+        return 39;
+    }
+    static get CAVE_SHARP_DOWN_1() {
+        return 40;
+    }
+    static get CAVE_SHARP_DOWN_GROUP() {
+        return 41;
+    }
+    static get CAVE_SHARP_UP_GROUP() {
+        return 42;
+    }
+    static get CAVE_SHARP_UP_1() {
+        return 43;
+    }
+    static get CAVE_SHARP_DOWN_1_GREY() {
+        return 44;
+    }
+    static get CAVE_SHARP_DOWN_GROUP_GREY() {
+        return 45;
+    }
+    static get CAVE_SHARP_UP_GROUP_GREY() {
+        return 46;
+    }
+    static get CAVE_SHARP_UP_1_GREY() {
+        return 47;
+    }
     /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {
         return 2;
