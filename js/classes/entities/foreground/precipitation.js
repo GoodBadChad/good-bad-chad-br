@@ -20,7 +20,8 @@ class Precipitation {
     constructor(dir, pos, type, scale) {
         this.dir = dir;
         this.origin = pos;
-        // Setting this.pos to (0, 0) makes rain/snow fall naturally when it starts falling.
+        // Setting this.pos to (-5-, 0) makes rain/snow fall naturally when it starts falling
+        // by putting it off the screen for the first drops before resetting to a natural position.
         this.pos = new Vector(-50, 0);
         this.type = type;
         this.velocity = new Vector(0, 0);

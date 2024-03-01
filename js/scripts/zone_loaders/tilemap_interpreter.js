@@ -1,17 +1,32 @@
-class tilemapInterpreter {
+/**
+ * Interprets a two dimensional array of characters and adds in entities 
+ * based on their respective position in the tilemap to the world.
+ * @author Caleb Krauter
+ */
+class TilemapInterpreter {
 
-    constructor(tilemap, isSnow = false) {
-        this.tilemap = tilemap;
-        this.isSnow = isSnow;
+    /**
+     * 
+     * @param {TwoDimensionalArray} tilemap 
+     * @param {boolean} isSnow 
+     */
+    static setTilemap(tilemap, isSnow = false) {
+        TilemapInterpreter.tilemap = tilemap;
+        TilemapInterpreter.isSnow = isSnow;
 
-        this.interpretTilemap();
+        TilemapInterpreter.interpretTilemap();
     }
 
-    interpretTilemap() {
+    // TODO update this to use a map instead of a switch statement.
+    // TODO remove unnecessary blocks to be unused or added in outside of this class.
+    /**
+     * Interpret tilemap and add blocks with the specified ground (foreground, background, midground).
+     */
+    static interpretTilemap() {
         for (let y = ZONE.MAX_BLOCK.y; y >= ZONE.MIN_BLOCK.y; y--) {
             for (let x = ZONE.MAX_BLOCK.x; x >= ZONE.MIN_BLOCK.x; x--) {
 
-                switch (this.tilemap[y][x]) {
+                switch (TilemapInterpreter.tilemap[y][x]) {
                     case 'S':
                         GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_UP_GROUP_GREY));
                         break;
@@ -115,7 +130,7 @@ class tilemapInterpreter {
                         GAME.addEntity(new Block(new Vector(x, y), Block.DIRT), 0);
                         break;
                     case 'l':
-                        if (this.isSnow) {
+                        if (TilemapInterpreter.isSnow) {
                             GAME.addEntity(new Block(new Vector(x, y), Block.SNOW_SURFACE), 1);
                         }
                         break;
@@ -184,9 +199,6 @@ class tilemapInterpreter {
                         break;
                 }
             }
-
         }
-
     }
-
 }

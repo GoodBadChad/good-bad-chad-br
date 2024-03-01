@@ -51,7 +51,7 @@ const loadVillageField = () => {
             Zone.getZones().village.main
         ));
 
-        new tilemapInterpreter(fieldTilemap);
+        TilemapInterpreter.setTilemap(fieldTilemap);
 
 
         for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
@@ -168,7 +168,7 @@ const loadVillageInsideCave = () => {
 
         BG_COLOR = COLORS.DARK_CAVE_PURPLE;
 
-        new tilemapInterpreter(caveTilemap);
+        TilemapInterpreter.setTilemap(caveTilemap);
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.lighting.LANTERN, Vector.blockToWorldSpace(new Vector(0, 13))), 1);
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.lighting.LANTERN, Vector.blockToWorldSpace(new Vector(2, 14))), 1);
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.lighting.LANTERN, Vector.blockToWorldSpace(new Vector(10, 23))), 1);
@@ -309,8 +309,7 @@ const loadVillageMain = () => {
         if (weather === "snow") {
             surfaceSnow = true
         }
-        new tilemapInterpreter(villageMainTileMap, surfaceSnow);
-        // new WeatherSystem(weather, 2, "day");
+        TilemapInterpreter.setTilemap(villageMainTileMap, surfaceSnow);
         WeatherSystem.setWeather(weather, 2, "day");
 
         if (LAST_ZONE === null) { // We've just started the game.
@@ -412,7 +411,7 @@ const loadHillDownFromMain = () => {
             new Vector(1, ZONE.PIXEL_SIZE.y),
             Zone.getZones().village.woods
         ));
-        new tilemapInterpreter(hillDownFromMainTilemap);
+        TilemapInterpreter.setTilemap(hillDownFromMainTilemap);
 
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(-3.5, 30))), 1);
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(-1.5, 30))), -1);
@@ -557,8 +556,7 @@ const loadWoods = () => {
             new Vector(1, ZONE.PIXEL_SIZE.y),
             Zone.getZones().village.insideCave
         ));
-        new tilemapInterpreter(woodsTilemap);
-
+        TilemapInterpreter.setTilemap(woodsTilemap);
         let treeDistOffset = 0;
         let zLayer = 1;
         for (let i = 0; i < 150; i++) {

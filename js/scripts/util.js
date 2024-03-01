@@ -322,7 +322,8 @@ const EVENT_HANDLERS = {
         }
         console.log(mickeyCount);
         if (mickeyCount == 6) {
-            window.location.href = "https://www.youtube.com/watch?v=hmzO--ox7X0";
+            window.open("https://www.youtube.com/watch?v=hmzO--ox7X0", '_blank').focus();
+            // window.location.href = "https://www.youtube.com/watch?v=hmzO--ox7X0";
         }
         switch (key.code) {
             case "KeyA":
