@@ -313,6 +313,16 @@ class Decoration {
                     SIZE: new Vector(32, 32),
                     SCALE: 2.2
                 },
+            },
+            lighting: {
+                LANTERN: {
+                    SPRITESHEET: "./sprites/lantern.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 5,
+                    FRAME_DURATION: .2,
+                    SIZE: new Vector(144, 256),
+                    SCALE: 3
+                },
             }
         };
     };
