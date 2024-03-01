@@ -133,6 +133,9 @@ class Zone {
          */
 
         return {
+            mountain: {
+                slope: new Zone(zeros, new Vector(100, 100), loadMountainSlope, "Mountain Slope"),
+            },
             playground: {
                 caleb: new Zone(zeros, defaultMaxBlock, loadPlaygroundCaleb, "Club Caleb"),
                 devin: new Zone(zeros, defaultMaxBlock, loadPlaygroundDevin, "Devinopolis"),
