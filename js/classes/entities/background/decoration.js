@@ -188,6 +188,14 @@ class Decoration {
                     SIZE: new Vector(64, 64),
                     SCALE: 6
                 },
+                SPRUCE_0: {
+                    SPRITESHEET: "./sprites/tree_spruce.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(64, 64),
+                    SCALE: 1
+                },
                 SPRUCE_1: {
                     SPRITESHEET: "./sprites/tree_spruce.png",
                     SPRITESHEET_START_POS: new Vector(0, 0),
@@ -218,7 +226,15 @@ class Decoration {
                     FRAME_COUNT: 1,
                     FRAME_DURATION: 1,
                     SIZE: new Vector(64, 64),
-                    SCALE: 12
+                    SCALE: 25
+                },
+                SPRUCE_5: {
+                    SPRITESHEET: "./sprites/tree_spruce.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(64, 64),
+                    SCALE: 30
                 },
 
             },
@@ -246,13 +262,37 @@ class Decoration {
                     FRAME_DURATION: 1,
                     SIZE: new Vector(32, 32),
                     SCALE: 7
+                },
+                CLOUD_JUST_CLOUD_DARK: {
+                    SPRITESHEET: "./sprites/cloud_dark1.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(32, 32),
+                    SCALE: 7
+                },
+                CLOUD_LANKY_DARK: {
+                    SPRITESHEET: "./sprites/cloud_dark2.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(32, 32),
+                    SCALE: 7
+                },
+                CLOUD_BUSHY_DARK: {
+                    SPRITESHEET: "./sprites/cloud_dark3.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(32, 32),
+                    SCALE: 7
                 }
             },
             grass: {
                 GRASS_1: {
                     SPRITESHEET: "./sprites/grass.png",
                     SPRITESHEET_START_POS: new Vector(0, 0),
-                    FRAME_COUNT: 64,
+                    FRAME_COUNT: 8,
                     FRAME_DURATION: .2,
                     SIZE: new Vector(32, 32),
                     SCALE: 1.5
@@ -260,7 +300,7 @@ class Decoration {
                 GRASS_2: {
                     SPRITESHEET: "./sprites/grass.png",
                     SPRITESHEET_START_POS: new Vector(0, 0),
-                    FRAME_COUNT: 64,
+                    FRAME_COUNT: 8,
                     FRAME_DURATION: .2,
                     SIZE: new Vector(32, 32),
                     SCALE: 2
@@ -268,10 +308,20 @@ class Decoration {
                 GRASS_3: {
                     SPRITESHEET: "./sprites/grass.png",
                     SPRITESHEET_START_POS: new Vector(0, 0),
-                    FRAME_COUNT: 64,
+                    FRAME_COUNT: 8,
                     FRAME_DURATION: .2,
                     SIZE: new Vector(32, 32),
                     SCALE: 2.2
+                },
+            },
+            lighting: {
+                LANTERN: {
+                    SPRITESHEET: "./sprites/lantern.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 5,
+                    FRAME_DURATION: .2,
+                    SIZE: new Vector(144, 256),
+                    SCALE: 3
                 },
             }
         };

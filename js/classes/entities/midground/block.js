@@ -64,10 +64,10 @@ class Block {
     static get PLANKS_SPRUCE() {
         return 9;
     };
-    static get LOG_SPRUCE_VIRTICAL() {
+    static get LOG_SPRUCE_HORIZONTAL() {
         return 10;
     };
-    static get LOG_SPRUCE_HORIZONTAL() {
+    static get LOG_SPRUCE_VIRTICAL() {
         return 11;
     };
     static get PLANKS_REDWOOD() {
@@ -97,6 +97,87 @@ class Block {
     static get PLANK_SPRUCE_STAIRS_RIGHT() {
         return 20;
     };
+    static get SNOW_SURFACE() {
+        return 21;
+    };
+    static get BR_LEFT_FULL() {
+        return 22;
+    };
+    static get BR_RIGHT_FULL() {
+        return 23;
+    };
+    static get BRANCH_LEFT_HALF() {
+        return 24;
+    };
+    static get BRANCH_RIGHT_HALF() {
+        return 25;
+    };
+    static get BRANCH_TOP() {
+        return 26;
+    };
+    static get BRANCH_FILL_LOG() {
+        return 27;
+    };
+    static get BRANCH_FILL() {
+        return 28;
+    };
+    static get TWIG_LEFT() {
+        return 29;
+    }
+    static get TWIG_RIGHT() {
+        return 30;
+    }
+    static get BR_LEFT_END() {
+        return 31;
+    }
+    static get BR_RIGHT_END() {
+        return 32;
+    }
+    static get BR_LEFT() {
+        return 33;
+    }
+    static get BR_RIGHT() {
+        return 34;
+    }
+    static get HIDDEN_BLOCK_CLOUD() {
+        return 35;
+    }
+    static get CAVE_1() {
+        return 36;
+    }
+    static get CAVE_2() {
+        return 37;
+    }
+    static get CAVE_3() {
+        return 38;
+    }
+    static get CAVE_4() {
+        return 39;
+    }
+    static get CAVE_SHARP_DOWN_1() {
+        return 40;
+    }
+    static get CAVE_SHARP_DOWN_GROUP() {
+        return 41;
+    }
+    static get CAVE_SHARP_UP_GROUP() {
+        return 42;
+    }
+    static get CAVE_SHARP_UP_1() {
+        return 43;
+    }
+    static get CAVE_SHARP_DOWN_1_GREY() {
+        return 44;
+    }
+    static get CAVE_SHARP_DOWN_GROUP_GREY() {
+        return 45;
+    }
+    static get CAVE_SHARP_UP_GROUP_GREY() {
+        return 46;
+    }
+    static get CAVE_SHARP_UP_1_GREY() {
+        return 47;
+    }
     /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {
         return 2;
