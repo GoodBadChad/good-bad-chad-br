@@ -310,7 +310,8 @@ const loadVillageMain = () => {
             surfaceSnow = true
         }
         new tilemapInterpreter(villageMainTileMap, surfaceSnow);
-        new WeatherSystem(weather, 2, "day");
+        // new WeatherSystem(weather, 2, "day");
+        WeatherSystem.setWeather(weather, 2, "day");
 
         if (LAST_ZONE === null) { // We've just started the game.
             // Spawn in middle.
@@ -496,7 +497,9 @@ const loadHillDownFromMain = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
-        new WeatherSystem("snow", 5, "night");
+        // new WeatherSystem("rain", 3, "day");
+        WeatherSystem.setWeather("rain", 3, "day");
+
     };
 
     queueAssets();
@@ -598,7 +601,8 @@ const loadWoods = () => {
 
 
         }
-        new WeatherSystem("rain", 5, "night", 22);
+        // new WeatherSystem("rain", 5, "night", 22);
+        WeatherSystem.setWeather("rain", 5, "night", 22);
 
         if (LAST_ZONE.equals(Zone.getZones().village.hillDownFromMain)) { // Coming from main.
             // Set spawn point on the right.
