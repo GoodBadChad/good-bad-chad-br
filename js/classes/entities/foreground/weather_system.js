@@ -105,7 +105,7 @@ class WeatherSystem {
                 let cloudPosition = Vector.blockToWorldSpace(new Vector(cloudSpawnX, cloudSpawnY));
 
                 let cloudTypeOffset = 0;
-                if (weatherType.RAIN) {
+                if (weatherType.RAIN === this.type) {
                     cloudTypeOffset = 3;
                 }
                 // Assign cloudVariant based on cloudType, defaulting to undefined if not found
