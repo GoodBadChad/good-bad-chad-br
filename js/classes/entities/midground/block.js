@@ -218,6 +218,10 @@ class Block {
     static get CAVE_SHARP_UP_1_GREY() {
         return 47;
     }
+    /** Transparent Darkness. */
+    static get DARK() {
+        return 48;
+    }
     /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {
         return 2;
