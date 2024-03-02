@@ -44,7 +44,7 @@ class Rock {
 
     /** The speed of the Rock projectile as flies through the air */
     static get INITIAL_SPEED() {
-        return 20;
+        return 18;
     }
 
     /** The weight of the Rock. */

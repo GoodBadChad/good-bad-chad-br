@@ -57,10 +57,10 @@ class ProjectileBase {
             // }
         }
 
-        const pos = Vector.multiply(this.projectile.dir, this.projectile.speed);
-        const syncedPos = Vector.multiply(pos, GAME.clockTick * 100);
+        const adjustedSpeed = this.projectile.speed * 140;
+        const pos = Vector.multiply(this.projectile.dir, adjustedSpeed * GAME.clockTick);
 
-        this.projectile.pos = Vector.add(this.projectile.pos, new Vector(syncedPos.x, syncedPos.y + this.projectile.yVelocity));
+        this.projectile.pos = Vector.add(this.projectile.pos, new Vector(pos.x, pos.y + this.projectile.yVelocity));
 
         // update the bounding box
         this.projectile.lastBoundingBox = this.projectile.boundingBox;

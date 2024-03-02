@@ -46,6 +46,8 @@ class Zone {
                 CHAD.slingshot = new Slingshot();
                 GAME.addEntity(CHAD.slingshot);
 
+                GAME.addEntity(CHAD.statusEffect);
+
                 HUD.addComponents();
             }, 1_000);
 

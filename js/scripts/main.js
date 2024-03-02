@@ -60,6 +60,7 @@ document.addEventListener("keydown", (key) => {
 // If the window loses focus, pause the game.
 CANVAS.onblur = () => {
 	GAME.running = false;
+	ASSET_MGR.stopAllSFX();
 	ASSET_MGR.playSFX(SFX.UI_HIGH_BEEP.path, SFX.UI_HIGH_BEEP.volume);
 	ASSET_MGR.pauseMusic();
 	HUD.swapToPointer();

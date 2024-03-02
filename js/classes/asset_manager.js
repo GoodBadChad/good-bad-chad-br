@@ -127,12 +127,17 @@ class AssetManager {
      * @param {string} path The filepath of the audio you are trying to play.
      * @param {number} volume The volume to which you want to set the audio.
      */
-    playSFX(path, volume) {
+    playSFX(path, volume, loop = false) {
         const audio = this.cache[path];
         audio.currentTime = 0;
         audio.volume = volume;
 
         audio.play();
+        if (loop) {
+            audio.addEventListener("ended", () => {
+                audio.play();
+            });
+        }
     };
 
     /**
@@ -140,16 +145,19 @@ class AssetManager {
      * @param {string} path The filepath of the audio you are trying to play.
      * @param {number} volume The volume to which you want to set the audio.
      */
-    playMusic(path, volume) {
+    playMusic(path, volume, loop = true) {
         const audio = this.cache[path];
         audio.currentTime = 0;
         audio.volume = volume;
         this.currentMusic = audio;
 
         audio.play();
-        audio.addEventListener("ended", () => { //! might have a bug where pauseMusic "ends" the music. Check it out
-            audio.play();
-        });
+        //! might have a bug where pauseMusic "ends" the music. Check it out
+        if (loop) {
+            audio.addEventListener("ended", () => {
+                audio.play();
+            });
+        }
     };
 
     /**
@@ -167,8 +175,17 @@ class AssetManager {
         if (this.currentMusic) {
             this.currentMusic.play();
         } else {
-            console.log("No music to unpause.");
+            console.log("No music to resume.");
         }
+    }
+
+    /**
+     * @param {string} path The filepath of the audio you are trying to check if it is playing.
+     * @returns true if the audio associated with the given path is currently playing.
+     */
+    audioIsPlaying(path) {
+        const audio = this.cache[path];
+        return audio.currentTime != 0 && !audio.paused;
     }
 
     /**
@@ -180,6 +197,33 @@ class AssetManager {
         audio.pause();
         audio.currentTime = 0;
     };
+
+    /**
+     * Stops all audio currently playing.
+     */
+    stopAllAudio() {
+        for (let key in this.cache) {
+            const audio = this.cache[key];
+            if (audio instanceof Audio) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+        }
+    };
+
+    /**
+     * Stops all sound effects currently playing.
+     * This is useful for stopping all sound effects when the game is paused.
+     */
+    stopAllSFX() {
+        for (let key in this.cache) {
+            const audio = this.cache[key];
+            if (audio instanceof Audio && !audio.loop) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+        }
+    }
 
     /** 
      * Sets the volume of all audio in the cache to the given volume.
@@ -278,6 +322,14 @@ class AssetManager {
             SFX.BLEH.path,
             Portal.SPRITESHEET,
             MUSIC.CHAD_VICTORIOUS_EMOTIONAL.path,
+            MUSIC.VILLAGE_SIMPLE_LIFE.path,
+            SFX.ROBOT_DEATH1.path,
+            SFX.ROBOT_DEATH2.path,
+            DrillBot.SPRITESHEET,
+            SFX.DRILL1.path,
+            SFX.DRILL2.path,
+            SFX.PORTAL_ACTIVATE.path,
+            SFX.PORTAL_IDLE.path,
 
             // Music:
             MUSIC.PEACEFUL_CHIPTUNE.path,

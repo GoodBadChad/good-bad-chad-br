@@ -40,6 +40,7 @@ const loadVillageField = () => {
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_2.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_3.SPRITESHEET);
+        
         // NPCs
         ASSET_MGR.queueDownload(Bird.SPRITESHEET);
         ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
@@ -432,14 +433,74 @@ const loadVillageMain = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
-        GAME.addEntity(new FoodDrop(FoodDrop.BACON, Vector.blockToWorldSpace(new Vector(20, aboveGroundLevel - 2))));
-        GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(20, aboveGroundLevel - 5))));
+        GAME.addEntity(new FoodDrop(
+            Vector.blockToWorldSpace(new Vector(16, aboveGroundLevel - 5)),
+            FoodDrop.BACON,
+            false
+        ));
+
+        GAME.addEntity(new FoodDrop(
+            Vector.blockToWorldSpace(new Vector(14, aboveGroundLevel - 5)),
+            FoodDrop.BURGER,
+            false
+        ));
+
+        GAME.addEntity(new FoodDrop(
+            Vector.blockToWorldSpace(new Vector(12, aboveGroundLevel - 5)),
+            FoodDrop.ENERGY_DRINK,
+            false
+        ));
+
+        GAME.addEntity(new FoodDrop(
+            Vector.blockToWorldSpace(new Vector(10, aboveGroundLevel - 5)),
+            FoodDrop.BEEF,
+            false
+        ));
+
+        GAME.addEntity(new FoodDrop(
+            Vector.blockToWorldSpace(new Vector(8, aboveGroundLevel - 5)),
+            FoodDrop.HAM,
+            false
+        ));
+
+        GAME.addEntity(new FoodDrop(
+            Vector.blockToWorldSpace(new Vector(6, aboveGroundLevel - 5)),
+            FoodDrop.CHICKEN,
+            false
+        ));
+
+        GAME.addEntity(new FoodDrop(
+            Vector.blockToWorldSpace(new Vector(4, aboveGroundLevel - 5)),
+            FoodDrop.STEAK,
+            false
+        ));
+
+        GAME.addEntity(new FoodDrop(
+            Vector.blockToWorldSpace(new Vector(2, aboveGroundLevel - 5)),
+            FoodDrop.GIANT_MUSHROOM,
+            false
+        ));
+
+
+
+
+        // GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(20, aboveGroundLevel - 5))));
+
+        GAME.addEntity(new DrillBot(Vector.blockToWorldSpace(new Vector(25, aboveGroundLevel - 5))));
+        // const drillBot = new DrillBot(Vector.blockToWorldSpace(new Vector(30, aboveGroundLevel - 5)));
+        // GAME.addEntity(drillBot);
+        // drillBot.statusEffect.apply(StatusEffect.giant);
+
+
+        // draw portal
+        GAME.addEntity(new Portal(new Vector(6, 13.5), Portal.PURPLE));
+        GAME.addEntity(new Portal(new Vector(10, 13.5), Portal.YELLOW));
 
         // NOTE: we can't activate music until the user has interacted with the canvas. (this issue is inherent to HTML5)
         //  If listening for a click is the only way to activate music, that's fine. 
         //  Our game's START button in the final version can be the trigger.
         // let playMusic = () => {
-        //     ASSET_MGR.playMusic(MUSIC.CHAD_PLAYFUL_ADVENTURE.path, MUSIC.CHAD_PLAYFUL_ADVENTURE.volume);
+        //     ASSET_MGR.playMusic(MUSIC.VILLAGE_SIMPLE_LIFE.path, MUSIC.VILLAGE_SIMPLE_LIFE.volume);
 
         //     // delete the event listener so that the music doesn't restart when the user presses a key
         //     document.body.removeEventListener('keydown', playMusic);
@@ -449,7 +510,7 @@ const loadVillageMain = () => {
         LoadingAnimation.stop();
     };
 
-    new WeatherSystem("snow", 5, "night");
+    new WeatherSystem("warm", 5, "day");
 
     LoadingAnimation.start();
     queueAssets();

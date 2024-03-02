@@ -48,12 +48,12 @@ class Bomb {
 
     /** The speed of the Bomb projectile as flies through the air */
     static get INITIAL_SPEED() {
-        return 15;
+        return 10;
     }
 
     /** The weight of the Bomb. */
     static get WEIGHT() {
-        return 0.05;
+        return 0.06;
     }
 
     /** The file path to the Bomb's spritesheet. */
@@ -70,16 +70,16 @@ class Bomb {
         return 0.8;
     }
 
-    static get MAX_BOUNCES() {
-        return 2;
-    }
+    // static get MAX_BOUNCES() {
+    //     return 2;
+    // }
 
-    static get BOUNCE_TIME() {
-        return 0.09;
-    }
+    // static get BOUNCE_TIME() {
+    //     return 0.09;
+    // }
 
     static get DAMAGE() {
-        return 20;
+        return 30;
     }
 
     /** Called when the bomb collides with a block. */

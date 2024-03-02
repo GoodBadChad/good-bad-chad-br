@@ -134,6 +134,8 @@ const SFX = {
     SNOW_CRUNCH1: { path: "./sfx/snow_crunch1.mp3", volume: 0.4 },
     SNOW_CRUNCH2: { path: "./sfx/snow_crunch2.mp3", volume: 0.4 },
     SLIME_SPLAT: { path: "./sfx/slime_splat.mp3", volume: 0.4 },
+    PORTAL_ACTIVATE: { path: "./sfx/portal_activate.mp3", volume: 0.4 },
+    PORTAL_IDLE: { path: "./sfx/portal_idle.mp3", volume: 0.15 },
 
     // Enemies
     GROWL1: { path: "./sfx/growl1.mp3", volume: 0.4 },
@@ -142,6 +144,10 @@ const SFX = {
     SMASH2: { path: "./sfx/smash2.mp3", volume: 0.4 },
     SMASH3: { path: "./sfx/smash3.mp3", volume: 0.4 },
     BLEH: { path: "./sfx/bleh.mp3", volume: 0.3 },
+    ROBOT_DEATH1: { path: "./sfx/robot_death1.mp3", volume: 0.4 },
+    ROBOT_DEATH2: { path: "./sfx/robot_death2.mp3", volume: 0.4 },
+    DRILL1: { path: "./sfx/drill1.mp3", volume: 0.4 },
+    DRILL2: { path: "./sfx/drill2.mp3", volume: 0.4 },
 }
 
 /**
@@ -161,7 +167,7 @@ const MUSIC = {
 
     // Village themes
     VILLAGE_TOWN_SQUARE: { path: "./music/village_town_square_sample.wav", volume: 0.1 },
-    // VILLAGE_CAVE: {path: "./music/village_cave.mp3", volume: 0.1},
+    VILLAGE_SIMPLE_LIFE: { path: "./music/village_simple_life.mp3", volume: 0.1 },
 
     // Forest themes
     FOREST_BOSS: { path: "./music/forest_boss.mp3", volume: 0.1 },

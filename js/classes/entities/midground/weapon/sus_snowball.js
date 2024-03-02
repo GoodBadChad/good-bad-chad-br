@@ -44,12 +44,12 @@ class SusSnowball {
 
     /** The speed of the SusSnowball projectile as flies through the air */
     static get INITIAL_SPEED() {
-        return 13;
+        return 11;
     }
 
     /** The weight of the SusSnowball. */
     static get WEIGHT() {
-        return 0.01;
+        return 0.02;
     }
 
     /** The file path to the SusSnowball's spritesheet. */
@@ -61,7 +61,7 @@ class SusSnowball {
         return 1;
     }
 
-    static get DAMAGE() {
+    static get POISON_DAMAGE() {
         return 5;
     }
 
@@ -93,13 +93,13 @@ class SusSnowball {
         if (!this.hasHit) {
             if (Math.random() < 0.5) {
                 ASSET_MGR.playSFX(SFX.SNOW_CRUNCH1.path, SFX.SNOW_CRUNCH1.volume);
-            } else {
+        } else {
                 ASSET_MGR.playSFX(SFX.SNOW_CRUNCH2.path, SFX.SNOW_CRUNCH2.volume);
             }
             
             // poison damage because, well... you know
             const poison = setInterval(() => {
-                enemy.takeDamage(SusSnowball.DAMAGE);
+                enemy.takeDamage(SusSnowball.POISON_DAMAGE);
             }, 1000);
 
             // remove poison after 10 seconds

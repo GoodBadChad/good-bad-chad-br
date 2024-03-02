@@ -44,7 +44,7 @@ class Slimeball {
 
     /** The speed of the Slimeball projectile as flies through the air */
     static get INITIAL_SPEED() {
-        return 18;
+        return 13;
     }
 
     /** The weight of the Slimeball. */
@@ -54,7 +54,7 @@ class Slimeball {
 
     /** The file path to the Slimeball's spritesheet. */
     static get SPRITESHEET() {
-        return "./sprites/projectile_slimeball_face.png";
+        return "./sprites/projectile_slimeball.png";
     }
 
     static get ALIVE_TIME() {
@@ -62,11 +62,7 @@ class Slimeball {
     }
 
     static get SLOW_DURATION() {
-        return 5;
-    }
-
-    static get SLOW_AMOUNT() {
-        return 0.3;
+        return 8;
     }
 
     static get DAMAGE() {
@@ -97,12 +93,7 @@ class Slimeball {
         if (!this.hasHit) {
             ASSET_MGR.playSFX(SFX.SLIME_SPLAT.path, SFX.SLIME_SPLAT.volume);
             enemy.takeDamage(Slimeball.DAMAGE);
-
-            enemy.speed *= Slimeball.SLOW_AMOUNT; // slow down the enemy
-
-            setTimeout(() => { // reverse the slow effect after a set duration
-                enemy.speed = enemy.baseSpeed;
-            }, Slimeball.SLOW_DURATION * 1000);
+            enemy.statusEffect.apply(StatusEffect.SLOW, Slimeball.SLOW_DURATION);
             
             this.hasHit = true;
         }

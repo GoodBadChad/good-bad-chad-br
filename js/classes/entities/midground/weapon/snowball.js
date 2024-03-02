@@ -44,12 +44,12 @@ class Snowball {
 
     /** The speed of the Snowball projectile as flies through the air */
     static get INITIAL_SPEED() {
-        return 13;
+        return 11;
     }
 
     /** The weight of the Snowball. */
     static get WEIGHT() {
-        return 0.01;
+        return 0.02;
     }
 
     /** The file path to the Snowball's spritesheet. */
