@@ -622,7 +622,7 @@ const loadWoods = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         } else if (LAST_ZONE.equals(Zone.getZones().village.insideCave)) { // Coming from main.
             // Set spawn point on the right.
-            const blockPos = new Vector(ZONE.MIN_PT.x, 15);
+            const blockPos = new Vector(ZONE.MAX_PT.x, 13);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
