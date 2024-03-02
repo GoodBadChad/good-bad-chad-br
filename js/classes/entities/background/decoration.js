@@ -329,7 +329,7 @@ class Decoration {
                     FRAME_COUNT: 1,
                     FRAME_DURATION: 1,
                     SIZE: new Vector(32, 32),
-                    SCALE: 4
+                    SCALE: 20
                 },
             }
         };
