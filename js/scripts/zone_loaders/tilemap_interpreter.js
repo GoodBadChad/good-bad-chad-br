@@ -28,40 +28,43 @@ class TilemapInterpreter {
 
                 switch (TilemapInterpreter.tilemap[y][x]) {
                     case 'S':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_UP_GROUP_GREY));
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_UP_GROUP_GREY), -1);
                         break;
                     case 'R':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_DOWN_GROUP_GREY));
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_DOWN_GROUP_GREY), -1);
                         break;
                     case 'Q':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_UP_1_GREY));
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_UP_1_GREY), -1);
                         break;
                     case 'P':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_DOWN_1_GREY));
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_DOWN_1_GREY), -1);
                         break;
                     case 'O':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_UP_GROUP));
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_UP_GROUP), -1);
                         break;
                     case 'N':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_DOWN_GROUP));
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_DOWN_GROUP), -1);
                         break;
                     case 'M':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_UP_1));
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_UP_1), -1);
                         break;
                     case 'L':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_DOWN_1));
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_DOWN_1), -1);
                         break;
                     case 'K':
                         GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_4), 1);
                         break;
                     case 'J':
                         GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_3));
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_3), 1);
                         break;
                     case 'I':
                         GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_2));
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_2), 1);
                         break;
                     case 'H':
                         GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_1));
+                        GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_1), 1);
                         break;
                     case 'G':
                         GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE_DARK), -1);
