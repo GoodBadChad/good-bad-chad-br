@@ -16,7 +16,7 @@ class ParticleEffect {
      * @param {number} options.lifetime - The lifetime of the particles in seconds.
      * @param {string} options.color - The color of the particles.
      * @param {number} options.opacity - The opacity of the particles.
-     * @param {string} options.behavior - The behavior of the particles ()
+     * @param {string} options.behavior - The behavior of the particles (e.g. ParticleEffect.RISE).
      */
     constructor(center, {spread, size, amount, lifetime, color, opacity, behavior}) {
         this.particles = [];
@@ -55,7 +55,7 @@ class ParticleEffect {
             }
 
             // apply the behavior
-            if (this.behavior == ParticleEffect.EXPAND) {
+            if (this.behavior == ParticleEffect.FAST_EXPAND) {
                 const speed = 3;
                 const displacement = Vector.direction(this.center, currParticle.pos);
                 currParticle.pos = Vector.add(currParticle.pos, Vector.multiply(displacement, speed));
@@ -74,6 +74,7 @@ class ParticleEffect {
             } else if (this.behavior == ParticleEffect.WIGGLE) {
                 currParticle.pos.x += Math.random() * 2 - 1;
                 currParticle.pos.y += Math.random() * 2 - 1;
+
             } else if (this.behavior == ParticleEffect.EXPAND_UP) {
                 const speed = 1.5;
                 const displacement = Vector.direction(this.center, currParticle.pos);
@@ -82,22 +83,27 @@ class ParticleEffect {
                     displacement.y = 0;
                 }
                 currParticle.pos = Vector.add(currParticle.pos, Vector.multiply(displacement, speed));
+
             } else if (this.behavior == ParticleEffect.SLOW_EXPAND) {
                 const speed = 1.5;
                 const displacement = Vector.direction(this.center, currParticle.pos);
                 currParticle.pos = Vector.add(currParticle.pos, Vector.multiply(displacement, speed));
+                
             } else if (this.behavior == ParticleEffect.WANDER) {
                 // create new dir based off old dir
-                const speed = 0.1;
+                const speed = 0.02;
                 const newXDir = Math.random() * 2 - 1;
                 const newYDir = Math.random() * 2 - 1;
                 currParticle.dir = Vector.add(currParticle.dir, new Vector(newXDir, newYDir));
-
-                // const testPos = Vector.add(currParticle.pos, Vector.multiply(currParticle.dir, speed));
-                // if (testPos.x > this.bounds || testPos.x < -this.bounds || testPos.y > this.bounds || testPos.y < -this.bounds) {
-                //     currParticle.dir = Vector.multiply(currParticle.dir, -1);
-                // }
                 currParticle.pos = Vector.add(currParticle.pos, Vector.multiply(currParticle.dir, speed));
+                
+                // if the particle is out of bounds, reset it to the center
+                if (currParticle.pos.x > this.center.x + this.bounds 
+                    || currParticle.pos.x < this.center.x - this.bounds 
+                    || currParticle.pos.y > this.center.y + this.bounds 
+                    || currParticle.pos.y < this.center.y - this.bounds) {
+                    currParticle.pos = this.center;
+                }
             }
 
             // if FREEZE, do nothing
@@ -134,13 +140,12 @@ class ParticleEffect {
     /**
      * A behavior for particles that expands from the center.
      */
-    static get EXPAND() {
+    static get FAST_EXPAND() {
         return 1;
     }
 
     /**
      * A behavior for particles that contracts to the center.
-     * (Note: this is not the same as EXPAND in reverse.)
      */
     static get CONTRACT() {
         return 2;
@@ -174,11 +179,16 @@ class ParticleEffect {
         return 6;
     }
 
-
+    /**
+     * A behavior for particles that expand slowly.
+     */
     static get SLOW_EXPAND() {
         return 7;
     }
 
+    /**
+     * A behavior for particles that wander around, choosing a slightly different direction each update.
+     */
     static get WANDER() {
         return 8;
     }
@@ -222,9 +232,9 @@ class ParticleEffect {
      */
     static get DIRT_SPRAY() {
         return {
-            spread: 30,
-            size: 3,
-            amount: 5,
+            spread: 40,
+            size: 4,
+            amount: 10,
             lifetime: 1,
             color: COLORS.BROWN,
             opacity: 0.9,
@@ -243,7 +253,7 @@ class ParticleEffect {
             lifetime: 1,
             color: COLORS.WHITE,
             opacity: 0.9,
-            behavior: ParticleEffect.EXPAND
+            behavior: ParticleEffect.FAST_EXPAND
         };
     }
 
@@ -324,7 +334,7 @@ class ParticleEffect {
             lifetime: 0.5,
             color: COLORS.ORANGE,
             opacity: 1.0,
-            behavior: ParticleEffect.EXPAND
+            behavior: ParticleEffect.FAST_EXPAND
         };
     }
 
@@ -379,6 +389,18 @@ class ParticleEffect {
         };
     }
 
+    static get GRAY_SPARKLE() {
+        return {
+            spread: 80,
+            size: 4,
+            amount: 5,
+            lifetime: 0.3,
+            color: COLORS.GRAY,
+            opacity: 0.7,
+            behavior: ParticleEffect.SLOW_EXPAND
+        };
+    }
+
     static get MAGIC_PURPLE() {
         return {
             spread: 80,
@@ -391,15 +413,28 @@ class ParticleEffect {
         };
     }
 
-    static get MAGIC_YELLOW() {
+    static get AURA_PURPLE() {
         return {
-            spread: 80,
-            size: 4,
-            amount: 10,
-            lifetime: 0.3,
+            spread: 140,
+            size: 6,
+            amount: 8,
+            lifetime: 10,
+            color: COLORS.PURPLE,
+            opacity: 0.7,
+            behavior: ParticleEffect.WANDER
+        };
+    }
+
+    static get AURA_YELLOW() {
+        return {
+            spread: 140,
+            size: 6,
+            amount: 8,
+            lifetime: 10,
             color: COLORS.YELLOW,
             opacity: 0.7,
             behavior: ParticleEffect.WANDER
         };
     }
+
 }
