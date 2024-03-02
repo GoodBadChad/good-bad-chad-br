@@ -1,12 +1,16 @@
+const dirToImgIndex = {
+    down: 0,
+    left: 1,
+    right: 2,
+}
 /**
- * Creates falling rain or snow.
+ * Drops a single raindrop or snowflake is added creating precipitation.
  * 
  * @author Caleb Krauter
  */
 class Precipitation {
 
     /**
-     * Based on the parameters a single raindrop or snowflake is added creating precipitation.
      * 
      * @param {String} dir direction that the drop should be falling.
      * @param {Vector} pos initial position of the drop.
@@ -16,21 +20,13 @@ class Precipitation {
     constructor(dir, pos, type, scale) {
         this.dir = dir;
         this.origin = pos;
-        // Setting this.pos to (0, 0) makes rain/snow fall naturally when it starts falling.
-        this.pos = new Vector(0, 0);
+        // Setting this.pos to (-5-, 0) makes rain/snow fall naturally when it starts falling
+        // by putting it off the screen for the first drops before resetting to a natural position.
+        this.pos = new Vector(-50, 0);
         this.type = type;
         this.velocity = new Vector(0, 0);
         this.scale = scale;
         this.imgIndex = 0;
-        const dirToImgIndex = {
-            down: 0,
-            left: 1,
-            right: 2,
-        }
-        const weatherType = {
-            RAIN: "rain",
-            SNOW: "snow"
-        };
 
         if (type === weatherType.RAIN) {
             this.imgIndex = dirToImgIndex[this.dir];
