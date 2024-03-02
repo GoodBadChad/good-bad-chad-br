@@ -87,9 +87,10 @@ class Yeti {
         this.removeFromWorld = true;
 
         // add a piece of bacon in the Yeti's place at bottom-center of yeti
-        const baconPos = new Vector(this.pos.x + Yeti.SCALED_SIZE.x / 2, this.pos.y + Yeti.SCALED_SIZE.y / 2);
-        GAME.addEntity(new FoodDrop(FoodDrop.BACON, baconPos));
+        const pos = this.base.getCenter();
+        GAME.addEntity(new FoodDrop(pos, FoodDrop.GIANT_MUSHROOM));
     }
+
     
     /** Update the Yeti. */
     update() {
@@ -147,6 +148,11 @@ class Yeti {
     /** Draw the Yeti. */
     draw() {
         this.animations[this.base.getFacing()][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), Yeti.SCALE);
+
+        //* draw bounding box in red
+        // CTX.strokeStyle = "red";
+        // const pos2 = Vector.worldToCanvasSpace(this.boundingBox.pos);
+        // CTX.strokeRect(pos2.x, pos2.y, this.boundingBox.size.x, this.boundingBox.size.y);
     };
 
     /** Called by the constructor. Fills up the animations array. */

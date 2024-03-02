@@ -88,22 +88,9 @@ class Snake {
         this.action = "dying";
 
         // add a piece of food in the snake's place at bottom-center of snake
-        // if (Math.random() < 0.5) {
-        //     GAME.addEntity(new FoodDrop(
-        //         FoodItem.STEAK,
-        //         new Vector(this.pos.x, this.pos.y - 30)
-        //     ));
-
-        // } else {
-        //     GAME.addEntity(new FoodDrop(
-        //         FoodItem.ENERGY_DRINK,
-        //         new Vector(this.pos.x, this.pos.y - 30)
-        //     ));
-        // }
-
         GAME.addEntity(new FoodDrop(
-            FoodItem.GIANT_MUSHROOM,
-            new Vector(this.pos.x, this.pos.y - 50)
+                new Vector(this.pos.x, this.pos.y - 50),
+                FoodItem.GIANT_MUSHROOM
         ));
     }
     
@@ -128,7 +115,7 @@ class Snake {
                 if (secondsSinceLastAttack > Snake.ATTACK_COOLDOWN) {
                     // if it's been long enough, start a new attack 
                     this.state = "pursue";
-                    this.base.setTargetX(CHAD.pos.x);
+                    this.base.setTargetX(CHAD.getCenter().x);
                     this.animations[this.base.getFacing()]["attacking"].elapsedTime = 0;
                     this.action = "attacking";
                     this.lastAttack = Date.now() / 1000;

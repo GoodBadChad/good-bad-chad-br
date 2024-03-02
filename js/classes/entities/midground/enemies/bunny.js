@@ -71,18 +71,10 @@ class Bunny {
         this.action = "dying";
 
         // add a piece of food in the bunny's place at bottom-center of bunny
-        if (Math.random() < 0.5) {
-            GAME.addEntity(new FoodDrop(
-                FoodItem.CHICKEN,
-                new Vector(this.pos.x, this.pos.y - 1)
-            ));
-
-        } else {
-            GAME.addEntity(new FoodDrop(
-                FoodItem.BURGER,
-                new Vector(this.pos.x, this.pos.y - 1)
-            ));
-        }
+        GAME.addEntity(new FoodDrop(
+            new Vector(this.pos.x, this.pos.y - 10),
+            FoodItem.CHICKEN
+        ));
     }
     
     /** Change what the Bunny is doing and where it is. */

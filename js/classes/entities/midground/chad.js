@@ -43,14 +43,7 @@ class Chad {
         this.speed = Chad.DEFAULT_SPEED;
         /** Chad's damage multiplier (applied on sword/slingshot hit) */
         this.damageMultiplier = 1;
-        /** Chad's invincibility state. (bacon ability) */
-        this.isInvincible = false;
-        /** Chad's strength state. (burger ability) */
-        this.isStrong = false;
-        /** Chad's speed state. (energy drink ability )*/
-        this.isFast = false;
-        /** Whether Chad can damage enemies by simply colliding with them. (giant mushroom ability) */
-        this.touchKill = false;
+
         /** The size of Chad on the canvas */
         this.scaledSize = new Vector(Chad.DEFAULT_BOUNDING_BOX_SIZE.x * Chad.DEFAULT_SCALE.x, 
             Chad.DEFAULT_BOUNDING_BOX_SIZE.y * Chad.DEFAULT_SCALE.y);
@@ -76,6 +69,14 @@ class Chad {
         this.scale = Chad.DEFAULT_SCALE;
         /** Used to check for collisions with other applicable entities. */
         this.boundingBox = this.createBoundingBox();
+
+        /**
+         * Chad's timers for special effects.
+         * Includes invincibility, strength, giant size, and speed.
+         * 
+         * NOTE: Relies upon Chad's scale during its initialization.
+         */
+        this.statusEffect = new StatusEffect(this);
     };
 
     /** The size, in pixels of the sprite ON THE SPRITESHEET. */
@@ -160,12 +161,7 @@ class Chad {
 
         // we need to update the scaled size of Chad when we change his scale
         // this is the reason we have a getter and setter for scale
-        // this.scaledSize = new Vector(Chad.SIZE.x * this._scale.x, Chad.SIZE.y * this._scale.y);
         this.scaledSize = new Vector(Chad.DEFAULT_BOUNDING_BOX_SIZE.x * this._scale.x, Chad.DEFAULT_BOUNDING_BOX_SIZE.y * this._scale.y);
-
-
-        // this.scaledSize = new Vector(Chad.BOUNDING_BOX_SIZE.x * this._scale.x, 
-        //     Chad.BOUNDING_BOX_SIZE.y * this._scale.y);
     }
 
     /**
@@ -176,13 +172,24 @@ class Chad {
         return this._scale;
     }
 
+    // set pos(newPos) {
+    //     this._pos = newPos;
+    //     this.center = new Vector(this._pos.x + this.getBoundingBoxOffset().x + this.scaledSize.x / 2, 
+    //         this._pos.y + this.getBoundingBoxOffset().y + this.scaledSize.y / 2);
+    // }
+
+    // get pos() {
+    //     return this._pos;
+    // }
+
+
     /** 
      * Generate the bounding box for Chad based on his current position. 
      * 
      * @returns {BoundingBox} Chad's new bounding box
      */
     createBoundingBox() {
-        return new BoundingBox(Vector.add(this.pos, this.scaleBoundingBoxOffset()), this.scaledSize);
+        return new BoundingBox(Vector.add(this.pos, this.getBoundingBoxOffset()), this.scaledSize);
     }
 
     /**
@@ -191,10 +198,20 @@ class Chad {
      * 
      * @returns {Vector} Chad's current bounding box offset
      */
-    scaleBoundingBoxOffset() {
+    getBoundingBoxOffset() {
         return new Vector(Chad.DEFAULT_BOUNDING_BOX_OFFSET.x * this.scale.x,
             Chad.DEFAULT_BOUNDING_BOX_OFFSET.y * this.scale.y);
     }
+
+    getCenter() {
+        return new Vector(this.pos.x + this.getBoundingBoxOffset().x + this.scaledSize.x / 2, 
+        this.pos.y + this.getBoundingBoxOffset().y + this.scaledSize.y / 2);
+    }
+
+    getTopLeft() {
+        return new Vector(this.pos.x + this.getBoundingBoxOffset().x, this.pos.y + this.getBoundingBoxOffset().y);
+    }
+
 
     /** 
      * Decrease the health of Chad by the provided amount and perform any necessary operations
@@ -204,7 +221,7 @@ class Chad {
      */
     takeDamage(amount) {
         if (this.health > 0) {
-            if (this.isInvincible) {
+            if (this.statusEffect.invincible) {
                 ASSET_MGR.playSFX(SFX.DING.path, SFX.DING.volume);
                 return;
             }
@@ -263,7 +280,7 @@ class Chad {
                 // if you're on the ground, running, AND moving, release dust particles
                 if (this.isOnGround) {
                     GAME.addEntity(new ParticleEffect(
-                        new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y - 10),
+                        Vector.add(this.getCenter(), new Vector(0, this.scaledSize.y / 2 - 10)),
                         ParticleEffect.LITTLE_DUST)
                     );
                 }
@@ -298,8 +315,7 @@ class Chad {
 
             // release wind particles every 0.05 seconds
             if (GAME.gameTime % 0.05 < 0.01) { // we use `< 0.01` instead of `== 0` to avoid floating point errors
-                GAME.addEntity(new ParticleEffect(new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y/2), 
-                                        ParticleEffect.WIND));
+                GAME.addEntity(new ParticleEffect(this.getCenter(), ParticleEffect.WIND));
             }
 
             this.action = "dashing";
@@ -400,9 +416,12 @@ class Chad {
         // If Chad can double jump and user is trying to jump than do it!
         if (this.canDoubleJump && GAME.user.jumping && !this.isOnGround) {
             ASSET_MGR.playSFX(SFX.JUMP2.path, SFX.JUMP2.volume);
+
             GAME.addEntity(new ParticleEffect( 
-            new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y-10),
-                ParticleEffect.CLOUD));
+                Vector.add(this.getCenter(), new Vector(0, this.scaledSize.y / 2 - 10)),
+                    ParticleEffect.CLOUD)
+            );
+
             this.action = "jumping";
             yVelocity = -this.secondJumpVelocity;
             this.canDoubleJump = false;
@@ -477,23 +496,32 @@ class Chad {
 
 
         // check if Chad has special effects
-        if (this.isInvincible && GAME.gameTime % 0.1 < 0.01) {
-            GAME.addEntity(new ParticleEffect(
-                new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y/2),
-                ParticleEffect.GOLD_SPARKLE)
-            );
+        if (this.statusEffect.invincible > 0) {
+            if (GAME.gameTime % 0.1 < 0.01) {
+                GAME.addEntity(new ParticleEffect(
+                    this.getCenter(),
+                    ParticleEffect.GOLD_SPARKLE)
+                );
+            }
+            this.statusEffect.invincible -= GAME.clockTick;
         }
-        if (this.isStrong && GAME.gameTime % 0.1 < 0.01) {
-            GAME.addEntity(new ParticleEffect(
-                new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y/2),
-                ParticleEffect.RED_SPARKLE)
-            );
+        if (this.statusEffect.strong > 0) {
+            if (GAME.gameTime % 0.1 < 0.01) {
+                GAME.addEntity(new ParticleEffect(
+                    this.getCenter(),
+                    ParticleEffect.RED_SPARKLE)
+                );
+            }
+            this.statusEffect.strong -= GAME.clockTick;
         }
-        if (this.isFast && GAME.gameTime % 0.1 < 0.01) {
-            GAME.addEntity(new ParticleEffect(
-                new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y/2),
-                ParticleEffect.GREEN_SPARKLE)
-            );
+        if (this.statusEffect.fast > 0) {
+            if (GAME.gameTime % 0.1 < 0.01) {
+                GAME.addEntity(new ParticleEffect(
+                    this.getCenter(),
+                    ParticleEffect.GREEN_SPARKLE)
+                );
+            }
+            this.statusEffect.fast -= GAME.clockTick;
         }
 
 
@@ -533,16 +561,18 @@ class Chad {
                             && this.lastBoundingBox.right > entity.boundingBox.left;
                         const isOverlapY = this.lastBoundingBox.bottom > entity.boundingBox.top
                             && this.lastBoundingBox.top < entity.boundingBox.bottom;
-                        const bbOffset = this.scaleBoundingBoxOffset();
+                        const bbOffset = this.getBoundingBoxOffset();
 
                         // First, check for X-axis collisions
                         if (isOverlapY) {
                             if (this.lastBoundingBox.right <= entity.boundingBox.left
-                                && this.boundingBox.right > entity.boundingBox.left) {
+                                && this.boundingBox.right > entity.boundingBox.left
+                                && !entity.canPassThru.left) {
                                 // We are colliding with the left side.
                                 this.pos = new Vector(entity.boundingBox.left - this.scaledSize.x - bbOffset.x, this.pos.y);
                             } else if (this.lastBoundingBox.left >= entity.boundingBox.right
-                                && this.boundingBox.left < entity.boundingBox.right) {
+                                && this.boundingBox.left < entity.boundingBox.right
+                                && !entity.canPassThru.right) {
                                 // We are colliding with the right side.
                                 this.pos = new Vector(entity.boundingBox.right - bbOffset.x, this.pos.y);
                             }
@@ -556,14 +586,16 @@ class Chad {
                         // Then, check for Y-axis collisions
                         if (isOverlapX) {
                             if (this.lastBoundingBox.bottom <= entity.boundingBox.top
-                                && this.boundingBox.bottom > entity.boundingBox.top) {
+                                && this.boundingBox.bottom > entity.boundingBox.top
+                                && !entity.canPassThru.top) {
                                 // We are colliding with the top.
                                 this.pos = new Vector(this.pos.x, entity.boundingBox.top - this.scaledSize.y - bbOffset.y);
                                 this.velocity = new Vector(this.velocity.x, 0);
                                 this.isOnGround = true;
                                 this.prevYPosOnGround = this.pos.y;
                             } else if (this.lastBoundingBox.top >= entity.boundingBox.bottom
-                                && this.boundingBox.top < entity.boundingBox.bottom) {
+                                && this.boundingBox.top < entity.boundingBox.bottom
+                                && !entity.canPassThru.bottom) {
                                 // We are colliding with the bottom.
                                 this.pos = new Vector(this.pos.x, entity.boundingBox.bottom - bbOffset.y);
                             }
@@ -579,8 +611,9 @@ class Chad {
                             entity.conversation.initiateConversation();
                         }
                     } else if (entity.isEnemy) {
-                        if (this.touchKill && GAME.gameTime % 0.5 < 0.01) { // every 0.5 seconds
+                        if (this.statusEffect.giant && this.statusEffect.canCrush) { // every 0.5 seconds
                             entity.takeDamage(5);
+                            this.statusEffect.didSomeStomping();
                         }
                     }
                 }
@@ -597,10 +630,11 @@ class Chad {
     draw() {
         this.animations[this.facing][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), this.scale);
 
-        //* draw scaled size in blue
+        //* draw spritesheet box in blue
         // CTX.strokeStyle = "blue";
         // const pos = Vector.worldToCanvasSpace(this.pos);
-        // CTX.strokeRect(pos.x, pos.y, this.scaledSize.x, this.scaledSize.y);
+        // const scale = this.scale || Chad.DEFAULT_SCALE;
+        // CTX.strokeRect(pos.x, pos.y, Chad.SIZE.x * scale.x, Chad.SIZE.y * scale.y);
 
         //* draw bounding box in red
         // CTX.strokeStyle = "red";

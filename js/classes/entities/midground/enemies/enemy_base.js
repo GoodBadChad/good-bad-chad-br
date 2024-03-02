@@ -10,7 +10,7 @@ class EnemyBase {
      * 
      * @param {Entity} enemy the enemy associated with this EnemyBase
      * @param {Vector} pos the initial position of the enemy
-     * @param {number} size the size of the enemy
+     * @param {number} scaledSize the size of the enemy
      * @param {number} speed the speed of the enemy
      * @param {number} health the initial health of the enemy
      * @param {number} maxRoamDistance the maximum distance the enemy will wander 
@@ -21,31 +21,36 @@ class EnemyBase {
      * @param {number} reactionDistance the maximum distance that the enemy will 
      *      react to Chad according to its stance and state
      */
-    constructor(enemy, pos, size, speed, health, maxRoamDistance, onDeath, stance, reactionDistance) {
+    constructor(enemy, pos, scaledSize, speed, health, maxRoamDistance, onDeath, stance, reactionDistance) {
         this.enemy = enemy;
         enemy.pos = pos;
         
         enemy.state = "roam";
         enemy.action = "idle";
-        enemy.size = size;
+        enemy.scaledSize = scaledSize;
         enemy.speed = speed; // *
         enemy.baseSpeed = speed;
         enemy.health = health; // *
         enemy.maxRoamDistance = maxRoamDistance; // *
         enemy.yVelocity = 0;
         enemy.isEnemy = true; // used for collision checks
+        enemy.statusEffect = new StatusEffect(enemy);
+        GAME.addEntity(enemy.statusEffect);
 
-        enemy.boundingBox = new BoundingBox(pos, size);
+        enemy.boundingBox = new BoundingBox(pos, scaledSize);
         enemy.lastBoundingBox = this.enemy.boundingBox;
+
+        enemy.getCenter = () => this.getCenter(); // re-direct any references towards the enemy's getCenter to this one
+        enemy.getTopLeft = () => this.getTopLeft(); // re-direct any references towards the enemy's getTopLeft to this one
 
         this.maxHealth = health; 
         this.onDeath = onDeath;
         this.minRoamX = pos.x - maxRoamDistance;
         this.targetX = pos.x;
         this.stance = stance;
-        this.reactionDistance = reactionDistance ?? Camera.SIZE.x / 2 - size.x;
+        this.reactionDistance = reactionDistance ?? Camera.SIZE.x / 2 - scaledSize.x;
 
-        GAME.addEntity(new HealthBar(enemy, health, size.x));
+        GAME.addEntity(new HealthBar(enemy, health, scaledSize.x));
 
         if (!enemy.takeDamage) {
             enemy.takeDamage = (amount) => this.takeDamage(amount);
@@ -53,11 +58,19 @@ class EnemyBase {
     }
 
     /** 
-     * Aggressive enemy stance. Aggressive enemies will pursue Chad any time he
+     * Aggressive enemy stance for melee attacks. Aggressive enemies will pursue Chad any time he
      * is within their maximum reaction distance. 
      */
-    static get AGGRESSIVE_STANCE() {
-        return "aggressive";
+    static get AGGRESSIVE_MELEE_STANCE() {
+        return "aggressiveMelee";
+    }
+
+    /**
+     * Aggressive enemy stance for ranged attacks. Aggressive enemies will pursue Chad any time he
+     * is within their maximum reaction distance.
+     */
+    static get AGGRESSIVE_RANGED_STANCE() {
+        return "aggressiveRanged";
     }
 
     /** 
@@ -95,7 +108,7 @@ class EnemyBase {
         } else {
             // otherwise, make it react
             switch (this.stance) {
-                case EnemyBase.AGGRESSIVE_STANCE:
+                case EnemyBase.AGGRESSIVE_MELEE_STANCE:
                 case EnemyBase.DEFENSIVE_STANCE:
                     this.enemy.state = "pursue";
                     break;
@@ -131,7 +144,7 @@ class EnemyBase {
      * @returns {number} -1 for left and 1 for right
      */
     getDirection() {
-        return this.targetX - this.enemy.pos.x > 0 ? 1 : -1;
+        return this.targetX - this.getCenter().x > 0 ? 1 : -1;
     }
 
     /**
@@ -153,15 +166,31 @@ class EnemyBase {
     }
 
     /**
+     * Get the center of the enemy.
+     * @returns {Vector} the center of the enemy
+     */
+    getCenter() {
+        // console.log("enemy center pos: ", Vector.add(this.enemy.pos, new Vector(this.enemy.scaledSize.x / 2, this.enemy.scaledSize.y / 2)));
+        return Vector.add(this.enemy.pos, new Vector(this.enemy.scaledSize.x / 2, this.enemy.scaledSize.y / 2));
+    }
+
+    /**
+     * Used for status effect checks.
+     * @returns {Vector} the top left corner of the enemy
+     */
+    getTopLeft() {
+        return this.enemy.pos;
+    }
+
+    /**
      * Calculates the distance between Chad and the enemy, comparing their bottom left corners
      * in order to avoid having to account for character/enemy height.
      * 
      * @returns {number} the distance between the bottom left corners of Chad and the enemy
      */
     chadDistance() {
-        return Vector.distance(Vector.add(CHAD.pos, 
-             new Vector(0, CHAD.scaledSize.y)),
-            Vector.add(this.enemy.pos, new Vector(0, this.enemy.size.y)));
+        return Vector.distance(Vector.add(CHAD.getCenter(), new Vector(0, CHAD.scaledSize.y / 2)),
+            Vector.add(this.getCenter(), new Vector(0, this.enemy.scaledSize.y / 2)));
     }
     
     /**
@@ -175,7 +204,7 @@ class EnemyBase {
 
             if (this.chadDistance() < this.reactionDistance) {
                 // if Chad is within our reaction distance, react based on our stance.
-                if (this.stance === EnemyBase.AGGRESSIVE_STANCE) {
+                if (this.stance === EnemyBase.AGGRESSIVE_MELEE_STANCE) {
                     this.enemy.state = "pursue";
                 } else if (this.stance === EnemyBase.AVOID_STANCE) {
                     this.flee();
@@ -190,10 +219,10 @@ class EnemyBase {
             // if we're pursuing Chad, update the target position to Chad's position
             // also avoid changing direction in the middle of an attack animation
             if (this.enemy.state === "pursue" && this.enemy.action != "attacking") {
-                this.setTargetX(CHAD.pos.x);
+                this.setTargetX(CHAD.getCenter().x);
             }
 
-            if (Math.abs(this.targetX - this.enemy.pos.x) < this.enemy.size.x / 2) {
+            if (Math.abs(this.targetX - this.getCenter().x) < this.enemy.scaledSize.x / 2) {
                 // if we've reached our target position and we're roaming, set a new target position
                 if (this.enemy.state === "roam") {
                     this.setTargetX(this.minRoamX + Math.random() * 2 * this.enemy.maxRoamDistance);
@@ -216,8 +245,8 @@ class EnemyBase {
 
             // Update bounding box and check collisions.
             this.enemy.lastBoundingBox = this.enemy.boundingBox;
-            this.enemy.boundingBox = new BoundingBox(this.enemy.pos, this.enemy.size);
-            checkBlockCollisions(this.enemy, this.enemy.size);
+            this.enemy.boundingBox = new BoundingBox(this.enemy.pos, this.enemy.scaledSize);
+            checkBlockCollisions(this.enemy, this.enemy.scaledSize);
         } 
     }
 }
