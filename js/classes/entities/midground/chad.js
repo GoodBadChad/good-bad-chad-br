@@ -172,7 +172,8 @@ class Chad {
         this.sword = new Sword();
         GAME.addEntity(this.sword, 1);
 
-        GAME.addEntity(new Slingshot());
+        this.slingshot = new Slingshot();
+        GAME.addEntity(this.slingshot);
     }
 
     /**
@@ -473,7 +474,6 @@ class Chad {
        
         if (this.sword.isSlicing()) {
             this.action = "slicing";
-            // GAME.user.aiming = false; // might want to disable aiming while jabbing, giving priority to jabbing
         }
 
         // leave it up to the slingshot to decide where chad is aiming
@@ -493,41 +493,7 @@ class Chad {
             }
         }
 
-
-        /*
-        // check if Chad has special effects
-        if (this.statusEffect.invincible > 0) {
-            if (GAME.gameTime % 0.1 < 0.01) {
-                GAME.addEntity(new ParticleEffect(
-                    this.getCenter(),
-                    ParticleEffect.GOLD_SPARKLE)
-                );
-            }
-            this.statusEffect.invincible -= GAME.clockTick;
-        }
-        if (this.statusEffect.strong > 0) {
-            if (GAME.gameTime % 0.1 < 0.01) {
-                GAME.addEntity(new ParticleEffect(
-                    this.getCenter(),
-                    ParticleEffect.RED_SPARKLE)
-                );
-            }
-            this.statusEffect.strong -= GAME.clockTick;
-        }
-        if (this.statusEffect.fast > 0) {
-            if (GAME.gameTime % 0.1 < 0.01) {
-                GAME.addEntity(new ParticleEffect(
-                    this.getCenter(),
-                    ParticleEffect.GREEN_SPARKLE)
-                );
-            }
-            this.statusEffect.fast -= GAME.clockTick;
-        }
-        */
-
-
         if (this.isOnGround && !(GAME.user.movingRight || GAME.user.movingLeft)) {
-            this.action = "idle";
             if (this.sword.isSlicing()) {
                 this.action = "slicingStill";
             }
