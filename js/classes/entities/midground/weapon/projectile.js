@@ -81,15 +81,14 @@ class Projectile {
         return {
             [Projectile.BOMB]: {
                 ACTION: (targetEntity, projectile) => {
-                    // setTimeout(() => {
-                        GAME.addEntity(new ParticleEffect(projectile.pos, ParticleEffect.SMALL_EXPLOSION));
-                        ASSET_MGR.playSFX(SFX.EXPLOSION_SMALL.path, SFX.EXPLOSION_SMALL.volume);
-                        projectile.removeFromWorld = true;
-                        if (targetEntity.takeDamage) {
-                            targetEntity.takeDamage(10);
-                        }
-                    // }, 1000);
-                    
+
+                    // check for collisions with blocks
+                    GAME.addEntity(new ParticleEffect(projectile.pos, ParticleEffect.SMALL_EXPLOSION));
+                    ASSET_MGR.playSFX(SFX.EXPLOSION_SMALL.path, SFX.EXPLOSION_SMALL.volume);
+                    projectile.removeFromWorld = true;
+                    if (targetEntity.takeDamage) {
+                        targetEntity.takeDamage(10);
+                    }
                 },
                 SPEED: 15,
                 WEIGHT: 0.05,

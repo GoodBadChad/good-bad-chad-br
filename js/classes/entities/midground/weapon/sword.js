@@ -18,7 +18,7 @@ class Sword {
 
     /** The size of the Sword in the game world before scaling. */
     static get SIZE() {
-        return new Vector(40, Chad.BOUNDING_BOX_SIZE.y);
+        return new Vector(40, Chad.DEFAULT_BOUNDING_BOX_SIZE.y);
     };
 
     /** The spritesheet containing all the Sword types. */
@@ -54,9 +54,9 @@ class Sword {
      * @returns {Vector} the current position of the Sword's bounding box
      */
     calculatePosition() {
-        const chadBBOffset = CHAD.scaleBoundingBoxOffset().x;
+        const chadBBOffset = CHAD.getBoundingBoxOffset().x;
         const offset = (CHAD.facing === "left") ? -this.calculateSize().x + chadBBOffset : chadBBOffset + CHAD.scaledSize.x;
-        return Vector.add(CHAD.pos, new Vector(offset, CHAD.scaleBoundingBoxOffset().y));
+        return Vector.add(CHAD.pos, new Vector(offset, CHAD.getBoundingBoxOffset().y));
     }
 
     /**
@@ -82,6 +82,11 @@ class Sword {
                 this.hasHit = false;
                 this.lastAttack = Date.now();
 
+                // choose from 3 different swing sounds
+                const rand = Math.floor(Math.random() * 3) + 8;
+                const sfx = SFX["SWORD_SWING" + rand];
+                ASSET_MGR.playSFX(sfx.path, sfx.volume);
+
                 // reset Chad's attack animations
                 CHAD.animations[CHAD.facing]["slicing"].elapsedTime = 0;
                 CHAD.animations[CHAD.facing]["slicingStill"].elapsedTime = 0;
@@ -96,7 +101,11 @@ class Sword {
                     if (bb.collide(entity.boundingBox)) {
                         entity.takeDamage(Sword.DAMAGE * CHAD.damageMultiplier);
                         this.hasHit = true;
-                        ASSET_MGR.playSFX(SFX.SWORD_HIT.path, SFX.SWORD_HIT.volume);
+                        
+                        // choose from 3 different hit sounds
+                        const rand = Math.floor(Math.random() * 3) + 1;
+                        const sfx = SFX["SWORD_HIT" + rand];
+                        ASSET_MGR.playSFX(sfx.path, sfx.volume);
                     }
                 }
             });

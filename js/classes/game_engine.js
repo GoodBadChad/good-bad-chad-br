@@ -153,10 +153,6 @@ class GameEngine {
         this.lastKeyTime.keyD += GAME.clockTick;
 
 
-        // I'm not gonna touch this because I don't know why it's here, but I don't think it belongs here:
-        if (this.user.firing) {
-            this.user.firing = false;
-        }
         // This fixed a bug where once you switched choices, it switched in an infinite loop.
         this.user.choiceUp  = false;
         this.user.choiceDown = false;

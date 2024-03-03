@@ -24,6 +24,26 @@ class Block {
             1, 1);
         /** Used to check for collisions with other applicable entities. */
         this.boundingBox = needsBB ? new BoundingBox(this.pos, new Vector(Block.SCALED_SIZE, Block.SCALED_SIZE)) : undefined;
+
+
+        /**
+         * The directions in which Chad can pass through this block.
+         */
+        this.canPassThru = {
+            top: false,
+            bottom: false,
+            left: false,
+            right: false
+        }
+
+        // certain blocks can be passed through by Chad
+        switch(this.type) {
+            // case Block.BRANCH:
+            //     this.canPassThru.bottom = true;
+            //     break;
+
+            // ... other cases
+        }
     };
 
     /** Grass. */
