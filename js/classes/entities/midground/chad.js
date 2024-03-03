@@ -184,6 +184,16 @@ class Chad {
 
 
     /** 
+     * Initialize Chad's slingshot and sword.
+     */
+    initWeapons() {
+        this.sword = new Sword();
+        GAME.addEntity(this.sword, 1);
+
+        GAME.addEntity(new Slingshot());
+    }
+
+    /** 
      * Generate the bounding box for Chad based on his current position. 
      * 
      * @returns {BoundingBox} Chad's new bounding box
@@ -459,7 +469,7 @@ class Chad {
         this.velocity = new Vector(newXVelocity, newYVelocity);
 
         // Step 2: Face in the direction of a mouse click
-        if (GAME.user.aiming || GAME.user.jabbing) {
+        if (GAME.user.aiming || this.sword.isSlicing()) {
             // determine if mouse is to the right or left of Chad
             // remember, the mouse is in screen coordinates, not world coordinates
             const mouseX = GAME.mousePos.x + CAMERA.pos.x;
@@ -470,9 +480,8 @@ class Chad {
                 this.facing = "left";
             }
         }
-
-        
-        if (GAME.user.jabbing) {
+       
+        if (this.sword.isSlicing()) {
             this.action = "slicing";
             // GAME.user.aiming = false; // might want to disable aiming while jabbing, giving priority to jabbing
         }
@@ -526,8 +535,8 @@ class Chad {
 
 
         if (this.isOnGround && !(GAME.user.movingRight || GAME.user.movingLeft)) {
-            // this.action = "idle";
-            if (GAME.user.jabbing) {
+            this.action = "idle";
+            if (this.sword.isSlicing()) {
                 this.action = "slicingStill";
             }
         } else if (!(this.isOnGround) && GAME.user.jumping && !(GAME.user.dashing)) {

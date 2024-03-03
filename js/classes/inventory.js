@@ -113,8 +113,8 @@ class Inventory {
 
         if (this.currentAmmo.amount != Infinity) {
             this.currentAmmo.adjustSupply(-1);
-            return this.currentAmmo.type;
         }
+        return this.currentAmmo.type;
     }
 
     /**
