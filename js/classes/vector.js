@@ -7,6 +7,7 @@
  * new instances.
  * 
  * @author Trae Claar
+ * @author Nathan Hinthorne
  */
 class Vector {
     /**
@@ -54,6 +55,21 @@ class Vector {
     };
 
     /**
+     * Divides a Vector by a scalar.
+     * 
+     * @param {Vector} v the Vector to divide
+     * @param {number} s the number by which to divide the Vector
+     * @returns {Vector} the quotient of v and s
+     * @throws {Error} Will throw an error if s is zero.
+    */
+    static divide(v, s) {
+        if (s === 0) {
+            throw new Error("Cannot divide by zero.");
+        }
+        return new Vector(v.x / s, v.y / s);
+    }
+
+    /**
      * Calculates the magnitude of the provided Vector. 
      * |v| = sqrt(x^2 + y^2), where x and y are v's x- and and y-component respectively.
      * 
@@ -98,6 +114,36 @@ class Vector {
     static direction(a, b) {
         return Vector.unit(Vector.subtract(b, a));
     };
+
+    /**
+     * Reflects a Vector across another Vector.
+     * 
+     * @param {Vector} a the Vector to reflect
+     * @param {Vector} b the Vector across which to reflect a
+     * @returns {Vector} the reflection of a across b
+     */
+    static reflect(a, b) {
+        return Vector.subtract(a, Vector.multiply(b, 2 * Vector.dot(a, b)));
+    }
+
+    static get HORIZONTAL() {
+        return new Vector(1, 0);
+    }
+
+    static get VERTICAL() {
+        return new Vector(0, 1);
+    }
+
+    /**
+     * Calculates the dot product of two Vector instances.
+     * 
+     * @param {Vector} a the first Vector
+     * @param {Vector} b the second Vector
+     * @returns {number} the dot product of a and b
+     */
+    static dot(a, b) {
+        return a.x * b.x + a.y * b.y;
+    }
 
     /**
      * Round the provided Vector's fields.

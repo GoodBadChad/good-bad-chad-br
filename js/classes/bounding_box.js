@@ -9,6 +9,9 @@ class BoundingBox {
      * @param {Vector} size The size of the bounding box.
      */
     constructor(pos, size) {
+        /** The position of the top left corner of the bounding box. */
+        this.pos = pos;
+        /** The size of the bounding box. */
         this.size = size;
         /** The x coordinate of the left boundary of the box. */
         this.left = pos.x;
@@ -18,6 +21,8 @@ class BoundingBox {
         this.top = pos.y;
         /** The y coordinate of the bottom boundary of the box. */
         this.bottom = pos.y + size.y;
+        /** Whether the bounding box is disabled. */
+        this.disabled = false;
     };
 
     /**
@@ -26,6 +31,7 @@ class BoundingBox {
      * @returns true if the two bounding boxes intersect; else false.
      */
     collide(other) {
+        if (this.disabled) return false;
         return (this.top < other.bottom) && (this.left < other.right) && (this.bottom > other.top) && (this.right > other.left);
     };
 };
