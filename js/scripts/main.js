@@ -19,6 +19,7 @@ const INVENTORY = new Inventory();
 /** The player's HUD. */
 const HUD = new Hud();
 
+
 // (2) Minor details:
 
 // Game looks bad if we try to smooth. Hard lines = good.
@@ -82,7 +83,7 @@ CANVAS.onfocus = () => {
 
 // (3) Set the current ZONE to be the first one we encounter - village.main.
 
-let ZONE = Zone.getZones().village.main;
+let ZONE = Zone.getZones().village.insideCave;
 let LAST_ZONE = null;
 // Load all assets, add all entities, place CHAD...
 ZONE.load();

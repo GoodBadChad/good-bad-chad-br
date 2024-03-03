@@ -24,32 +24,32 @@ class Hud {
     }
 
     swapToCrosshair() {
-        let crosshairCursorUnclicked = 'url(../sprites/crosshair_unclicked.png) 16 16, auto';
-        let crosshairCursorClicked = 'url(../sprites/crosshair_clicked.png) 16 16, auto';
+        const crosshairUnclicked = 'url(../sprites/crosshair_unclicked.png) 16 16, auto';
+        const crosshairClicked = 'url(../sprites/crosshair_clicked.png) 16 16, auto';
 
-        document.body.style.cursor = crosshairCursorUnclicked;
+        document.body.style.cursor = crosshairUnclicked;
 
         document.body.addEventListener('mousedown', () => {
-            document.body.style.cursor = crosshairCursorClicked;
+            document.body.style.cursor = crosshairClicked;
         });
 
         document.body.addEventListener('mouseup', () => {
-            document.body.style.cursor = crosshairCursorUnclicked;
+            document.body.style.cursor = crosshairUnclicked;
         });
     }
 
     swapToPointer() {
-        let pointerCursorUnclicked = 'url(../sprites/pointer_unclicked.png), auto';
-        let pointerCursorClicked = 'url(../sprites/pointer_clicked.png), auto';
+        const pointerUnclicked = 'url(../sprites/pointer_unclicked.png), auto';
+        const pointerClicked = 'url(../sprites/pointer_clicked.png), auto';
 
-        document.body.style.cursor = pointerCursorUnclicked;
+        document.body.style.cursor = pointerUnclicked;
 
         document.body.addEventListener('mousedown', function() {
-            document.body.style.cursor = pointerCursorClicked;
+            document.body.style.cursor = pointerClicked;
         });
 
         document.body.addEventListener('mouseup', function() {
-            document.body.style.cursor = pointerCursorUnclicked;
+            document.body.style.cursor = pointerUnclicked;
         });
     }
 
@@ -149,10 +149,9 @@ class Hud {
             "5"
         ));
 
-        // this.addComponent("DashCharge", new DashCharge(
-        //     new Vector(Camera.SIZE.x - 100, Camera.SIZE.y - 100),
-
-        // ));
+        this.addComponent("dashCooldown", new DashCooldown(
+            new Vector(Camera.SIZE.x - 700, Camera.SIZE.y - 100)
+        ));
 
         // TODO: commented out because storing food is not currently implemented
         // add a food labels on the bottom right of the screen

@@ -29,12 +29,12 @@ const COLORS = {
     // backgrounds
     SEA_FOAM_GREEN: "#a0d6b4",
     SKY_BLUE: "#5da6b3",
-    SKY_DARK_GREY: "#235654",
+    SKY_DARK: "#235654",
     SKY_SNOW_GREY: "#91B3B2",
     SKY_GREY: "#73908F",
-    SKY_HOT_BLUE_SKY: "#00EAFF",
-
+    SKY_HOT_SKY: "#59979c",
     LIGHT_BLUE: "#add8e6",
+    DARK_CAVE_PURPLE: "#131339",
 
     // misc
     WHITE: "#ffffff",
@@ -67,7 +67,8 @@ let BG_COLOR = null;
 const PHYSICS = {
 
     GRAVITY_ACC: 1200,
-    TERMINAL_VELOCITY: 700
+    TERMINAL_VELOCITY: 700,
+
 };
 
 /** Declares constants for CTX.font. */
@@ -83,39 +84,39 @@ const SFX = {
 
 
     // Player
-    JUMP1: {path: "./sfx/jump1.mp3", volume: 0.2},
-    JUMP2: {path: "./sfx/jump2.mp3", volume: 0.2},
-    LAND: {path: "./sfx/land.mp3", volume: 0.2},
-    SLINGSHOT_LAUNCH1: {path: "./sfx/launch1.mp3", volume: 0.5},
-    SLINGSHOT_LAUNCH2: {path: "./sfx/launch2.mp3", volume: 0.6},
-    SLINGSHOT_LAUNCH3: {path: "./sfx/launch3.mp3", volume: 0.5},
-    SLINGSHOT_LAUNCH4: {path: "./sfx/launch4.mp3", volume: 0.5},
-    SLINGSHOT_STRETCH: {path: "./sfx/slingshot_stretch.mp3", volume: 0.4},
-    SWORD_SWING1: {path: "./sfx/sword_swing1.mp3", volume: 0.2},
-    SWORD_SWING2: {path: "./sfx/sword_swing2.mp3", volume: 0.2},
-    SWORD_SWING3: {path: "./sfx/sword_swing3.mp3", volume: 0.2},
-    SWORD_SWING4: {path: "./sfx/sword_swing4.mp3", volume: 0.2},
-    SWORD_SWING5: {path: "./sfx/sword_swing5.mp3", volume: 0.2},
-    SWORD_SWING6: {path: "./sfx/sword_swing6.mp3", volume: 0.2},
-    SWORD_SWING7: {path: "./sfx/sword_swing7.mp3", volume: 0.2},
-    SWORD_SWING8: {path: "./sfx/sword_swing8.mp3", volume: 0.2},
-    SWORD_SWING9: {path: "./sfx/sword_swing9.mp3", volume: 0.2},
-    SWORD_SWING10: {path: "./sfx/sword_swing10.mp3", volume: 0.2},
-    SWORD_HIT: {path: "./sfx/sword_hit.mp3", volume: 0.4},
-    SWOOSH: {path: "./sfx/swoosh.mp3", volume: 0.4},
-    RICOCHET1: {path: "./sfx/ricochet1.mp3", volume: 0.4},
-    RICOCHET2: {path: "./sfx/ricochet2.mp3", volume: 0.4},
-    RICOCHET3: {path: "./sfx/ricochet3.mp3", volume: 0.4},
-    RICOCHET4: {path: "./sfx/ricochet4.mp3", volume: 0.4},
-    EXPLOSION_SMALL: {path: "./sfx/explosion_small.mp3", volume: 0.4},
-    ITEM_EQUIP: {path: "./sfx/item_equip.mp3", volume: 0.4},
-    ITEM_COLLECT1: {path: "./sfx/item_collect1.mp3", volume: 0.4},
-    ITEM_COLLECT2: {path: "./sfx/item_collect2.mp3", volume: 0.4},
-    ITEM_COLLECT3: {path: "./sfx/item_collect3.mp3", volume: 0.4},
-    FOOD_EAT1: {path: "./sfx/food_eat1.mp3", volume: 0.4},
-    FOOD_EAT2: {path: "./sfx/food_eat2.mp3", volume: 0.4},
-    FOOD_EAT3: {path: "./sfx/food_eat3.mp3", volume: 0.4},
-    FOOD_EAT4: {path: "./sfx/food_eat4.mp3", volume: 0.4},
+    JUMP1: { path: "./sfx/jump1.mp3", volume: 0.2 },
+    JUMP2: { path: "./sfx/jump2.mp3", volume: 0.2 },
+    LAND: { path: "./sfx/land.mp3", volume: 0.2 },
+    SLINGSHOT_LAUNCH1: { path: "./sfx/launch1.mp3", volume: 0.5 },
+    SLINGSHOT_LAUNCH2: { path: "./sfx/launch2.mp3", volume: 0.6 },
+    SLINGSHOT_LAUNCH3: { path: "./sfx/launch3.mp3", volume: 0.5 },
+    SLINGSHOT_LAUNCH4: { path: "./sfx/launch4.mp3", volume: 0.5 },
+    SLINGSHOT_STRETCH: { path: "./sfx/slingshot_stretch.mp3", volume: 0.4 },
+    SWORD_SWING1: { path: "./sfx/sword_swing1.mp3", volume: 0.2 },
+    SWORD_SWING2: { path: "./sfx/sword_swing2.mp3", volume: 0.2 },
+    SWORD_SWING3: { path: "./sfx/sword_swing3.mp3", volume: 0.2 },
+    SWORD_SWING4: { path: "./sfx/sword_swing4.mp3", volume: 0.2 },
+    SWORD_SWING5: { path: "./sfx/sword_swing5.mp3", volume: 0.2 },
+    SWORD_SWING6: { path: "./sfx/sword_swing6.mp3", volume: 0.2 },
+    SWORD_SWING7: { path: "./sfx/sword_swing7.mp3", volume: 0.2 },
+    SWORD_SWING8: { path: "./sfx/sword_swing8.mp3", volume: 0.2 },
+    SWORD_SWING9: { path: "./sfx/sword_swing9.mp3", volume: 0.2 },
+    SWORD_SWING10: { path: "./sfx/sword_swing10.mp3", volume: 0.2 },
+    SWORD_HIT: { path: "./sfx/sword_hit.mp3", volume: 0.4 },
+    SWOOSH: { path: "./sfx/swoosh.mp3", volume: 0.4 },
+    RICOCHET1: { path: "./sfx/ricochet1.mp3", volume: 0.4 },
+    RICOCHET2: { path: "./sfx/ricochet2.mp3", volume: 0.4 },
+    RICOCHET3: { path: "./sfx/ricochet3.mp3", volume: 0.4 },
+    RICOCHET4: { path: "./sfx/ricochet4.mp3", volume: 0.4 },
+    EXPLOSION_SMALL: { path: "./sfx/explosion_small.mp3", volume: 0.4 },
+    ITEM_EQUIP: { path: "./sfx/item_equip.mp3", volume: 0.4 },
+    ITEM_COLLECT1: { path: "./sfx/item_collect1.mp3", volume: 0.4 },
+    ITEM_COLLECT2: { path: "./sfx/item_collect2.mp3", volume: 0.4 },
+    ITEM_COLLECT3: { path: "./sfx/item_collect3.mp3", volume: 0.4 },
+    FOOD_EAT1: { path: "./sfx/food_eat1.mp3", volume: 0.4 },
+    FOOD_EAT2: { path: "./sfx/food_eat2.mp3", volume: 0.4 },
+    FOOD_EAT3: { path: "./sfx/food_eat3.mp3", volume: 0.4 },
+    FOOD_EAT4: { path: "./sfx/food_eat4.mp3", volume: 0.4 },
 
     // UI
     UI_HIGH_BEEP: { path: "./sfx/ui_high_beep.mp3", volume: 0.4 },
@@ -125,6 +126,14 @@ const SFX = {
 
     // Environment
     GAME_OVER: { path: "./sfx/game_over.wav", volume: 0.4 },
+    DING: { path: "./sfx/ding.mp3", volume: 0.4 },
+
+    // Enemies
+    GROWL1: { path: "./sfx/growl1.mp3", volume: 0.4 },
+    GROWL2: { path: "./sfx/growl2.mp3", volume: 0.4 },
+    SMASH1: { path: "./sfx/smash1.mp3", volume: 0.4 },
+    SMASH2: { path: "./sfx/smash2.mp3", volume: 0.4 },
+    SMASH3: { path: "./sfx/smash3.mp3", volume: 0.4 },
 }
 
 /**
@@ -237,6 +246,16 @@ const checkBlockCollisions = (entity, entitySize) => {
 
 // The following is necessary because we must change the listeners for different modes (right now, gameplay and dialog).
 /** Contains all functions called as event handlers. */
+let mickeyCount = 0;
+const keyPressCountMax = 1;
+let keyPressCounter = {
+    M_KEY: 0,
+    I_KEY: 0,
+    C_KEY: 0,
+    K_KEY: 0,
+    E_KEY: 0,
+    Y_KEY: 0,
+}
 const EVENT_HANDLERS = {
     gameplayMouseDown: (mouse) => {
         // check if mouse button is left click
@@ -263,7 +282,49 @@ const EVENT_HANDLERS = {
         const scaleY = CANVAS.height / rect.height;
         GAME.mousePos = new Vector((mouse.clientX - rect.left) * scaleX, (mouse.clientY - rect.top) * scaleY);
     },
+
     gameplayKeyDown: (key) => {
+
+        if (key.code === "KeyM" && mickeyCount < 1 && keyPressCounter.M_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.M_KEY++;
+
+
+        } else if (key.code === "KeyI" && mickeyCount < 2 && keyPressCounter.I_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.I_KEY++;
+
+        } else if (key.code === "KeyC" && mickeyCount < 3 && keyPressCounter.C_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.C_KEY++;
+
+        } else if (key.code === "KeyK" && mickeyCount < 4 && keyPressCounter.K_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.K_KEY++;
+
+        } else if (key.code === "KeyE" && mickeyCount < 5 && keyPressCounter.E_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.E_KEY++;
+
+        } else if (key.code === "KeyY" && mickeyCount < 6 && keyPressCounter.Y_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.Y_KEY++;
+
+        } else {
+            mickeyCount = 0;
+            keyPressCounter.M_KEY = 0;
+            keyPressCounter.I_KEY = 0;
+            keyPressCounter.C_KEY = 0;
+            keyPressCounter.K_KEY = 0;
+            keyPressCounter.E_KEY = 0;
+            keyPressCounter.Y_KEY = 0;
+
+        }
+        console.log(mickeyCount);
+        if (mickeyCount == 6) {
+            window.open("https://www.youtube.com/watch?v=hmzO--ox7X0", '_blank').focus();
+            // window.location.href = "https://www.youtube.com/watch?v=hmzO--ox7X0";
+        }
         switch (key.code) {
             case "KeyA":
                 GAME.user.movingLeft = true;
@@ -297,7 +358,17 @@ const EVENT_HANDLERS = {
             case "KeyF":
                 GAME.user.eatFood = true; // this should disable automatically after food is eaten
                 break;
+            case "Digit1":
+            case "Digit2":
+            case "Digit3":
+            case "Digit4":
+            case "Digit5":
+                const index = key.code.slice(-1) - 1;
+                if (!INVENTORY.ammoBag[index]) return; // make sure an ammo actually exists for this key
+                INVENTORY.switchToAmmo(INVENTORY.ammoBag[index].type);
+                break;
         }
+
     },
     doubleTap: (key) => {
         //TODO: implement double tap (stuff below is hacky and contains bugs)
@@ -385,7 +456,7 @@ const EVENT_HANDLERS = {
 
 // custom CTX functions
 
-const roundRect = function(x, y, width, height, radius) {
+const roundRect = function (x, y, width, height, radius) {
     CTX.beginPath();
     CTX.moveTo(x + radius, y);
     CTX.arcTo(x + width, y, x + width, y + height, radius);

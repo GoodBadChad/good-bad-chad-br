@@ -85,11 +85,23 @@ class Yeti {
         // if the enemy is now dead, remove it from the game
         // replace this code with any death effects, state changes, etc.
         this.removeFromWorld = true;
+
+        // add a piece of bacon in the Yeti's place at bottom-center of yeti
+        const baconPos = new Vector(this.pos.x, this.pos.y + Yeti.SCALED_SIZE.y / 2);
+        GAME.addEntity(new FoodDrop(FoodDrop.BACON, baconPos));
     }
     
     /** Update the Yeti. */
     update() {
         this.base.update();
+
+        // random chance to growl
+        //TODO (incorporate GAME.clock to sync to every machine's clock)
+        if (Math.random() < 0.003) {
+            const rand = Math.floor(Math.random() * 2) + 1;
+            const sfx = SFX["GROWL" + rand];
+            ASSET_MGR.playSFX(sfx.path, sfx.volume);
+        }
 
         const secondsSinceLastAttack = Date.now() / 1000 - this.lastAttack;
 
@@ -114,6 +126,10 @@ class Yeti {
 
                 CHAD.takeDamage(Yeti.ATTACK_DAMAGE);
                 this.dealtDamage = true;
+
+                const rand = Math.floor(Math.random() * 3) + 1;
+                const sfx = SFX["SMASH" + rand];
+                ASSET_MGR.playSFX(sfx.path, sfx.volume);
             }
         }
     };

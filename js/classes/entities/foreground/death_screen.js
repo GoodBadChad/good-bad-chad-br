@@ -20,10 +20,13 @@ class DeathScreen {
     /** An array of messages from which the DeathScreen message will be randomly selected. */
     static get MESSAGES() {
         return [
-            "you died",
+            "FATALITY",
+            "YOU DIED",
             "game over",
             "wasted",
-            "wow you suck"
+            "wow you suck",
+            "press F to pay respects",
+            "you were killed by a Grunt"
         ];
     }
 
@@ -77,13 +80,13 @@ class DeathScreen {
         CTX.fillStyle = "FireBrick";
         CTX.font = DeathScreen.MESSAGE_FONT_SIZE + "px vt323";
         const messageSize = CTX.measureText(this.message);
-        const messagePos = new Vector((Camera.SIZE.x - messageSize.width) / 2, 
+        const messagePos = new Vector((Camera.SIZE.x - messageSize.width) / 2,
             (Camera.SIZE.y - messageSize.emHeightAscent) / 2);
         CTX.fillText(this.message, messagePos.x, messagePos.y);
 
         // calculate position and size of the respawn button
         const buttonSize = DeathScreen.RESPAWN_BUTTON_SIZE;
-        this.respawnButtonPos = new Vector((Camera.SIZE.x - buttonSize.x) / 2, 
+        this.respawnButtonPos = new Vector((Camera.SIZE.x - buttonSize.x) / 2,
             messagePos.y + messageSize.emHeightAscent);
 
         // draw a translucent background for the respawn button
@@ -99,9 +102,9 @@ class DeathScreen {
         CTX.font = DeathScreen.BUTTON_FONT_SIZE + "px vt323";
         const buttonTextSize = CTX.measureText(DeathScreen.RESPAWN_BUTTON_TEXT);
         CTX.fillText(
-            DeathScreen.RESPAWN_BUTTON_TEXT, 
-            this.respawnButtonPos.x + (buttonSize.x - buttonTextSize.width) / 2, 
-            this.respawnButtonPos.y + buttonSize.y - (buttonSize.y - buttonTextSize.emHeightAscent 
+            DeathScreen.RESPAWN_BUTTON_TEXT,
+            this.respawnButtonPos.x + (buttonSize.x - buttonTextSize.width) / 2,
+            this.respawnButtonPos.y + buttonSize.y - (buttonSize.y - buttonTextSize.emHeightAscent
                 + buttonTextSize.emHeightDescent) / 2
         );
     }
