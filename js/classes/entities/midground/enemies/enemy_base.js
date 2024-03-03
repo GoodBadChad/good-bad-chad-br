@@ -180,8 +180,6 @@ class EnemyBase {
      * @returns {number} the distance between the bottom left corners of Chad and the enemy
      */
     chadDistance() {
-        console.log("dist from chad: ", Vector.distance(Vector.add(CHAD.pos, new Vector(0, CHAD.scaledSize.y)),
-            Vector.add(this.enemy.pos, new Vector(0, this.enemy.scaledSize.y))));
         return Vector.distance(Vector.add(CHAD.getCenter(), new Vector(0, CHAD.scaledSize.y / 2)),
             Vector.add(this.getCenter(), new Vector(0, this.enemy.scaledSize.y / 2)));
     }
