@@ -6,10 +6,11 @@
     <link rel="icon" type="image/png" href="./sprites/html_tab_icon.png" />
 
     <title>The Good, The Bad, and Chad!</title>
-    <script type="module">
-        import { save, getSaves } from './backend/functions';
-        
-    </script>
+    <!-- <script type="module">
+        import { save, getSaves } from '/backend/functions.js';
+        window.save = save;
+        window.getSaves = getSaves;
+    </script> -->
 
     <!-- Scripts containing info/functions for classes. -->
     <script type="text/javascript" src="./js/scripts/util.js"></script>
@@ -156,7 +157,7 @@
     <p>While mid-air pressing A or D Hold X to Dash.</p>
     <p>Left Click to shoot.</p>
     <div id="savetable"></div>
-    <script type="text/javascript" src="./backend/savetable.js"></script>
+    <script type="module" src="./backend/savetable.js"></script>
     <!-- Load the main script. -->
     <script type="text/javascript" src="./js/scripts/main.js"></script>
 </body>

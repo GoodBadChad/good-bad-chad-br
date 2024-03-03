@@ -1,4 +1,4 @@
-import Save from './model';
+import { Save } from './model.js';
 
 const save = async (un, code, chad, inventory, story, zone) => {
   await Save.create({
@@ -23,5 +23,4 @@ const getSaves = async (un, code) => {
   }
 }
 
-window.save = save;
-window.getSaves = getSaves;
+export { save, getSaves };

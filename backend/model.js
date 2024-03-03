@@ -1,6 +1,6 @@
 // Mongoose is our tool to connect to mongodb.
-const mongoose = require('mongoose');
-const mongoLogin = require('./mongo_login.json');
+import mongoose from '../node_modules/mongoose';
+const mongoLogin = import('./mongo_login.js')
 // (0) Connect to our database.
 const dbConnectionString = `mongodb+srv://${mongoLogin.un}:${mongoLogin.pw}@good-bad-chad-cluster.gnqrnan.mongodb.net/saves?retryWrites=true&w=majority`
 mongoose.connect(dbConnectionString);
@@ -47,4 +47,4 @@ const Save = new mongoose.model('Save', saveSchema);
 //   console.log(saves);
 // })();
 // ^ That worked. I'm connected.
-module.exports = Save;
+export { Save };
