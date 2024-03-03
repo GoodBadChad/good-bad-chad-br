@@ -37,18 +37,6 @@ debugButton.addEventListener("click", () => {
 	}
 });
 
-/*
-SPANISH MODE: So far, does nothing. Will put all dialog in the game into Spanish, hopefully.
-*/
-const spanishButton = document.getElementById("spanish");
-spanishButton.addEventListener("click", () => {
-	if (spanishButton.checked) {
-		GAME.spanish = true;
-	} else {
-		GAME.spanish = false;
-	}
-});
-
 // If specials keys are pressed, prevent their default action.
 document.addEventListener("keydown", (key) => {
 	if (key.altKey || key.ctrlKey || key.metaKey) {
@@ -89,8 +77,6 @@ let LAST_ZONE = null;
 ZONE.load();
 
 const STORY = {};
-console.log(STORY);
 
-console.log(Block.SCALED_SIZE);
 // (4) Start the game! :)
 GAME.start();
