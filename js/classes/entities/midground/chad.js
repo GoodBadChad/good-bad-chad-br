@@ -69,14 +69,6 @@ class Chad {
         this.scale = Chad.DEFAULT_SCALE;
         /** Used to check for collisions with other applicable entities. */
         this.boundingBox = this.createBoundingBox();
-
-        /**
-         * Chad's timers for special effects.
-         * Includes invincibility, strength, giant size, and speed.
-         * 
-         * NOTE: Relies upon Chad's scale during its initialization.
-         */
-        this.statusEffect = new StatusEffect(this);
     };
 
     /** The size, in pixels of the sprite ON THE SPRITESHEET. */
@@ -172,16 +164,6 @@ class Chad {
         return this._scale;
     }
 
-    // set pos(newPos) {
-    //     this._pos = newPos;
-    //     this.center = new Vector(this._pos.x + this.getBoundingBoxOffset().x + this.scaledSize.x / 2, 
-    //         this._pos.y + this.getBoundingBoxOffset().y + this.scaledSize.y / 2);
-    // }
-
-    // get pos() {
-    //     return this._pos;
-    // }
-
 
     /** 
      * Initialize Chad's slingshot and sword.
@@ -191,6 +173,14 @@ class Chad {
         GAME.addEntity(this.sword, 1);
 
         GAME.addEntity(new Slingshot());
+    }
+
+    /**
+     * Initialize Chad's status effect.
+     */
+    initStatusEffect() {
+        this.statusEffect = new StatusEffect(this);
+        GAME.addEntity(this.statusEffect);
     }
 
     /** 
@@ -504,6 +494,7 @@ class Chad {
         }
 
 
+        /*
         // check if Chad has special effects
         if (this.statusEffect.invincible > 0) {
             if (GAME.gameTime % 0.1 < 0.01) {
@@ -532,6 +523,7 @@ class Chad {
             }
             this.statusEffect.fast -= GAME.clockTick;
         }
+        */
 
 
         if (this.isOnGround && !(GAME.user.movingRight || GAME.user.movingLeft)) {

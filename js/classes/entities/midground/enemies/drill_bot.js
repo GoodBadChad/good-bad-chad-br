@@ -138,7 +138,6 @@ class DrillBot {
                 && secondsSinceLastAttack > DrillBot.FIRST_DAMAGE_DELAY && !this.performedFirstAttack) {
                 // if we're at the proper point in our attack animation, deal damage the first time
 
-                console.log("FIRST ATTACK - " + secondsSinceLastAttack + " seconds since last attack.")
                 ASSET_MGR.playSFX(SFX.DRILL2.path, SFX.DRILL2.volume);
                 CHAD.takeDamage(DrillBot.ATTACK_DAMAGE);
                 this.performedFirstAttack = true;
@@ -149,7 +148,6 @@ class DrillBot {
                 && secondsSinceFirstAttack > DrillBot.SECOND_DAMAGE_DELAY && !this.performedSecondAttack) {
                 // if we're at the proper point in our attack animation, deal damage the second time
 
-                console.log("SECOND ATTACK - " + secondsSinceLastAttack + " seconds since last attack.")
                 ASSET_MGR.playSFX(SFX.DRILL1.path, SFX.DRILL1.volume);
                 CHAD.takeDamage(DrillBot.ATTACK_DAMAGE);
                 this.performedSecondAttack = true;
