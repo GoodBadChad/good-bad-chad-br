@@ -48,6 +48,7 @@ document.addEventListener("keydown", (key) => {
 // If the window loses focus, pause the game.
 CANVAS.onblur = () => {
 	GAME.running = false;
+	ASSET_MGR.stopAllSFX();
 	ASSET_MGR.playSFX(SFX.UI_HIGH_BEEP.path, SFX.UI_HIGH_BEEP.volume);
 	ASSET_MGR.pauseMusic();
 	HUD.swapToPointer();
@@ -71,7 +72,7 @@ CANVAS.onfocus = () => {
 
 // (3) Set the current ZONE to be the first one we encounter - village.main.
 
-let ZONE = Zone.getZones().village.insideCave;
+let ZONE = Zone.getZones().village.main;
 let LAST_ZONE = null;
 // Load all assets, add all entities, place CHAD...
 ZONE.load();

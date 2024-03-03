@@ -82,6 +82,11 @@ class FoodItem {
         return 6;
     }
 
+    static get GIANT_MUSHROOM() {
+        return 7;
+    }
+    
+
     print() {
         switch (this.type) {
             case FoodItem.BACON:

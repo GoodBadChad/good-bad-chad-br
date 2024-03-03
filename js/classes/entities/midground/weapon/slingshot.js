@@ -1,15 +1,10 @@
 /**
  * A slingshot that Chad holds and uses to launch projectiles. It can support various types of ammo.
  * 
- * NOTE: Based on new design of the Chad sprite CONTAINING the slingshot, we need to change some things.
- * 
  * @author Nathan Hinthorne
  */
 class Slingshot {
     constructor() {
-        
-        this.pos = 0;
-        
         this.isAiming = false;
         this.isFiring = false;
         this.rotation = 0; //TODO check slingshot.rotation in Chad class to determine which animation to use for him
@@ -19,11 +14,7 @@ class Slingshot {
 
         this.playedStretchSound = false;
 
-        this.start = new Vector(0, 0);
-
         // this.chadCenter = Vector.add(CHAD.pos, new Vector(CHAD.scaledSize.x / 2, CHAD.scaledSize.y / 2));
-
-        // this.progressBar = new ProgressBar(new Vector(0, 0), 100, 10, "green", "red");
     }
 
     aim() { 
@@ -35,29 +26,10 @@ class Slingshot {
             this.playedStretchSound = true;
         }
         
-        // position the image near Chad's hand
-        let x;
-        let startY = this.start.y;
-        if (CHAD.facing == "right") {
-            x = CHAD.pos.x + 80;
-            startY = 0; // slingshot facing right frame
-        } else if (CHAD.facing == "left") {
-            x = CHAD.pos.x - 80;
-            // startY = 29; // slingshot facing left frame
-        }
-        this.pos = new Vector(x, CHAD.pos.y + 15);
-        this.start = new Vector(0, startY);
-
-        
         // find the angle in radians from the x axis to the mouse
-        const delta = Vector.worldToCanvasSpace(Vector.subtract(GAME.mousePos, this.pos));
+        const delta = Vector.subtract(Vector.worldToCanvasSpace(CHAD.getCenter()), GAME.mousePos);
         let theta = Math.atan2(delta.y, delta.x);
         this.rotation = theta;
-
-        //TODO: swap animation frames based on rotation
-
-        // console.log("rotation: " + " (" + this.rotation * 180 / Math.PI + " degrees)");
-
 
         // this.timeSinceReload += GAME.clockTick;
     }
@@ -67,7 +39,6 @@ class Slingshot {
 
         this.isFiring = true;
         this.isAiming = false;
-        //this.startX = 26; // slingshot firing frame
 
         let ammoType = INVENTORY.useCurrentAmmo();
         if (ammoType != "Empty") {
@@ -75,18 +46,19 @@ class Slingshot {
             const rand = Math.floor(Math.random() * 4) + 1;
             const sfx = SFX["SLINGSHOT_LAUNCH" + rand];
             ASSET_MGR.playSFX(sfx.path, sfx.volume);
-            
+
             // create a projectile and launch it in the direction of the mouse
-            GAME.addEntity(new Projectile(
-                ammoType,
-                Vector.round(this.pos),
-                Vector.round(Vector.canvasToWorldSpace(GAME.mousePos))));
+            GAME.addEntity(ProjectileFactory.create(
+                ProjectileFactory.SLIMEBALL, 
+                Vector.round(CHAD.getCenter()), 
+                Vector.round(Vector.canvasToWorldSpace(GAME.mousePos)))
+            );
         }
 
         // trigger an async operation that will erase the slingshot after it fires
         setTimeout(() => {
             this.isFiring = false;
-        }, 1000);
+        }, 300); // 0.3 seconds
 
         // reset the slingshot stretch sound
         this.playedStretchSound = false;
@@ -109,41 +81,31 @@ class Slingshot {
                 this.fire();
             }
         }
+
+        if (GAME.user.firing) {
+            GAME.user.firing = false; // reset the firing state
+        }
     }
 
-    //TODO remove this when we have a Chad animation containing the slingshot
     draw() {
-        if (!this.isAiming) {
-            CTX.drawImage(
-                ASSET_MGR.getAsset(Slingshot.SPRITESHEET),
-                this.start.x, this.start.y,
-                Slingshot.SIZE.x, Slingshot.SIZE.y,
-                this.pos.x - CAMERA.pos.x,
-                this.pos.y - CAMERA.pos.y,
-                Slingshot.SIZE.x * Slingshot.SCALE,
-                Slingshot.SIZE.y * Slingshot.SCALE);
-        }
+
     }
 
     getAction() {
         if (this.isFiring) {
-            if (this.rotation < 0 && this.rotation > -Math.PI / 2) {
-                return "FiringUp";
-            } else if (this.rotation < -Math.PI / 2 && this.rotation > -Math.PI) {
-                return "FiringDown";
+            if (this.rotation > 0 && this.rotation < Math.PI) {
+                return "UpFiring";
             } else {
-                return "FiringStraight";
+                return "DownFiring";
             }
         } else if (this.isAiming) {
-            if (this.rotation < 0 && this.rotation > -Math.PI / 2) {
-                return "AimingUp";
-            } else if (this.rotation < -Math.PI / 2 && this.rotation > -Math.PI) {
-                return "AimingDown";
+            if (this.rotation > 0 && this.rotation < Math.PI) {
+                return "UpAiming";
             } else {
-                return "AimingStraight";
+                return "DownAiming";
             }
         } else {
-            throw new Error("Slingshot.getAction() called when not firing or aiming.");
+            return "idle";
         }
     }
 
@@ -158,6 +120,7 @@ class Slingshot {
     //     return 0.5;
     // }
 
+
     static get SPRITESHEET() {
         return "./sprites/slingshot.png";
     }
@@ -169,5 +132,5 @@ class Slingshot {
     static get SCALE() {
         return 2.5;
     }
-
+    
 };
