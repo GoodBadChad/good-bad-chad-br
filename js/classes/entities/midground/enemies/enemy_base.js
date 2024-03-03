@@ -58,19 +58,11 @@ class EnemyBase {
     }
 
     /** 
-     * Aggressive enemy stance for melee attacks. Aggressive enemies will pursue Chad any time he
+     * Aggressive enemy stance. Aggressive enemies will pursue Chad any time he
      * is within their maximum reaction distance. 
      */
-    static get AGGRESSIVE_MELEE_STANCE() {
+    static get AGGRESSIVE_STANCE() {
         return "aggressiveMelee";
-    }
-
-    /**
-     * Aggressive enemy stance for ranged attacks. Aggressive enemies will pursue Chad any time he
-     * is within their maximum reaction distance.
-     */
-    static get AGGRESSIVE_RANGED_STANCE() {
-        return "aggressiveRanged";
     }
 
     /** 
@@ -108,7 +100,7 @@ class EnemyBase {
         } else {
             // otherwise, make it react
             switch (this.stance) {
-                case EnemyBase.AGGRESSIVE_MELEE_STANCE:
+                case EnemyBase.AGGRESSIVE_STANCE:
                 case EnemyBase.DEFENSIVE_STANCE:
                     this.enemy.state = "pursue";
                     break;
@@ -170,7 +162,6 @@ class EnemyBase {
      * @returns {Vector} the center of the enemy
      */
     getCenter() {
-        // console.log("enemy center pos: ", Vector.add(this.enemy.pos, new Vector(this.enemy.scaledSize.x / 2, this.enemy.scaledSize.y / 2)));
         return Vector.add(this.enemy.pos, new Vector(this.enemy.scaledSize.x / 2, this.enemy.scaledSize.y / 2));
     }
 
@@ -189,6 +180,8 @@ class EnemyBase {
      * @returns {number} the distance between the bottom left corners of Chad and the enemy
      */
     chadDistance() {
+        console.log("dist from chad: ", Vector.distance(Vector.add(CHAD.pos, new Vector(0, CHAD.scaledSize.y)),
+            Vector.add(this.enemy.pos, new Vector(0, this.enemy.scaledSize.y))));
         return Vector.distance(Vector.add(CHAD.getCenter(), new Vector(0, CHAD.scaledSize.y / 2)),
             Vector.add(this.getCenter(), new Vector(0, this.enemy.scaledSize.y / 2)));
     }
@@ -204,7 +197,7 @@ class EnemyBase {
 
             if (this.chadDistance() < this.reactionDistance) {
                 // if Chad is within our reaction distance, react based on our stance.
-                if (this.stance === EnemyBase.AGGRESSIVE_MELEE_STANCE) {
+                if (this.stance === EnemyBase.AGGRESSIVE_STANCE) {
                     this.enemy.state = "pursue";
                 } else if (this.stance === EnemyBase.AVOID_STANCE) {
                     this.flee();

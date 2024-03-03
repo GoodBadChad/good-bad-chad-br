@@ -26,6 +26,9 @@ class Yeti {
 
         this.lastAttack = 0;
         this.dealtDamage = false;
+
+        this.secondsSinceGrowl = 0;
+        this.growlThreshold = Yeti.GROWL_THRESHOLD;
     };
 
     /** The size, in pixels, of the Yeti on its spritesheet. */
@@ -91,22 +94,29 @@ class Yeti {
         GAME.addEntity(new FoodDrop(pos, FoodDrop.GIANT_MUSHROOM));
     }
 
+    static get GROWL_THRESHOLD() {
+        // Returns a random number between 3 and 13
+        return Math.random() * 10 + 3;
+    }
+
     
     /** Update the Yeti. */
     update() {
         this.base.update();
 
-        // random chance to growl
-        //TODO incorporate GAME.clock to sync to every machine's clock
+        // Increment the growl stopwatch by the time since the last frame
+        this.secondsSinceGrowl += GAME.clockTick;
 
-        //only make noise when within the camera view
-        // if (this.base.isInView()) {
-        //     if (Math.random() < 0.003) {
-        //         const rand = Math.floor(Math.random() * 2) + 1;
-        //         const sfx = SFX["GROWL" + rand];
-        //         ASSET_MGR.playSFX(sfx.path, sfx.volume);
-        //     }
-        // }
+        // If the stopwatch exceeds the threshold, make the yeti growl
+        if (this.base.chadDistance() < 500 && this.secondsSinceGrowl >= this.growlThreshold) {
+            const rand = Math.floor(Math.random() * 2) + 1;
+            const sfx = SFX["GROWL" + rand];
+            ASSET_MGR.playSFX(sfx.path, sfx.volume);
+
+            // Reset the stopwatch and threshold for the next growl
+            this.secondsSinceGrowl = 0;
+            this.growlThreshold = Yeti.GROWL_THRESHOLD;
+        }
 
         const secondsSinceLastAttack = Date.now() / 1000 - this.lastAttack;
 

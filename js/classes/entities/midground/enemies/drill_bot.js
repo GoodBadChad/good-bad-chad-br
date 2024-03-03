@@ -18,7 +18,7 @@ class DrillBot {
             DrillBot.MAX_HEALTH, 
             DrillBot.ROAM_DISTANCE, 
             () => this.handleDeath(),
-            EnemyBase.AGGRESSIVE_MELEE_STANCE
+            EnemyBase.AGGRESSIVE_STANCE
         );
 
         this.animations = [];

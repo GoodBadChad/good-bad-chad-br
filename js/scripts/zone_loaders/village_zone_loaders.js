@@ -393,12 +393,9 @@ const loadVillageMain = () => {
 
 
 
-        // GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(20, aboveGroundLevel - 5))));
+        GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(20, aboveGroundLevel - 5))));
 
-        GAME.addEntity(new DrillBot(Vector.blockToWorldSpace(new Vector(25, aboveGroundLevel - 5))));
-        // const drillBot = new DrillBot(Vector.blockToWorldSpace(new Vector(30, aboveGroundLevel - 5)));
-        // GAME.addEntity(drillBot);
-        // drillBot.statusEffect.apply(StatusEffect.giant);
+        // GAME.addEntity(new DrillBot(Vector.blockToWorldSpace(new Vector(25, aboveGroundLevel - 5))));
 
 
         // draw portal
@@ -672,7 +669,6 @@ const loadWoods = () => {
 
 
         }
-        // new WeatherSystem("rain", 5, "night", 22);
         WeatherSystem.setWeather("rain", 5, "night", 22);
 
         if (LAST_ZONE.equals(Zone.getZones().village.hillDownFromMain)) { // Coming from main.
