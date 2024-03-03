@@ -79,7 +79,7 @@ class tilemapInterpreter {
                         GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_1, Vector.blockToWorldSpace(new Vector(x, y + 1))), 1);
                         break;
                     case '@':
-                        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_1, Vector.blockToWorldSpace(new Vector(x, y + 1))), 1);
+                        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(x, y + 1))), 1);
                         break;
                     case 'w':
                         GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(x, y + 1))), -1);
@@ -115,7 +115,7 @@ class tilemapInterpreter {
                         GAME.addEntity(new Block(new Vector(x, y), Block.DIRT), 0);
                         break;
                     case 'l':
-                        if (this.isSnow) {
+                        if (true) {
                             GAME.addEntity(new Block(new Vector(x, y), Block.SNOW_SURFACE), 1);
                         }
                         break;

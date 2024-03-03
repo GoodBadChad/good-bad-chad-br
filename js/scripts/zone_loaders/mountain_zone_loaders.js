@@ -1,81 +1,141 @@
-const loadMountainSlope = () => {
+const loadMountainSlope1 = () => {
     const queueAssets = () => {
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD_DARK.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_BUSHY_DARK.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_LANKY_DARK.SPRITESHEET);
 
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_1.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.grass.GRASS_1.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(Precipitation.SPRITESHEET);
     };
 
     const addEntities = () => {
-        for (let y = ZONE.MAX_BLOCK.y; y >= ZONE.MIN_BLOCK.y; y--) {
-            for (let x = ZONE.MAX_BLOCK.x; x >= ZONE.MIN_BLOCK.x; x--) {
-                switch (mountainSlopeTileMap[y][x]) {
 
-                    case 'j':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_SPRUCE_STAIRS_RIGHT));
-                        break;
-                    case 'i':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_SPRUCE_STAIRS_LEFT));
-                        break;
-                    case 'h':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_OAK_STAIRS_RIGHT), 0);
-                        break;
-                    case 'g':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_OAK_STAIRS_LEFT), -1);
-                        break;
-                    case 'f':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE_VOLCANIC));
-                        break;
-                    case 'e':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE_DARK));
-                        break;
-                    case 'd':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE));
-                        break;
-                    case 'c':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_REDWOOD_LIGHT));
-                        break;
-                    case 'b':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_REDWOOD));
-                        break;
-                    case 'a':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.LOG_SPRUCE_VIRTICAL));
-                        break;
-                    case '9':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.LOG_SPRUCE_HORIZONTAL));
-                        break;
-                    case '8':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_SPRUCE));
-                        break;
-                    case '7':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_OAK));
-                        break;
-                    case '6':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.BARS));
-                        break;
-                    case '5':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.LAVA_ROCK));
-                        break;
-                    case '4':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.SNOWY_ICE));
-                        break;
-                    case '3':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.SNOWY_DIRT));
-                        break;
-                    case '2':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.GRASS));
-                        break;
-                    case '1':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.DIRT), -1);
-                        break;
+        GAME.addEntity(new Border(
+            new Vector(0, 0),
+            new Vector(ZONE.PIXEL_SIZE.x, 1),
+            Zone.getZones().mountain.slope2
+        ));
+    
+        new tilemapInterpreter(mountainSlope1TileMap, false);
+        new WeatherSystem("snow", 1, "day");
+        
+        const groundLevel = 92;
 
-                    default:
-                        break;
-                }
-            }
+        // trees
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_5, Vector.blockToWorldSpace(new Vector(-15, groundLevel))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(5, groundLevel - 1))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(18, groundLevel))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(27, groundLevel))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_5, Vector.blockToWorldSpace(new Vector(0, groundLevel - 1))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_4, Vector.blockToWorldSpace(new Vector(12, groundLevel))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(30.5, 82))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(34, 77))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(36, 77))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(49.5, 53))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(53.5, 47))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(57, 41))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(61, 38))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(67, 34))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(68.5, 33))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(73.3, 23))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(86.5, 4))), -1);
 
+        // grass
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(0, groundLevel))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(5, groundLevel))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(6, groundLevel))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(10, groundLevel - 1))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(13, groundLevel - 1))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(14, groundLevel - 1))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(17, groundLevel - 1))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(18, groundLevel - 1))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(19, groundLevel - 1))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(27, groundLevel))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(28, groundLevel))), 1);
+
+        if (LAST_ZONE && LAST_ZONE.equals(Zone.getZones().mountain.slope2)) { // Coming down the mounatin.
+            // Set spawn point on the right.
+            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 13, 3);
+            CHAD.pos = Vector.blockToWorldSpace(blockPos);
+        } else { // Coming from the woods or whatever's to the left
+            const blockPos = new Vector(ZONE.MIN_BLOCK.x + 5, groundLevel - 5);
+            CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
-        BG_COLOR = COLORS.SKY_GREY;
+        
+    };
 
-        const blockPos = new Vector(ZONE.MIN_BLOCK.x + 5, ZONE.MAX_BLOCK.y - 15);//Vector.add(ZONE.MIN_PT, new Vector(5, 50));
+    queueAssets();
+    ASSET_MGR.downloadAll(addEntities);
+};
+
+const loadMountainSlope2= () => {
+    const queueAssets = () => {
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD_DARK.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_BUSHY_DARK.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_LANKY_DARK.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(Precipitation.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(Slime.SPRITESHEET);
+        ASSET_MGR.queueDownload(Yeti.SPRITESHEET);
+    };
+
+    const addEntities = () => {
+
+        GAME.addEntity(new Border(
+            new Vector(ZONE.MIN_PT.x, 0),
+            new Vector(1, ZONE.PIXEL_SIZE.y),
+            Zone.getZones().mountain.slope1
+        ));
+    
+        new tilemapInterpreter(mountainSlope2TileMap, false);
+        new WeatherSystem("snow", 4, "day");
+        
+        const groundLevel = 90;
+
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(0, groundLevel))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(6.3, 79))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(18, 63))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(23, 63))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(26, 63))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(30, 62))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(34, 62))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(37, 62))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(42, 63))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(46, 63))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(49, 64))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(53, 64))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(57, 64))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(62, 64))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(71, 25))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(75, 25))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(92, 25))), -1);
+
+        GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(45, 50))));
+
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(70, 60)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(72, 60)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(76, 60)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(76, 80)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(78, 80)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(80, 80)), Slime.FROST));
+
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(84, 50)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(95, 50)), Slime.FROST));
+
+        GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(87, 35))));
+
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(84, 32)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(90, 30)), Slime.FROST));
+
+        const blockPos = new Vector(ZONE.MIN_BLOCK.x + 2, groundLevel - 4);
         CHAD.pos = Vector.blockToWorldSpace(blockPos);
     };
 
