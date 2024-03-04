@@ -127,32 +127,37 @@ class Hud {
 
         // add slingshot ammo hotbar
         const hotbarItemWidth = ItemLabel.DEFAULT_SIZE.x;
-        const hotbarXStart = (Camera.SIZE.x - hotbarItemWidth * 5) / 2 - 16;
+        const hotbarXStart = (Camera.SIZE.x - hotbarItemWidth * 5) / 2 - 100;
         const hotbarY = Camera.SIZE.y - ItemLabel.DEFAULT_SIZE.y - Hud.MARGIN;
-        this.addComponent("ammoStoneLabel", new AmmoLabel(
+        this.addComponent("ammoRockLabel", new AmmoLabel(
             new Vector(hotbarXStart, hotbarY),
-            Projectile.STONE,
+            AmmoItem.ROCK,
             "1"
         ));
-        this.addComponent("ammoWoodLabel", new AmmoLabel(
+        this.addComponent("ammoSlimeballLabel", new AmmoLabel(
             new Vector(hotbarXStart + hotbarItemWidth + 4, hotbarY),
-            Projectile.WOOD,
+            AmmoItem.SLIMEBALL,
             "2"
         ));
         this.addComponent("ammoBombLabel", new AmmoLabel(
-            new Vector(hotbarXStart + (2 * hotbarItemWidth + 4), hotbarY),
-            Projectile.BOMB,
+            new Vector(hotbarXStart + 2 * (hotbarItemWidth + 4), hotbarY),
+            AmmoItem.BOMB,
             "3"
         ));
-        this.addComponent("ammoMetalLabel", new AmmoLabel(
+        this.addComponent("ammoSnowballLabel", new AmmoLabel(
             new Vector(hotbarXStart + 3 * (hotbarItemWidth + 4), hotbarY),
-            Projectile.METAL,
+            AmmoItem.SNOWBALL,
             "4"
         ));
-        this.addComponent("ammoLaserLabel", new AmmoLabel(
+        this.addComponent("ammoSusSnowballLabel", new AmmoLabel(
             new Vector(hotbarXStart + 4 * (hotbarItemWidth + 4), hotbarY),
-            Projectile.LASER,
+            AmmoItem.SUS_SNOWBALL,
             "5"
+        ));
+        this.addComponent("ammoBroccoliLabel", new AmmoLabel(
+            new Vector(hotbarXStart + 5 * (hotbarItemWidth + 4), hotbarY),
+            AmmoItem.BROCCOLI,
+            "6"
         ));
 
         this.addComponent("dashCooldown", new DashCooldown(
@@ -299,16 +304,25 @@ class AmmoLabel {
      * Constructor for an AmmoLabel.
      * 
      * @param {Vector} pos the position of the AmmoLabel on the canvas
-     * @param {number} type the ammo type associated with the AmmoLabel (should be a Projectile member type)
+     * @param {string} type the ammo type associated with the AmmoLabel (should be a Projectile member type)
      * @param {string} inputName the input key used to select this ammo type
      */
     constructor(pos, type, inputName) {
         this.type = type;
-        this.label = new ItemLabel(
+        this.ammoItem = INVENTORY.getAmmo(type);
+        
+        const ammoItemName = AmmoItem.AMMO_ITEM_MAP[type.toLowerCase()];
+        this.animator = new Animator(
+            ammoItemName.SPRITESHEET,
+            ammoItemName.SPRITESHEET_START_POS,
+            ammoItemName.SIZE,
+            ammoItemName.FRAME_COUNT,
+            ammoItemName.FRAME_DURATION
+        );
 
+        this.label = new ItemLabel(
             pos,
-            new Animator(AmmoItem.SPRITESHEET, new Vector(0, type * AmmoItem.SPRITESHEET_ENTRY_HEIGHT),
-                AmmoItem.SIZE, 1, 1),
+            this.animator,
             inputName,
             INVENTORY.getAmmo(type).amount
         );
@@ -322,7 +336,9 @@ class AmmoLabel {
 
     /** Draw the AmmoLabel. */
     draw() {
-        this.label.draw();
+        if (this.ammoItem.isRevealed) {
+            this.label.draw();
+        }
     }
 }
 
@@ -436,7 +452,7 @@ class ItemLabel {
         CTX.fillText(this.inputName, this.pos.x + ItemLabel.TEXT_MARGIN, this.pos.y + ItemLabel.TEXT_SIZE - ItemLabel.TEXT_MARGIN);
 
         // if this ItemLabel is assigned a quantity, draw it in the bottom right corner of the ItemLabel
-        if (this.quantity) {
+        if (this.quantity || this.quantity === 0) {
             let text = "x" + this.quantity;
             if (this.quantity === Infinity) {
                 text = "∞";

@@ -1,5 +1,6 @@
 /**
- * 
+ * A type of food that can be dropped by enemies or found in the world.
+ * Can be collected by Chad to restore health or gain temporary status effects.
  * 
  * @author Nathan Hinthorne
  */

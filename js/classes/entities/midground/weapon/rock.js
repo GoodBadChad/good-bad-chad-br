@@ -32,6 +32,10 @@ class Rock {
         return new Vector(26, 30);
     }
 
+    static get SIZE_EASTER_EGG() {
+        return new Vector(75, 75);
+    }
+
     /** The scale factor applied to the Rock when drawing. */
     static get SCALE() {
         return 0.9;
@@ -57,12 +61,17 @@ class Rock {
         return "./sprites/projectile_rock.png";
     }
 
+    /** The file path to the Rock's easter egg spritesheet. */
+    static get SPRITESHEET_EASTER_EGG() {
+        return "./sprites/projectile_the_rock.png";
+    }
+
     static get BOUNCINESS() {
         return 0.8;
     }
 
     static get ALIVE_TIME() {
-        return 1;
+        return 3;
     }
 
     static get DAMAGE() {
@@ -100,7 +109,11 @@ class Rock {
     }
 
     loadAnimations() {
-        this.animations["firing"] = new Animator(Rock.SPRITESHEET, new Vector(0, 0), Rock.SIZE, 1, 0.5); // idle, moving through air
+        if (Math.random() < 0.05) {
+            this.animations["firing"] = new Animator(Rock.SPRITESHEET_EASTER_EGG, new Vector(0, 0), Rock.SIZE_EASTER_EGG, 1, 0.5); // idle, moving through air
+        } else {
+            this.animations["firing"] = new Animator(Rock.SPRITESHEET, new Vector(0, 0), Rock.SIZE, 1, 0.5); // idle, moving through air
+        }
     }
 
     update() {
@@ -111,6 +124,12 @@ class Rock {
             if (this.aliveTimer >= Rock.ALIVE_TIME) {
                 this.removeFromWorld = true;
             }
+        }
+
+        if (this.action == "firing" && !this.hasHit && GAME.gameTime % 0.1 < 0.01) {
+            // release particle trail
+            const center = Vector.add(this.pos, Vector.divide(Rock.SCALED_SIZE, 2));
+            GAME.addEntity(new ParticleEffect(center, ParticleEffect.WIND_TRAIL));
         }
     }
 

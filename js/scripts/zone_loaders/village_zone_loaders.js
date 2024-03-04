@@ -342,6 +342,18 @@ const loadVillageMain = () => {
                 CHAD.pos = Vector.blockToWorldSpace(blockPos);
             }
 
+        GAME.addEntity(new AmmoDrop(
+            Vector.blockToWorldSpace(new Vector(20, aboveGroundLevel - 5)),
+            AmmoDrop.BOMB,
+            false
+        ));
+
+        GAME.addEntity(new AmmoDrop(
+            Vector.blockToWorldSpace(new Vector(18, aboveGroundLevel - 5)),
+            AmmoDrop.SUS_SNOWBALL,
+            false
+        ));
+
         GAME.addEntity(new FoodDrop(
             Vector.blockToWorldSpace(new Vector(16, aboveGroundLevel - 5)),
             FoodDrop.BACON,
@@ -393,14 +405,22 @@ const loadVillageMain = () => {
 
 
 
-        GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(20, aboveGroundLevel - 5))));
+        // GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(20, aboveGroundLevel - 5))));
 
-        // GAME.addEntity(new DrillBot(Vector.blockToWorldSpace(new Vector(25, aboveGroundLevel - 5))));
+        GAME.addEntity(new DrillBot(Vector.blockToWorldSpace(new Vector(25, aboveGroundLevel - 5))));
 
 
         // draw portal
+        // const portal = new Portal(new Vector(6, 13.5), Portal.YELLOW);
+        // GAME.addEntity(portal);
+        // portal.fillWithEnemies([new DrillBot(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5))), 
+        //                         new Yeti(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5))),
+        //                         new Yeti(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5))),]);
         GAME.addEntity(new Portal(new Vector(6, 13.5), Portal.PURPLE));
-        GAME.addEntity(new Portal(new Vector(10, 13.5), Portal.YELLOW));
+        // GAME.addEntity(new Portal(new Vector(10, 13.5), Portal.YELLOW));
+
+
+
 
         // NOTE: we can't activate music until the user has interacted with the canvas. (this issue is inherent to HTML5)
         //  If listening for a click is the only way to activate music, that's fine. 

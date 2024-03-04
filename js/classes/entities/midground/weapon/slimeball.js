@@ -57,6 +57,11 @@ class Slimeball {
         return "./sprites/projectile_slimeball.png";
     }
 
+    /** The file path to the Slimeball's easter egg spritesheet. */
+    static get SPRITESHEET_EASTER_EGG() {
+        return "./sprites/projectile_slimeball_face.png";
+    }
+
     static get ALIVE_TIME() {
         return 2;
     }
@@ -102,8 +107,13 @@ class Slimeball {
     }
 
     loadAnimations() {
-        this.animations["firing"] = new Animator(Slimeball.SPRITESHEET, new Vector(0, 0), Slimeball.SIZE, 5, 0.1); // idle, moving through air
-        this.animations["landed"] = new Animator(Slimeball.SPRITESHEET, new Vector(Slimeball.SIZE.x*6, 0), Slimeball.SIZE, 1, 0.5); // landing, squishing
+        if (Math.random() < 0.1) { // 10% chance of easter egg, where slimeball has a funny face
+            this.animations["firing"] = new Animator(Slimeball.SPRITESHEET_EASTER_EGG, new Vector(0, 0), Slimeball.SIZE, 5, 0.1); // idle, moving through air
+            this.animations["landed"] = new Animator(Slimeball.SPRITESHEET_EASTER_EGG, new Vector(Slimeball.SIZE.x*6, 0), Slimeball.SIZE, 1, 0.5); // landing, squishing
+        } else {
+            this.animations["firing"] = new Animator(Slimeball.SPRITESHEET, new Vector(0, 0), Slimeball.SIZE, 5, 0.1); // idle, moving through air
+            this.animations["landed"] = new Animator(Slimeball.SPRITESHEET, new Vector(Slimeball.SIZE.x*6, 0), Slimeball.SIZE, 1, 0.5); // landing, squishing
+        }
     }
 
     update() {
@@ -113,6 +123,10 @@ class Slimeball {
             this.aliveTimer += GAME.clockTick;
             if (this.aliveTimer >= Slimeball.ALIVE_TIME) {
                 this.removeFromWorld = true;
+
+                // spawn a slimeball ammo drop on the ground because Chad missed
+                const dropPos = Vector.add(this.pos, new Vector(0, -60));
+                GAME.addEntity(new AmmoDrop(dropPos, AmmoDrop.SLIMEBALL));
             }
         }
 

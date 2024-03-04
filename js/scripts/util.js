@@ -42,6 +42,8 @@ const COLORS = {
     RED: "#ff0000",
     GREEN: "#00ff00",
     LIGHT_GREEN: "#90ee90",
+    DARK_GREEN: "#006400",
+    IVY_GREEN: "#789d5e",
     BLUE: "#0000ff",
     YELLOW: "#ffff00",
     GOLD: "#ffd700",
@@ -117,6 +119,7 @@ const SFX = {
     FOOD_EAT2: {path: "./sfx/food_eat2.mp3", volume: 0.4},
     FOOD_EAT3: {path: "./sfx/food_eat3.mp3", volume: 0.4},
     FOOD_EAT4: {path: "./sfx/food_eat4.mp3", volume: 0.4},
+    AMMO_COLLECT: {path: "./sfx/ammo_collect.mp3", volume: 0.4},
     MEGA_MUSHROOM: {path: "./sfx/mega_mushroom.mp3", volume: 0.4},
     
     // UI
@@ -427,6 +430,10 @@ const EVENT_HANDLERS = {
             case "Digit3":
             case "Digit4":
             case "Digit5":
+            case "Digit6":
+            // case "Digit7":
+            // case "Digit8":
+            // case "Digit9":
                 const index = key.code.slice(-1) - 1;
                 if (!INVENTORY.ammoBag[index]) return; // make sure an ammo actually exists for this key
                 INVENTORY.switchToAmmo(INVENTORY.ammoBag[index].type);

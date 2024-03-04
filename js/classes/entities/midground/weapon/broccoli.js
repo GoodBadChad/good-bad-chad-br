@@ -90,8 +90,7 @@ class Broccoli {
         if (!this.hasHitEnemy) {
             ASSET_MGR.playSFX(SFX.BLEH.path, SFX.BLEH.volume);
             console.log("Vile weed!");
-            enemy.base.flee();
-
+            enemy.statusEffect.apply(StatusEffect.FLEEING);
             this.hasHitEnemy = true;
         }
 
@@ -109,7 +108,17 @@ class Broccoli {
             this.aliveTimer += GAME.clockTick;
             if (this.aliveTimer >= Broccoli.ALIVE_TIME) {
                 this.removeFromWorld = true;
+
+                // spawn a broccoli ammo drop on the ground because Chad missed
+                const dropPos = Vector.add(this.pos, new Vector(0, -60));
+                GAME.addEntity(new AmmoDrop(dropPos, AmmoDrop.BROCCOLI));
             }
+        }
+
+        if (this.action == "firing" && !this.hasHit && GAME.gameTime % 0.1 < 0.01) {
+            // release particle trail
+            const center = Vector.add(this.pos, Vector.divide(Broccoli.SCALED_SIZE, 2));
+            GAME.addEntity(new ParticleEffect(center, ParticleEffect.VEGGIE_TRAIL));
         }
     }
 

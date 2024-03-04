@@ -58,11 +58,7 @@ class SusSnowball {
     }
 
     static get ALIVE_TIME() {
-        return 1;
-    }
-
-    static get POISON_DAMAGE() {
-        return 5;
+        return 3;
     }
 
     /** Called when the sus snowball collides with a block. */
@@ -93,19 +89,11 @@ class SusSnowball {
         if (!this.hasHit) {
             if (Math.random() < 0.5) {
                 ASSET_MGR.playSFX(SFX.SNOW_CRUNCH1.path, SFX.SNOW_CRUNCH1.volume);
-        } else {
+            } else {
                 ASSET_MGR.playSFX(SFX.SNOW_CRUNCH2.path, SFX.SNOW_CRUNCH2.volume);
             }
-            
-            // poison damage because, well... you know
-            const poison = setInterval(() => {
-                enemy.takeDamage(SusSnowball.POISON_DAMAGE);
-            }, 1000);
 
-            // remove poison after 10 seconds
-            setTimeout(() => {
-                clearInterval(poison);
-            }, 10_000);
+            enemy.statusEffect.apply(StatusEffect.POISONED);            
             
             this.hasHit = true;
         }
@@ -125,7 +113,17 @@ class SusSnowball {
             this.aliveTimer += GAME.clockTick;
             if (this.aliveTimer >= SusSnowball.ALIVE_TIME) {
                 this.removeFromWorld = true;
+
+                // spawn a sus snowball ammo drop on the ground because Chad missed
+                const dropPos = Vector.add(this.pos, new Vector(0, -60));
+                GAME.addEntity(new AmmoDrop(dropPos, AmmoDrop.SUS_SNOWBALL));
             }
+        }
+
+        if (this.action == "firing" && !this.hasHit && GAME.gameTime % 0.1 < 0.01) {
+            // release particle trail
+            const center = Vector.add(this.pos, Vector.divide(SusSnowball.SCALED_SIZE, 2));
+            GAME.addEntity(new ParticleEffect(center, ParticleEffect.WIND_TRAIL));
         }
     }
 

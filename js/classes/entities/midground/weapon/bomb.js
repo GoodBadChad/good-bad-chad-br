@@ -48,7 +48,7 @@ class Bomb {
 
     /** The speed of the Bomb projectile as flies through the air */
     static get INITIAL_SPEED() {
-        return 10;
+        return 11;
     }
 
     /** The weight of the Bomb. */
@@ -151,6 +151,12 @@ class Bomb {
             if (this.timer > Bomb.EXPLODE_TIME) {
                 this.explode();
             }
+        }
+
+        if (this.action == "firing" && !this.hasHit && GAME.gameTime % 0.1 < 0.01) {
+            // release particle trail
+            const center = Vector.add(this.pos, Vector.divide(Bomb.SCALED_SIZE, 2));
+            GAME.addEntity(new ParticleEffect(center, ParticleEffect.WIND_TRAIL));
         }
 
         //* 2ND APPROACH: TAKE FURTHER ACTION TO PRODUCE BOUNCING EFFECT (unnecessary at the moment)
