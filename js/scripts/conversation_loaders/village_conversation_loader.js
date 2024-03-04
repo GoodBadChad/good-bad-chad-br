@@ -2,7 +2,8 @@ const villageConversationLoader = () => {
     return {
         papaChad: papaChadConversationLoader(),
         mayor: mayorConversationLoader(), 
-        blacksmith: blacksmithConversationLoader()
+        blacksmith: blacksmithConversationLoader(),
+        mama: mamaChadConversationLoader()
     };
 };
 
@@ -173,4 +174,13 @@ const blacksmithConversationLoader = () => {
             new DialogBubble(bs, "Gonna need more than that.", true)
         ]
     };
+}
+
+const mamaChadConversationLoader = () => {
+    return {
+        goodMorning: [
+            // 0
+            
+        ]
+    }
 }
