@@ -229,6 +229,7 @@ const loadVillageMain = () => {
         ASSET_MGR.queueDownload(BlackSmith.SPRITESHEET);
         ASSET_MGR.queueDownload(Mayor.SPRITESHEET);
         ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
+        ASSET_MGR.queueDownload('./sprites/mama_chad_trapped.png');
     };
 
     const addEntities = () => {
@@ -310,12 +311,12 @@ const loadVillageMain = () => {
         const blockPosPapa = new Vector(33, chadOnGround);
         const blockPosBlackSmith = new Vector(17, chadOnGround);
         const blockPosMayor = new Vector(50, chadOnGround);
-
+        const blockPosMama = new Vector(65, chadOnGround + 1);
 
         GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), new Conversation(getAllConversationArrays().village.papaChad.huntingInvite)), 0);
-        GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)), 0);
-        GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)), 0);
-
+        GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().village.blacksmith.merchant)), 0);
+        GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().village.mayor.hopefulGreeting)), 0);
+        GAME.addEntity(new MamaChad(Vector.blockToWorldSpace(blockPosMama)));
 
         let weather = "warm";
         let surfaceSnow = false;
