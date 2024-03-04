@@ -74,7 +74,7 @@ class Slingshot {
         // this.chadCenter = Vector.add(CHAD.pos, new Vector(CHAD.scaledSize.x / 2, CHAD.scaledSize.y / 2));
         this.timeSinceLastShot += GAME.clockTick;
 
-        if (!HUD.pauseButton.isMouseOver() && CHAD.health > 0) {
+        if ((!HUD.pauseButton || !HUD.pauseButton.isMouseOver()) && CHAD.health > 0) {
             if (GAME.user.aiming) {
                 this.aim();
             } else if (GAME.user.firing && this.timeSinceLastShot > Slingshot.SHOOT_DELAY) {    
