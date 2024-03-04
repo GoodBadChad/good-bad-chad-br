@@ -314,14 +314,19 @@ const loadVillageMain = () => {
         const blockPosMayor = new Vector(50, chadOnGround);
         const blockPosMama = new Vector(65, chadOnGround + 1);
         const blockPosWizard = new Vector(63, chadOnGround);
+        const blockPosIdleMama = new Vector(37, chadOnGround);
+
+        const idleMama = new MamaChad(Vector.blockToWorldSpace(blockPosIdleMama));
+        idleMama.action = "idle";
 
         GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), new Conversation(getAllConversationArrays().village.papaChad.huntingInvite)), 0);
         GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().village.blacksmith.merchant)), 0);
         GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().village.mayor.hopefulGreeting)), 0);
         GAME.addEntity(new MamaChad(Vector.blockToWorldSpace(blockPosMama)));
         GAME.addEntity(new Wizard(Vector.blockToWorldSpace(blockPosWizard)));
+        GAME.addEntity(idleMama);
 
-        let weather = "rain";
+        let weather = "warm";
         let surfaceSnow = false;
         if (weather === "snow") {
             surfaceSnow = true
