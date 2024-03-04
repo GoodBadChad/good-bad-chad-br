@@ -235,7 +235,7 @@ class Decoration {
                     FRAME_DURATION: 1,
                     SIZE: new Vector(64, 64),
                     SCALE: 30
-                },
+                }
 
             },
             clouds: {
@@ -312,7 +312,7 @@ class Decoration {
                     FRAME_DURATION: .2,
                     SIZE: new Vector(32, 32),
                     SCALE: 2.2
-                },
+                }
             },
             lighting: {
                 LANTERN: {
@@ -330,7 +330,7 @@ class Decoration {
                     FRAME_DURATION: 1,
                     SIZE: new Vector(32, 32),
                     SCALE: 20
-                },
+                }
             }
         };
     };
