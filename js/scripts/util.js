@@ -127,12 +127,12 @@ const SFX = {
     UI_SCIFI: { path: "./sfx/ui_scifi.mp3", volume: 0.4 },
     UI_SNAP: { path: "./sfx/ui_snap.mp3", volume: 0.4 },
     UI_GAMEBOY_BEEP: { path: "./sfx/ui_gameboy_beep.mp3", volume: 0.4 },
-    
+
     // Environment
-    RICOCHET1: {path: "./sfx/ricochet1.mp3", volume: 0.4},
-    RICOCHET2: {path: "./sfx/ricochet2.mp3", volume: 0.4},
-    RICOCHET3: {path: "./sfx/ricochet3.mp3", volume: 0.4},
-    RICOCHET4: {path: "./sfx/ricochet4.mp3", volume: 0.4},
+    RICOCHET1: { path: "./sfx/ricochet1.mp3", volume: 0.4 },
+    RICOCHET2: { path: "./sfx/ricochet2.mp3", volume: 0.4 },
+    RICOCHET3: { path: "./sfx/ricochet3.mp3", volume: 0.4 },
+    RICOCHET4: { path: "./sfx/ricochet4.mp3", volume: 0.4 },
     GAME_OVER: { path: "./sfx/game_over.wav", volume: 0.4 },
     DING: { path: "./sfx/ding.mp3", volume: 0.4 },
     SNOW_CRUNCH1: { path: "./sfx/snow_crunch1.mp3", volume: 0.4 },
@@ -214,12 +214,12 @@ const getNearbyEntities = (centerPos, range) => {
         const closestX = leftDist < rightDist ? entity.boundingBox.left : entity.boundingBox.right;
         const closestY = topDist < bottomDist ? entity.boundingBox.top : entity.boundingBox.bottom;
         const distToBB = Vector.distance(new Vector(closestX, closestY), centerPos);
-        
+
         if (distToBB < range) {
             nearbyEntities.push(entity);
         }
     });
-    
+
     // put chad in array if neccessary
     // find the distance between Chad's CLOSEST SIDE of his bounding box and the center of the circle
     const leftDist = Math.abs(CHAD.boundingBox.left - centerPos.x);

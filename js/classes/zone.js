@@ -37,12 +37,6 @@ class Zone {
 
             CHAD.initWeapons();
             CHAD.initStatusEffect();
-
-            // TODO: this is a bandaid fix! Let's figure out how to make this better!!!
-            setTimeout(() => {
-                HUD.addComponents();
-            }, 1_000);
-
         };
         this.name = name;
     };

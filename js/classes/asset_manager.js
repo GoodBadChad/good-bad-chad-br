@@ -253,6 +253,7 @@ class AssetManager {
             PapaChad.SPRITESHEET,
             Projectile.SPRITESHEET,
             Slingshot.SPRITESHEET,
+            StartMenu.TITLE_SPRITESHEET,
             Sun.SPRITESHEET,
             Sword.SPRITESHEET,
             RuneDrop.SPRITESHEET,
