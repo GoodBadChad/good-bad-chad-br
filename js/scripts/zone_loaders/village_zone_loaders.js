@@ -205,11 +205,10 @@ const loadVillageInsideCave = () => {
         }, 1000);
 
         TilemapInterpreter.setTilemap(caveTilemap);
-        // if (LAST_ZONE.equals(Zone.getZones().village.woods)) { // Coming from woods.
-        if (LAST_ZONE == null) {
+        if (LAST_ZONE.equals(Zone.getZones().village.woods)) { // Coming from woods.
 
             // Set spawn point on the right.
-            const blockPos = new Vector(80, 93);
+            const blockPos = new Vector(ZONE.MIN_BLOCK.x, 5);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
     };
