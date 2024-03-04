@@ -194,10 +194,12 @@ class Inventory {
 
     spendRunes(runes) {
         this.runes -= runes;
+        HUD.runeCounter.setCount(this.runes);
     };
 
     collectRunes(runes) {
         this.runes += runes;
+        HUD.runeCounter.setCount(this.runes);
     };
 
     // /**

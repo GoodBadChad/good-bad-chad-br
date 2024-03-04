@@ -1,5 +1,3 @@
-
-
 const villageConversationLoader = () => {
     return {
         papaChad: papaChadConversationLoader(),
@@ -131,7 +129,7 @@ const blacksmithConversationLoader = () => {
         merchant: [
             // 0
             new DialogBubble(bs,
-            "Hello."),
+                "Hello."),
             // 1
             new DecisionBubble('Blacksmith', 'Hello.', [
                 new Choice('I\'d like to see what you have for sale.', 2),
@@ -154,17 +152,17 @@ const blacksmithConversationLoader = () => {
             ]),
             // 4
             new DialogBubble(bs, "Here you go.", true, () => {
-                INVENTORY.runes -= 25;
+                INVENTORY.spendRunes(25);
                 INVENTORY.adjustAmmo(AmmoItem.ROCK, 25);
             }),
             // 5
             new DialogBubble(bs, "Here you go.", true, () => {
-                INVENTORY.runes -= 100;
+                INVENTORY.spendRunes(100);
                 INVENTORY.adjustAmmo(AmmoItem.ROCK, 100);
             }),
             // 6
             new DialogBubble(bs, "Here you go.", true, () => {
-                INVENTORY.runes -= 50;
+                INVENTORY.spendRunes(50);
                 INVENTORY.adjustAmmo(AmmoItem.BOMB, 5);
             }),
             // 7
