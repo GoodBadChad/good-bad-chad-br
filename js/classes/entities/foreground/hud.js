@@ -102,29 +102,7 @@ class Hud {
         //TODO: add a hidden options button to the center-right of the screen
         //TODO: add a hidden options menu (will contain volume sliders, spanish mode, debug mode, save progress, etc.)
         //TODO: add a hidden game over screen
-
-
-        // add weapon labels
-        const weaponLabelWidth = 150;
-        const weaponLabelYPos = Camera.SIZE.y - ItemLabel.DEFAULT_SIZE.y - Hud.MARGIN;
-        // this.addComponent("slingshotLabel", new ItemLabel(
-        //     new Vector(Hud.MARGIN, weaponLabelYPos),
-        //     new Animator(Slingshot.SPRITESHEET, new Vector(0, 0), Slingshot.SIZE, 1, 1),
-
-        //     "Left-click",
-        //     null,
-        //     weaponLabelWidth,
-        //     5
-        // ));
-        // this.addComponent("swordLabel", new ItemLabel(
-        //     new Vector(weaponLabelWidth + Hud.MARGIN, weaponLabelYPos),
-        //     new Animator(Sword.SPRITESHEET, new Vector(0, 0), Sword.SIZE, 1, 1),
-        //     "Right-click",
-        //     null,
-        //     weaponLabelWidth,
-        //     -15 // yes I'm using a negative padding don't judge me, it makes the sword bigger
-        // ));
-
+        
         // add slingshot ammo hotbar
         const hotbarItemWidth = ItemLabel.DEFAULT_SIZE.x;
         const hotbarXStart = (Camera.SIZE.x - hotbarItemWidth * 5) / 2 - 16;
