@@ -296,6 +296,30 @@ class ParticleEffect {
         };
     }
 
+    static get WIND_TRAIL() {
+        return {
+            spread: 15,
+            size: 5,
+            amount: 1,
+            lifetime: 0.3,
+            color: COLORS.WHITE,
+            opacity: 0.7,
+            behavior: ParticleEffect.FALL
+        };
+    }
+
+    static get VEGGIE_TRAIL() {
+        return {
+            spread: 15,
+            size: 5,
+            amount: 1,
+            lifetime: 0.3,
+            color: COLORS.DARK_GREEN,
+            opacity: 0.7,
+            behavior: ParticleEffect.FALL
+        };
+    }
+
     /**
      * A "preset" particle effect for wind blowing.
      */
@@ -353,6 +377,18 @@ class ParticleEffect {
         };
     }
 
+    static get AMMO_PICKUP() {
+        return {
+            spread: 80,
+            size: 4,
+            amount: 20,
+            lifetime: 0.8,
+            color: COLORS.BLUE,
+            opacity: 0.8,
+            behavior: ParticleEffect.RISE
+        };
+    }
+
     static get GOLD_SPARKLE() {
         return {
             spread: 80,
@@ -384,6 +420,18 @@ class ParticleEffect {
             amount: 5,
             lifetime: 0.3,
             color: COLORS.GREEN,
+            opacity: 0.7,
+            behavior: ParticleEffect.SLOW_EXPAND
+        };
+    }
+
+    static get IVY_GREEN_SPARKLE() {
+        return {
+            spread: 80,
+            size: 4,
+            amount: 5,
+            lifetime: 0.3,
+            color: COLORS.IVY_GREEN,
             opacity: 0.7,
             behavior: ParticleEffect.SLOW_EXPAND
         };

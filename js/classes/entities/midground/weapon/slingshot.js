@@ -40,7 +40,7 @@ class Slingshot {
         this.isFiring = true;
         this.isAiming = false;
 
-        let ammoType = INVENTORY.useCurrentAmmo();
+        const ammoType = INVENTORY.useCurrentAmmo();
         if (ammoType != "Empty") {
             // choose from 4 different firing sounds
             const rand = Math.floor(Math.random() * 4) + 1;
@@ -49,8 +49,8 @@ class Slingshot {
 
             // create a projectile and launch it in the direction of the mouse
             GAME.addEntity(ProjectileFactory.create(
-                ProjectileFactory.SLIMEBALL, 
-                Vector.round(CHAD.getCenter()), 
+                ammoType,
+                Vector.round(Vector.add(CHAD.getCenter(), new Vector(0, -10))), 
                 Vector.round(Vector.canvasToWorldSpace(GAME.mousePos)))
             );
         }
@@ -105,7 +105,7 @@ class Slingshot {
                 return "DownAiming";
             }
         } else {
-            return "idle";
+            return "none";
         }
     }
 

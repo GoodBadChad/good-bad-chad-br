@@ -359,6 +359,20 @@ const loadVillageMain = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
+        GAME.addEntity(new AmmoDrop(
+            Vector.blockToWorldSpace(new Vector(20, aboveGroundLevel - 5)),
+            AmmoDrop.BOMB,
+            false,
+            5
+        ));
+
+        GAME.addEntity(new AmmoDrop(
+            Vector.blockToWorldSpace(new Vector(18, aboveGroundLevel - 5)),
+            AmmoDrop.SUS_SNOWBALL,
+            false,
+            2
+        ));
+
         GAME.addEntity(new FoodDrop(
             Vector.blockToWorldSpace(new Vector(16, aboveGroundLevel - 5)),
             FoodDrop.BACON,
@@ -410,25 +424,35 @@ const loadVillageMain = () => {
 
 
 
-        GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(20, aboveGroundLevel - 5))));
-
-        // GAME.addEntity(new DrillBot(Vector.blockToWorldSpace(new Vector(25, aboveGroundLevel - 5))));
+        GAME.addEntity(new DrillBot(Vector.blockToWorldSpace(new Vector(25, aboveGroundLevel - 5))));
 
 
         // draw portal
+
+        // const portal = new Portal(new Vector(6, 13.5), Portal.YELLOW);
+        // GAME.addEntity(portal);
+        // portal.fillWithEnemies([new DrillBot(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5))), 
+        //                         new Yeti(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5))),
+        //                         new Yeti(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5))),]);
         GAME.addEntity(new Portal(new Vector(6, 13.5), Portal.PURPLE));
-        GAME.addEntity(new Portal(new Vector(10, 13.5), Portal.YELLOW));
+        // GAME.addEntity(new Portal(new Vector(10, 13.5), Portal.YELLOW));
+
+
+
 
         // NOTE: we can't activate music until the user has interacted with the canvas. (this issue is inherent to HTML5)
         //  If listening for a click is the only way to activate music, that's fine. 
         //  Our game's START button in the final version can be the trigger.
-        // let playMusic = () => {
-        //     ASSET_MGR.playMusic(MUSIC.VILLAGE_SIMPLE_LIFE.path, MUSIC.VILLAGE_SIMPLE_LIFE.volume);
+        let playMusic = () => {
+            // ASSET_MGR.playMusic(MUSIC.HIGH_ENERGY.path, MUSIC.HIGH_ENERGY.volume);
+            // ASSET_MGR.playMusic(MUSIC.VILLAGE_SIMPLE_LIFE.path, MUSIC.VILLAGE_SIMPLE_LIFE.volume);
+            ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
 
-        //     // delete the event listener so that the music doesn't restart when the user presses a key
-        //     document.body.removeEventListener('keydown', playMusic);
-        // };
-        // document.body.addEventListener('keydown', playMusic);
+
+            // delete the event listener so that the music doesn't restart when the user presses a key
+            document.body.removeEventListener('keydown', playMusic);
+        };
+        document.body.addEventListener('keydown', playMusic);
 
         LoadingAnimation.stop();
     };

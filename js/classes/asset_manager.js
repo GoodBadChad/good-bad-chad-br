@@ -259,9 +259,11 @@ class AssetManager {
             RuneDrop.SPRITESHEET,
             RuneItem.SPRITESHEET,
             FoodDrop.SPRITESHEET,
+            AmmoDrop.SPRITESHEET,
             DashCooldown.SPRITESHEET,
             Bomb.SPRITESHEET,
             Rock.SPRITESHEET,
+            Rock.SPRITESHEET_EASTER_EGG,
 
             // Sounds:
             SFX.JUMP1.path,
@@ -305,6 +307,7 @@ class AssetManager {
             SFX.FOOD_EAT4.path,
             SFX.DING.path,
             SFX.MEGA_MUSHROOM.path,
+            SFX.AMMO_COLLECT.path,
 
             //TEMPORARY
             SFX.GROWL1.path,
@@ -318,6 +321,7 @@ class AssetManager {
             Snowball.SPRITESHEET,
             SusSnowball.SPRITESHEET,
             Slimeball.SPRITESHEET,
+            Slimeball.SPRITESHEET_EASTER_EGG,
             SFX.SLIME_SPLAT.path,
             Broccoli.SPRITESHEET,
             SFX.BLEH.path,

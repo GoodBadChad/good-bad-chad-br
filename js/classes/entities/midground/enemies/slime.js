@@ -116,6 +116,11 @@ class Slime {
      */
     handleDeath() {
         this.action = "dying";
+
+        if (Math.random() < 0.3) {
+            const pos = Vector.add(this.base.getCenter(), new Vector(0, -20));
+            GAME.addEntity(new FoodDrop(pos, AmmoDrop.SLIMEBALL));
+        }
     }
     
     /** Change what the Slime is doing and where it is. */

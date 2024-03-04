@@ -3,20 +3,26 @@
  * 
  * @author Nathan
  */
-class Water {
+class LiquidBlock {
     /**
-     * @param {Vector} pos The coordinates (IN THE BLOCKGRID) at which you want the water block placed.
+     * @param {Vector} pos The coordinates (IN THE BLOCKGRID) at which you want the liquid block placed.
+     * @param {number} type The type of liquid block you want. LiquidBlock.WATER, LAVA.
      */
-    constructor(pos) {
+    constructor(pos, type) {
         /** The position of the Water block (in the game world). */
         this.pos = Vector.blockToWorldSpace(pos);
+        this.type = type;
 
         this.animator = new Animator(
-            Block.SPRITESHEET,
-            new Vector(0, 0),
-            new Vector(Water.SIZE, Water.SIZE),
+            LiquidBlock.SPRITESHEET,
+            new Vector(0, type * LiquidBlock.SIZE.y),
+            LiquidBlock.SIZE,
             2, 0.3, true);
+
+        this.isHarmful = true; // change later on if we want to add calm water for a small lake
     };
+
+
 
     /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {
@@ -24,17 +30,25 @@ class Water {
     };
 
     static get SIZE() {
-        return 32;
+        return new Vector(32, 32);
     };
 
     static get SCALED_SIZE() {
-        return Water.SCALE * Water.SIZE;
+        return LiquidBlock.SCALE * LiquidBlock.SIZE;
     };
 
     /** The filepath to the spritesheet of the Block. */
     static get SPRITESHEET() {
         return "./sprites/water.png";
     };
+
+    static get WATER() {
+        return 0;
+    }
+
+    static get LAVA() {
+        return 1;
+    }
 
     /** Change what the entity is doing and where it is. */
     update() {
@@ -43,6 +57,6 @@ class Water {
 
     /** Draw the entity on the canvas. */
     draw() {
-        this.animator.drawFrame(Vector.worldToCanvasSpace(this.pos), Water.SCALE);
+        this.animator.drawFrame(Vector.worldToCanvasSpace(this.pos), LiquidBlock.SCALE);
     };
 };

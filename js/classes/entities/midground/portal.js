@@ -89,8 +89,10 @@ class Portal {
 
         // release enemies every 8 seconds
         if (this.spawnTimer <= 0 && this.enemyStock.length > 0) {
+            console.log("releasing enemies");
             for (let i = 0; i < this.spawnGroupSize; i++) {
                 GAME.addEntity(this.enemyStock.pop());
+                console.log("enemy released");
             }
             this.spawnTimer = Portal.SPAWN_DELAY;
         }

@@ -180,7 +180,10 @@ class Chad {
      * Initialize Chad's status effect.
      */
     initStatusEffect() {
-        this.statusEffect = new StatusEffect(this);
+        // if we don't have a status effect, create one
+        if (!this.statusEffect) {
+            this.statusEffect = new StatusEffect(this);
+        }
         GAME.addEntity(this.statusEffect);
     }
 
@@ -476,9 +479,20 @@ class Chad {
             this.action = "slicing";
         }
 
+        if (this.isOnGround && !(GAME.user.movingRight || GAME.user.movingLeft)) {
+            if (this.sword.isSlicing()) {
+                this.action = "slicingStill";
+            }
+        } else if (!(this.isOnGround) && GAME.user.jumping && !(GAME.user.dashing)) {
+            this.action = "jumping"
+            if (this.sword.isSlicing()) {
+                this.action = "slicingStill";
+            }
+        }
+
         // leave it up to the slingshot to decide where chad is aiming
-        const slingshotAction = this.slingshot != null ? this.slingshot.getAction() : "idle";
-        if (slingshotAction != "idle") {
+        const slingshotAction = this.slingshot != null ? this.slingshot.getAction() : "none";
+        if (slingshotAction != "none") {
             // provided the slingshot is doing something, override chad's action to a combination of the two
             switch (this.action) {
                 case "idle":
@@ -490,15 +504,10 @@ class Chad {
                 case "running":
                     this.action = "running" + slingshotAction;
                     break;
+                case "jumping":
+                    this.action = "idle" + slingshotAction; // no jumping animations for aiming
+                    break;
             }
-        }
-
-        if (this.isOnGround && !(GAME.user.movingRight || GAME.user.movingLeft)) {
-            if (this.sword.isSlicing()) {
-                this.action = "slicingStill";
-            }
-        } else if (!(this.isOnGround) && GAME.user.jumping && !(GAME.user.dashing)) {
-            this.action = "jumping"
         }
 
 

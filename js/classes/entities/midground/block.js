@@ -26,23 +26,26 @@ class Block {
         this.boundingBox = needsBB ? new BoundingBox(this.pos, new Vector(Block.SCALED_SIZE, Block.SCALED_SIZE)) : undefined;
 
 
-        /**
-         * The directions in which Chad can pass through this block.
-         */
-        this.canPassThru = {
-            top: false,
-            bottom: false,
-            left: false,
-            right: false
-        }
-
         // certain blocks can be passed through by Chad
-        switch(this.type) {
-            // case Block.BRANCH:
-            //     this.canPassThru.bottom = true;
-            //     break;
-
-            // ... other cases
+        if (needsBB) {
+            this.canPassThru = {
+                top: false,
+                bottom: false,
+                left: false,
+                right: false
+            }
+            switch(this.type) {
+                case Block.BR_LEFT_FULL:
+                case Block.BR_RIGHT_FULL:
+                case Block.BRANCH_LEFT_HALF:
+                case Block.BRANCH_RIGHT_HALF:
+                    this.canPassThru.bottom = true;
+                    this.canPassThru.left = true;
+                    this.canPassThru.right = true;
+                    break;
+    
+                // ... other cases
+            }
         }
     };
 
@@ -241,6 +244,13 @@ class Block {
     /** Transparent Darkness. */
     static get DARK() {
         return 48;
+    }
+    /** Stump for river. */
+    static get STUMP() {
+        return 49;
+    }
+    static get BARREL() {
+        return 50;
     }
     /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {

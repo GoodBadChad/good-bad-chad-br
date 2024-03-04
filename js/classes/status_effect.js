@@ -30,6 +30,10 @@ class StatusEffect {
         this.slow = false;
         /** Whether the entity is giant. */
         this.giant = false;
+        /** Whether the entity is poisoned. */
+        this.poisoned = false;
+        /** Whether the entity is fleeing. Doesn't work for Chad */
+        this.fleeing = false;
 
         /** The duration of the invincibility status effect in seconds. */
         this.invincibleTimer = 0;
@@ -41,9 +45,16 @@ class StatusEffect {
         this.slowTimer = 0;
         /** The duration of the giant size status effect in seconds. */
         this.giantTimer = 0;
+        /** The duration of the poisoned status effect in seconds. */
+        this.poisonedTimer = 0;
+        /** The duration of the fleeing status effect in seconds. */
+        this.fleeingTimer = 0;
 
         /** The duration of the giant size status effect in seconds. */
         this.canCrushTimer = 0;
+
+        /** The delay before the entity takes poison damage again. */
+        this.poisonDamageTimer = 0;
     }
 
     /**
@@ -112,6 +123,23 @@ class StatusEffect {
                 }
                 break;
 
+            case StatusEffect.POISONED:
+                this.poisonedTimer = duration ? duration : StatusEffect.POISONED_DURATION;
+                if (!this.poisoned) { // if already poisoned, don't take the same effect again
+                    this.poisoned = true;
+                }
+                break;
+
+            case StatusEffect.FLEEING:
+                this.fleeingTimer = duration ? duration : StatusEffect.FLEEING_DURATION;
+                if (!this.fleeing) { // if already fleeing, don't take the same effect again
+                    this.fleeing = true;
+                    if (this.entity.isEnemy) {
+                        this.entity.base.flee();
+                    }
+                }
+                break;
+
             default:
                 throw new Error("Invalid status effect: " + effect);
         }
@@ -160,6 +188,17 @@ class StatusEffect {
             case StatusEffect.GIANT:
                 this.giant = false;
                 this.restoreScale(); // this applies to all entities, not just Chad
+                break;
+
+            case StatusEffect.POISONED:
+                this.poisoned = false;
+                break;
+
+            case StatusEffect.FLEEING:
+                this.fleeing = false;
+                if (this.entity.isEnemy) {
+                    this.entity.base.pursue();
+                }
                 break;
 
             default:
@@ -235,6 +274,31 @@ class StatusEffect {
                 this.canCrush = true;
             }
         }
+
+        if (this.poisoned) {
+            this.poisonedTimer -= GAME.clockTick;
+            this.poisonDamageTimer -= GAME.clockTick;
+            if (GAME.gameTime % 0.1 < 0.01) {
+                GAME.addEntity(new ParticleEffect(
+                    this.entity.getCenter(),
+                    ParticleEffect.IVY_GREEN_SPARKLE)
+                );
+            }
+            if (this.poisonDamageTimer <= 0) {
+                this.entity.takeDamage(StatusEffect.POISON_DAMAGE);
+                this.poisonDamageTimer = StatusEffect.POISON_DELAY;
+            }
+            if (this.poisonedTimer <= 0) {
+                this.remove(StatusEffect.POISONED);
+            }
+        }
+
+        if (this.fleeing) {
+            this.fleeingTimer -= GAME.clockTick;
+            if (this.fleeingTimer <= 0) {
+                this.remove(StatusEffect.FLEEING);
+            }
+        }
     }
 
     draw() {
@@ -250,6 +314,8 @@ class StatusEffect {
         this.remove(StatusEffect.FAST);
         this.remove(StatusEffect.SLOW);
         this.remove(StatusEffect.GIANT);
+        this.remove(StatusEffect.POISONED);
+        this.remove(StatusEffect.FLEEING);
     }
 
     /**
@@ -321,6 +387,21 @@ class StatusEffect {
         return "slow";
     }
 
+    /**
+     * The string representation of the poisoned status effect.
+     */
+    static get POISONED() {
+        return "poisoned";
+    }
+
+    /** 
+     * The string representation of the fleeing status effect.
+     * This is not used for Chad, only for enemies.
+     */
+    static get FLEEING() {
+        return "fleeing";
+    }
+
 
     /**
      * The duration of the invincibility status effect in seconds.
@@ -359,6 +440,23 @@ class StatusEffect {
     }
 
     /**
+     * The duration of the poisoned status effect in seconds.
+     */
+    static get POISONED_DURATION() {
+        return 10;
+    }
+
+    /**
+     * The duration of the fleeing status effect in seconds.
+     * This is not used for Chad, only for enemies.
+     */
+    static get FLEEING_DURATION() {
+        return 10;
+    }
+
+
+
+    /**
      * The scale modifier for the giant size status effect.
      */
     static get GIANT_SCALE_MODIFIER() {
@@ -391,5 +489,14 @@ class StatusEffect {
      */
     static get CRUSH_DELAY() {
         return 0.5;
+    }
+
+
+    static get POISON_DAMAGE() {
+        return 4;
+    }
+
+    static get POISON_DELAY() {
+        return 0.6;
     }
 }
