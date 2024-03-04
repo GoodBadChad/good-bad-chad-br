@@ -106,6 +106,10 @@ class DrillBot {
         if (Math.random() < 0.5) {
             const pos = Vector.add(this.base.getCenter(), new Vector(0, -20));
             GAME.addEntity(new FoodDrop(pos, FoodDrop.ENERGY_DRINK));
+        } else if (Math.random() < 0.5) {
+            const pos = Vector.add(this.base.getCenter(), new Vector(0, -20));
+            GAME.addEntity(new FoodDrop(pos, AmmoDrop.BOMB));
+
         }
 
         ASSET_MGR.playSFX(SFX.ROBOT_DEATH1.path, SFX.ROBOT_DEATH1.volume);
