@@ -17,8 +17,7 @@ class Inventory {
         this.foodBag = [];
         this.intializeFoodBag();
         /** The current runes that the player has collected. Filled with RuneItem objects */
-        this.runeBag = [];
-        this.intializeRuneBag();
+        this.runes = 100;
         /** Permanent items Chad collects and potentially has abilities tied to */
         this.unlockables = [];
     }
@@ -193,35 +192,41 @@ class Inventory {
         return this.currentFood;
     }
 
+    spendRunes(runes) {
+        this.runes -= runes;
+    };
 
+    collectRunes(runes) {
+        this.runes += runes;
+    };
 
-    /**
-     * @param {number} type The type of the rune to add to the inventory.
-     * @param {number} amount The amount of rune to add to the inventory.
-     */
-    addRune(type, amount) {
+    // /**
+    //  * @param {number} type The type of the rune to add to the inventory.
+    //  * @param {number} amount The amount of rune to add to the inventory.
+    //  */
+    // addRune(type, amount) {
 
-    }
+    // }
 
-    /**
-     * @returns {Array} An array of all the rune in the inventory.
-     */
-    getAllRunes() {
-        return this.runeBag;
-    }
+    // /**
+    //  * @returns {Array} An array of all the rune in the inventory.
+    //  */
+    // getAllRunes() {
+    //     return this.runeBag;
+    // }
 
-    /**
-     * @param {number} type The type of the rune to get.
-     * @returns {RuneItem} The rune with the given name.
-     */
-    getRune(type) {
-        for (let i = 0; i < this.runeBag.length; i++) {
-            let rune = this.runeBag[i];
-            if (rune.type == type) {
-                return this.runeBag[i];
-            }
-        }
-    }
+    // /**
+    //  * @param {number} type The type of the rune to get.
+    //  * @returns {RuneItem} The rune with the given name.
+    //  */
+    // getRune(type) {
+    //     for (let i = 0; i < this.runeBag.length; i++) {
+    //         let rune = this.runeBag[i];
+    //         if (rune.type == type) {
+    //             return this.runeBag[i];
+    //         }
+    //     }
+    // }
 
 
 
