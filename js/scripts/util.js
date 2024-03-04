@@ -328,17 +328,15 @@ const EVENT_HANDLERS = {
         // check if mouse button is left click
         if (mouse.button === 2) {
             GAME.user.jabbing = true;
-            // GAME.user.aiming = false; uncomment this if you don't want to be able to aim while jabbing
-        } else if (mouse.button === 0) {
+        } else if (mouse.button === 0 && !CHAD.sword.isSlicing()) {
             GAME.user.aiming = true;
-            // GAME.user.jabbing = false; uncomment this if you don't want to be able to jab while aiming
         }
     },
     gameplayMouseUp: (mouse) => {
         // check if mouse button is left click
         if (mouse.button === 2) {
             GAME.user.jabbing = false;
-        } else if (mouse.button === 0) {
+        } else if (mouse.button === 0 && !CHAD.sword.isSlicing()) {
             GAME.user.aiming = false;
             GAME.user.firing = true;
         }
