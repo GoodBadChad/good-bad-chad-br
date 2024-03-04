@@ -10,10 +10,11 @@ class AmmoDrop {
      * @param {Vector} pos The position at which the AmmoDrop should start.
      * @param {number} type The type of AmmoDrop that should be generated. AmmoDrop.ROCK, .BOMB, etc.
      */
-    constructor(pos, type, hasGravity = true) {
+    constructor(pos, type, hasGravity = true, amount = 1) {
 
         this.type = type;
         this.pos = pos;
+        this.amount = amount;
         this.hasGravity = hasGravity;
         this.yVelocity = 0;
         this.scale = AmmoDrop.SCALE;
@@ -38,7 +39,7 @@ class AmmoDrop {
         this.removeFromWorld = true;
 
         //TODO send ammo to inventory
-        INVENTORY.adjustAmmo(this.type, 1);
+        INVENTORY.adjustAmmo(this.type, this.amount);
     }
 
     update() {
@@ -64,6 +65,14 @@ class AmmoDrop {
 
     draw() {
         this.animation.drawFrame(Vector.worldToCanvasSpace(this.pos), this.scale);
+
+        CTX.fillStyle = "white";
+        CTX.font = ItemLabel.TEXT_SIZE + "px vt323";
+
+        const text = "x" + this.amount;
+        const textWidth = CTX.measureText(text).width;
+        const worldPos = Vector.worldToCanvasSpace(this.pos);
+        CTX.fillText(text, worldPos.x + this.scaledSize.x - textWidth, worldPos.y + ItemLabel.TEXT_SIZE);
     }
 
     /** The ammo spritesheet. */

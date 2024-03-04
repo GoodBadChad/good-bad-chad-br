@@ -48,12 +48,12 @@ class Rock {
 
     /** The speed of the Rock projectile as flies through the air */
     static get INITIAL_SPEED() {
-        return 18;
+        return 14;
     }
 
     /** The weight of the Rock. */
     static get WEIGHT() {
-        return 0.03;
+        return 0.02;
     }
 
     /** The file path to the Rock's spritesheet. */
@@ -108,7 +108,7 @@ class Rock {
     }
 
     loadAnimations() {
-        if (Math.random() < 0.05) {
+        if (Math.random() < 0.03) {
             this.animations["firing"] = new Animator(Rock.SPRITESHEET_EASTER_EGG, new Vector(0, 0), Rock.SIZE_EASTER_EGG, 1, 0.5); // idle, moving through air
         } else {
             this.animations["firing"] = new Animator(Rock.SPRITESHEET, new Vector(0, 0), Rock.SIZE, 1, 0.5); // idle, moving through air

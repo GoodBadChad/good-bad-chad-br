@@ -410,6 +410,10 @@ class ItemLabel {
         this.quantity = quantity;
     }
 
+    setImageVisible(isVisible) {
+        
+    }
+
     /** 
      * Set whether or not this ItemLabel is selected. 
      * 

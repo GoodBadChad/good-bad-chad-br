@@ -153,7 +153,11 @@ class Zone {
             },
             woods: {
 
-            }
+            },
+            river: {
+                start: new Zone(zeros, defaultMaxBlock, loadRiverStart, "River Start"),
+                end: new Zone(zeros, defaultMaxBlock, loadRiverEnd, "River End"),
+            },
         };
     };
 };

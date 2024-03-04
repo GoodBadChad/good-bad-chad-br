@@ -27,6 +27,12 @@ class TilemapInterpreter {
             for (let x = ZONE.MAX_BLOCK.x; x >= ZONE.MIN_BLOCK.x; x--) {
 
                 switch (TilemapInterpreter.tilemap[y][x]) {
+                    case 'W':
+                        GAME.addEntity(new LiquidBlock(new Vector(x, y), LiquidBlock.WATER), 1);
+                        break;
+                    case 'V':
+                        GAME.addEntity(new LiquidBlock(new Vector(x, y), LiquidBlock.LAVA), 1);
+                        break;
                     case 'S':
                         GAME.addEntity(new Block(new Vector(x, y), Block.CAVE_SHARP_UP_GROUP_GREY), -1);
                         break;
