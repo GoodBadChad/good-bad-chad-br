@@ -572,6 +572,7 @@ class Chad {
                         LAST_ZONE = ZONE;
                         ZONE = entity.target;
                         ZONE.load();
+                        HUD.addComponents();
                     }
                     else if (entity.conversation) {
                         if (GAME.user.interacting) {

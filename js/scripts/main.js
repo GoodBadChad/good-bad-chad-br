@@ -94,4 +94,5 @@ console.log(STORY);
 
 console.log(Block.SCALED_SIZE);
 // (4) Start the game! :)
+GAME.addEntity(new StartMenu(), 1);
 GAME.start();
