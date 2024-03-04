@@ -182,9 +182,9 @@ class Chad {
     initStatusEffect() {
         // if we don't have a status effect, create one
         if (!this.statusEffect) {
-        this.statusEffect = new StatusEffect(this);
-        GAME.addEntity(this.statusEffect);
+            this.statusEffect = new StatusEffect(this);
         }
+        GAME.addEntity(this.statusEffect);
     }
 
     /** 
