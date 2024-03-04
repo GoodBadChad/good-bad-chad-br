@@ -46,7 +46,7 @@ class Hud {
             if (GAME.running) {
                 const crosshairClicked = 'url(../sprites/crosshair_clicked.png) 16 16, auto';
                 document.body.style.cursor = crosshairClicked;
-                
+
             } else {
                 const pointerClicked = 'url(../sprites/pointer_clicked.png) 10 4, auto';
                 document.body.style.cursor = pointerClicked;
@@ -58,7 +58,7 @@ class Hud {
             if (GAME.running) {
                 const crosshairUnclicked = 'url(../sprites/crosshair_unclicked.png) 16 16, auto';
                 document.body.style.cursor = crosshairUnclicked;
-                
+
             } else {
                 const pointerUnclicked = 'url(../sprites/pointer_unclicked.png) 10 4, auto';
                 document.body.style.cursor = pointerUnclicked;
@@ -619,7 +619,7 @@ class ChadHead {
             new Vector(Chad.SIZE.x - 2, 17),
             1, 1)
     }
-    
+
     /**
      * Update the ChadHead. Does nothing.
      */
