@@ -9,8 +9,6 @@ class Hud {
      * Constructor for the HUD that adds it components.
      */
     constructor() {
-        this.addComponents();
-        
         this.addMouseListeners();
     }
 
@@ -24,16 +22,25 @@ class Hud {
         return 10;
     }
 
+    /**
+     * Switch the mouse icon to a crosshair.
+     */
     swapToCrosshair() {
         const crosshairUnclicked = 'url(../sprites/crosshair_unclicked.png) 16 16, auto';
         document.body.style.cursor = crosshairUnclicked;
     }
 
+    /**
+     * Switch the mouse icon to a pointer.
+     */
     swapToPointer() {
         const pointerUnclicked = 'url(../sprites/pointer_unclicked.png) 10 4, auto';
         document.body.style.cursor = pointerUnclicked;
     }
 
+    /**
+     * Add the mouse listeners for switching between pointers.
+     */
     addMouseListeners() {
         document.body.addEventListener('mousedown', () => {
             if (GAME.running) {
@@ -74,7 +81,7 @@ class Hud {
             throw new Error("Cannot add component: component must have update and draw methods.");
         }
         this[name] = component;
-        GAME.addEntity(component);
+        GAME.addEntity(component, 1);
     }
 
     /**
@@ -88,7 +95,6 @@ class Hud {
             new Vector(Hud.MARGIN, healthBarYPos)
         ));
         this.addComponent("runeCounter", new ItemCounter(
-
             new Vector(CHAD.scaledSize.x + 20, (healthBarYPos - ItemCounter.HEIGHT) / 2),
             new Animator("./sprites/runes.png", new Vector(0, 32), new Vector(32, 32), 1, 1),
             0 // TODO: replace with an access to the rune field once it exists
@@ -98,11 +104,6 @@ class Hud {
         this.addComponent("pauseButton", new PauseButton(
             new Vector(Camera.SIZE.x - PauseButton.SIZE.x - Hud.MARGIN, Hud.MARGIN)
         ));
-
-        //TODO: add a hidden options button to the center-right of the screen
-        //TODO: add a hidden options menu (will contain volume sliders, spanish mode, debug mode, save progress, etc.)
-        //TODO: add a hidden game over screen
-
 
         // add weapon labels
         const weaponLabelWidth = 150;
@@ -172,21 +173,7 @@ class Hud {
      * Update the HUD.
      */
     update() {
-        // if the user clicks on the pause/play button, toggle GAME.running
-        if (GAME.user.firing && this.pauseButton.isMouseOver()) {
-            ASSET_MGR.playSFX(SFX.UI_HIGH_BEEP.path, SFX.UI_HIGH_BEEP.volume);
-            if (GAME.running) {
-                GAME.running = false;
-                this.swapToPointer();
-                ASSET_MGR.pauseMusic();
-                // TODO: open options menu here
-            } else {
-                GAME.running = true;
-                this.swapToCrosshair();
-                ASSET_MGR.resumeMusic();
-                // TODO: close options menu here
-            }
-        }
+
     }
 
     /**
@@ -463,6 +450,26 @@ class PauseButton {
      */
     constructor(pos) {
         this.pos = pos;
+        this.controls = new Controls();
+        
+        this.listener = document.body.addEventListener("mouseup", () => {
+            const mouseOverButton = GAME.mousePos.x > this.pos.x
+                && GAME.mousePos.y > this.pos.y
+                && GAME.mousePos.x < this.pos.x + PauseButton.SIZE.x
+                && GAME.mousePos.y < this.pos.y + PauseButton.SIZE.y;
+            if (mouseOverButton) {
+                ASSET_MGR.playSFX(SFX.UI_HIGH_BEEP.path, SFX.UI_HIGH_BEEP.volume);
+                if (GAME.running) {
+                    GAME.running = false;
+                    HUD.swapToPointer();
+                    ASSET_MGR.pauseMusic();
+                } else {
+                    GAME.running = true;
+                    HUD.swapToCrosshair();
+                    ASSET_MGR.resumeMusic();
+                }
+            }
+        });
     }
 
     /** The size (in pixels) of the PauseButton on the canvas. */
@@ -507,6 +514,14 @@ class PauseButton {
 
     /** Draw the PauseButton. */
     draw() {
+        if (!GAME.running) {
+            // draw a translucent background
+            CTX.fillStyle = "rgba(0, 0, 0, 0.5)";
+            CTX.fillRect(0, 0, Camera.SIZE.x, Camera.SIZE.y);
+
+            this.controls.draw();
+        }
+
         const size = PauseButton.SIZE;
         const barSize = PauseButton.BAR_SIZE;
 
@@ -534,8 +549,7 @@ class PauseButton {
             CTX.lineTo(this.pos.x + size.x - margin, this.pos.y + size.y / 2);
             CTX.lineTo(this.pos.x + margin, this.pos.y + size.y - margin);
             CTX.fill();
-        }
-
+        }    
     }
 }
 
