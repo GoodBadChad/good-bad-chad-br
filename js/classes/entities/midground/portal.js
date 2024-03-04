@@ -2,6 +2,7 @@ class Portal {
     /**
      * @param {Vector} blockPos The position of the block the portal is on
      * @param {Number} type The type of portal (e.g. Portal.PURPLE or Portal.YELLOW)
+     * @author Nathan Hinthorne
      */
     constructor(blockPos, type) {
         this.pos = Vector.blockToWorldSpace(blockPos);
@@ -12,14 +13,14 @@ class Portal {
 
         this.animations = [];
         this.loadAnimations();
-        
+
         /** The stock of enemies that the portal will release. */
-        this.enemyStock = []; 
-        
+        this.enemyStock = [];
+
         /** Whether the portal is active, in the middle of activating, or inactive */
         this.action = "inactive";
 
-        switch(this.type) {
+        switch (this.type) {
             case Portal.PURPLE:
                 this.particleType = ParticleEffect.AURA_PURPLE;
                 this.borderColor = COLORS.PURPLE;
@@ -39,7 +40,7 @@ class Portal {
     chadDistance() {
         return Vector.distance(Vector.add(CHAD.getCenter(), new Vector(0, CHAD.scaledSize.y / 2)), this.center);
     }
-    
+
     update() {
         //! BUG: if multiple portals are active, they cause conflicts with the music
 
@@ -52,7 +53,7 @@ class Portal {
             if (!ASSET_MGR.audioIsPlaying(SFX.PORTAL_IDLE.path)) {
                 ASSET_MGR.playMusic(SFX.PORTAL_IDLE.path, SFX.PORTAL_IDLE.volume);
             }
-            
+
         } else if (this.action === "active" && this.chadDistance() > Portal.ACTIVATION_RADIUS) {
             ASSET_MGR.stopAudio(SFX.PORTAL_IDLE.path);
         }
@@ -72,7 +73,7 @@ class Portal {
 
         if (this.action != "active") return;
 
-        
+
         if (this.spawnTimer > 0) {
             this.spawnTimer -= GAME.clockTick;
         }
@@ -84,7 +85,7 @@ class Portal {
         if (this.particleTimer <= 0) {
             GAME.addEntity(new ParticleEffect(this.center, this.particleType));
             this.particleTimer = Portal.PARTICLE_DELAY;
-        } 
+        }
 
         // release enemies every 8 seconds
         if (this.spawnTimer <= 0 && this.enemyStock.length > 0) {
@@ -94,7 +95,7 @@ class Portal {
             this.spawnTimer = Portal.SPAWN_DELAY;
         }
     };
-    
+
     draw() {
         this.animations[this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), Portal.SCALE);
     };
