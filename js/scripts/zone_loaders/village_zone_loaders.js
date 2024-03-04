@@ -316,7 +316,7 @@ const loadVillageMain = () => {
         const blockPosWizard = new Vector(63, chadOnGround);
         const blockPosIdleMama = new Vector(37, chadOnGround);
 
-        const idleMama = new MamaChad(Vector.blockToWorldSpace(blockPosIdleMama));
+        const idleMama = new MamaChad(Vector.blockToWorldSpace(blockPosIdleMama), new Conversation(getAllConversationArrays().village.mamaChad.goodMorning));
         idleMama.action = "idle";
 
         GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), new Conversation(getAllConversationArrays().village.papaChad.huntingInvite)), 0);

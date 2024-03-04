@@ -3,7 +3,7 @@ const villageConversationLoader = () => {
         papaChad: papaChadConversationLoader(),
         mayor: mayorConversationLoader(), 
         blacksmith: blacksmithConversationLoader(),
-        mama: mamaChadConversationLoader()
+        mamaChad: mamaChadConversationLoader()
     };
 };
 
@@ -177,10 +177,44 @@ const blacksmithConversationLoader = () => {
 }
 
 const mamaChadConversationLoader = () => {
+    const mama = DialogBubble.SPEAKERS.MAMA_CHAD;
+    const chad = DialogBubble.SPEAKERS.CHAD;
     return {
         goodMorning: [
             // 0
-            
+            new DialogBubble(mama,
+                "Good morning Chad! I do hope you're careful out there hunting with your father."),
+            // 1
+            new DialogBubble(mama,
+                "I know it's just bunnies and snakes out there, but I always worry you'll run into something more dangerous."),
+            // 2
+            new DialogBubble(mama,
+                "There's a lot of scary things out there in the world."),
+            // 3
+            new DecisionBubble('Mama Chad', "There's a lot of scary things out there.", [
+                new Choice("I'll be careful", 4),
+                new Choice("I can handle myself!", 6)]),
+            // 4
+            new DialogBubble(chad, 
+                "Of course I'll be careful mama. Gotta make sure I make it back to have some of that MEAT! you cook up!"),
+            // 5
+            new DialogBubble(mama,
+                "Whatever motivates you to stay safe honey. Maybe tonight I'll make your favorite - Burgers! I love you honey.", true),
+            // 6
+            new DialogBubble(chad,
+                "I can handle myself out there! Ain't nothing in these fields that I couldn't fight!"),
+            // 7
+            new DialogBubble(mama,
+                "You're a strong young man, I probably shouldn't be worried. But you'll always be my little boy!"),
+            // 8
+            new DialogBubble(chad,
+                "Aww, stop mama! I gotta go!"),
+            // 9
+            new DialogBubble(mama,
+                "I love you son!"),
+            // 10
+            new DialogBubble(chad,
+                "I love you too mom.", true)
         ]
-    }
-}
+    };
+};
