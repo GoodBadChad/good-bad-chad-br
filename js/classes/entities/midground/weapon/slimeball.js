@@ -101,9 +101,9 @@ class Slimeball {
             enemy.statusEffect.apply(StatusEffect.SLOW, Slimeball.SLOW_DURATION);
             
             this.hasHit = true;
-        }
 
-        this.removeFromWorld = true;
+            this.removeFromWorld = true;
+        }
     }
 
     loadAnimations() {

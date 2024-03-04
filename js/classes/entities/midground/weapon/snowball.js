@@ -99,9 +99,9 @@ class Snowball {
             enemy.takeDamage(Snowball.DAMAGE);
             
             this.hasHit = true;
+            this.removeFromWorld = true;
         }
 
-        this.removeFromWorld = true;
     }
 
     loadAnimations() {

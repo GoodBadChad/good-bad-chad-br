@@ -92,9 +92,9 @@ class Broccoli {
             console.log("Vile weed!");
             enemy.statusEffect.apply(StatusEffect.FLEEING);
             this.hasHitEnemy = true;
+            this.removeFromWorld = true;
         }
 
-        this.removeFromWorld = true;
     }
 
     loadAnimations() {

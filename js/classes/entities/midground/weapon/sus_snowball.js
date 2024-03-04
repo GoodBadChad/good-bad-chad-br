@@ -96,9 +96,9 @@ class SusSnowball {
             enemy.statusEffect.apply(StatusEffect.POISONED);            
             
             this.hasHit = true;
+            this.removeFromWorld = true;
         }
 
-        this.removeFromWorld = true;
     }
 
     loadAnimations() {

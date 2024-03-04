@@ -103,9 +103,8 @@ class Rock {
             enemy.takeDamage(Rock.DAMAGE);
 
             this.hasHit = true;
+            this.removeFromWorld = traue;
         }
-
-        this.removeFromWorld = true;
     }
 
     loadAnimations() {
