@@ -126,10 +126,10 @@ class MamaChad {
         this.animations["right"] = [];
 
         this.animations["right"]["idle"] = new Animator(
-            BlackSmith.SPRITESHEET,
-            new Vector(0, 0),
-            BlackSmith.SIZE,
-            8, 1 / 15);
+            PapaChad.SPRITESHEET,
+            new Vector(0, PapaChad.SCALED_SIZE * 2),
+            PapaChad.SCALED_SIZE,
+            1, 1);
         this.animations["right"]["trapped"] = new Animator(
             './sprites/mama_chad_trapped.png',
             new Vector(0, 0),

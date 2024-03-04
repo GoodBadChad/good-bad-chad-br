@@ -321,13 +321,13 @@ const loadVillageMain = () => {
         GAME.addEntity(new MamaChad(Vector.blockToWorldSpace(blockPosMama)));
         GAME.addEntity(new Wizard(Vector.blockToWorldSpace(blockPosWizard)));
 
-        let weather = "warm";
+        let weather = "rain";
         let surfaceSnow = false;
         if (weather === "snow") {
             surfaceSnow = true
         }
         TilemapInterpreter.setTilemap(villageMainTileMap, surfaceSnow);
-        WeatherSystem.setWeather(weather, 2, "day");
+        WeatherSystem.setWeather(weather, 3, "day");
 
         if (LAST_ZONE === null) { // We've just started the game.
             // Spawn in middle.
