@@ -9,6 +9,7 @@ class Hud {
      * Constructor for the HUD that adds it components.
      */
     constructor() {
+        this.componentListeners = [];
         this.addMouseListeners();
     }
 
@@ -66,7 +67,6 @@ class Hud {
         });
     }
 
-
     /**
      * Add a component to the HUD. Creates a field for the component and adds the component
      * to the game engine as an entity. This means that the component must have an update
@@ -88,6 +88,10 @@ class Hud {
      * Initialize the HUD components.
      */
     addComponents() {
+        // clean up leftover event listeners from old components
+        this.componentListeners.forEach(([event, listener]) => 
+            document.body.removeEventListener(event, listener));
+
         // add Chad's head, rune counter, and health bar
         this.addComponent("chadHead", new ChadHead());
         const healthBarYPos = 15 + 17 * CHAD.scale.y;
@@ -451,7 +455,7 @@ class PauseButton {
         this.pos = pos;
         this.controls = new Controls();
         
-        this.listener = document.body.addEventListener("mouseup", () => {
+        const listener = () => {
             const mouseOverButton = GAME.mousePos.x > this.pos.x
                 && GAME.mousePos.y > this.pos.y
                 && GAME.mousePos.x < this.pos.x + PauseButton.SIZE.x
@@ -468,7 +472,9 @@ class PauseButton {
                     ASSET_MGR.resumeMusic();
                 }
             }
-        });
+        };
+        document.body.addEventListener("click", listener);
+        HUD.componentListeners.push([ "click", listener ]);
     }
 
     /** The size (in pixels) of the PauseButton on the canvas. */
