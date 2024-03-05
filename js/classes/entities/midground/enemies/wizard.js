@@ -1,52 +1,36 @@
-class MamaChad {
-    /**
+class Wizard {
+   /**
      * @param {Vector} pos the position at which he should spawn. 
-     * @param {Conversation} convo The conversation that will show if PapaChad is interacted with.
+     * @param {Conversation} convo The conversation that will show if BlackSmith is interacted with.
      */
     constructor(pos, convo = null) {
         /** The position of the Papa Chad (in the game world). */
         this.pos = pos;
-        /** The velocity at which PapaChad is moving. */
+        /** The velocity at which BlackSmith is moving. */
         this.velocity = new Vector(0, 0);
 
         /** An associative array of the animations for this Papa Chad. Arranged [facing][action]. */
         this.animations = [];
         this.loadAnimations();
         /** What way is the Papa Chad looking? */
-        this.facing = "right";
+        this.facing = "left";
         /** What is the Papa Chad doing? */
-        this.action = "trapped";
+        this.action = "idle";
         /** Used to check for collisions with other applicable entities. */
-        this.boundingBox = new BoundingBox(this.pos, PapaChad.SCALED_SIZE);
+        this.boundingBox = new BoundingBox(this.pos, BlackSmith.SCALED_SIZE);
         /** Used to check how to deal with collisions with other applicable entities. */
         this.lastBoundingBox = this.boundingBox;
         /** The conversation which will be displayed upon interacting with Papa Chad. */
         this.conversation = convo;
     };
 
-    /** The size, in pixels of the sprite ON THE SPRITESHEET. */
-    static get SIZE() {
-        return new Vector(32, 64);
-    }
-
-    /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
-    static get SCALE() {
-        return 2.8;
-    };
-
-    /** This will be the size of Papa Chad ON THE CANVAS. */
-    static get SCALED_SIZE() {
-        return PapaChad.SCALED_SIZE
-    }
-
-    /** The filepath to Papa Chad's spritesheet. */
     static get SPRITESHEET() {
-        return "./sprites/blacksmith.png";
-    };
+      return './sprites/wizard.png';
+    }
 
     /** Change what Papa Chad is doing and where it is. */
     update() {
-        if (this.action === 'trapped') return;
+
         // Set the velocity, according to gravity.
         this.velocity = {
             x: this.velocity.x,
@@ -60,7 +44,7 @@ class MamaChad {
             y: this.pos.y + this.velocity.y * GAME.clockTick
         };
 
-        this.boundingBox = new BoundingBox(this.pos, PapaChad.SCALED_SIZE);
+        this.boundingBox = new BoundingBox(this.pos, BlackSmith.SCALED_SIZE);
 
 
         // Step 4: Have we collided with anything?
@@ -82,14 +66,14 @@ class MamaChad {
                             && this.boundingBox.bottom > entity.boundingBox.top) {
                             // We are colliding with the top.
 
-                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - PapaChad.SCALED_SIZE.y);
+                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - BlackSmith.SCALED_SIZE.y);
                             this.velocity = new Vector(this.velocity.x, 0);
                         } else if (isOverlapY
                             && this.lastBoundingBox.right <= entity.boundingBox.left
                             && this.boundingBox.right > entity.boundingBox.left) {
                             // We are colliding with the left side.
 
-                            this.pos = new Vector(entity.boundingBox.left - PapaChad.SCALED_SIZE.x, this.pos.y);
+                            this.pos = new Vector(entity.boundingBox.left - BlackSmith.SCALED_SIZE.x, this.pos.y);
                         } else if (isOverlapY
                             && this.lastBoundingBox.left >= entity.boundingBox.right
                             && this.boundingBox.left < entity.boundingBox.right) {
@@ -109,33 +93,26 @@ class MamaChad {
             // There's no bounding box, so who gives a shrek?
         });
         // Step 5: Now that your position is actually figured out, draw your correct bounding box.
-        this.boundingBox = new BoundingBox(this.pos, PapaChad.SCALED_SIZE);
+        this.boundingBox = new BoundingBox(this.pos, BlackSmith.SCALED_SIZE);
     };
 
     /** Draw Papa Chad on the canvas. */
     draw() {
-        this.animations[this.facing][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), PapaChad.SCALE);
+        this.animations[this.facing][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), BlackSmith.SCALE);
         if (this.conversation && this.conversation.new) {
-            const indicator = new OverheadIcon(this, PapaChad.SCALED_SIZE.x, OverheadIcon.TRIANGLE, OverheadIcon.GREEN);
+            const indicator = new OverheadIcon(this, BlackSmith.SCALED_SIZE.x, OverheadIcon.TRIANGLE, OverheadIcon.GREEN);
             indicator.draw();
         }
     };
 
     /** Called by the constructor. Fills up the animations array. */
     loadAnimations() {
-        this.animations["right"] = [];
+        this.animations["left"] = [];
 
-        this.animations["right"]["idle"] = new Animator(
-            PapaChad.SPRITESHEET,
-            new Vector(0, PapaChad.SIZE.y * 2),
-            PapaChad.SIZE,
-            1, 1);
-        this.animations["right"]["trapped"] = new Animator(
-            './sprites/mama_chad_trapped.png',
+        this.animations["left"]["idle"] = new Animator(
+            './sprites/wizard.png',
             new Vector(0, 0),
-            new Vector(42, 62),
-            4, 1 / 3);
-
+            new Vector(33, 65),
+            1, 1);
     };
-
 };

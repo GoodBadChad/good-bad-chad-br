@@ -101,7 +101,7 @@ class Hud {
         this.addComponent("runeCounter", new ItemCounter(
             new Vector(CHAD.scaledSize.x + 20, (healthBarYPos - ItemCounter.HEIGHT) / 2),
             new Animator("./sprites/runes.png", new Vector(0, 32), new Vector(32, 32), 1, 1),
-            0 // TODO: replace with an access to the rune field once it exists
+            INVENTORY.runes
         ));
 
         // add pause button
