@@ -104,11 +104,11 @@ class DrillBot {
 
         // add a piece of bacon in the DrillBot's place at bottom-center of drill_bot
         if (Math.random() < 0.5) {
-            const pos = Vector.add(this.base.getCenter(), new Vector(0, -20));
+            const pos = Vector.add(this.base.getCenter(), new Vector(0, -40));
             GAME.addEntity(new FoodDrop(pos, FoodDrop.ENERGY_DRINK));
         } else if (Math.random() < 0.5) {
-            const pos = Vector.add(this.base.getCenter(), new Vector(0, -20));
-            GAME.addEntity(new FoodDrop(pos, AmmoDrop.BOMB));
+            const pos = Vector.add(this.base.getCenter(), new Vector(0, -40));
+            GAME.addEntity(new AmmoDrop(pos, AmmoDrop.BOMB));
 
         }
 

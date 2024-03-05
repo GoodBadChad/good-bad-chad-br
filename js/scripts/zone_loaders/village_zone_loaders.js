@@ -126,6 +126,37 @@ const loadVillageField = () => {
             new Conversation(getAllConversationArrays().village.papaChad.huntingInstruction)
         ));
     }
+
+    
+    GAME.addEntity(new AmmoDrop(
+        Vector.blockToWorldSpace(new Vector(74, aboveGroundLevel - 2)),
+        AmmoDrop.BOMB,
+        3,
+        false
+    ));
+
+    GAME.addEntity(new AmmoDrop(
+        Vector.blockToWorldSpace(new Vector(78.5, aboveGroundLevel + 2)),
+        AmmoDrop.SUS_SNOWBALL,
+        1,
+        false
+    ));
+
+    
+    GAME.addEntity(new AmmoDrop(
+        Vector.blockToWorldSpace(new Vector(80, aboveGroundLevel + 2)),
+        AmmoDrop.SNOWBALL,
+        4,
+        false
+    ));
+
+
+    GAME.addEntity(new FoodDrop(
+        Vector.blockToWorldSpace(new Vector(73, aboveGroundLevel + 4.7)),
+        FoodDrop.BURGER,
+        false
+    ));
+
     // Set background color:
     BG_COLOR = COLORS.SKY_BLUE;
     GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), -1);
@@ -359,72 +390,7 @@ const loadVillageMain = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
-        GAME.addEntity(new AmmoDrop(
-            Vector.blockToWorldSpace(new Vector(20, aboveGroundLevel - 5)),
-            AmmoDrop.BOMB,
-            false,
-            5
-        ));
 
-        GAME.addEntity(new AmmoDrop(
-            Vector.blockToWorldSpace(new Vector(18, aboveGroundLevel - 5)),
-            AmmoDrop.SUS_SNOWBALL,
-            false,
-            2
-        ));
-
-        GAME.addEntity(new FoodDrop(
-            Vector.blockToWorldSpace(new Vector(16, aboveGroundLevel - 5)),
-            FoodDrop.BACON,
-            false
-        ));
-
-        GAME.addEntity(new FoodDrop(
-            Vector.blockToWorldSpace(new Vector(14, aboveGroundLevel - 5)),
-            FoodDrop.BURGER,
-            false
-        ));
-
-        GAME.addEntity(new FoodDrop(
-            Vector.blockToWorldSpace(new Vector(12, aboveGroundLevel - 5)),
-            FoodDrop.ENERGY_DRINK,
-            false
-        ));
-
-        GAME.addEntity(new FoodDrop(
-            Vector.blockToWorldSpace(new Vector(10, aboveGroundLevel - 5)),
-            FoodDrop.BEEF,
-            false
-        ));
-
-        GAME.addEntity(new FoodDrop(
-            Vector.blockToWorldSpace(new Vector(8, aboveGroundLevel - 5)),
-            FoodDrop.HAM,
-            false
-        ));
-
-        GAME.addEntity(new FoodDrop(
-            Vector.blockToWorldSpace(new Vector(6, aboveGroundLevel - 5)),
-            FoodDrop.CHICKEN,
-            false
-        ));
-
-        GAME.addEntity(new FoodDrop(
-            Vector.blockToWorldSpace(new Vector(4, aboveGroundLevel - 5)),
-            FoodDrop.STEAK,
-            false
-        ));
-
-        GAME.addEntity(new FoodDrop(
-            Vector.blockToWorldSpace(new Vector(2, aboveGroundLevel - 5)),
-            FoodDrop.GIANT_MUSHROOM,
-            false
-        ));
-
-
-
-
-        GAME.addEntity(new DrillBot(Vector.blockToWorldSpace(new Vector(25, aboveGroundLevel - 5))));
 
 
         // draw portal
@@ -434,8 +400,6 @@ const loadVillageMain = () => {
         // portal.fillWithEnemies([new DrillBot(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5))), 
         //                         new Yeti(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5))),
         //                         new Yeti(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5))),]);
-        GAME.addEntity(new Portal(new Vector(6, 13.5), Portal.PURPLE));
-        // GAME.addEntity(new Portal(new Vector(10, 13.5), Portal.YELLOW));
 
 
 

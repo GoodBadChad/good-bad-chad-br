@@ -34,8 +34,6 @@ class Inventory {
         this.ammoBag.push(new AmmoItem(AmmoItem.BROCCOLI, 0));
 
         this.switchToAmmo(AmmoItem.ROCK);
-        // increase supply of slimeball for testing purposes
-        this.adjustAmmo(AmmoItem.SLIMEBALL, 10);
     }
 
     initFoodBag() {
