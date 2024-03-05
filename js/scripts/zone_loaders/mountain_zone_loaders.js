@@ -15,13 +15,18 @@ const loadMountainSlope1 = () => {
     const addEntities = () => {
 
         GAME.addEntity(new Border(
+            new Vector(ZONE.MIN_PT.x, 0),
+            new Vector(1, ZONE.PIXEL_SIZE.y),
+            Zone.getZones().village.woods
+        ));
+        GAME.addEntity(new Border(
             new Vector(0, 0),
             new Vector(ZONE.PIXEL_SIZE.x, 1),
             Zone.getZones().mountain.slope2
         ));
     
-        new tilemapInterpreter(mountainSlope1TileMap, false);
-        new WeatherSystem("snow", 1, "day");
+        TilemapInterpreter.setTilemap(mountainSlope1TileMap, false);
+        WeatherSystem.setWeather("snow", 1, "day");
         
         const groundLevel = 92;
 
@@ -94,9 +99,14 @@ const loadMountainSlope2= () => {
             new Vector(1, ZONE.PIXEL_SIZE.y),
             Zone.getZones().mountain.slope1
         ));
+        GAME.addEntity(new Border(
+            new Vector(ZONE.MAX_PT.x, 0),
+            new Vector(1, ZONE.PIXEL_SIZE.y),
+            Zone.getZones().village.insideCave
+        ));
     
-        new tilemapInterpreter(mountainSlope2TileMap, false);
-        new WeatherSystem("snow", 4, "day");
+        TilemapInterpreter.setTilemap(mountainSlope2TileMap, false);
+        WeatherSystem.setWeather("snow", 4, "day");
         
         const groundLevel = 90;
 
