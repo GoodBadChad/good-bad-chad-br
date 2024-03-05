@@ -72,7 +72,7 @@ class Bunny {
 
         // add a piece of food in the bunny's place at bottom-center of bunny
         if (Math.random() < 0.6) {
-            const pos = Vector.add(this.base.getCenter(), new Vector(0, -20));
+            const pos = Vector.add(this.base.getCenter(), new Vector(0, -60));
             GAME.addEntity(new FoodDrop(pos, FoodDrop.CHICKEN));
         }
     }

@@ -116,6 +116,7 @@ class SusSnowball {
 
                 // spawn a sus snowball ammo drop on the ground because Chad missed
                 const dropPos = Vector.add(this.pos, new Vector(0, -60));
+                if (Math.random())
                 GAME.addEntity(new AmmoDrop(dropPos, AmmoDrop.SUS_SNOWBALL));
             }
         }
