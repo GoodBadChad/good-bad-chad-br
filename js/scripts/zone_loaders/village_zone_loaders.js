@@ -407,16 +407,19 @@ const loadVillageMain = () => {
         // NOTE: we can't activate music until the user has interacted with the canvas. (this issue is inherent to HTML5)
         //  If listening for a click is the only way to activate music, that's fine. 
         //  Our game's START button in the final version can be the trigger.
-        let playMusic = () => {
-            // ASSET_MGR.playMusic(MUSIC.HIGH_ENERGY.path, MUSIC.HIGH_ENERGY.volume);
-            // ASSET_MGR.playMusic(MUSIC.VILLAGE_SIMPLE_LIFE.path, MUSIC.VILLAGE_SIMPLE_LIFE.volume);
-            ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+        // let playMusic = () => {
+        //     // ASSET_MGR.playMusic(MUSIC.HIGH_ENERGY.path, MUSIC.HIGH_ENERGY.volume);
+        //     // ASSET_MGR.playMusic(MUSIC.VILLAGE_SIMPLE_LIFE.path, MUSIC.VILLAGE_SIMPLE_LIFE.volume);
+        //     ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
 
 
-            // delete the event listener so that the music doesn't restart when the user presses a key
-            document.body.removeEventListener('keydown', playMusic);
-        };
-        document.body.addEventListener('keydown', playMusic);
+        //     // delete the event listener so that the music doesn't restart when the user presses a key
+        //     document.body.removeEventListener('keydown', playMusic);
+        // };
+        // document.body.addEventListener('keydown', playMusic);
+
+        ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+
 
         LoadingAnimation.stop();
     };
