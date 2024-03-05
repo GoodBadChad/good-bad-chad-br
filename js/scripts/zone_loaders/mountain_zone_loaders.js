@@ -1,0 +1,144 @@
+const loadMountainSlope1 = () => {
+    const queueAssets = () => {
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD_DARK.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_BUSHY_DARK.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_LANKY_DARK.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_1.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.grass.GRASS_1.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(Precipitation.SPRITESHEET);
+    };
+
+    const addEntities = () => {
+
+        GAME.addEntity(new Border(
+            new Vector(0, 0),
+            new Vector(ZONE.PIXEL_SIZE.x, 1),
+            Zone.getZones().mountain.slope2
+        ));
+    
+        new tilemapInterpreter(mountainSlope1TileMap, false);
+        new WeatherSystem("snow", 1, "day");
+        
+        const groundLevel = 92;
+
+        // trees
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_5, Vector.blockToWorldSpace(new Vector(-15, groundLevel))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(5, groundLevel - 1))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(18, groundLevel))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(27, groundLevel))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_5, Vector.blockToWorldSpace(new Vector(0, groundLevel - 1))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_4, Vector.blockToWorldSpace(new Vector(12, groundLevel))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(30.5, 82))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(34, 77))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(36, 77))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(49.5, 53))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(53.5, 47))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(57, 41))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(61, 38))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(67, 34))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(68.5, 33))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(73.3, 23))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(86.5, 4))), -1);
+
+        // grass
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(0, groundLevel))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(5, groundLevel))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(6, groundLevel))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(10, groundLevel - 1))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(13, groundLevel - 1))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(14, groundLevel - 1))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(17, groundLevel - 1))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(18, groundLevel - 1))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(19, groundLevel - 1))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(27, groundLevel))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(28, groundLevel))), 1);
+
+        if (LAST_ZONE && LAST_ZONE.equals(Zone.getZones().mountain.slope2)) { // Coming down the mounatin.
+            // Set spawn point on the right.
+            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 13, 3);
+            CHAD.pos = Vector.blockToWorldSpace(blockPos);
+        } else { // Coming from the woods or whatever's to the left
+            const blockPos = new Vector(ZONE.MIN_BLOCK.x + 5, groundLevel - 5);
+            CHAD.pos = Vector.blockToWorldSpace(blockPos);
+        }
+
+        
+    };
+
+    queueAssets();
+    ASSET_MGR.downloadAll(addEntities);
+};
+
+const loadMountainSlope2= () => {
+    const queueAssets = () => {
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD_DARK.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_BUSHY_DARK.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_LANKY_DARK.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(Precipitation.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(Slime.SPRITESHEET);
+        ASSET_MGR.queueDownload(Yeti.SPRITESHEET);
+    };
+
+    const addEntities = () => {
+
+        GAME.addEntity(new Border(
+            new Vector(ZONE.MIN_PT.x, 0),
+            new Vector(1, ZONE.PIXEL_SIZE.y),
+            Zone.getZones().mountain.slope1
+        ));
+    
+        new tilemapInterpreter(mountainSlope2TileMap, false);
+        new WeatherSystem("snow", 4, "day");
+        
+        const groundLevel = 90;
+
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(0, groundLevel))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(6.3, 79))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(18, 63))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(23, 63))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(26, 63))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(30, 62))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(34, 62))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(37, 62))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(42, 63))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(46, 63))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(49, 64))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(53, 64))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(57, 64))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(62, 64))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(71, 25))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(75, 25))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(92, 25))), -1);
+
+        GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(45, 50))));
+
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(70, 60)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(72, 60)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(76, 60)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(76, 80)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(78, 80)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(80, 80)), Slime.FROST));
+
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(84, 50)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(95, 50)), Slime.FROST));
+
+        GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(87, 35))));
+
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(84, 32)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(90, 30)), Slime.FROST));
+
+        const blockPos = new Vector(ZONE.MIN_BLOCK.x + 2, groundLevel - 4);
+        CHAD.pos = Vector.blockToWorldSpace(blockPos);
+    };
+
+    queueAssets();
+    ASSET_MGR.downloadAll(addEntities);
+};

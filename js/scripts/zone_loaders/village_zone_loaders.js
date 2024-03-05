@@ -266,6 +266,11 @@ const loadVillageMain = () => {
             new Vector(1, ZONE.PIXEL_SIZE.y),
             Zone.getZones().village.hillDownFromMain
         ));
+        GAME.addEntity(new Border(
+            new Vector(ZONE.MAX_PT.x, 0), // start at the far right side of the Zone, and at the top
+            new Vector(1, ZONE.PIXEL_SIZE.y), // only one pixel wide, but as tall as the entire Zone.
+            Zone.getZones().mountain.slope
+        ));
         // Add a layer of blocks to the floor.
         // for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
         //     GAME.addEntity(new Block(new Vector(x, ZONE.MAX_BLOCK.y), Block.DIRT));

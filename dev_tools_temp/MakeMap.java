@@ -23,10 +23,10 @@ public class MakeMap {
      */
     public void fillArray() {
         System.out.print("[");
-        int width = 300;
+        int width = 50;
         int height = 100;
-        int startGround = 0;
-        int firstLayerBlock = 1;
+        int startGround = 90;
+        int firstLayerBlock = 3;
         int air = 0;
         // Change this value to match what the world type block uses the most. 1 is used for dirt.
         // For ice world you would choose the value that is used for ice block or whatever the ground will
