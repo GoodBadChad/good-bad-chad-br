@@ -51,7 +51,7 @@ class Portal {
                 ASSET_MGR.playSFX(SFX.PORTAL_ACTIVATE.path, SFX.PORTAL_ACTIVATE.volume);
             }
             if (!ASSET_MGR.audioIsPlaying(SFX.PORTAL_IDLE.path)) {
-                ASSET_MGR.playMusic(SFX.PORTAL_IDLE.path, SFX.PORTAL_IDLE.volume);
+                ASSET_MGR.playSFX(SFX.PORTAL_IDLE.path, SFX.PORTAL_IDLE.volume);
             }
 
         } else if (this.action === "active" && this.chadDistance() > Portal.ACTIVATION_RADIUS) {
@@ -63,7 +63,7 @@ class Portal {
             this.activationTimer -= GAME.clockTick;
             if (this.activationTimer <= 0) {
                 this.action = "active";
-                ASSET_MGR.playMusic(SFX.PORTAL_IDLE.path, SFX.PORTAL_IDLE.volume);
+                ASSET_MGR.playSFX(SFX.PORTAL_IDLE.path, SFX.PORTAL_IDLE.volume);
             }
         }
 
