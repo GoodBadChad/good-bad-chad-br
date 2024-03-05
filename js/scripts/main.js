@@ -78,6 +78,6 @@ let LAST_ZONE = null;
 ZONE.load();
 
 const STORY = {};
-
+// const SAVEARRAY = new SaveArray();
 // (4) Start the game! :)
 GAME.start();
