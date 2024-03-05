@@ -55,7 +55,7 @@ class GameEngine {
         
         this.conversation = null;
 
-        this.mode = GameEngine.GAMEPLAY_MODE;
+        this._mode = GameEngine.MENU_MODE;
     };
 
     /**
@@ -63,6 +63,22 @@ class GameEngine {
      */
     static get DOUBLE_TAP_THRESHOLD() {
         return 0.25;
+    }
+
+    /** The current mode of the GameEngine. */
+    get mode() {
+        return this._mode;
+    }
+
+    /** 
+     * Set the GameEngine's mode. 
+     * 
+     * @param {string} newMode the mode of the game engine - should be one of GameEngine.GAMEPLAY_MODE, 
+     *      .DIALOG_MODE, or .MENU_MODE
+     */
+    set mode(newMode) {
+        this._mode = newMode;
+        this.configureEventListeners();
     }
 
     /**
@@ -220,7 +236,17 @@ class GameEngine {
             CANVAS.addEventListener("keyup", EVENT_HANDLERS.dialogKeyUp, false);
             CANVAS.addEventListener("keydown", EVENT_HANDLERS.dialogKeyDown, false);
         } else if (this.mode === GameEngine.MENU_MODE) {
-            // This isn't set up yet. Possibly won't ever be necessary.
+            // Remove all other listeners
+            CANVAS.removeEventListener("mousedown", EVENT_HANDLERS.gameplayMouseDown, false);
+            CANVAS.removeEventListener("mouseup", EVENT_HANDLERS.gameplayMouseUp, false);
+            CANVAS.removeEventListener("keydown", EVENT_HANDLERS.gameplayKeyDown, false);
+            CANVAS.removeEventListener("keyup", EVENT_HANDLERS.gameplayKeyUp, false);
+            CANVAS.removeEventListener("keypress", EVENT_HANDLERS.dialogKeyPress, false);
+            CANVAS.removeEventListener("keyup", EVENT_HANDLERS.dialogKeyUp, false);
+            CANVAS.removeEventListener("keydown", EVENT_HANDLERS.dialogKeyDown, false);
+
+            // Add menu listeners
+            CANVAS.addEventListener("mousemove", EVENT_HANDLERS.gameplayMouseMove, false);
         }
     };
 

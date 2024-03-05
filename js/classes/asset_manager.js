@@ -146,6 +146,10 @@ class AssetManager {
      * @param {number} volume The volume to which you want to set the audio.
      */
     playMusic(path, volume, loop = true) {
+        if (this.currentMusic) {
+            this.stopAudio(this.currentMusic.src);
+        }
+
         const audio = this.cache[path];
         audio.currentTime = 0;
         audio.volume = volume;
@@ -253,14 +257,17 @@ class AssetManager {
             PapaChad.SPRITESHEET,
             Projectile.SPRITESHEET,
             Slingshot.SPRITESHEET,
+            StartMenu.TITLE_SPRITESHEET,
             Sun.SPRITESHEET,
             Sword.SPRITESHEET,
             RuneDrop.SPRITESHEET,
             RuneItem.SPRITESHEET,
             FoodDrop.SPRITESHEET,
+            AmmoDrop.SPRITESHEET,
             DashCooldown.SPRITESHEET,
             Bomb.SPRITESHEET,
             Rock.SPRITESHEET,
+            Rock.SPRITESHEET_EASTER_EGG,
 
             // Sounds:
             SFX.JUMP1.path,
@@ -304,6 +311,7 @@ class AssetManager {
             SFX.FOOD_EAT4.path,
             SFX.DING.path,
             SFX.MEGA_MUSHROOM.path,
+            SFX.AMMO_COLLECT.path,
 
             //TEMPORARY
             SFX.GROWL1.path,
@@ -317,6 +325,7 @@ class AssetManager {
             Snowball.SPRITESHEET,
             SusSnowball.SPRITESHEET,
             Slimeball.SPRITESHEET,
+            Slimeball.SPRITESHEET_EASTER_EGG,
             SFX.SLIME_SPLAT.path,
             Broccoli.SPRITESHEET,
             SFX.BLEH.path,

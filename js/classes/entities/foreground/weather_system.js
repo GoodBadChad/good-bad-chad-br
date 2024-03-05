@@ -13,7 +13,7 @@ const weatherType = {
  */
 class WeatherSystem {
 
-    static setWeather(type, intensity, time, startingYOfClouds = 19) {
+    static setWeather(type = "snow", intensity = 3, time = "day", startingYOfClouds = 19) {
         WeatherSystem.type = type;
         WeatherSystem.intensity = intensity;
         WeatherSystem.time = time;
@@ -24,17 +24,24 @@ class WeatherSystem {
         WeatherSystem.startingYOfClouds = startingYOfClouds;
 
         if (WeatherSystem.isRain) {
+            WeatherSystem.clouds = true;
+            WeatherSystem.makeHeavens();
             WeatherSystem.makeClouds();
             WeatherSystem.makePrecipitation();
         }
         else if (WeatherSystem.isSnow) {
+            WeatherSystem.clouds = true;
+            WeatherSystem.makeHeavens();
             WeatherSystem.makeClouds();
             WeatherSystem.makePrecipitation();
         } else if (WeatherSystem.isClouds) {
+            WeatherSystem.clouds = true;
+            WeatherSystem.makeHeavens();
             WeatherSystem.makeClouds();
             // Default to sunny with white clouds
+        } else {
+            WeatherSystem.makeHeavens();
         }
-        WeatherSystem.makeHeavens();
     }
 
     /**
@@ -74,7 +81,7 @@ class WeatherSystem {
         // TODO add in dark clouds.
 
 
-        let cloudNum = cloudIntensity[WeatherSystem.intensity];
+        let cloudNum = cloudIntensity[2];
         const cloudVariants = {
             0: Decoration.DECORATIONS.clouds.CLOUD_BUSHY,
             1: Decoration.DECORATIONS.clouds.CLOUD_LANKY,
@@ -97,7 +104,7 @@ class WeatherSystem {
                 let cloudPosition = Vector.blockToWorldSpace(new Vector(cloudSpawnX, cloudSpawnY));
 
                 let cloudTypeOffset = 0;
-                if (weatherType.RAIN === WeatherSystem.type) {
+                if (weatherType.RAIN === WeatherSystem.type || weatherType.SNOW === WeatherSystem.type) {
                     cloudTypeOffset = 3;
                 }
                 // Assign cloudVariant based on cloudType, defaulting to undefined if not found

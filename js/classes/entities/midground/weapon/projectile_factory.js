@@ -2,13 +2,12 @@ class ProjectileFactory {
     static create(type, startPos, targetPos) {
         const projectileMap = {
             [ProjectileFactory.ROCK]: Rock,
+            [ProjectileFactory.SLIMEBALL]: Slimeball,
             [ProjectileFactory.BOMB]: Bomb,
             [ProjectileFactory.SNOWBALL]: Snowball,
-            [ProjectileFactory.SLIMEBALL]: Slimeball,
-            [ProjectileFactory.BROCCOLI]: Broccoli,
             [ProjectileFactory.SUS_SNOWBALL]: SusSnowball,
+            [ProjectileFactory.BROCCOLI]: Broccoli
         };
-        
         return new (projectileMap[type])(startPos, targetPos);
     }
 
@@ -33,6 +32,6 @@ class ProjectileFactory {
     }
 
     static get SUS_SNOWBALL() {
-        return "susSnowball";
+        return "sus_snowball";
     }
 }

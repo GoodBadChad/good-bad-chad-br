@@ -88,10 +88,10 @@ class Snake {
         this.action = "dying";
 
         // add a piece of food in the snake's place at bottom-center of snake
-        GAME.addEntity(new FoodDrop(
-                new Vector(this.pos.x, this.pos.y - 50),
-                FoodItem.GIANT_MUSHROOM
-        ));
+        if (Math.random() < 0.6) {
+            const pos = Vector.add(this.base.getCenter(), new Vector(0, -80));
+            GAME.addEntity(new FoodDrop(pos, FoodDrop.STEAK));
+        }
     }
     
     /** Change what the Snake is doing and where it is. */

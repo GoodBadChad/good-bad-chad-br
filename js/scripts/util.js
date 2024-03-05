@@ -42,6 +42,8 @@ const COLORS = {
     RED: "#ff0000",
     GREEN: "#00ff00",
     LIGHT_GREEN: "#90ee90",
+    DARK_GREEN: "#006400",
+    IVY_GREEN: "#789d5e",
     BLUE: "#0000ff",
     YELLOW: "#ffff00",
     GOLD: "#ffd700",
@@ -117,6 +119,7 @@ const SFX = {
     FOOD_EAT2: {path: "./sfx/food_eat2.mp3", volume: 0.4},
     FOOD_EAT3: {path: "./sfx/food_eat3.mp3", volume: 0.4},
     FOOD_EAT4: {path: "./sfx/food_eat4.mp3", volume: 0.4},
+    AMMO_COLLECT: {path: "./sfx/ammo_collect.mp3", volume: 0.4},
     MEGA_MUSHROOM: {path: "./sfx/mega_mushroom.mp3", volume: 0.4},
     
     // UI
@@ -124,12 +127,12 @@ const SFX = {
     UI_SCIFI: { path: "./sfx/ui_scifi.mp3", volume: 0.4 },
     UI_SNAP: { path: "./sfx/ui_snap.mp3", volume: 0.4 },
     UI_GAMEBOY_BEEP: { path: "./sfx/ui_gameboy_beep.mp3", volume: 0.4 },
-    
+
     // Environment
-    RICOCHET1: {path: "./sfx/ricochet1.mp3", volume: 0.4},
-    RICOCHET2: {path: "./sfx/ricochet2.mp3", volume: 0.4},
-    RICOCHET3: {path: "./sfx/ricochet3.mp3", volume: 0.4},
-    RICOCHET4: {path: "./sfx/ricochet4.mp3", volume: 0.4},
+    RICOCHET1: { path: "./sfx/ricochet1.mp3", volume: 0.4 },
+    RICOCHET2: { path: "./sfx/ricochet2.mp3", volume: 0.4 },
+    RICOCHET3: { path: "./sfx/ricochet3.mp3", volume: 0.4 },
+    RICOCHET4: { path: "./sfx/ricochet4.mp3", volume: 0.4 },
     GAME_OVER: { path: "./sfx/game_over.wav", volume: 0.4 },
     DING: { path: "./sfx/ding.mp3", volume: 0.4 },
     SNOW_CRUNCH1: { path: "./sfx/snow_crunch1.mp3", volume: 0.4 },
@@ -211,12 +214,12 @@ const getNearbyEntities = (centerPos, range) => {
         const closestX = leftDist < rightDist ? entity.boundingBox.left : entity.boundingBox.right;
         const closestY = topDist < bottomDist ? entity.boundingBox.top : entity.boundingBox.bottom;
         const distToBB = Vector.distance(new Vector(closestX, closestY), centerPos);
-        
+
         if (distToBB < range) {
             nearbyEntities.push(entity);
         }
     });
-    
+
     // put chad in array if neccessary
     // find the distance between Chad's CLOSEST SIDE of his bounding box and the center of the circle
     const leftDist = Math.abs(CHAD.boundingBox.left - centerPos.x);
@@ -325,17 +328,15 @@ const EVENT_HANDLERS = {
         // check if mouse button is left click
         if (mouse.button === 2) {
             GAME.user.jabbing = true;
-            // GAME.user.aiming = false; uncomment this if you don't want to be able to aim while jabbing
-        } else if (mouse.button === 0) {
+        } else if (mouse.button === 0 && !CHAD.sword.isSlicing()) {
             GAME.user.aiming = true;
-            // GAME.user.jabbing = false; uncomment this if you don't want to be able to jab while aiming
         }
     },
     gameplayMouseUp: (mouse) => {
         // check if mouse button is left click
         if (mouse.button === 2) {
             GAME.user.jabbing = false;
-        } else if (mouse.button === 0) {
+        } else if (mouse.button === 0 && !CHAD.sword.isSlicing()) {
             GAME.user.aiming = false;
             GAME.user.firing = true;
         }
@@ -427,6 +428,10 @@ const EVENT_HANDLERS = {
             case "Digit3":
             case "Digit4":
             case "Digit5":
+            case "Digit6":
+            // case "Digit7":
+            // case "Digit8":
+            // case "Digit9":
                 const index = key.code.slice(-1) - 1;
                 if (!INVENTORY.ammoBag[index]) return; // make sure an ammo actually exists for this key
                 INVENTORY.switchToAmmo(INVENTORY.ammoBag[index].type);

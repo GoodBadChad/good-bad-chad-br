@@ -9,7 +9,8 @@ class DeathScreen {
      */
     constructor() {
         this.message = DeathScreen.MESSAGES[Math.floor(Math.random() * DeathScreen.MESSAGES.length)];
-        this.respawnButtonPos = new Vector(0, 0);
+        this.respawnButton = new Button(new Vector(0, 0), DeathScreen.RESPAWN_BUTTON_SIZE, 
+            DeathScreen.RESPAWN_BUTTON_TEXT, DeathScreen.BUTTON_FONT_SIZE, () => this.handleRespawnButtonClick())
     }
 
     /** The font size of the DeathScreen message. */
@@ -55,20 +56,20 @@ class DeathScreen {
         return 5;
     }
 
-    /** Update the DeathScreen. Listens for a respawn button click. */
+    /**
+     * Respond to the respawn button click.
+     */
+    handleRespawnButtonClick() {
+        CHAD.health = Chad.MAX_HEALTH;
+        LAST_ZONE = null;
+        ZONE = Zone.getZones().village.main;
+        ZONE.load();
+        this.removeFromWorld = true;
+    }
+
+    /** Update the DeathScreen. */
     update() {
-        const mouseOverRespawnButton = GAME.mousePos.x > this.respawnButtonPos.x
-            && GAME.mousePos.y > this.respawnButtonPos.y
-            && GAME.mousePos.x < this.respawnButtonPos.x + DeathScreen.RESPAWN_BUTTON_SIZE.x
-            && GAME.mousePos.y < this.respawnButtonPos.y + DeathScreen.RESPAWN_BUTTON_SIZE.y;
-        if (GAME.user.firing && mouseOverRespawnButton) {
-            // if the respawn button has been clicked, respawn Chad at the village
-            CHAD.health = Chad.MAX_HEALTH;
-            LAST_ZONE = null;
-            ZONE = Zone.getZones().village.main;
-            ZONE.load();
-            this.removeFromWorld = true;
-        }
+
     }
 
     draw() {
@@ -86,26 +87,9 @@ class DeathScreen {
 
         // calculate position and size of the respawn button
         const buttonSize = DeathScreen.RESPAWN_BUTTON_SIZE;
-        this.respawnButtonPos = new Vector((Camera.SIZE.x - buttonSize.x) / 2,
+        this.respawnButton.pos = new Vector((Camera.SIZE.x - buttonSize.x) / 2,
             messagePos.y + messageSize.emHeightAscent);
 
-        // draw a translucent background for the respawn button
-        CTX.fillStyle = "rgba(32, 32, 32, 0.5)";
-        CTX.fillRect(this.respawnButtonPos.x, this.respawnButtonPos.y, buttonSize.x, buttonSize.y);
-        // draw a border around the respawn button
-        CTX.lineWidth = PauseButton.BORDER_WIDTH;
-        CTX.strokeStyle = "white";
-        CTX.strokeRect(this.respawnButtonPos.x, this.respawnButtonPos.y, buttonSize.x, buttonSize.y);
-
-        // draw the respawn button text
-        CTX.fillStyle = "white";
-        CTX.font = DeathScreen.BUTTON_FONT_SIZE + "px vt323";
-        const buttonTextSize = CTX.measureText(DeathScreen.RESPAWN_BUTTON_TEXT);
-        CTX.fillText(
-            DeathScreen.RESPAWN_BUTTON_TEXT,
-            this.respawnButtonPos.x + (buttonSize.x - buttonTextSize.width) / 2,
-            this.respawnButtonPos.y + buttonSize.y - (buttonSize.y - buttonTextSize.emHeightAscent
-                + buttonTextSize.emHeightDescent) / 2
-        );
+        this.respawnButton.draw();
     }
 }

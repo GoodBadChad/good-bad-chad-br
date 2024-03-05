@@ -12,29 +12,32 @@ class Inventory {
     constructor() {
         /** The current ammo that the player has collected. Filled with AmmoItem objects */
         this.ammoBag = [];
-        this.intializeAmmoBag();
+        this.initAmmoBag();
+
         /** The current ammo that the player has collected. Filled with FoodItem objects */
-        this.foodBag = [];
-        this.intializeFoodBag();
-        /** The current runes that the player has collected. Filled with RuneItem objects */
+
+        this.foodBag = []; //! not currently in use
+        this.initFoodBag(); 
+
+        /** The total value of runes that the player has collected. A single number */
         this.runes = 100;
+
         /** Permanent items Chad collects and potentially has abilities tied to */
-        this.unlockables = [];
+        this.unlockables = []; //! not currently in use
     }
 
-    intializeAmmoBag() {
-        this.ammoBag.push(new AmmoItem(AmmoItem.STONE, Infinity));
-        this.ammoBag.push(new AmmoItem(AmmoItem.WOOD, 0));
+    initAmmoBag() {
+        this.ammoBag.push(new AmmoItem(AmmoItem.ROCK, Infinity));
+        this.ammoBag.push(new AmmoItem(AmmoItem.SLIMEBALL, 0));
         this.ammoBag.push(new AmmoItem(AmmoItem.BOMB, 0));
-        this.ammoBag.push(new AmmoItem(AmmoItem.METAL, 0));
-        this.ammoBag.push(new AmmoItem(AmmoItem.LASER, 0));
+        this.ammoBag.push(new AmmoItem(AmmoItem.SNOWBALL, 0));
+        this.ammoBag.push(new AmmoItem(AmmoItem.SUS_SNOWBALL, 0));
+        this.ammoBag.push(new AmmoItem(AmmoItem.BROCCOLI, 0));
 
-        // temporary, for testing purposes
-        this.adjustAmmo(AmmoItem.BOMB, 80);
-        this.switchToAmmo(AmmoItem.BOMB);
+        this.switchToAmmo(AmmoItem.ROCK);
     }
 
-    intializeFoodBag() {
+    initFoodBag() {
         this.foodBag.push(new FoodItem(FoodItem.CHICKEN, 0));
         this.foodBag.push(new FoodItem(FoodItem.STEAK, 0));
         this.foodBag.push(new FoodItem(FoodItem.HAM, 0));
@@ -50,18 +53,9 @@ class Inventory {
         this.switchToFood(FoodItem.BURGER);
     }
 
-    intializeRuneBag() {
-        this.runeBag.push(new RuneItem(RuneItem.YELLOW, 0));
-        this.runeBag.push(new RuneItem(RuneItem.WHITE, 0));
-        this.runeBag.push(new RuneItem(RuneItem.BLUE, 0));
-        this.runeBag.push(new RuneItem(RuneItem.RED, 0));
-        this.runeBag.push(new RuneItem(RuneItem.GREEN, 0));
-        this.runeBag.push(new RuneItem(RuneItem.PURPLE, 0));
-    }
-
 
     /**
-     * @param {number} type The type of the ammo to adjust the supply of.
+     * @param {string} type The type of the ammo to adjust the supply of.
      * @param {number} amount The amount to adjust the ammo supply by.
      */
     adjustAmmo(type, amount) {
@@ -237,8 +231,8 @@ class Inventory {
      * Logs the current state of the inventory to the console.
      */
     toString() {
-        console.log("♠ Ammo ♠ -- " + this.ammoBag);
-        console.log("♥ Food ♥ -- " + this.foodBag);
-        console.log("♦ Runes ♦ -- " + this.runeBag);
+        console.log("♠ Ammo ♠ -- ", this.ammoBag);
+        console.log("♥ Food ♥ -- ", this.foodBag);
+        console.log("♦ Runes ♦ -- ", this.runeBag);
     }
 }

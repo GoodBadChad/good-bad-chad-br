@@ -99,9 +99,9 @@ class Snowball {
             enemy.takeDamage(Snowball.DAMAGE);
             
             this.hasHit = true;
+            this.removeFromWorld = true;
         }
 
-        this.removeFromWorld = true;
     }
 
     loadAnimations() {
@@ -116,7 +116,17 @@ class Snowball {
             this.aliveTimer += GAME.clockTick;
             if (this.aliveTimer >= Snowball.ALIVE_TIME) {
                 this.removeFromWorld = true;
+
+                // spawn a snowball ammo drop on the ground because Chad missed
+                const dropPos = Vector.add(this.pos, new Vector(0, -60));
+                GAME.addEntity(new AmmoDrop(dropPos, AmmoDrop.SNOWBALL));
             }
+        }
+
+        if (this.action == "firing" && !this.hasHit && GAME.gameTime % 0.1 < 0.01) {
+            // release particle trail
+            const center = Vector.add(this.pos, Vector.divide(Snowball.SCALED_SIZE, 2));
+            GAME.addEntity(new ParticleEffect(center, ParticleEffect.WIND_TRAIL));
         }
     }
 

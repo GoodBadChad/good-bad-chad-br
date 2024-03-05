@@ -9,8 +9,7 @@ class Hud {
      * Constructor for the HUD that adds it components.
      */
     constructor() {
-        this.addComponents();
-        
+        this.componentListeners = [];
         this.addMouseListeners();
     }
 
@@ -24,22 +23,31 @@ class Hud {
         return 10;
     }
 
+    /**
+     * Switch the mouse icon to a crosshair.
+     */
     swapToCrosshair() {
         const crosshairUnclicked = 'url(../sprites/crosshair_unclicked.png) 16 16, auto';
         document.body.style.cursor = crosshairUnclicked;
     }
 
+    /**
+     * Switch the mouse icon to a pointer.
+     */
     swapToPointer() {
         const pointerUnclicked = 'url(../sprites/pointer_unclicked.png) 10 4, auto';
         document.body.style.cursor = pointerUnclicked;
     }
 
+    /**
+     * Add the mouse listeners for switching between pointers.
+     */
     addMouseListeners() {
         document.body.addEventListener('mousedown', () => {
             if (GAME.running) {
                 const crosshairClicked = 'url(../sprites/crosshair_clicked.png) 16 16, auto';
                 document.body.style.cursor = crosshairClicked;
-                
+
             } else {
                 const pointerClicked = 'url(../sprites/pointer_clicked.png) 10 4, auto';
                 document.body.style.cursor = pointerClicked;
@@ -51,14 +59,13 @@ class Hud {
             if (GAME.running) {
                 const crosshairUnclicked = 'url(../sprites/crosshair_unclicked.png) 16 16, auto';
                 document.body.style.cursor = crosshairUnclicked;
-                
+
             } else {
                 const pointerUnclicked = 'url(../sprites/pointer_unclicked.png) 10 4, auto';
                 document.body.style.cursor = pointerUnclicked;
             }
         });
     }
-
 
     /**
      * Add a component to the HUD. Creates a field for the component and adds the component
@@ -74,13 +81,17 @@ class Hud {
             throw new Error("Cannot add component: component must have update and draw methods.");
         }
         this[name] = component;
-        GAME.addEntity(component);
+        GAME.addEntity(component, 1);
     }
 
     /**
      * Initialize the HUD components.
      */
     addComponents() {
+        // clean up leftover event listeners from old components
+        this.componentListeners.forEach(([event, listener]) => 
+            document.body.removeEventListener(event, listener));
+
         // add Chad's head, rune counter, and health bar
         this.addComponent("chadHead", new ChadHead());
         const healthBarYPos = 15 + 17 * CHAD.scale.y;
@@ -88,7 +99,6 @@ class Hud {
             new Vector(Hud.MARGIN, healthBarYPos)
         ));
         this.addComponent("runeCounter", new ItemCounter(
-
             new Vector(CHAD.scaledSize.x + 20, (healthBarYPos - ItemCounter.HEIGHT) / 2),
             new Animator("./sprites/runes.png", new Vector(0, 32), new Vector(32, 32), 1, 1),
             INVENTORY.runes
@@ -99,60 +109,39 @@ class Hud {
             new Vector(Camera.SIZE.x - PauseButton.SIZE.x - Hud.MARGIN, Hud.MARGIN)
         ));
 
-        //TODO: add a hidden options button to the center-right of the screen
-        //TODO: add a hidden options menu (will contain volume sliders, spanish mode, debug mode, save progress, etc.)
-        //TODO: add a hidden game over screen
-
-
-        // add weapon labels
-        const weaponLabelWidth = 150;
-        const weaponLabelYPos = Camera.SIZE.y - ItemLabel.DEFAULT_SIZE.y - Hud.MARGIN;
-        this.addComponent("slingshotLabel", new ItemLabel(
-            new Vector(Hud.MARGIN, weaponLabelYPos),
-            new Animator(Slingshot.SPRITESHEET, new Vector(0, 0), Slingshot.SIZE, 1, 1),
-
-            "Left-click",
-            null,
-            weaponLabelWidth,
-            5
-        ));
-        this.addComponent("swordLabel", new ItemLabel(
-            new Vector(weaponLabelWidth + Hud.MARGIN, weaponLabelYPos),
-            new Animator(Sword.SPRITESHEET, new Vector(0, 0), Sword.SIZE, 1, 1),
-            "Right-click",
-            null,
-            weaponLabelWidth,
-            -15 // yes I'm using a negative padding don't judge me, it makes the sword bigger
-        ));
-
         // add slingshot ammo hotbar
         const hotbarItemWidth = ItemLabel.DEFAULT_SIZE.x;
-        const hotbarXStart = (Camera.SIZE.x - hotbarItemWidth * 5) / 2 - 16;
+        const hotbarXStart = (Camera.SIZE.x - hotbarItemWidth * 5) / 2 - 100;
         const hotbarY = Camera.SIZE.y - ItemLabel.DEFAULT_SIZE.y - Hud.MARGIN;
-        this.addComponent("ammoStoneLabel", new AmmoLabel(
+        this.addComponent("ammoRockLabel", new AmmoLabel(
             new Vector(hotbarXStart, hotbarY),
-            Projectile.STONE,
+            AmmoItem.ROCK,
             "1"
         ));
-        this.addComponent("ammoWoodLabel", new AmmoLabel(
+        this.addComponent("ammoSlimeballLabel", new AmmoLabel(
             new Vector(hotbarXStart + hotbarItemWidth + 4, hotbarY),
-            Projectile.WOOD,
+            AmmoItem.SLIMEBALL,
             "2"
         ));
         this.addComponent("ammoBombLabel", new AmmoLabel(
-            new Vector(hotbarXStart + (2 * hotbarItemWidth + 4), hotbarY),
-            Projectile.BOMB,
+            new Vector(hotbarXStart + 2 * (hotbarItemWidth + 4), hotbarY),
+            AmmoItem.BOMB,
             "3"
         ));
-        this.addComponent("ammoMetalLabel", new AmmoLabel(
+        this.addComponent("ammoSnowballLabel", new AmmoLabel(
             new Vector(hotbarXStart + 3 * (hotbarItemWidth + 4), hotbarY),
-            Projectile.METAL,
+            AmmoItem.SNOWBALL,
             "4"
         ));
-        this.addComponent("ammoLaserLabel", new AmmoLabel(
+        this.addComponent("ammoSusSnowballLabel", new AmmoLabel(
             new Vector(hotbarXStart + 4 * (hotbarItemWidth + 4), hotbarY),
-            Projectile.LASER,
+            AmmoItem.SUS_SNOWBALL,
             "5"
+        ));
+        this.addComponent("ammoBroccoliLabel", new AmmoLabel(
+            new Vector(hotbarXStart + 5 * (hotbarItemWidth + 4), hotbarY),
+            AmmoItem.BROCCOLI,
+            "6"
         ));
 
         this.addComponent("dashCooldown", new DashCooldown(
@@ -172,21 +161,7 @@ class Hud {
      * Update the HUD.
      */
     update() {
-        // if the user clicks on the pause/play button, toggle GAME.running
-        if (GAME.user.firing && this.pauseButton.isMouseOver()) {
-            ASSET_MGR.playSFX(SFX.UI_HIGH_BEEP.path, SFX.UI_HIGH_BEEP.volume);
-            if (GAME.running) {
-                GAME.running = false;
-                this.swapToPointer();
-                ASSET_MGR.pauseMusic();
-                // TODO: open options menu here
-            } else {
-                GAME.running = true;
-                this.swapToCrosshair();
-                ASSET_MGR.resumeMusic();
-                // TODO: close options menu here
-            }
-        }
+
     }
 
     /**
@@ -299,16 +274,25 @@ class AmmoLabel {
      * Constructor for an AmmoLabel.
      * 
      * @param {Vector} pos the position of the AmmoLabel on the canvas
-     * @param {number} type the ammo type associated with the AmmoLabel (should be a Projectile member type)
+     * @param {string} type the ammo type associated with the AmmoLabel (should be a Projectile member type)
      * @param {string} inputName the input key used to select this ammo type
      */
     constructor(pos, type, inputName) {
         this.type = type;
-        this.label = new ItemLabel(
+        this.ammoItem = INVENTORY.getAmmo(type);
+        
+        const ammoItemName = AmmoItem.AMMO_ITEM_MAP[type.toLowerCase()];
+        this.animator = new Animator(
+            ammoItemName.SPRITESHEET,
+            ammoItemName.SPRITESHEET_START_POS,
+            ammoItemName.SIZE,
+            ammoItemName.FRAME_COUNT,
+            ammoItemName.FRAME_DURATION
+        );
 
+        this.label = new ItemLabel(
             pos,
-            new Animator(AmmoItem.SPRITESHEET, new Vector(0, type * AmmoItem.SPRITESHEET_ENTRY_HEIGHT),
-                AmmoItem.SIZE, 1, 1),
+            this.animator,
             inputName,
             INVENTORY.getAmmo(type).amount
         );
@@ -322,7 +306,9 @@ class AmmoLabel {
 
     /** Draw the AmmoLabel. */
     draw() {
-        this.label.draw();
+        if (this.ammoItem.isRevealed) {
+            this.label.draw();
+        }
     }
 }
 
@@ -394,6 +380,10 @@ class ItemLabel {
         this.quantity = quantity;
     }
 
+    setImageVisible(isVisible) {
+        
+    }
+
     /** 
      * Set whether or not this ItemLabel is selected. 
      * 
@@ -436,7 +426,7 @@ class ItemLabel {
         CTX.fillText(this.inputName, this.pos.x + ItemLabel.TEXT_MARGIN, this.pos.y + ItemLabel.TEXT_SIZE - ItemLabel.TEXT_MARGIN);
 
         // if this ItemLabel is assigned a quantity, draw it in the bottom right corner of the ItemLabel
-        if (this.quantity) {
+        if (this.quantity || this.quantity === 0) {
             let text = "x" + this.quantity;
             if (this.quantity === Infinity) {
                 text = "∞";
@@ -463,6 +453,28 @@ class PauseButton {
      */
     constructor(pos) {
         this.pos = pos;
+        this.controls = new Controls();
+        
+        const listener = () => {
+            const mouseOverButton = GAME.mousePos.x > this.pos.x
+                && GAME.mousePos.y > this.pos.y
+                && GAME.mousePos.x < this.pos.x + PauseButton.SIZE.x
+                && GAME.mousePos.y < this.pos.y + PauseButton.SIZE.y;
+            if (mouseOverButton) {
+                ASSET_MGR.playSFX(SFX.UI_HIGH_BEEP.path, SFX.UI_HIGH_BEEP.volume);
+                if (GAME.running) {
+                    GAME.running = false;
+                    HUD.swapToPointer();
+                    ASSET_MGR.pauseMusic();
+                } else {
+                    GAME.running = true;
+                    HUD.swapToCrosshair();
+                    ASSET_MGR.resumeMusic();
+                }
+            }
+        };
+        document.body.addEventListener("click", listener);
+        HUD.componentListeners.push([ "click", listener ]);
     }
 
     /** The size (in pixels) of the PauseButton on the canvas. */
@@ -507,6 +519,14 @@ class PauseButton {
 
     /** Draw the PauseButton. */
     draw() {
+        if (!GAME.running) {
+            // draw a translucent background
+            CTX.fillStyle = "rgba(0, 0, 0, 0.5)";
+            CTX.fillRect(0, 0, Camera.SIZE.x, Camera.SIZE.y);
+
+            this.controls.draw();
+        }
+
         const size = PauseButton.SIZE;
         const barSize = PauseButton.BAR_SIZE;
 
@@ -534,8 +554,7 @@ class PauseButton {
             CTX.lineTo(this.pos.x + size.x - margin, this.pos.y + size.y / 2);
             CTX.lineTo(this.pos.x + margin, this.pos.y + size.y - margin);
             CTX.fill();
-        }
-
+        }    
     }
 }
 
@@ -605,7 +624,7 @@ class ChadHead {
             new Vector(Chad.SIZE.x - 2, 17),
             1, 1)
     }
-    
+
     /**
      * Update the ChadHead. Does nothing.
      */

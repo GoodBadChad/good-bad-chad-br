@@ -45,7 +45,7 @@ class Chad {
         this.damageMultiplier = 1;
 
         /** The size of Chad on the canvas */
-        this.scaledSize = new Vector(Chad.DEFAULT_BOUNDING_BOX_SIZE.x * Chad.DEFAULT_SCALE.x, 
+        this.scaledSize = new Vector(Chad.DEFAULT_BOUNDING_BOX_SIZE.x * Chad.DEFAULT_SCALE.x,
             Chad.DEFAULT_BOUNDING_BOX_SIZE.y * Chad.DEFAULT_SCALE.y);
         /** Used to check how to deal with collisions with other applicable entities. */
         this.lastBoundingBox = this.boundingBox;
@@ -180,7 +180,10 @@ class Chad {
      * Initialize Chad's status effect.
      */
     initStatusEffect() {
-        this.statusEffect = new StatusEffect(this);
+        // if we don't have a status effect, create one
+        if (!this.statusEffect) {
+            this.statusEffect = new StatusEffect(this);
+        }
         GAME.addEntity(this.statusEffect);
     }
 
@@ -205,8 +208,8 @@ class Chad {
     }
 
     getCenter() {
-        return new Vector(this.pos.x + this.getBoundingBoxOffset().x + this.scaledSize.x / 2, 
-        this.pos.y + this.getBoundingBoxOffset().y + this.scaledSize.y / 2);
+        return new Vector(this.pos.x + this.getBoundingBoxOffset().x + this.scaledSize.x / 2,
+            this.pos.y + this.getBoundingBoxOffset().y + this.scaledSize.y / 2);
     }
 
     getTopLeft() {
@@ -226,7 +229,7 @@ class Chad {
                 ASSET_MGR.playSFX(SFX.DING.path, SFX.DING.volume);
                 return;
             }
-    
+
             this.health -= amount;
             if (this.health <= 0) {
                 // Chad should die here
@@ -302,7 +305,7 @@ class Chad {
         if (this.isDashing) {
             this.dashStopTimer += GAME.clockTick;
         }
-        
+
         if (this.dashCooldownTimer <= 0 && this.dashStopTimer < Chad.DASH_TIME_LIMIT) {
             this.canDash = true;
         }
@@ -371,7 +374,7 @@ class Chad {
         if (!this.isOnGround) {
             this.alreadyLanded = false;
         }
-        
+
         if (GAME.user.jumping && this.isOnGround) {
             yVelocity = -this.firstJumpVelocity;
             ASSET_MGR.playSFX(SFX.JUMP1.path, SFX.JUMP1.volume);
@@ -380,7 +383,7 @@ class Chad {
             this.isOnGround = false;
             this.firstJumpTimer = 0.13;
         }
-        
+
         // If the jump button is released early and the character is still moving upward, reduce the jump force
         if (!GAME.user.jumping && this.isJumping && yVelocity < 0) {
             this.firstJumpTimer -= GAME.clockTick; // Decrease the jump timer
@@ -418,9 +421,9 @@ class Chad {
         if (this.canDoubleJump && GAME.user.jumping && !this.isOnGround) {
             ASSET_MGR.playSFX(SFX.JUMP2.path, SFX.JUMP2.volume);
 
-            GAME.addEntity(new ParticleEffect( 
+            GAME.addEntity(new ParticleEffect(
                 Vector.add(this.getCenter(), new Vector(0, this.scaledSize.y / 2 - 10)),
-                    ParticleEffect.CLOUD)
+                ParticleEffect.CLOUD)
             );
 
             this.action = "jumping";
@@ -471,14 +474,25 @@ class Chad {
                 this.facing = "left";
             }
         }
-       
+
         if (this.sword.isSlicing()) {
             this.action = "slicing";
         }
 
+        if (this.isOnGround && !(GAME.user.movingRight || GAME.user.movingLeft)) {
+            if (this.sword.isSlicing()) {
+                this.action = "slicingStill";
+            }
+        } else if (!(this.isOnGround) && GAME.user.jumping && !(GAME.user.dashing)) {
+            this.action = "jumping"
+            if (this.sword.isSlicing()) {
+                this.action = "slicingStill";
+            }
+        }
+
         // leave it up to the slingshot to decide where chad is aiming
-        const slingshotAction = this.slingshot != null ? this.slingshot.getAction() : "idle";
-        if (slingshotAction != "idle") {
+        const slingshotAction = this.slingshot != null ? this.slingshot.getAction() : "none";
+        if (slingshotAction != "none") {
             // provided the slingshot is doing something, override chad's action to a combination of the two
             switch (this.action) {
                 case "idle":
@@ -490,15 +504,10 @@ class Chad {
                 case "running":
                     this.action = "running" + slingshotAction;
                     break;
+                case "jumping":
+                    this.action = "idle" + slingshotAction; // no jumping animations for aiming
+                    break;
             }
-        }
-
-        if (this.isOnGround && !(GAME.user.movingRight || GAME.user.movingLeft)) {
-            if (this.sword.isSlicing()) {
-                this.action = "slicingStill";
-            }
-        } else if (!(this.isOnGround) && GAME.user.jumping && !(GAME.user.dashing)) {
-            this.action = "jumping"
         }
 
 
@@ -518,7 +527,7 @@ class Chad {
         GAME.entities.midground.forEach((entity) => {
             // Does entity even have a BB?
             if (entity.boundingBox) {
-                
+
                 // Are they even colliding?
                 if (this.boundingBox.collide(entity.boundingBox)) {
                     if (entity instanceof Block) {
@@ -572,6 +581,9 @@ class Chad {
                         LAST_ZONE = ZONE;
                         ZONE = entity.target;
                         ZONE.load();
+                        setTimeout(() => {
+                            HUD.addComponents();
+                        }, 1000);
                     }
                     else if (entity.conversation) {
                         if (GAME.user.interacting) {

@@ -37,12 +37,6 @@ class Zone {
 
             CHAD.initWeapons();
             CHAD.initStatusEffect();
-
-            // TODO: this is a bandaid fix! Let's figure out how to make this better!!!
-            setTimeout(() => {
-                HUD.addComponents();
-            }, 1_000);
-
         };
         this.name = name;
     };
@@ -134,6 +128,10 @@ class Zone {
          */
 
         return {
+            mountain: {
+                slope1: new Zone(zeros, new Vector(100, 100), loadMountainSlope1, "Mountain Slope"),
+                slope2: new Zone(zeros, new Vector(100, 100), loadMountainSlope2, "Mountain Slope But Higher"),
+            },
             playground: {
                 caleb: new Zone(zeros, defaultMaxBlock, loadPlaygroundCaleb, "Club Caleb"),
                 devin: new Zone(zeros, defaultMaxBlock, loadPlaygroundDevin, "Devinopolis"),
@@ -153,7 +151,11 @@ class Zone {
             },
             woods: {
 
-            }
+            },
+            river: {
+                start: new Zone(zeros, defaultMaxBlock, loadRiverStart, "River Start"),
+                end: new Zone(zeros, defaultMaxBlock, loadRiverEnd, "River End"),
+            },
         };
     };
 };

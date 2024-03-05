@@ -45,6 +45,7 @@ class EnemyBase {
 
         this.maxHealth = health; 
         this.onDeath = onDeath;
+        this.isDead = false;
         this.minRoamX = pos.x - maxRoamDistance;
         this.targetX = pos.x;
         this.stance = stance;
@@ -62,7 +63,7 @@ class EnemyBase {
      * is within their maximum reaction distance. 
      */
     static get AGGRESSIVE_STANCE() {
-        return "aggressiveMelee";
+        return "aggressive";
     }
 
     /** 
@@ -95,8 +96,9 @@ class EnemyBase {
      */
      takeDamage(amount) {
         this.enemy.health -= amount;
-        if (this.enemy.health <= 0) {
+        if (this.enemy.health <= 0 && !this.isDead) {
             this.onDeath();
+            this.isDead = true; // prevent multiple calls to onDeath
         } else {
             // otherwise, make it react
             switch (this.stance) {
@@ -146,6 +148,14 @@ class EnemyBase {
         this.setTargetX(this.enemy.pos.x + Math.sign(this.enemy.pos.x - CHAD.pos.x) * this.reactionDistance);
         this.stance = EnemyBase.AVOID_STANCE;
         this.enemy.state = "flee";
+    }
+
+    /**
+     * Makes the enemy pursue Chad. Also changes its stance to aggressive.
+     */
+    pursue() {
+        this.stance = EnemyBase.AGGRESSIVE_STANCE;
+        this.enemy.state = "pursue";
     }
 
     /**

@@ -80,4 +80,5 @@ ZONE.load();
 const STORY = {};
 // const SAVEARRAY = new SaveArray();
 // (4) Start the game! :)
+GAME.addEntity(new StartMenu(), 1);
 GAME.start();

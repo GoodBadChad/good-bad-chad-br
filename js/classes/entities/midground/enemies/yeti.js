@@ -90,8 +90,15 @@ class Yeti {
         this.removeFromWorld = true;
 
         // add a piece of bacon in the Yeti's place at bottom-center of yeti
-        const pos = this.base.getCenter();
-        GAME.addEntity(new FoodDrop(pos, FoodDrop.GIANT_MUSHROOM));
+        const pos = Vector.add(this.base.getCenter(), new Vector(0, -40));
+        GAME.addEntity(new FoodDrop(pos, FoodDrop.BACON));
+
+        if (Math.random() < 0.6) {
+            GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SNOWBALL, 10));
+        } else {
+            GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SUS_SNOWBALL, 5));
+        }
+
     }
 
     static get GROWL_THRESHOLD() {
