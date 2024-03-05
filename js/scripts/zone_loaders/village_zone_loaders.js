@@ -371,8 +371,8 @@ const loadVillageMain = () => {
         GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), new Conversation(getAllConversationArrays().village.papaChad.huntingInvite)), 0);
         GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().village.blacksmith.merchant)), 0);
         GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().village.mayor.hopefulGreeting)), 0);
-        GAME.addEntity(new MamaChad(Vector.blockToWorldSpace(blockPosMama)));
-        GAME.addEntity(new Wizard(Vector.blockToWorldSpace(blockPosWizard)));
+        // GAME.addEntity(new MamaChad(Vector.blockToWorldSpace(blockPosMama)));
+        // GAME.addEntity(new Wizard(Vector.blockToWorldSpace(blockPosWizard)));
         GAME.addEntity(idleMama);
 
         let weather = "warm";
