@@ -198,7 +198,7 @@ const loadVillageInsideCave = () => {
         GAME.addEntity(new Border(
             new Vector(ZONE.MIN_PT.x, 0),
             new Vector(1, ZONE.PIXEL_SIZE.y),
-            Zone.getZones().village.woods
+            Zone.getZones().mountain.slope2
         ));
 
         BG_COLOR = COLORS.DARK_CAVE_PURPLE;
@@ -236,7 +236,7 @@ const loadVillageInsideCave = () => {
         }, 1000);
 
         TilemapInterpreter.setTilemap(caveTilemap);
-        if (LAST_ZONE.equals(Zone.getZones().village.woods)) { // Coming from woods.
+        if (LAST_ZONE.equals(Zone.getZones().mountain.slope2)) { // Coming from mountain.
 
             // Set spawn point on the right.
             const blockPos = new Vector(ZONE.MIN_BLOCK.x, 5);
@@ -661,9 +661,9 @@ const loadWoods = () => {
             Zone.getZones().village.hillDownFromMain
         ));
         GAME.addEntity(new Border(
-            new Vector(ZONE.MAX_PT.x, 0),
-            new Vector(1, ZONE.PIXEL_SIZE.y),
-            Zone.getZones().village.insideCave
+            new Vector(ZONE.MAX_PT.x, 0), // start at the far right side of the Zone, and at the top
+            new Vector(1, ZONE.PIXEL_SIZE.y), // only one pixel wide, but as tall as the entire Zone.
+            Zone.getZones().mountain.slope1
         ));
         TilemapInterpreter.setTilemap(woodsTilemap);
         let treeDistOffset = 0;
@@ -712,7 +712,7 @@ const loadWoods = () => {
 
             const blockPos = new Vector(1, 17.5);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
-        } else if (LAST_ZONE.equals(Zone.getZones().village.insideCave)) { // Coming from main.
+        } else if (LAST_ZONE.equals(Zone.getZones().mountain.slope1)) { // Coming from main.
             // Set spawn point on the right.
             const blockPos = new Vector(ZONE.MAX_BLOCK.x - 5, 17);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);

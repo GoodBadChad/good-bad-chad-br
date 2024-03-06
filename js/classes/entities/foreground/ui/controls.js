@@ -15,7 +15,7 @@ class Controls {
             "Left/right movement: A/D",
             "Jump/double jump: space",
             "Sprint: shift",
-            "Dash: X",
+            "Dash: Alt/X",
             "Left mouse: Fire slingshot",
             "Right mouse/Q: Swing sword",
             "Number keys: select ammo type"
