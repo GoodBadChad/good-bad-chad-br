@@ -17,7 +17,7 @@ const loadMountainSlope1 = () => {
         GAME.addEntity(new Border(
             new Vector(ZONE.MIN_PT.x, 0),
             new Vector(1, ZONE.PIXEL_SIZE.y),
-            Zone.getZones().village.woods
+            Zone.getZones().river.river1
         ));
         GAME.addEntity(new Border(
             new Vector(0, 0),

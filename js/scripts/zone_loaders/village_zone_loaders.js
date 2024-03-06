@@ -590,7 +590,7 @@ const loadWoods = () => {
         GAME.addEntity(new Border(
             new Vector(ZONE.MAX_PT.x, 0), // start at the far right side of the Zone, and at the top
             new Vector(1, ZONE.PIXEL_SIZE.y), // only one pixel wide, but as tall as the entire Zone.
-            Zone.getZones().mountain.slope1
+            Zone.getZones().river.river1
         ));
         TilemapInterpreter.setTilemap(woodsTilemap);
         let treeDistOffset = 0;
@@ -639,9 +639,9 @@ const loadWoods = () => {
 
             const blockPos = new Vector(1, 16);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
-        } else if (LAST_ZONE.equals(Zone.getZones().mountain.slope1)) { // Coming from main.
+        } else if (LAST_ZONE.equals(Zone.getZones().river.river1)) { // Coming from main.
             // Set spawn point on the right.
-            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 5, 16);
+            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 2, 15);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 

@@ -23,7 +23,7 @@ public class MakeMap {
      */
     public void fillArray() {
         System.out.print("[");
-        int width = 50;
+        int width = 100;
         int height = 50;
         int startGround = 1;
         int firstLayerBlock = 1;

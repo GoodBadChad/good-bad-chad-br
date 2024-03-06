@@ -156,8 +156,7 @@ class Zone {
                 insideCave2: new Zone(zeros, new Vector(102, 50), loadCave2, "Cave final fight zone."),
             },
             river: {
-                start: new Zone(zeros, defaultMaxBlock, loadRiverStart, "River Start"),
-                end: new Zone(zeros, defaultMaxBlock, loadRiverEnd, "River End"),
+                river1: new Zone(zeros, new Vector(151, 50), loadRiver, "River Start"),
             },
         };
     };
