@@ -20,6 +20,7 @@ class Inventory {
 
         /** The total value of runes that the player has collected. A single number */
         this.runeCounter = 0;
+        this.initRuneCounter();
         
         /** Permanent items Chad collects and potentially has abilities tied to */
         this.unlockables = []; //! not currently in use
@@ -44,12 +45,10 @@ class Inventory {
         this.foodBag.push(new FoodItem(FoodItem.BACON, 0));
         this.foodBag.push(new FoodItem(FoodItem.BURGER, 0));
         this.foodBag.push(new FoodItem(FoodItem.ENERGY_DRINK, 0));
+    }
 
-        // this.currentFood = null;
-
-        // temporary, for testing purposes
-        this.adjustFood(FoodItem.BURGER, 10);
-        this.switchToFood(FoodItem.BURGER);
+    initRuneCounter() {
+        
     }
 
 

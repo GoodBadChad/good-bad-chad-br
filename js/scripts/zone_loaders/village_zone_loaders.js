@@ -390,6 +390,7 @@ const loadVillageMain = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
+        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(20, aboveGroundLevel - 2)), RuneDrop.PURPLE, 1, false));
 
 
 
@@ -418,7 +419,7 @@ const loadVillageMain = () => {
         // };
         // document.body.addEventListener('keydown', playMusic);
 
-        ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+        ASSET_MGR.playMusic(MUSIC.VILLAGE_SIMPLE_LIFE.path, MUSIC.VILLAGE_SIMPLE_LIFE.volume);
 
 
         LoadingAnimation.stop();

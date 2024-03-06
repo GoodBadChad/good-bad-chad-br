@@ -147,7 +147,8 @@ class AssetManager {
      */
     playMusic(path, volume, loop = true) {
         if (this.currentMusic) {
-            this.stopAudio(this.currentMusic.src);
+            this.currentMusic.pause();
+            this.currentMusic.currentTime = 0;
         }
 
         const audio = this.cache[path];
@@ -156,7 +157,6 @@ class AssetManager {
         this.currentMusic = audio;
 
         audio.play();
-        //! might have a bug where pauseMusic "ends" the music. Check it out
         if (loop) {
             audio.addEventListener("ended", () => {
                 audio.play();
@@ -175,6 +175,9 @@ class AssetManager {
         }
     }
 
+    /**
+     * Resumes the currently paused background music from where it left off.
+     */
     resumeMusic() {
         if (this.currentMusic) {
             this.currentMusic.play();
