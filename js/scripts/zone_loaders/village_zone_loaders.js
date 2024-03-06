@@ -197,6 +197,8 @@ const loadVillageMain = () => {
         ASSET_MGR.queueDownload(BlackSmith.SPRITESHEET);
         ASSET_MGR.queueDownload(Mayor.SPRITESHEET);
         ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
+        ASSET_MGR.queueDownload('./sprites/mama_chad_trapped.png');
+        ASSET_MGR.queueDownload(Wizard.SPRITESHEET);
     };
 
     const addEntities = () => {
@@ -278,12 +280,20 @@ const loadVillageMain = () => {
         const blockPosPapa = new Vector(33, chadOnGround);
         const blockPosBlackSmith = new Vector(17, chadOnGround);
         const blockPosMayor = new Vector(50, chadOnGround);
+        const blockPosMama = new Vector(65, chadOnGround + 1);
+        const blockPosWizard = new Vector(63, chadOnGround);
+        const blockPosIdleMama = new Vector(37, chadOnGround);
 
+        const idleMama = new MamaChad(Vector.blockToWorldSpace(blockPosIdleMama), false, new Conversation(getAllConversationArrays().village.mamaChad.goodMorning));
+        idleMama.action = "idle";
 
         GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), new Conversation(getAllConversationArrays().village.papaChad.huntingInvite)), 0);
-        GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)), 0);
-        GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)), 0);
-
+        GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().village.blacksmith.merchant)), 0);
+        GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().village.mayor.hopefulGreeting)), 0);
+        // TODO add these in after you get back from the field.
+        // GAME.addEntity(new MamaChad(Vector.blockToWorldSpace(blockPosMama)));
+        // GAME.addEntity(new Wizard(Vector.blockToWorldSpace(blockPosWizard)));
+        GAME.addEntity(idleMama);
 
         let weather = "warm";
         let surfaceSnow = false;
