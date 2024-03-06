@@ -1,26 +1,27 @@
 class MamaChad {
     /**
-     * @param {Vector} pos the position at which he should spawn. 
-     * @param {Conversation} convo The conversation that will show if PapaChad is interacted with.
+     * @param {Vector} pos the position at which she should spawn. 
+     * @param {boolean} trapped is mama trapped?
+     * @param {Conversation} convo The conversation that will show if mama is interacted with.
      */
-    constructor(pos, convo = null) {
-        /** The position of the Papa Chad (in the game world). */
+    constructor(pos, trapped = true, convo = null) {
+        /** The position of the mama (in the game world). */
         this.pos = pos;
-        /** The velocity at which PapaChad is moving. */
+        /** The velocity at which mama is moving. */
         this.velocity = new Vector(0, 0);
 
-        /** An associative array of the animations for this Papa Chad. Arranged [facing][action]. */
+        /** An associative array of the animations for mama. Arranged [facing][action]. */
         this.animations = [];
         this.loadAnimations();
-        /** What way is the Papa Chad looking? */
+        /** What way is the mama looking? */
         this.facing = "right";
-        /** What is the Papa Chad doing? */
+        /** What is the mama doing? */
         this.action = "trapped";
         /** Used to check for collisions with other applicable entities. */
         this.boundingBox = new BoundingBox(this.pos, PapaChad.SCALED_SIZE);
         /** Used to check how to deal with collisions with other applicable entities. */
         this.lastBoundingBox = this.boundingBox;
-        /** The conversation which will be displayed upon interacting with Papa Chad. */
+        /** The conversation which will be displayed upon interacting with mama Chad. */
         this.conversation = convo;
     };
 
@@ -37,11 +38,11 @@ class MamaChad {
     /** This will be the size of Papa Chad ON THE CANVAS. */
     static get SCALED_SIZE() {
         return PapaChad.SCALED_SIZE
-    }
+    };
 
     /** The filepath to Papa Chad's spritesheet. */
     static get SPRITESHEET() {
-        return "./sprites/blacksmith.png";
+        return "./sprites/mama_chad_trapped.png";
     };
 
     /** Change what Papa Chad is doing and where it is. */

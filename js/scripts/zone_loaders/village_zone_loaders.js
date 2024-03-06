@@ -365,12 +365,13 @@ const loadVillageMain = () => {
         const blockPosWizard = new Vector(63, chadOnGround);
         const blockPosIdleMama = new Vector(37, chadOnGround);
 
-        const idleMama = new MamaChad(Vector.blockToWorldSpace(blockPosIdleMama), new Conversation(getAllConversationArrays().village.mamaChad.goodMorning));
+        const idleMama = new MamaChad(Vector.blockToWorldSpace(blockPosIdleMama), false, new Conversation(getAllConversationArrays().village.mamaChad.goodMorning));
         idleMama.action = "idle";
 
         GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), new Conversation(getAllConversationArrays().village.papaChad.huntingInvite)), 0);
         GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().village.blacksmith.merchant)), 0);
         GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().village.mayor.hopefulGreeting)), 0);
+        // TODO add these in after you get back from the field.
         // GAME.addEntity(new MamaChad(Vector.blockToWorldSpace(blockPosMama)));
         // GAME.addEntity(new Wizard(Vector.blockToWorldSpace(blockPosWizard)));
         GAME.addEntity(idleMama);

@@ -1,12 +1,12 @@
 class Wizard {
    /**
      * @param {Vector} pos the position at which he should spawn. 
-     * @param {Conversation} convo The conversation that will show if BlackSmith is interacted with.
+     * @param {Conversation} convo The conversation that will show if Wizard is interacted with.
      */
     constructor(pos, convo = null) {
-        /** The position of the Papa Chad (in the game world). */
+        /** The position of the wizard (in the game world). */
         this.pos = pos;
-        /** The velocity at which BlackSmith is moving. */
+        /** The velocity at which Wizard is moving. */
         this.velocity = new Vector(0, 0);
 
         /** An associative array of the animations for this Papa Chad. Arranged [facing][action]. */
@@ -17,7 +17,7 @@ class Wizard {
         /** What is the Papa Chad doing? */
         this.action = "idle";
         /** Used to check for collisions with other applicable entities. */
-        this.boundingBox = new BoundingBox(this.pos, BlackSmith.SCALED_SIZE);
+        this.boundingBox = new BoundingBox(this.pos, Wizard.SCALED_SIZE);
         /** Used to check how to deal with collisions with other applicable entities. */
         this.lastBoundingBox = this.boundingBox;
         /** The conversation which will be displayed upon interacting with Papa Chad. */
@@ -26,7 +26,19 @@ class Wizard {
 
     static get SPRITESHEET() {
       return './sprites/wizard.png';
-    }
+    };
+    
+    static get SIZE() {
+        return new Vector(33, 65);
+    };
+
+    static get SCALE() {
+        return 2.8;
+    };
+
+    static get SCALED_SIZE() {
+        return Vector.multiply(Wizard.SIZE, Wizard.SCALE);
+    };
 
     /** Change what Papa Chad is doing and where it is. */
     update() {
@@ -44,7 +56,7 @@ class Wizard {
             y: this.pos.y + this.velocity.y * GAME.clockTick
         };
 
-        this.boundingBox = new BoundingBox(this.pos, BlackSmith.SCALED_SIZE);
+        this.boundingBox = new BoundingBox(this.pos, Wizard.SCALED_SIZE);
 
 
         // Step 4: Have we collided with anything?
@@ -66,14 +78,14 @@ class Wizard {
                             && this.boundingBox.bottom > entity.boundingBox.top) {
                             // We are colliding with the top.
 
-                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - BlackSmith.SCALED_SIZE.y);
+                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - Wizard.SCALED_SIZE.y);
                             this.velocity = new Vector(this.velocity.x, 0);
                         } else if (isOverlapY
                             && this.lastBoundingBox.right <= entity.boundingBox.left
                             && this.boundingBox.right > entity.boundingBox.left) {
                             // We are colliding with the left side.
 
-                            this.pos = new Vector(entity.boundingBox.left - BlackSmith.SCALED_SIZE.x, this.pos.y);
+                            this.pos = new Vector(entity.boundingBox.left - Wizard.SCALED_SIZE.x, this.pos.y);
                         } else if (isOverlapY
                             && this.lastBoundingBox.left >= entity.boundingBox.right
                             && this.boundingBox.left < entity.boundingBox.right) {
@@ -93,14 +105,14 @@ class Wizard {
             // There's no bounding box, so who gives a shrek?
         });
         // Step 5: Now that your position is actually figured out, draw your correct bounding box.
-        this.boundingBox = new BoundingBox(this.pos, BlackSmith.SCALED_SIZE);
+        this.boundingBox = new BoundingBox(this.pos, Wizard.SCALED_SIZE);
     };
 
     /** Draw Papa Chad on the canvas. */
     draw() {
-        this.animations[this.facing][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), BlackSmith.SCALE);
+        this.animations[this.facing][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), Wizard.SCALE);
         if (this.conversation && this.conversation.new) {
-            const indicator = new OverheadIcon(this, BlackSmith.SCALED_SIZE.x, OverheadIcon.TRIANGLE, OverheadIcon.GREEN);
+            const indicator = new OverheadIcon(this, Wizard.SCALED_SIZE.x, OverheadIcon.TRIANGLE, OverheadIcon.GREEN);
             indicator.draw();
         }
     };
@@ -112,7 +124,7 @@ class Wizard {
         this.animations["left"]["idle"] = new Animator(
             './sprites/wizard.png',
             new Vector(0, 0),
-            new Vector(33, 65),
+            Wizard.SIZE,
             1, 1);
     };
 };
