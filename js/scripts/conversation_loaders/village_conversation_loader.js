@@ -1,8 +1,9 @@
-
-
 const villageConversationLoader = () => {
     return {
-        papaChad: papaChadConversationLoader()
+        papaChad: papaChadConversationLoader(),
+        mayor: mayorConversationLoader(), 
+        blacksmith: blacksmithConversationLoader(),
+        mamaChad: mamaChadConversationLoader()
     };
 };
 
@@ -68,6 +69,152 @@ const papaChadConversationLoader = () => {
         endOfHunt: [
             new DialogBubble(papa,
                 "Fantastic work son! Now, run these back over to Mama Chad so she can whip us up some nourishing MEAT!")
+        ]
+    };
+};
+
+const mayorConversationLoader = () => {
+    const chad = DialogBubble.SPEAKERS.CHAD;
+    const mayor = DialogBubble.SPEAKERS.MAYOR;
+
+    return {
+        hopefulGreeting: [
+            // 0
+            new DialogBubble(mayor,
+                "Good morning Chad! It's a beautiful day outside, wouldn't you say?"),
+            // 1
+            new DecisionBubble('Mayor', 'Beautiful day isn\'t it?', [
+                new Choice('Sure is! Great for swimming', 2),
+                new Choice('It would be nicer outside this tiny town.', 6)
+            ]),
+            // 2
+            new DialogBubble(chad,
+                "Sure is, and warm! Might head over to the lake and see if there's any babes!"),
+            // 3
+            new DialogBubble(mayor,
+                "Maybe wait a bit before doing that. I know it doesn't look it, but I sense there will be a storm. There's a strange chill in the air tonight."),
+            // 4
+            new DialogBubble(mayor,
+                "Years of worrying for the people of this town have given me a sense for these things, but they've also made me a bit paranoid."),
+            // 5
+            new DialogBubble(mayor,
+                "But don't let my nerves spoil your fun. The carelessness of youth is a special thing. It escapes from you all too quickly.",
+                true),
+            // 6
+            new DialogBubble(chad,
+                "It's nice, sure, but I wonder what it would look like outside this tiny village. I'm dying to get out and explore."),
+            // 7
+            new DialogBubble(mayor,
+                "That feeling is inevitable. There is indeed a lot to see outside of this \"tiny village\". All of us here have had our time outside the boundaries of this peaceful burg."),
+            // 8
+            new DialogBubble(mayor,
+                "Maybe I'm biased, as mayor of this fine village, but my days on the outside have made me all the more grateful for the tranquility of this region."),
+            // 9
+            new DialogBubble(mayor,
+                "I guess all I'm trying to say is, your time will come, Chad, but you shouldn't be too anxious to escape."),
+            // 10
+            new DialogBubble(mayor,
+                "The carelessness of youth is a special thing, and it has a way of escaping from you way too quickly out there."),
+            // 11
+            new DialogBubble(mayor,
+                "But I'll tell ya Chad, when that day does come and you're ready to set out on some great adventure into the unknown, stop by and talk to me first. I may have something to share with you that could help you along the way.",
+                true)
+        ]
+    };
+};
+
+const blacksmithConversationLoader = () => {
+    const chad = DialogBubble.SPEAKERS.CHAD;
+    const bs = DialogBubble.SPEAKERS.BLACKSMITH;
+    return {
+        merchant: [
+            // 0
+            new DialogBubble(bs,
+                "Hello."),
+            // 1
+            new DecisionBubble('Blacksmith', 'Hello.', [
+                new Choice('I\'d like to see what you have for sale.', 2),
+                new Choice('Leave.', 7)
+            ]),
+            // 2
+            new DialogBubble(bs, 'Okay.'),
+            // 3
+            new DecisionBubble('Blacksmith', 'Okay', [
+                new Choice("Rock ammo (25 for 50 runes)", () => {
+                    return INVENTORY.runes >= 50 ? 4 : 9;
+                }),
+                new Choice("Rock ammo (100 for 100 runes)", () => {
+                    return INVENTORY.runes >= 100 ? 5 : 9;
+                }),
+                new Choice("Bomb ammo (5 for 50 runes)", () => {
+                    return INVENTORY.runes >= 50 ? 6 : 9;
+                }),
+                new Choice('Leave.', 7)
+            ]),
+            // 4
+            new DialogBubble(bs, "Here you go.", true, () => {
+                INVENTORY.spendRunes(25);
+                INVENTORY.adjustAmmo(AmmoItem.ROCK, 25);
+            }),
+            // 5
+            new DialogBubble(bs, "Here you go.", true, () => {
+                INVENTORY.spendRunes(100);
+                INVENTORY.adjustAmmo(AmmoItem.ROCK, 100);
+            }),
+            // 6
+            new DialogBubble(bs, "Here you go.", true, () => {
+                INVENTORY.spendRunes(50);
+                INVENTORY.adjustAmmo(AmmoItem.BOMB, 5);
+            }),
+            // 7
+            new DialogBubble(chad, "See ya!"),
+            // 8
+            new DialogBubble(bs, "mmhm...", true),
+            // 9
+            new DialogBubble(bs, "Gonna need more than that.", true)
+        ]
+    };
+}
+
+const mamaChadConversationLoader = () => {
+    const mama = DialogBubble.SPEAKERS.MAMA_CHAD;
+    const chad = DialogBubble.SPEAKERS.CHAD;
+    return {
+        goodMorning: [
+            // 0
+            new DialogBubble(mama,
+                "Good morning Chad! I do hope you're careful out there hunting with your father."),
+            // 1
+            new DialogBubble(mama,
+                "I know it's just bunnies and snakes out there, but I always worry you'll run into something more dangerous."),
+            // 2
+            new DialogBubble(mama,
+                "There's a lot of scary things out there in the world."),
+            // 3
+            new DecisionBubble('Mama Chad', "There's a lot of scary things out there.", [
+                new Choice("I'll be careful", 4),
+                new Choice("I can handle myself!", 6)]),
+            // 4
+            new DialogBubble(chad, 
+                "Of course I'll be careful mama. Gotta make sure I make it back to have some of that MEAT! you cook up!"),
+            // 5
+            new DialogBubble(mama,
+                "Whatever motivates you to stay safe honey. Maybe tonight I'll make your favorite - Burgers! I love you honey.", true),
+            // 6
+            new DialogBubble(chad,
+                "I can handle myself out there! Ain't nothing in these fields that I couldn't fight!"),
+            // 7
+            new DialogBubble(mama,
+                "You're a strong young man, I probably shouldn't be worried. But you'll always be my little boy!"),
+            // 8
+            new DialogBubble(chad,
+                "Aww, stop mama! I gotta go!"),
+            // 9
+            new DialogBubble(mama,
+                "I love you son!"),
+            // 10
+            new DialogBubble(chad,
+                "I love you too mom.", true)
         ]
     };
 };
