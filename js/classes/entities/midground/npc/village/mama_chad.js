@@ -16,7 +16,7 @@ class MamaChad {
         /** What way is the mama looking? */
         this.facing = "right";
         /** What is the mama doing? */
-        this.action = "trapped";
+        this.action = trapped ? "trapped" : "idle";
         /** Used to check for collisions with other applicable entities. */
         this.boundingBox = new BoundingBox(this.pos, PapaChad.SCALED_SIZE);
         /** Used to check how to deal with collisions with other applicable entities. */
@@ -35,17 +35,17 @@ class MamaChad {
         return 2.8;
     };
 
-    /** This will be the size of Papa Chad ON THE CANVAS. */
+    /** This will be the size of mama Chad ON THE CANVAS. */
     static get SCALED_SIZE() {
         return PapaChad.SCALED_SIZE
     };
 
-    /** The filepath to Papa Chad's spritesheet. */
+    /** The filepath to mama Chad's spritesheet. */
     static get SPRITESHEET() {
         return "./sprites/mama_chad_trapped.png";
     };
 
-    /** Change what Papa Chad is doing and where it is. */
+    /** Change what mama Chad is doing and where it is. */
     update() {
         if (this.action === 'trapped') return;
         // Set the velocity, according to gravity.
@@ -113,7 +113,7 @@ class MamaChad {
         this.boundingBox = new BoundingBox(this.pos, PapaChad.SCALED_SIZE);
     };
 
-    /** Draw Papa Chad on the canvas. */
+    /** Draw mama Chad on the canvas. */
     draw() {
         this.animations[this.facing][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), PapaChad.SCALE);
         if (this.conversation && this.conversation.new) {
