@@ -333,12 +333,20 @@ class Decoration {
                 },
                 TORCH_BACKGROUND: {
                     SPRITESHEET: "./sprites/torch.png",
-                    SPRITESHEET_START_POS: new Vector(96, 272),
+                    SPRITESHEET_START_POS: new Vector(96, 352),
                     FRAME_COUNT: 6,
                     FRAME_DURATION: .4,
                     SIZE: new Vector(256, 48),
                     SCALE: 2.5
                 },
+                TORCH_BACKGROUND_EASTEREGG: {
+                    SPRITESHEET: "./sprites/torch.png",
+                    SPRITESHEET_START_POS: new Vector(96, 272),
+                    FRAME_COUNT: 6,
+                    FRAME_DURATION: .4,
+                    SIZE: new Vector(256, 48),
+                    SCALE: 2.5
+                }
             },
             crystals: {
                 CRYSTALS_1: {

@@ -71,7 +71,7 @@ const loadCave1 = () => {
 
 
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.lighting.TORCH_FOREGROUND, Vector.blockToWorldSpace(new Vector(92, 88.5))), 1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.lighting.TORCH_BACKGROUND, Vector.blockToWorldSpace(new Vector(94, 86))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.lighting.TORCH_BACKGROUND_EASTEREGG, Vector.blockToWorldSpace(new Vector(94, 86))), -1);
 
 
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.crystals.CRYSTALS_2, Vector.blockToWorldSpace(new Vector(20, 85))), -1);
