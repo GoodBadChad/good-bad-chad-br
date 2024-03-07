@@ -126,6 +126,37 @@ const loadVillageField = () => {
             new Conversation(getAllConversationArrays().village.papaChad.huntingInstruction)
         ));
     }
+
+
+    GAME.addEntity(new AmmoDrop(
+        Vector.blockToWorldSpace(new Vector(74, aboveGroundLevel - 2)),
+        AmmoDrop.BOMB,
+        3,
+        false
+    ));
+
+    GAME.addEntity(new AmmoDrop(
+        Vector.blockToWorldSpace(new Vector(78.5, aboveGroundLevel + 2)),
+        AmmoDrop.SUS_SNOWBALL,
+        1,
+        false
+    ));
+
+
+    GAME.addEntity(new AmmoDrop(
+        Vector.blockToWorldSpace(new Vector(80, aboveGroundLevel + 2)),
+        AmmoDrop.SNOWBALL,
+        4,
+        false
+    ));
+
+
+    GAME.addEntity(new FoodDrop(
+        Vector.blockToWorldSpace(new Vector(73, aboveGroundLevel + 4.7)),
+        FoodDrop.BURGER,
+        false
+    ));
+
     // Set background color:
     BG_COLOR = COLORS.SKY_BLUE;
     GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), -1);
@@ -134,88 +165,7 @@ const loadVillageField = () => {
     ASSET_MGR.downloadAll(addEntities);
 };
 
-const loadVillageInsideCave = () => {
-    const queueAssets = () => {
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_BUSHY.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_LANKY.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.CARROT.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.MED_RED_FLOWER_1.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.POTATO.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.PRIDE_FLOWER_1.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_1.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.grass.GRASS_1.SPRITESHEET);
 
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.houses.BLACKSMITH_HOUSE.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.houses.CHAD_HOUSE.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.houses.MAYOR_HOUSE.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.lighting.LANTERN.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.lighting.DARK.SPRITESHEET);
-
-        ASSET_MGR.queueDownload(Precipitation.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_1.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET);
-        // NPCs
-        ASSET_MGR.queueDownload(Bird.SPRITESHEET);
-        ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
-        ASSET_MGR.queueDownload(Snake.SPRITESHEET);
-        ASSET_MGR.queueDownload(DrillBot.SPRITESHEET);
-
-    };
-
-    const addEntities = () => {
-        GAME.addEntity(new Border(
-            new Vector(ZONE.MIN_PT.x, 0),
-            new Vector(1, ZONE.PIXEL_SIZE.y),
-            Zone.getZones().village.woods
-        ));
-
-        BG_COLOR = COLORS.DARK_CAVE_PURPLE;
-
-
-        for (let i = -1; i < 10; i++) {
-            for (let j = -1; j < 11; j++) {
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.lighting.DARK, Vector.blockToWorldSpace(new Vector(i * 10, j * 10))), 1);
-
-            }
-        }
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.lighting.LANTERN, Vector.blockToWorldSpace(new Vector(1, 14))), 1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.lighting.LANTERN, Vector.blockToWorldSpace(new Vector(13, 23))), 1);
-
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.lighting.LANTERN, Vector.blockToWorldSpace(new Vector(9, 30))), 1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.lighting.LANTERN, Vector.blockToWorldSpace(new Vector(30, 29))), 1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.lighting.LANTERN, Vector.blockToWorldSpace(new Vector(40, 27))), 1);
-
-
-        GAME.addEntity(new DrillBot(Vector.blockToWorldSpace(new Vector(ZONE.MIN_BLOCK.x, 5))));
-
-        let botPortal1 = new Portal(new Vector(95, 94), Portal.YELLOW);
-        GAME.addEntity(botPortal1);
-        console.log(botPortal1.action);
-
-        let timeDelayMultiplier = 1;
-        setTimeout(() => {
-            for (let i = -8; i < 5; i++) {
-                timeDelayMultiplier++;
-                setTimeout(() => {
-                    GAME.addEntity(new DrillBot(Vector.blockToWorldSpace(new Vector(100 + i, 94))));
-                }, 750 + timeDelayMultiplier * 250);
-
-            }
-        }, 1000);
-
-        TilemapInterpreter.setTilemap(caveTilemap);
-        if (LAST_ZONE.equals(Zone.getZones().village.woods)) { // Coming from woods.
-
-            // Set spawn point on the right.
-            const blockPos = new Vector(ZONE.MIN_BLOCK.x, 5);
-            CHAD.pos = Vector.blockToWorldSpace(blockPos);
-        }
-    };
-
-    queueAssets();
-    ASSET_MGR.downloadAll(addEntities);
-};
 
 const loadVillageMain = () => {
 
@@ -247,6 +197,8 @@ const loadVillageMain = () => {
         ASSET_MGR.queueDownload(BlackSmith.SPRITESHEET);
         ASSET_MGR.queueDownload(Mayor.SPRITESHEET);
         ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
+        ASSET_MGR.queueDownload('./sprites/mama_chad_trapped.png');
+        ASSET_MGR.queueDownload(Wizard.SPRITESHEET);
     };
 
     const addEntities = () => {
@@ -328,12 +280,20 @@ const loadVillageMain = () => {
         const blockPosPapa = new Vector(33, chadOnGround);
         const blockPosBlackSmith = new Vector(17, chadOnGround);
         const blockPosMayor = new Vector(50, chadOnGround);
+        const blockPosMama = new Vector(65, chadOnGround + 1);
+        const blockPosWizard = new Vector(63, chadOnGround);
+        const blockPosIdleMama = new Vector(37, chadOnGround);
 
+        const idleMama = new MamaChad(Vector.blockToWorldSpace(blockPosIdleMama), false, new Conversation(getAllConversationArrays().village.mamaChad.goodMorning));
+        idleMama.action = "idle";
 
         GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), new Conversation(getAllConversationArrays().village.papaChad.huntingInvite)), 0);
-        GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)), 0);
-        GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)), 0);
-
+        GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().village.blacksmith.merchant)), 0);
+        GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().village.mayor.hopefulGreeting)), 0);
+        // TODO add these in after you get back from the field.
+        // GAME.addEntity(new MamaChad(Vector.blockToWorldSpace(blockPosMama)));
+        // GAME.addEntity(new Wizard(Vector.blockToWorldSpace(blockPosWizard)));
+        GAME.addEntity(idleMama);
 
         let weather = "warm";
         let surfaceSnow = false;
@@ -343,88 +303,22 @@ const loadVillageMain = () => {
         TilemapInterpreter.setTilemap(villageMainTileMap, surfaceSnow);
         WeatherSystem.setWeather(weather, 5, "day");
 
-        if (LAST_ZONE === null) { // We've just started the game.
+        if (LAST_ZONE === null) {
             // Spawn in middle.
             const blockPos = new Vector(70, chadOnGround);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
             // console.log(CHAD.pos);
 
-        } else if (LAST_ZONE.equals(Zone.getZones().village.field)) { // Coming from field.
+        } else if (LAST_ZONE.equals(Zone.getZones().village.field)) {
             // Set spawn point on the right.
             const blockPos = new Vector(ZONE.MIN_PT.x, chadOnGround + 5);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
-        } else if (LAST_ZONE.equals(Zone.getZones().village.hillDownFromMain)) { // Coming from outside cave.
-            // spawn on left.
+        } else if (LAST_ZONE.equals(Zone.getZones().village.hillDownFromMain)) {
             const blockPos = new Vector(98, 16);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
-        GAME.addEntity(new AmmoDrop(
-            Vector.blockToWorldSpace(new Vector(20, aboveGroundLevel - 5)),
-            AmmoDrop.BOMB,
-            false,
-            5
-        ));
 
-        GAME.addEntity(new AmmoDrop(
-            Vector.blockToWorldSpace(new Vector(18, aboveGroundLevel - 5)),
-            AmmoDrop.SUS_SNOWBALL,
-            false,
-            2
-        ));
-
-        GAME.addEntity(new FoodDrop(
-            Vector.blockToWorldSpace(new Vector(16, aboveGroundLevel - 5)),
-            FoodDrop.BACON,
-            false
-        ));
-
-        GAME.addEntity(new FoodDrop(
-            Vector.blockToWorldSpace(new Vector(14, aboveGroundLevel - 5)),
-            FoodDrop.BURGER,
-            false
-        ));
-
-        GAME.addEntity(new FoodDrop(
-            Vector.blockToWorldSpace(new Vector(12, aboveGroundLevel - 5)),
-            FoodDrop.ENERGY_DRINK,
-            false
-        ));
-
-        GAME.addEntity(new FoodDrop(
-            Vector.blockToWorldSpace(new Vector(10, aboveGroundLevel - 5)),
-            FoodDrop.BEEF,
-            false
-        ));
-
-        GAME.addEntity(new FoodDrop(
-            Vector.blockToWorldSpace(new Vector(8, aboveGroundLevel - 5)),
-            FoodDrop.HAM,
-            false
-        ));
-
-        GAME.addEntity(new FoodDrop(
-            Vector.blockToWorldSpace(new Vector(6, aboveGroundLevel - 5)),
-            FoodDrop.CHICKEN,
-            false
-        ));
-
-        GAME.addEntity(new FoodDrop(
-            Vector.blockToWorldSpace(new Vector(4, aboveGroundLevel - 5)),
-            FoodDrop.STEAK,
-            false
-        ));
-
-        GAME.addEntity(new FoodDrop(
-            Vector.blockToWorldSpace(new Vector(2, aboveGroundLevel - 5)),
-            FoodDrop.GIANT_MUSHROOM,
-            false
-        ));
-
-
-
-
-        GAME.addEntity(new DrillBot(Vector.blockToWorldSpace(new Vector(25, aboveGroundLevel - 5))));
 
 
         // draw portal
@@ -434,8 +328,6 @@ const loadVillageMain = () => {
         // portal.fillWithEnemies([new DrillBot(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5))), 
         //                         new Yeti(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5))),
         //                         new Yeti(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5))),]);
-        GAME.addEntity(new Portal(new Vector(6, 13.5), Portal.PURPLE));
-        // GAME.addEntity(new Portal(new Vector(10, 13.5), Portal.YELLOW));
 
 
 
@@ -443,16 +335,19 @@ const loadVillageMain = () => {
         // NOTE: we can't activate music until the user has interacted with the canvas. (this issue is inherent to HTML5)
         //  If listening for a click is the only way to activate music, that's fine. 
         //  Our game's START button in the final version can be the trigger.
-        let playMusic = () => {
-            // ASSET_MGR.playMusic(MUSIC.HIGH_ENERGY.path, MUSIC.HIGH_ENERGY.volume);
-            // ASSET_MGR.playMusic(MUSIC.VILLAGE_SIMPLE_LIFE.path, MUSIC.VILLAGE_SIMPLE_LIFE.volume);
-            ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+        // let playMusic = () => {
+        //     // ASSET_MGR.playMusic(MUSIC.HIGH_ENERGY.path, MUSIC.HIGH_ENERGY.volume);
+        //     // ASSET_MGR.playMusic(MUSIC.VILLAGE_SIMPLE_LIFE.path, MUSIC.VILLAGE_SIMPLE_LIFE.volume);
+        //     ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
 
 
-            // delete the event listener so that the music doesn't restart when the user presses a key
-            document.body.removeEventListener('keydown', playMusic);
-        };
-        document.body.addEventListener('keydown', playMusic);
+        //     // delete the event listener so that the music doesn't restart when the user presses a key
+        //     document.body.removeEventListener('keydown', playMusic);
+        // };
+        // document.body.addEventListener('keydown', playMusic);
+
+        ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+
 
         LoadingAnimation.stop();
     };
@@ -627,15 +522,15 @@ const loadHillDownFromMain = () => {
         if (LAST_ZONE.equals(Zone.getZones().village.main)) {
             // if (LAST_ZONE === null) { // Coming from main.
             // Set spawn point on the right.
-            const blockPos = new Vector(1, 27);
+            const blockPos = new Vector(1, 26);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         } else if (LAST_ZONE.equals(Zone.getZones().village.main)) { // Coming from main.
             // Set spawn point on the right.
-            const blockPos = new Vector(ZONE.MIN_PT.x, 27);
+            const blockPos = new Vector(ZONE.MIN_PT.x, 26);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         } else if (LAST_ZONE.equals(Zone.getZones().village.woods)) { // Coming from main.
             // Set spawn point on the right.
-            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 2, 42.5);
+            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 2, 41);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
         WeatherSystem.setWeather("rain", 3, "day");
@@ -693,9 +588,9 @@ const loadWoods = () => {
             Zone.getZones().village.hillDownFromMain
         ));
         GAME.addEntity(new Border(
-            new Vector(ZONE.MAX_PT.x, 0),
-            new Vector(1, ZONE.PIXEL_SIZE.y),
-            Zone.getZones().village.insideCave
+            new Vector(ZONE.MAX_PT.x, 0), // start at the far right side of the Zone, and at the top
+            new Vector(1, ZONE.PIXEL_SIZE.y), // only one pixel wide, but as tall as the entire Zone.
+            Zone.getZones().mountain.slope1
         ));
         TilemapInterpreter.setTilemap(woodsTilemap);
         let treeDistOffset = 0;
@@ -729,8 +624,8 @@ const loadWoods = () => {
         }
 
         for (let i = 0; i < 100; i++) {
-            GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(i * 10, 20))), 0);
-            GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(i * 8, 20))), 0);
+            GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(i * 10, 20))), -1);
+            GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(i * 8, 20))), -1);
             GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.CARROT, Vector.blockToWorldSpace(new Vector(i * 9, 20))), 0);
             GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.POTATO, Vector.blockToWorldSpace(new Vector(i * 11, 20))), 0);
 
@@ -742,11 +637,11 @@ const loadWoods = () => {
             // Set spawn point on the right.
             // if (LAST_ZONE === null) { // Coming from main.
 
-            const blockPos = new Vector(1, 17.5);
+            const blockPos = new Vector(1, 16);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
-        } else if (LAST_ZONE.equals(Zone.getZones().village.insideCave)) { // Coming from main.
+        } else if (LAST_ZONE.equals(Zone.getZones().mountain.slope1)) { // Coming from main.
             // Set spawn point on the right.
-            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 5, 17);
+            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 5, 16);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 

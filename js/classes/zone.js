@@ -128,6 +128,10 @@ class Zone {
          */
 
         return {
+            mountain: {
+                slope1: new Zone(zeros, new Vector(100, 100), loadMountainSlope1, "Mountain Slope"),
+                slope2: new Zone(zeros, new Vector(100, 100), loadMountainSlope2, "Mountain Slope But Higher"),
+            },
             playground: {
                 caleb: new Zone(zeros, defaultMaxBlock, loadPlaygroundCaleb, "Club Caleb"),
                 devin: new Zone(zeros, defaultMaxBlock, loadPlaygroundDevin, "Devinopolis"),
@@ -138,7 +142,6 @@ class Zone {
             village: {
                 canyon: new Zone(zeros, defaultMaxBlock, loadVillageCanyon, "Village Canyon"),
                 field: new Zone(zeros, defaultMaxBlock, loadVillageField, "Village Field"),
-                insideCave: new Zone(zeros, new Vector(100, 100), loadVillageInsideCave, "Village Inside Cave"),
                 main: new Zone(zeros, defaultMaxBlock, loadVillageMain, "Village Main"),
                 hillDownFromMain: new Zone(zeros, new Vector(75, 50), loadHillDownFromMain, "Hill Down From Main"),
                 woods: new Zone(zeros, new Vector(150, 25), loadWoods, "Hill Down From Main"),
@@ -147,6 +150,10 @@ class Zone {
             },
             woods: {
 
+            },
+            cave: {
+                insideCave1: new Zone(zeros, new Vector(101, 100), loadCave1, "Village Inside Cave"),
+                insideCave2: new Zone(zeros, new Vector(102, 50), loadCave2, "Cave final fight zone."),
             },
             river: {
                 start: new Zone(zeros, defaultMaxBlock, loadRiverStart, "River Start"),

@@ -27,6 +27,9 @@ class TilemapInterpreter {
             for (let x = ZONE.MAX_BLOCK.x; x >= ZONE.MIN_BLOCK.x; x--) {
 
                 switch (TilemapInterpreter.tilemap[y][x]) {
+                    case 'X':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE), -1);
+                        break;
                     case 'W':
                         GAME.addEntity(new LiquidBlock(new Vector(x, y), LiquidBlock.WATER), 1);
                         break;
@@ -103,7 +106,7 @@ class TilemapInterpreter {
                         GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_1, Vector.blockToWorldSpace(new Vector(x, y + 1))), 1);
                         break;
                     case '@':
-                        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_1, Vector.blockToWorldSpace(new Vector(x, y + 1))), 1);
+                        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(x, y + 1))), 1);
                         break;
                     case 'w':
                         GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(x, y + 1))), -1);

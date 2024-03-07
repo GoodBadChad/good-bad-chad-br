@@ -146,6 +146,10 @@ class AssetManager {
      * @param {number} volume The volume to which you want to set the audio.
      */
     playMusic(path, volume, loop = true) {
+        if (this.currentMusic) {
+            this.stopAudio(this.currentMusic.src);
+        }
+
         const audio = this.cache[path];
         audio.currentTime = 0;
         audio.volume = volume;

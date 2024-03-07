@@ -15,12 +15,13 @@ class Inventory {
         this.initAmmoBag();
 
         /** The current ammo that the player has collected. Filled with FoodItem objects */
+
         this.foodBag = []; //! not currently in use
         this.initFoodBag(); 
 
         /** The total value of runes that the player has collected. A single number */
-        this.runeCounter = 0;
-        
+        this.runes = 100;
+
         /** Permanent items Chad collects and potentially has abilities tied to */
         this.unlockables = []; //! not currently in use
     }
@@ -34,8 +35,6 @@ class Inventory {
         this.ammoBag.push(new AmmoItem(AmmoItem.BROCCOLI, 0));
 
         this.switchToAmmo(AmmoItem.ROCK);
-        // increase supply of slimeball for testing purposes
-        this.adjustAmmo(AmmoItem.SLIMEBALL, 10);
     }
 
     initFoodBag() {
@@ -187,35 +186,43 @@ class Inventory {
         return this.currentFood;
     }
 
+    spendRunes(runes) {
+        this.runes -= runes;
+        HUD.runeCounter.setCount(this.runes);
+    };
 
+    collectRunes(runes) {
+        this.runes += runes;
+        HUD.runeCounter.setCount(this.runes);
+    };
 
-    /**
-     * @param {number} type The type of the rune to add to the inventory.
-     * @param {number} amount The amount of rune to add to the inventory.
-     */
-    addRune(type, amount) {
+    // /**
+    //  * @param {number} type The type of the rune to add to the inventory.
+    //  * @param {number} amount The amount of rune to add to the inventory.
+    //  */
+    // addRune(type, amount) {
 
-    }
+    // }
 
-    /**
-     * @returns {Array} An array of all the rune in the inventory.
-     */
-    getAllRunes() {
-        return this.runeBag;
-    }
+    // /**
+    //  * @returns {Array} An array of all the rune in the inventory.
+    //  */
+    // getAllRunes() {
+    //     return this.runeBag;
+    // }
 
-    /**
-     * @param {number} type The type of the rune to get.
-     * @returns {RuneItem} The rune with the given name.
-     */
-    getRune(type) {
-        for (let i = 0; i < this.runeBag.length; i++) {
-            let rune = this.runeBag[i];
-            if (rune.type == type) {
-                return this.runeBag[i];
-            }
-        }
-    }
+    // /**
+    //  * @param {number} type The type of the rune to get.
+    //  * @returns {RuneItem} The rune with the given name.
+    //  */
+    // getRune(type) {
+    //     for (let i = 0; i < this.runeBag.length; i++) {
+    //         let rune = this.runeBag[i];
+    //         if (rune.type == type) {
+    //             return this.runeBag[i];
+    //         }
+    //     }
+    // }
 
 
 

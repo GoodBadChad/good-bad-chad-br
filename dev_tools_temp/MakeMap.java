@@ -23,9 +23,9 @@ public class MakeMap {
      */
     public void fillArray() {
         System.out.print("[");
-        int width = 300;
-        int height = 100;
-        int startGround = 0;
+        int width = 50;
+        int height = 50;
+        int startGround = 1;
         int firstLayerBlock = 1;
         int air = 0;
         // Change this value to match what the world type block uses the most. 1 is used for dirt.
