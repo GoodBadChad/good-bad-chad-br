@@ -323,14 +323,22 @@ class Decoration {
                     SIZE: new Vector(176, 256),
                     SCALE: 3
                 },
-                DARK: {
-                    SPRITESHEET: "./sprites/dark.png",
+                TORCH_FOREGROUND: {
+                    SPRITESHEET: "./sprites/torch.png",
                     SPRITESHEET_START_POS: new Vector(0, 0),
-                    FRAME_COUNT: 1,
-                    FRAME_DURATION: 1,
-                    SIZE: new Vector(32, 32),
-                    SCALE: 20
-                }
+                    FRAME_COUNT: 6,
+                    FRAME_DURATION: .4,
+                    SIZE: new Vector(256, 256),
+                    SCALE: 1.5
+                },
+                TORCH_BACKGROUND: {
+                    SPRITESHEET: "./sprites/torch.png",
+                    SPRITESHEET_START_POS: new Vector(96, 272),
+                    FRAME_COUNT: 6,
+                    FRAME_DURATION: .4,
+                    SIZE: new Vector(256, 48),
+                    SCALE: 2.5
+                },
             },
             crystals: {
                 CRYSTALS_1: {
