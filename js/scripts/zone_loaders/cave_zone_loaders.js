@@ -283,9 +283,9 @@ const loadCave2 = () => {
         ));
 
         GAME.addEntity(new AmmoDrop(
-            Vector.blockToWorldSpace(new Vector(45, 34)),
+            Vector.blockToWorldSpace(new Vector(55, 34)),
             AmmoDrop.BOMB,
-            1,
+            2,
             false
         ));
 
