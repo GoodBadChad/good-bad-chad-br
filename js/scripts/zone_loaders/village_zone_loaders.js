@@ -228,25 +228,11 @@ const loadVillageMain = () => {
         }
         TilemapInterpreter.setTilemap(villageMainTileMap, surfaceSnow);
         // NPCs
-        const blockPosPapa = new Vector(33, chadOnGround);
-        const blockPosBlackSmith = new Vector(17, chadOnGround);
-        const blockPosMayor = new Vector(50, chadOnGround);
-        const blockPosMama = new Vector(65, chadOnGround + 1);
-        const blockPosWizard = new Vector(63, chadOnGround);
-        const blockPosIdleMama = new Vector(37, chadOnGround);
 
-        const idleMama = new MamaChad(Vector.blockToWorldSpace(blockPosIdleMama), false, new Conversation(getAllConversationArrays().village.mamaChad.goodMorning));
-        idleMama.action = "idle";
-
-        GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), new Conversation(getAllConversationArrays().village.papaChad.huntingInvite)), 0);
-        GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().village.blacksmith.merchant)), 0);
-        GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().village.mayor.hopefulGreeting)), 0);
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.houses.CHAD_HOUSE, Vector.blockToWorldSpace(new Vector(30, aboveGroundLevel))));
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.houses.MAYOR_HOUSE, Vector.blockToWorldSpace(new Vector(48, aboveGroundLevel))));
-        // TODO add these in after you get back from the field.
-        // GAME.addEntity(new MamaChad(Vector.blockToWorldSpace(blockPosMama)));
-        // GAME.addEntity(new Wizard(Vector.blockToWorldSpace(blockPosWizard)));
-        GAME.addEntity(idleMama);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.houses.BLACKSMITH_HOUSE, Vector.blockToWorldSpace(new Vector(13, aboveGroundLevel))));
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.houses.CHAD_HOUSE, Vector.blockToWorldSpace(new Vector(70, aboveGroundLevel))));
         WeatherSystem.setWeather(weather, 5, "day");
         // Add a layer of blocks to the floor.
         // for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
@@ -256,7 +242,6 @@ const loadVillageMain = () => {
         // const gamePos = Vector.blockToWorldSpace(new Vector(5, 15));
         // GAME.addEntity(new House(gamePos, 1));
         // Decorations
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.houses.BLACKSMITH_HOUSE, Vector.blockToWorldSpace(new Vector(13, aboveGroundLevel))));
 
         for (let i = 0; i < 18; i++) {
             if (i % 2 == 0) {
@@ -282,7 +267,6 @@ const loadVillageMain = () => {
             }
         }
 
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.houses.CHAD_HOUSE, Vector.blockToWorldSpace(new Vector(70, aboveGroundLevel))));
 
         for (let i = 0; i < 4; i++) {
             GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_3, Vector.blockToWorldSpace(new Vector(75 + (1 / 2) * i, aboveGroundLevel))), 0);
@@ -301,6 +285,22 @@ const loadVillageMain = () => {
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(84, aboveGroundLevel))), 1);
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(87, aboveGroundLevel))));
 
+        const blockPosPapa = new Vector(33, chadOnGround);
+        const blockPosBlackSmith = new Vector(17, chadOnGround);
+        const blockPosMayor = new Vector(50, chadOnGround);
+        const blockPosMama = new Vector(65, chadOnGround + 1);
+        const blockPosWizard = new Vector(63, chadOnGround);
+        const blockPosIdleMama = new Vector(37, chadOnGround);
+
+        const idleMama = new MamaChad(Vector.blockToWorldSpace(blockPosIdleMama), false, new Conversation(getAllConversationArrays().village.mamaChad.goodMorning));
+        idleMama.action = "idle";
+        GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), new Conversation(getAllConversationArrays().village.papaChad.huntingInvite)), 0);
+        GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().village.blacksmith.merchant)), 0);
+        GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().village.mayor.hopefulGreeting)), 0);
+        // TODO add these in after you get back from the field.
+        // GAME.addEntity(new MamaChad(Vector.blockToWorldSpace(blockPosMama)));
+        // GAME.addEntity(new Wizard(Vector.blockToWorldSpace(blockPosWizard)));
+        GAME.addEntity(idleMama);
 
         if (LAST_ZONE === null) {
             // Spawn in middle.
