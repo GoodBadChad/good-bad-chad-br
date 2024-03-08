@@ -26,11 +26,21 @@ const loadMountainSlope1 = () => {
         ));
 
         TilemapInterpreter.setTilemap(mountainSlope1TileMap, false);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(0, groundLevel))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(5, groundLevel))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(6, groundLevel))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(10, groundLevel - 1))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(13, groundLevel - 1))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(14, groundLevel - 1))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(17, groundLevel - 1))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(18, groundLevel - 1))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(19, groundLevel - 1))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(27, groundLevel))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(28, groundLevel))), 1);
         WeatherSystem.setWeather("snow", 1, "day");
 
         const groundLevel = 92;
 
-        // trees
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_5, Vector.blockToWorldSpace(new Vector(-15, groundLevel))), -1);
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(5, groundLevel - 1))), -1);
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(18, groundLevel))), -1);
@@ -49,18 +59,6 @@ const loadMountainSlope1 = () => {
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(73.3, 23))), -1);
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(86.5, 4))), -1);
 
-        // grass
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(0, groundLevel))), 1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(5, groundLevel))), 1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(6, groundLevel))), 1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(10, groundLevel - 1))), 1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(13, groundLevel - 1))), 1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(14, groundLevel - 1))), 1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(17, groundLevel - 1))), 1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(18, groundLevel - 1))), 1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(19, groundLevel - 1))), 1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(27, groundLevel))), 1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(28, groundLevel))), 1);
 
         if (LAST_ZONE && LAST_ZONE.equals(Zone.getZones().mountain.slope2)) { // Coming down the mounatin.
             const blockPos = new Vector(ZONE.MAX_BLOCK.x - 11, 0);
@@ -105,6 +103,22 @@ const loadMountainSlope2 = () => {
         ));
 
         TilemapInterpreter.setTilemap(mountainSlope2TileMap, false);
+        GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(45, 50))));
+
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(70, 60)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(72, 60)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(76, 60)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(76, 80)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(78, 80)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(80, 80)), Slime.FROST));
+
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(84, 50)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(95, 50)), Slime.FROST));
+
+        GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(87, 35))));
+
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(84, 32)), Slime.FROST));
+        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(90, 30)), Slime.FROST));
         WeatherSystem.setWeather("snow", 4, "day");
 
         const groundLevel = 90;
@@ -127,22 +141,6 @@ const loadMountainSlope2 = () => {
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(75, 25))), -1);
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(92, 25))), -1);
 
-        GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(45, 50))));
-
-        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(70, 60)), Slime.FROST));
-        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(72, 60)), Slime.FROST));
-        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(76, 60)), Slime.FROST));
-        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(76, 80)), Slime.FROST));
-        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(78, 80)), Slime.FROST));
-        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(80, 80)), Slime.FROST));
-
-        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(84, 50)), Slime.FROST));
-        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(95, 50)), Slime.FROST));
-
-        GAME.addEntity(new Yeti(Vector.blockToWorldSpace(new Vector(87, 35))));
-
-        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(84, 32)), Slime.FROST));
-        GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(90, 30)), Slime.FROST));
         if ((LAST_ZONE && LAST_ZONE.equals(Zone.getZones().mountain.slope1) || LAST_ZONE === null)) { // Coming down the mounatin.
             // Set spawn point on the right.
             const blockPos = new Vector(ZONE.MIN_BLOCK.x, 88);
