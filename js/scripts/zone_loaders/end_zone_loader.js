@@ -14,6 +14,8 @@ const loadEndZone = () => {
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.grass.GRASS_1.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.towers.TOWER_1.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.towers.TOWER_GROUP_1.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.towers.TOWER_GROUP_2.SPRITESHEET);
+
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_1.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET);
         ASSET_MGR.queueDownload(Precipitation.SPRITESHEET);
@@ -33,17 +35,32 @@ const loadEndZone = () => {
             Zone.getZones().cave.insideCave2
         ));
 
-        WeatherSystem.setWeather("rain", 5, "night", 34);
-        for (let i = 1; i < 8; i++) {
-            GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_1, Vector.blockToWorldSpace(new Vector(26.5 + i * 8, 35))), -1);
-        }
+        WeatherSystem.setWeather("rain", 5, "night", 33);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_GROUP_2, Vector.blockToWorldSpace(new Vector(0, 50))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_GROUP_2, Vector.blockToWorldSpace(new Vector(30, 48))), -1);
+        // GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_GROUP_2, Vector.blockToWorldSpace(new Vector(64, 48))), -1);
 
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_GROUP_1, Vector.blockToWorldSpace(new Vector(15, 35))), -1);
+        // GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_GROUP_2, Vector.blockToWorldSpace(new Vector(37.7, 55))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_GROUP_2, Vector.blockToWorldSpace(new Vector(59, 55))), -1);
+
+        // GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_GROUP_1, Vector.blockToWorldSpace(new Vector(15, 35))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_1, Vector.blockToWorldSpace(new Vector(56, 67))), -1);
+
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_4, Vector.blockToWorldSpace(new Vector(0, 30))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_4, Vector.blockToWorldSpace(new Vector(-6, 30))), -1);
+
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_4, Vector.blockToWorldSpace(new Vector(10, 30))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_4, Vector.blockToWorldSpace(new Vector(15, 30))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(29, 30))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(35, 31))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(40, 32))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(42, 33))), -1);
+
 
         TilemapInterpreter.setTilemap(end_tilemap);
 
         if (LAST_ZONE === null) { // Coming from mountain.
-            const blockPos = new Vector(ZONE.MIN_BLOCK.x + 20, 26);
+            const blockPos = new Vector(ZONE.MIN_BLOCK.x + 0, 20);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         } else if (LAST_ZONE.equals(Zone.getZones().cave.insideCave2)) { // Coming from mountain.
             const blockPos = new Vector(ZONE.MIN_BLOCK.x, 26);
