@@ -100,7 +100,7 @@ class Hud {
         ));
         this.addComponent("runeCounter", new ItemCounter(
             new Vector(CHAD.scaledSize.x + 20, (healthBarYPos - ItemCounter.HEIGHT) / 2),
-            new Animator(RuneDrop.SPRITESHEET, new Vector(0, 0), new Vector(36, 36), 1, 1),
+            new Animator(RuneDrop.SPRITESHEET, new Vector(0, 0), RuneDrop.SIZE, 1, 1),
             INVENTORY.runes
         ));
 
