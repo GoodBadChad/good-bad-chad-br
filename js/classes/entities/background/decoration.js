@@ -437,6 +437,24 @@ class Decoration {
                     SIZE: new Vector(256, 256),
                     SCALE: 1
                 },
+            },
+            towers: {
+                TOWER_1: {
+                    SPRITESHEET: "./sprites/tower1.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(256, 256),
+                    SCALE: 4.5
+                },
+                TOWER_GROUP_1: {
+                    SPRITESHEET: "./sprites/towergroup1.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(512, 512),
+                    SCALE: 2
+                },
             }
         };
     };

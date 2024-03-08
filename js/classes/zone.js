@@ -137,7 +137,7 @@ class Zone {
                 devin: new Zone(zeros, defaultMaxBlock, loadPlaygroundDevin, "Devinopolis"),
                 everybody: new Zone(zeros, defaultMaxBlock, loadPlaygroundEverybody, "Bro City"),
                 nathan: new Zone(zeros, defaultMaxBlock, loadPlaygroundNathan, "Natesburg"),
-                trae: new Zone(zeros, new Vector(200, 25), loadPlaygroundTrae, "Trae Town")
+                trae: new Zone(zeros, new Vector(200, 25), loadPlaygroundTrae, "Trae Town"),
             },
             village: {
                 canyon: new Zone(zeros, defaultMaxBlock, loadVillageCanyon, "Village Canyon"),
@@ -158,6 +158,9 @@ class Zone {
             river: {
                 river1: new Zone(zeros, new Vector(151, 50), loadRiver, "River Start"),
             },
+            end: {
+                endZone: new Zone(zeros, new Vector(100, 75), loadEndZone, "End Fight Section"),
+            }
         };
     };
 };

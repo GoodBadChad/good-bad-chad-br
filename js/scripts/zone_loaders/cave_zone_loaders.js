@@ -360,7 +360,14 @@ const loadCave2 = () => {
 
         let botPortal1 = new Portal(new Vector(95, 44), Portal.YELLOW);
         GAME.addEntity(botPortal1);
+        let botPortal2 = new Portal(new Vector(94, 44), Portal.PURPLE);
+        GAME.addEntity(botPortal2);
 
+        GAME.addEntity(new Border(
+            Vector.blockToWorldSpace(new Vector(95, 44)),
+            Vector.blockToWorldSpace(new Vector(1, 3)),
+            Zone.getZones().end.endZone
+        ));
         // Temp for testing out fights.
         // Adding these to the current zone seems to also add them to the other cave zone if you travel to that zone.
         // May be due to timeout.
@@ -376,10 +383,13 @@ const loadCave2 = () => {
         // }, 1000);
 
         if (LAST_ZONE === null) { // Coming from mountain.
-            const blockPos = new Vector(ZONE.MIN_BLOCK.x, 25);
+            const blockPos = new Vector(ZONE.MIN_BLOCK.x + 92, 45);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         } else if (LAST_ZONE.equals(Zone.getZones().cave.insideCave1)) { // Coming from mountain.
             const blockPos = new Vector(ZONE.MIN_BLOCK.x, 25);
+            CHAD.pos = Vector.blockToWorldSpace(blockPos);
+        } else if (LAST_ZONE.equals(Zone.getZones().end.endZone)) { // Coming from mountain.
+            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 11, 45);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
     };
