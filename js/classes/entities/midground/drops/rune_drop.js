@@ -1,21 +1,25 @@
 /**
- * 
+ * A type of rune that can be dropped by enemies or found in the world.
+ * Can be collected by Chad to gain currency.
  * 
  * @author Nathan Hinthorne
  */
 class RuneDrop {
     /**
-     * 
      * @param {Vector} pos 
      * @param {number} type 
      */
-    constructor(pos, type, hasGravity = true) {
+    constructor(pos, type, hasGravity = true, popInAir = false) {
         this.pos = pos;
         this.type = type;
         this.amount = RuneDrop.VALUE_MAP[type];
         this.hasGravity = hasGravity;
 
         this.yVelocity = 0;
+        if (popInAir) {
+            // give the drop a little pop in the air when it spawns
+            this.yVelocity = -300;
+        }
         this.scale = RuneDrop.SCALE;
         this.scaledSize = Vector.multiply(RuneDrop.SIZE, this.scale);
         this.boundingBox = new BoundingBox(this.pos, this.scaledSize);
@@ -29,13 +33,13 @@ class RuneDrop {
     collect() {
         // create a particle effect
         const center = Vector.add(this.pos, Vector.divide(this.scaledSize, 2));
-        GAME.addEntity(new ParticleEffect(center, ParticleEffect.AMMO_PICKUP));
-        ASSET_MGR.playSFX(SFX.AMMO_COLLECT.path, SFX.AMMO_COLLECT.volume);
+        GAME.addEntity(new ParticleEffect(center, ParticleEffect.RUNE_PICKUP));
+        ASSET_MGR.playSFX(SFX.COIN_COLLECT.path, SFX.COIN_COLLECT.volume);
         
         this.removeFromWorld = true;
 
         //TODO send ammo to inventory
-        INVENTORY.adjustRunes(this.type, this.amount);
+        INVENTORY.adjustRunes(this.amount);
     }
 
     update() {
@@ -103,11 +107,11 @@ class RuneDrop {
     }
 
     static get SCALE() {
-        return 3;
+        return 1.8;
     }
 
     static get SIZE() {
-        return new Vector(32, 32);
+        return new Vector(36, 36);
     }
 
     //map for type of rune to value

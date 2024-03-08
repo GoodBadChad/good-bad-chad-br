@@ -5,10 +5,7 @@
  */
 class RuneItem {
     constructor() {
-
-        this.animator = new Animator(RuneItem.SPRITESHEET,
-            new Vector(0, 0), 
-            RuneItem.SIZE, 1, 0); //!!! runes are currently not in correct position on the spritesheet
+        this.amount = 0;
     }
 
     update() {
@@ -28,7 +25,7 @@ class RuneItem {
     }
 
     static get SIZE() {
-        return new Vector(32, 32);
+        return new Vector(36, 36);
     }
 
     static get SCALED_SIZE() {
