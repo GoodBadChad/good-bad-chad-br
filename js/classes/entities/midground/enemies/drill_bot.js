@@ -47,7 +47,7 @@ class DrillBot {
 
     /** The speed of the DrillBot. */
     static get SPEED() {
-        return DrillBot.SCALE * 30;
+        return DrillBot.SCALE * 32;
     }
 
     /** The file path to the DrillBot's spritesheet. */

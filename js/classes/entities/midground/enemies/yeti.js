@@ -48,7 +48,7 @@ class Yeti {
 
     /** The speed of the Yeti. */
     static get SPEED() {
-        return Yeti.SCALE * 10;
+        return Yeti.SCALE * 12;
     }
 
     /** The file path to the Yeti's spritesheet. */
@@ -115,7 +115,7 @@ class Yeti {
         this.secondsSinceGrowl += GAME.clockTick;
 
         // If the stopwatch exceeds the threshold, make the yeti growl
-        if (this.base.chadDistance() < 500 && this.secondsSinceGrowl >= this.growlThreshold) {
+        if (this.base.chadDistance() < 1100 && this.secondsSinceGrowl >= this.growlThreshold) {
             const rand = Math.floor(Math.random() * 2) + 1;
             const sfx = SFX["GROWL" + rand];
             ASSET_MGR.playSFX(sfx.path, sfx.volume);
@@ -135,7 +135,7 @@ class Yeti {
         }
 
         // if Chad is close enough and we want to beat him up, react accordingly
-        if (this.base.chadDistance() < Yeti.SCALED_SIZE.x / 2 && this.state === "pursue") {
+        if (this.base.chadDistance() < Yeti.SCALED_SIZE.x / 1.5 && this.state === "pursue") {
             if (secondsSinceLastAttack > Yeti.ATTACK_COOLDOWN) {
                 // if it's been long enough, start a new attack 
                 this.animations[this.base.getFacing()]["attacking"].elapsedTime = 0;
