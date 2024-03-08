@@ -23,7 +23,9 @@ const loadCave1 = () => {
         ASSET_MGR.queueDownload(Precipitation.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_1.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET);
-        // NPCs
+        // Miners
+        ASSET_MGR.queueDownload(Miner.SPRITESHEET);
+        ASSET_MGR.queueDownload(Mayor.SPRITESHEET);
 
         ASSET_MGR.queueDownload(Bird.SPRITESHEET);
         ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
@@ -48,8 +50,8 @@ const loadCave1 = () => {
         let lanternYOffsset = 13;
         let lanternXOffsset = -3;
 
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.lighting.LANTERN, Vector.blockToWorldSpace(new Vector(1, 14))), 1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.lighting.LANTERN, Vector.blockToWorldSpace(new Vector(13, 23))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.lighting.LANTERN, Vector.blockToWorldSpace(new Vector(2, 16))), 1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.lighting.LANTERN, Vector.blockToWorldSpace(new Vector(13, 21))), 1);
 
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.lighting.LANTERN, Vector.blockToWorldSpace(new Vector(9, 30))), 1);
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.lighting.LANTERN, Vector.blockToWorldSpace(new Vector(30, 29))), 1);
@@ -93,7 +95,8 @@ const loadCave1 = () => {
             GAME.addEntity(new Decoration(Decoration.DECORATIONS.crystals.CRYSTALS_3, Vector.blockToWorldSpace(new Vector(75 + i * 7, 98))), -1);
         }
 
-        let pos = new Vector(60, 95);
+        let pos = new Vector(10, 10);
+        GAME.addEntity(new Miner(Vector.blockToWorldSpace(new Vector(13, 12)), new Conversation(getAllConversationArrays().village.miner.greeting)));
 
         GAME.addEntity(new AmmoDrop(
             Vector.blockToWorldSpace(new Vector(65, 84)),
@@ -188,7 +191,7 @@ const loadCave1 = () => {
         if (LAST_ZONE.equals(Zone.getZones().mountain.slope2)) { // Coming from mountain.
 
             // Set spawn point on the right.
-            const blockPos = new Vector(ZONE.MIN_BLOCK.x, 5);
+            const blockPos = new Vector(ZONE.MIN_BLOCK.x, 10);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         } else if (LAST_ZONE.equals(Zone.getZones().cave.insideCave2)) { // Coming from mountain.
 
@@ -218,7 +221,7 @@ const loadCave2 = () => {
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.crystals.CRYSTALS_11.SPRITESHEET);
 
 
-        // NPCs
+        // Miners
         ASSET_MGR.queueDownload(Bird.SPRITESHEET);
         ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
         ASSET_MGR.queueDownload(Snake.SPRITESHEET);

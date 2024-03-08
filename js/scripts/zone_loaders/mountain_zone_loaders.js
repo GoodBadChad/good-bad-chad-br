@@ -148,7 +148,7 @@ const loadMountainSlope2 = () => {
             const blockPos = new Vector(ZONE.MIN_BLOCK.x, 88);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         } else {
-            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 2, 21);
+            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 2, 20);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
     };
