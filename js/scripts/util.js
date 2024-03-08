@@ -48,6 +48,7 @@ const COLORS = {
     YELLOW: "#ffff00",
     GOLD: "#ffd700",
     PURPLE: "#800080",
+    LIGHT_PURPLE: "#b582db",
     ORANGE: "#ffa500",
     PINK: "#ffc0cb",
     BROWN: "#8b4513",
@@ -120,7 +121,9 @@ const SFX = {
     FOOD_EAT3: {path: "./sfx/food_eat3.mp3", volume: 0.4},
     FOOD_EAT4: {path: "./sfx/food_eat4.mp3", volume: 0.4},
     AMMO_COLLECT: {path: "./sfx/ammo_collect.mp3", volume: 0.4},
+    COIN_COLLECT: {path: "./sfx/rune_collect.mp3", volume: 0.4},
     MEGA_MUSHROOM: {path: "./sfx/mega_mushroom.mp3", volume: 0.4},
+
     
     // UI
     UI_HIGH_BEEP: { path: "./sfx/ui_high_beep.mp3", volume: 0.4 },

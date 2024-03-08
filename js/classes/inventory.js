@@ -19,15 +19,14 @@ class Inventory {
         this.initFoodBag(); 
 
         /** The total value of runes that the player has collected. A single number */
-        this.runeCounter = 0;
-        this.initRuneCounter();
+        this.runeItem = new RuneItem();
         
         /** Permanent items Chad collects and potentially has abilities tied to */
         this.unlockables = []; //! not currently in use
     }
 
     initAmmoBag() {
-        this.ammoBag.push(new AmmoItem(AmmoItem.ROCK, Infinity));
+        this.ammoBag.push(new AmmoItem(AmmoItem.ROCK, 10));
         this.ammoBag.push(new AmmoItem(AmmoItem.SLIMEBALL, 0));
         this.ammoBag.push(new AmmoItem(AmmoItem.BOMB, 0));
         this.ammoBag.push(new AmmoItem(AmmoItem.SNOWBALL, 0));
@@ -45,10 +44,6 @@ class Inventory {
         this.foodBag.push(new FoodItem(FoodItem.BACON, 0));
         this.foodBag.push(new FoodItem(FoodItem.BURGER, 0));
         this.foodBag.push(new FoodItem(FoodItem.ENERGY_DRINK, 0));
-    }
-
-    initRuneCounter() {
-        
     }
 
 
@@ -187,34 +182,18 @@ class Inventory {
 
 
     /**
-     * @param {number} type The type of the rune to add to the inventory.
      * @param {number} amount The amount of rune to add to the inventory.
      */
-    addRune(type, amount) {
-
+    adjustRunes(amount) {
+        this.runeItem.adjustSupply(amount);
     }
 
     /**
-     * @returns {Array} An array of all the rune in the inventory.
+     * @returns {RuneItem} The rune item.
      */
-    getAllRunes() {
-        return this.runeBag;
+    getRunes() {
+        return this.runeItem;
     }
-
-    /**
-     * @param {number} type The type of the rune to get.
-     * @returns {RuneItem} The rune with the given name.
-     */
-    getRune(type) {
-        for (let i = 0; i < this.runeBag.length; i++) {
-            let rune = this.runeBag[i];
-            if (rune.type == type) {
-                return this.runeBag[i];
-            }
-        }
-    }
-
-
 
 
     /**

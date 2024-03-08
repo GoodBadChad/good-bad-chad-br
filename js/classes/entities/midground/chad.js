@@ -112,7 +112,7 @@ class Chad {
 
     /** The delay between dashes in seconds. */
     static get DASH_COOLDOWN() {
-        return 1;
+        return 1.5;
     }
 
     /** The maximum amount of health Chad can have. */

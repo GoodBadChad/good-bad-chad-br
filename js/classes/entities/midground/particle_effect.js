@@ -389,6 +389,18 @@ class ParticleEffect {
         };
     }
 
+    static get RUNE_PICKUP() {
+        return {
+            spread: 80,
+            size: 4,
+            amount: 20,
+            lifetime: 0.8,
+            color: COLORS.LIGHT_PURPLE,
+            opacity: 0.8,
+            behavior: ParticleEffect.RISE
+        };
+    }
+
     static get GOLD_SPARKLE() {
         return {
             spread: 80,

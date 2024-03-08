@@ -10,13 +10,17 @@ class AmmoDrop {
      * @param {Vector} pos The position at which the AmmoDrop should start.
      * @param {number} type The type of AmmoDrop that should be generated. AmmoDrop.ROCK, .BOMB, etc.
      */
-    constructor(pos, type, amount = 1, hasGravity = true) {
+    constructor(pos, type, amount = 1, hasGravity = true, popInAir = false) {
 
         this.type = type;
         this.pos = pos;
         this.amount = amount;
         this.hasGravity = hasGravity;
         this.yVelocity = 0;
+        if (popInAir) {
+            // give the drop a little pop in the air when it spawns
+            this.yVelocity = -100;
+        }
         this.scale = AmmoDrop.SCALE;
         this.scaledSize = Vector.multiply(AmmoDrop.SIZE, this.scale);
         this.boundingBox = new BoundingBox(this.pos, this.scaledSize);

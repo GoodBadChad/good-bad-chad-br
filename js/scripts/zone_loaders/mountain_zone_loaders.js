@@ -71,7 +71,8 @@ const loadMountainSlope1 = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
-        
+        // add 8 snowball ammodrops
+        GAME.addEntity(new AmmoDrop(Vector.blockToWorldSpace(new Vector(46, 75)), AmmoDrop.SNOWBALL, 8));       
     };
 
     queueAssets();

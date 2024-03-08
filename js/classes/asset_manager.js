@@ -315,6 +315,7 @@ class AssetManager {
             SFX.DING.path,
             SFX.MEGA_MUSHROOM.path,
             SFX.AMMO_COLLECT.path,
+            SFX.COIN_COLLECT.path,
 
             //TEMPORARY
             SFX.GROWL1.path,
