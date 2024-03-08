@@ -24,10 +24,10 @@ const loadMountainSlope1 = () => {
             new Vector(ZONE.PIXEL_SIZE.x, 1),
             Zone.getZones().mountain.slope2
         ));
-    
+
         TilemapInterpreter.setTilemap(mountainSlope1TileMap, false);
         WeatherSystem.setWeather("snow", 1, "day");
-        
+
         const groundLevel = 92;
 
         // trees
@@ -63,11 +63,10 @@ const loadMountainSlope1 = () => {
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(28, groundLevel))), 1);
 
         if (LAST_ZONE && LAST_ZONE.equals(Zone.getZones().mountain.slope2)) { // Coming down the mounatin.
-            // Set spawn point on the right.
-            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 13, 3);
+            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 11, 0);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
-        } else { // Coming from the woods or whatever's to the left
-            const blockPos = new Vector(ZONE.MIN_BLOCK.x + 5, groundLevel - 5);
+        } else {
+            const blockPos = new Vector(ZONE.MIN_BLOCK.x, groundLevel - 3);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
@@ -79,7 +78,7 @@ const loadMountainSlope1 = () => {
     ASSET_MGR.downloadAll(addEntities);
 };
 
-const loadMountainSlope2= () => {
+const loadMountainSlope2 = () => {
     const queueAssets = () => {
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD_DARK.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_BUSHY_DARK.SPRITESHEET);
@@ -103,12 +102,12 @@ const loadMountainSlope2= () => {
         GAME.addEntity(new Border(
             new Vector(ZONE.MAX_PT.x, 0),
             new Vector(1, ZONE.PIXEL_SIZE.y),
-            Zone.getZones().village.insideCave
+            Zone.getZones().cave.insideCave1
         ));
-    
+
         TilemapInterpreter.setTilemap(mountainSlope2TileMap, false);
         WeatherSystem.setWeather("snow", 4, "day");
-        
+
         const groundLevel = 90;
 
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(0, groundLevel))), -1);
@@ -145,9 +144,14 @@ const loadMountainSlope2= () => {
 
         GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(84, 32)), Slime.FROST));
         GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(90, 30)), Slime.FROST));
-
-        const blockPos = new Vector(ZONE.MIN_BLOCK.x + 2, groundLevel - 4);
-        CHAD.pos = Vector.blockToWorldSpace(blockPos);
+        if ((LAST_ZONE && LAST_ZONE.equals(Zone.getZones().mountain.slope1) || LAST_ZONE === null)) { // Coming down the mounatin.
+            // Set spawn point on the right.
+            const blockPos = new Vector(ZONE.MIN_BLOCK.x, 88);
+            CHAD.pos = Vector.blockToWorldSpace(blockPos);
+        } else {
+            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 2, 21);
+            CHAD.pos = Vector.blockToWorldSpace(blockPos);
+        }
     };
 
     queueAssets();

@@ -6,7 +6,11 @@
     <link rel="icon" type="image/png" href="./sprites/html_tab_icon.png" />
 
     <title>The Good, The Bad, and Chad!</title>
-
+    <!-- <script type="module">
+        import { save, getSaves } from '/backend/functions.js';
+        window.save = save;
+        window.getSaves = getSaves;
+    </script> -->
 
     <!-- Scripts containing info/functions for classes. -->
     <script type="text/javascript" src="./js/scripts/util.js"></script>
@@ -33,6 +37,7 @@
     <!-- Tile maps here. -->
     <script type="text/javascript" src="./js/scripts/tile_maps/caleb_zone_playground.js"></script>
     <script type="text/javascript" src="./js/scripts/tile_maps/cave_tilemap.js"></script>
+    <script type="text/javascript" src="./js/scripts/tile_maps/cave_2_zone.js"></script>
     <script type="text/javascript" src="./js/scripts/tile_maps/field_tilemap.js"></script>
     <script type="text/javascript" src="./js/scripts/tile_maps/hill_tilemap.js"></script>
     <script type="text/javascript" src="./js/scripts/tile_maps/village_tilemap.js"></script>
@@ -82,6 +87,8 @@
     <script type="text/javascript" src="./js/classes/entities/midground/enemies/overseer_bot.js"></script>
     <script type="text/javascript" src="./js/classes/entities/midground/enemies/drill_bot.js"></script>
     <script type="text/javascript" src="./js/classes/entities/midground/enemies/oculi_bot.js"></script>
+
+    <script type="text/javascript" src="./js/classes/entities/midground/enemies/wizard.js"></script>
 
     <!-- NPCs: -->
     <script type="text/javascript" src="./js/classes/entities/midground/npc/traveling_merchant.js"></script>
@@ -152,9 +159,12 @@
     <div id="options">
         <label for="debug">Debug</label>
         <input type="checkbox" id="debug" name="debug" />
-        <label for="spanish">Spanish</label>
-        <input type="checkbox" id="spanish" name="spanish" />
     </div>
+
+    <div id="savetable"></div>
+
+    <!-- This doesn't work yet: 
+    <script type="module" src="./backend/savetable.js"></script> -->
 
     <!-- Load the main script. -->
     <script type="text/javascript" src="./js/scripts/main.js"></script>

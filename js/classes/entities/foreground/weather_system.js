@@ -96,7 +96,7 @@ class WeatherSystem {
             spaceBetweenMultiplier = ZONE.MAX_BLOCK.x / cloudNum;
 
             for (let curCloud = 0; curCloud < cloudNum; curCloud++) {
-                let foreground = -1;
+                let background = -1;
                 let yVariation = Math.random() * (10 - 16) + 14;
                 let xVariation = Math.random() * (20 - 50) + 20;
                 let cloudSpawnX = curCloud * spaceBetweenMultiplier + xVariation;
@@ -109,7 +109,7 @@ class WeatherSystem {
                 }
                 // Assign cloudVariant based on cloudType, defaulting to undefined if not found
                 let cloudVariant = cloudVariants[cloudType + cloudTypeOffset];
-                GAME.addEntity(new Decoration(cloudVariant, cloudPosition), foreground);
+                GAME.addEntity(new Decoration(cloudVariant, cloudPosition), background);
 
             }
         }

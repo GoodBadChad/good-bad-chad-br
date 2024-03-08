@@ -55,7 +55,12 @@ class Conversation {
             } else {
                 //currentBubble is a DecisionBubble. No typewriter effect.
                 currentBubble.removeFromWorld = true;
-                this.currentIndex = currentBubble.choices[currentBubble.selected].next;
+                if (typeof currentBubble.choices[currentBubble.selected].next === 'number') {
+                    this.currentIndex = currentBubble.choices[currentBubble.selected].next;
+                } else {
+                    // next is a function!
+                    this.currentIndex = currentBubble.choices[currentBubble.selected].next();
+                }
                 GAME.addEntity(this.array[this.currentIndex], 1);
             }
         }

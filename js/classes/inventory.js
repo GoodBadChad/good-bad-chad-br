@@ -15,12 +15,13 @@ class Inventory {
         this.initAmmoBag();
 
         /** The current ammo that the player has collected. Filled with FoodItem objects */
+
         this.foodBag = []; //! not currently in use
         this.initFoodBag(); 
 
         /** The total value of runes that the player has collected. A single number */
-        this.runeItem = new RuneItem();
-        
+        this.runes = 100;
+
         /** Permanent items Chad collects and potentially has abilities tied to */
         this.unlockables = []; //! not currently in use
     }
@@ -179,21 +180,45 @@ class Inventory {
         return this.currentFood;
     }
 
+    spendRunes(runes) {
+        this.runes -= runes;
+        HUD.runeCounter.setCount(this.runes);
+    };
+
+    collectRunes(runes) {
+        this.runes += runes;
+        HUD.runeCounter.setCount(this.runes);
+    };
+
+    // /**
+    //  * @param {number} type The type of the rune to add to the inventory.
+    //  * @param {number} amount The amount of rune to add to the inventory.
+    //  */
+    // addRune(type, amount) {
+
+    // }
+
+    // /**
+    //  * @returns {Array} An array of all the rune in the inventory.
+    //  */
+    // getAllRunes() {
+    //     return this.runeBag;
+    // }
+
+    // /**
+    //  * @param {number} type The type of the rune to get.
+    //  * @returns {RuneItem} The rune with the given name.
+    //  */
+    // getRune(type) {
+    //     for (let i = 0; i < this.runeBag.length; i++) {
+    //         let rune = this.runeBag[i];
+    //         if (rune.type == type) {
+    //             return this.runeBag[i];
+    //         }
+    //     }
+    // }
 
 
-    /**
-     * @param {number} amount The amount of rune to add to the inventory.
-     */
-    adjustRunes(amount) {
-        this.runeItem.adjustSupply(amount);
-    }
-
-    /**
-     * @returns {RuneItem} The rune item.
-     */
-    getRunes() {
-        return this.runeItem;
-    }
 
 
     /**
