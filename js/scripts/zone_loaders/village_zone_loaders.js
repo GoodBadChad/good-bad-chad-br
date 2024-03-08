@@ -329,12 +329,7 @@ const loadVillageMain = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
-        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(60, aboveGroundLevel - 2)), RuneDrop.PURPLE, 1, false));
-        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(62, aboveGroundLevel - 2)), RuneDrop.WHITE, 1, false));
         GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(64, aboveGroundLevel - 2)), RuneDrop.GREEN, 1, false));
-        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(66, aboveGroundLevel - 2)), RuneDrop.GRAY, 1, false));
-        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(68, aboveGroundLevel - 2)), RuneDrop.RED, 1, false));
-        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(70, aboveGroundLevel - 2)), RuneDrop.YELLOW, 1, false));
 
 
 
