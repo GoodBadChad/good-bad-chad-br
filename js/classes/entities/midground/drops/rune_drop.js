@@ -39,7 +39,7 @@ class RuneDrop {
         this.removeFromWorld = true;
 
         //TODO send ammo to inventory
-        INVENTORY.adjustRunes(this.amount);
+        INVENTORY.collectRunes(this.amount);
     }
 
     update() {

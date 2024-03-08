@@ -190,35 +190,6 @@ class Inventory {
         HUD.runeCounter.setCount(this.runes);
     };
 
-    // /**
-    //  * @param {number} type The type of the rune to add to the inventory.
-    //  * @param {number} amount The amount of rune to add to the inventory.
-    //  */
-    // addRune(type, amount) {
-
-    // }
-
-    // /**
-    //  * @returns {Array} An array of all the rune in the inventory.
-    //  */
-    // getAllRunes() {
-    //     return this.runeBag;
-    // }
-
-    // /**
-    //  * @param {number} type The type of the rune to get.
-    //  * @returns {RuneItem} The rune with the given name.
-    //  */
-    // getRune(type) {
-    //     for (let i = 0; i < this.runeBag.length; i++) {
-    //         let rune = this.runeBag[i];
-    //         if (rune.type == type) {
-    //             return this.runeBag[i];
-    //         }
-    //     }
-    // }
-
-
 
 
     /**

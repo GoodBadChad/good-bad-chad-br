@@ -26,6 +26,8 @@ const loadCave1 = () => {
         ASSET_MGR.queueDownload(Snake.SPRITESHEET);
         ASSET_MGR.queueDownload(DrillBot.SPRITESHEET);
 
+        ASSET_MGR.queueDownload(MUSIC.LAVA_UNDERGROUND.path);
+
     };
 
     const addEntities = () => {
@@ -76,6 +78,10 @@ const loadCave1 = () => {
         }
     };
 
+    setTimeout(() => {
+        ASSET_MGR.playMusic(MUSIC.LAVA_UNDERGROUND.path, MUSIC.LAVA_UNDERGROUND.volume);
+    }, 500);
+
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);
 };
@@ -101,8 +107,10 @@ const loadCave2 = () => {
         ASSET_MGR.queueDownload(Bird.SPRITESHEET);
         ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
         ASSET_MGR.queueDownload(Snake.SPRITESHEET);
-        ASSET_MGR.queueDownload(DrillBot.SPRITESHEET);
+        ASSET_MGR.queueDownload(DrillBot.SPRITESHEET);  
 
+
+        ASSET_MGR.queueDownload(MUSIC.LAVA_NORMAL.path);
     };
 
     const addEntities = () => {
@@ -259,6 +267,10 @@ const loadCave2 = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
     };
+
+    setTimeout(() => {
+        ASSET_MGR.playMusic(MUSIC.LAVA_NORMAL.path, MUSIC.LAVA_NORMAL.volume);
+    }, 500);
 
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);

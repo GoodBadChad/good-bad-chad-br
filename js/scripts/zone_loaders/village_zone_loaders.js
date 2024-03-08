@@ -37,7 +37,7 @@ const loadVillageField = () => {
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_2.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_3.SPRITESHEET);
 
-        ASSET_MGR.queueDownload(MUSIC.FACTORY_BOSS.path);
+        ASSET_MGR.queueDownload(MUSIC.UPBEAT_CHIPTUNE_2.path);
 
         // NPCs
         ASSET_MGR.queueDownload(Bird.SPRITESHEET);
@@ -164,7 +164,7 @@ const loadVillageField = () => {
     GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), -1);
 
     setTimeout(() => {
-        ASSET_MGR.playMusic(MUSIC.UPBEAT_CHIPTUNE_1.path, MUSIC.UPBEAT_CHIPTUNE_1.volume);  
+        ASSET_MGR.playMusic(MUSIC.UPBEAT_CHIPTUNE_2.path, MUSIC.UPBEAT_CHIPTUNE_2.volume);  
     }, 500);
 
     queueAssets();
@@ -349,20 +349,6 @@ const loadVillageMain = () => {
 
 
 
-        // NOTE: we can't activate music until the user has interacted with the canvas. (this issue is inherent to HTML5)
-        //  If listening for a click is the only way to activate music, that's fine. 
-        //  Our game's START button in the final version can be the trigger.
-        // let playMusic = () => {
-        //     // ASSET_MGR.playMusic(MUSIC.HIGH_ENERGY.path, MUSIC.HIGH_ENERGY.volume);
-        //     // ASSET_MGR.playMusic(MUSIC.VILLAGE_SIMPLE_LIFE.path, MUSIC.VILLAGE_SIMPLE_LIFE.volume);
-        //     ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
-
-
-        //     // delete the event listener so that the music doesn't restart when the user presses a key
-        //     document.body.removeEventListener('keydown', playMusic);
-        // };
-        // document.body.addEventListener('keydown', playMusic);
-
         // ASSET_MGR.playMusic(MUSIC.VILLAGE_SIMPLE_LIFE.path, MUSIC.VILLAGE_SIMPLE_LIFE.volume);
         ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
 
@@ -420,6 +406,8 @@ const loadHillDownFromMain = () => {
         ASSET_MGR.queueDownload(BlackSmith.SPRITESHEET);
         ASSET_MGR.queueDownload(Mayor.SPRITESHEET);
         ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(MUSIC.CHAD_PLAYFUL_ADVENTURE.path);
     };
 
     const addEntities = () => {
@@ -554,6 +542,10 @@ const loadHillDownFromMain = () => {
 
     };
 
+    setTimeout(() => {
+        ASSET_MGR.playMusic(MUSIC.CHAD_PLAYFUL_ADVENTURE.path, MUSIC.CHAD_PLAYFUL_ADVENTURE.volume);
+    }, 500);
+
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);
 };
@@ -595,6 +587,8 @@ const loadWoods = () => {
         ASSET_MGR.queueDownload(BlackSmith.SPRITESHEET);
         ASSET_MGR.queueDownload(Mayor.SPRITESHEET);
         ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(MUSIC.UPBEAT_CHIPTUNE_1.path);
     };
 
     const addEntities = () => {
@@ -662,7 +656,9 @@ const loadWoods = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
-
+        setTimeout(() => {
+            ASSET_MGR.playMusic(MUSIC.UPBEAT_CHIPTUNE_1.path, MUSIC.UPBEAT_CHIPTUNE_1.volume);
+        }, 500);
     };
 
     queueAssets();

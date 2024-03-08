@@ -265,7 +265,6 @@ class AssetManager {
             Sun.SPRITESHEET,
             Sword.SPRITESHEET,
             RuneDrop.SPRITESHEET,
-            RuneItem.SPRITESHEET,
             FoodDrop.SPRITESHEET,
             AmmoDrop.SPRITESHEET,
             DashCooldown.SPRITESHEET,
