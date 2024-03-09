@@ -122,6 +122,10 @@ class AmmoDrop {
         return "broccoli";
     }
 
+    static get WATER_BALLOON() {
+        return "water_balloon";
+    }
+
     static get SPRITESHEET_COORDINATES() {
         return {
             "rock": 0,
@@ -129,7 +133,8 @@ class AmmoDrop {
             "bomb": 2,
             "snowball": 3,
             "sus_snowball": 4,
-            "broccoli": 5
+            "broccoli": 5,
+            "water_balloon": 6
         };
     }
 

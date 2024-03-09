@@ -1,7 +1,7 @@
 /** 
- * Flowing water for the river.
+ * Flowing water and lava.
  * 
- * @author Nathan
+ * @author Nathan Hinthorne
  */
 class LiquidBlock {
     /**
@@ -17,11 +17,10 @@ class LiquidBlock {
             LiquidBlock.SPRITESHEET,
             new Vector(0, type * LiquidBlock.SIZE.y),
             LiquidBlock.SIZE,
-            2, 0.3, true);
+            4, 0.20, true);
 
         this.isHarmful = true; // change later on if we want to add calm water for a small lake
     };
-
 
 
     /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
@@ -39,20 +38,21 @@ class LiquidBlock {
 
     /** The filepath to the spritesheet of the Block. */
     static get SPRITESHEET() {
-        return "./sprites/water.png";
+        return "./sprites/liquid_blocks.png";
     };
 
-    static get WATER() {
+    static get LAVA() {
         return 0;
     }
 
-    static get LAVA() {
+    static get WATER() {
         return 1;
     }
 
+
     /** Change what the entity is doing and where it is. */
     update() {
-
+        
     };
 
     /** Draw the entity on the canvas. */

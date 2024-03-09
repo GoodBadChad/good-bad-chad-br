@@ -143,6 +143,12 @@ class Hud {
             AmmoItem.BROCCOLI,
             "6"
         ));
+        this.addComponent("ammoWaterBalloonLabel", new AmmoLabel(
+            new Vector(hotbarXStart + 6 * (hotbarItemWidth + 4), hotbarY),
+            AmmoItem.WATER_BALLOON,
+            "7"
+        ));
+
 
         this.addComponent("dashCooldown", new DashCooldown(
             new Vector(Camera.SIZE.x - 700, Camera.SIZE.y - 100)

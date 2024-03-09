@@ -25,6 +25,7 @@ const loadRiver = () => {
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_2.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_3.SPRITESHEET);
+        ASSET_MGR.queueDownload(LiquidBlock.SPRITESHEET);
 
         // NPCs
         ASSET_MGR.queueDownload(Bird.SPRITESHEET);
@@ -44,21 +45,19 @@ const loadRiver = () => {
             Zone.getZones().mountain.slope1
         ));
 
+        // spread water in a line
+        for (let i = 4; i < 54; i++) {
+            // const worldPos = Vector.blockToWorldSpace(new Vector(i, 3));
+            GAME.addEntity(new LiquidBlock(new Vector(i, 28), LiquidBlock.WATER));
+        }
+
+        for (let i = 67; i < 100; i++) {
+            // const worldPos = Vector.blockToWorldSpace(new Vector(i, 3));
+            GAME.addEntity(new LiquidBlock(new Vector(i, 28), LiquidBlock.WATER));
+        }
+
         TilemapInterpreter.setTilemap(riverStartTilemap);
-        // Also, add a flower to the top of every block!
 
-
-
-
-        // Draw Sun.
-
-        // Spawn Chad.
-        // For testing, drops chad on right side.
-        // if (LAST_ZONE === null) { // Coming from main.
-        //     // spawn on left.
-        //     const blockPos = new Vector(ZONE.MAX_BLOCK.x - 2, 21);
-        //     CHAD.pos = Vector.blockToWorldSpace(blockPos);
-        // }
         if (LAST_ZONE.equals(Zone.getZones().village.woods)) { // Coming from mountain.
             // Set spawn point on the right.
             const blockPos = new Vector(ZONE.MIN_BLOCK.x, 21);
@@ -69,6 +68,23 @@ const loadRiver = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
     };
+
+    // spawn a water balloon ammo drop
+    GAME.addEntity(new AmmoDrop(
+        Vector.blockToWorldSpace(new Vector(5, 27)),
+        AmmoDrop.WATER_BALLOON,
+        10,
+        false
+    ));
+
+    // spawn a water balloon ammo drop
+    GAME.addEntity(new AmmoDrop(
+        Vector.blockToWorldSpace(new Vector(32, 27)),
+        AmmoDrop.WATER_BALLOON,
+        20,
+        false
+    ));
+    
 
     // Set background color:
     BG_COLOR = COLORS.SKY_BLUE;

@@ -33,6 +33,7 @@ class Inventory {
         this.ammoBag.push(new AmmoItem(AmmoItem.SNOWBALL, 0));
         this.ammoBag.push(new AmmoItem(AmmoItem.SUS_SNOWBALL, 0));
         this.ammoBag.push(new AmmoItem(AmmoItem.BROCCOLI, 0));
+        this.ammoBag.push(new AmmoItem(AmmoItem.WATER_BALLOON, 0));
 
         this.switchToAmmo(AmmoItem.ROCK);
     }

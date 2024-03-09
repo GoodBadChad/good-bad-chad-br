@@ -259,7 +259,6 @@ class AssetManager {
             DialogBubble.SPRITESHEET,
             OverheadIcon.SPRITESHEET,
             PapaChad.SPRITESHEET,
-            Projectile.SPRITESHEET,
             Slingshot.SPRITESHEET,
             StartMenu.TITLE_SPRITESHEET,
             Sun.SPRITESHEET,
@@ -271,6 +270,7 @@ class AssetManager {
             Bomb.SPRITESHEET,
             Rock.SPRITESHEET,
             Rock.SPRITESHEET_EASTER_EGG,
+            WaterBalloon.SPRITESHEET,
 
             // Sounds:
             SFX.JUMP1.path,
@@ -323,6 +323,7 @@ class AssetManager {
             SFX.SLIME_SPLAT.path,
             Broccoli.SPRITESHEET,
             SFX.BLEH.path,
+            SFX.WATER_BALLOON.path,
 
             //TEMPORARY
             SFX.GROWL1.path,

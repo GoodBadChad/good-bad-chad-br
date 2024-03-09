@@ -45,6 +45,7 @@ const COLORS = {
     DARK_GREEN: "#006400",
     IVY_GREEN: "#789d5e",
     BLUE: "#0000ff",
+    WATER_BLUE: "#57b2ec",
     YELLOW: "#ffff00",
     GOLD: "#ffd700",
     PURPLE: "#800080",
@@ -89,8 +90,8 @@ const SFX = {
 
 
     // Player
-    JUMP1: {path: "./sfx/jump1.mp3", volume: 0.2},
-    JUMP2: {path: "./sfx/jump2.mp3", volume: 0.2},
+    JUMP1: {path: "./sfx/jump2 caleb.mp3", volume: 0.2},
+    JUMP2: {path: "./sfx/jump1 caleb.mp3", volume: 0.2},
     LAND: {path: "./sfx/land.mp3", volume: 0.2},
     SLINGSHOT_LAUNCH1: {path: "./sfx/launch1.mp3", volume: 0.5},
     SLINGSHOT_LAUNCH2: {path: "./sfx/launch2.mp3", volume: 0.6},
@@ -123,6 +124,7 @@ const SFX = {
     AMMO_COLLECT: {path: "./sfx/ammo_collect.mp3", volume: 0.4},
     COIN_COLLECT: {path: "./sfx/rune_collect.mp3", volume: 0.4},
     MEGA_MUSHROOM: {path: "./sfx/mega_mushroom.mp3", volume: 0.4},
+    WATER_BALLOON: {path: "./sfx/water_balloon.wav", volume: 0.4},
 
     
     // UI
@@ -391,7 +393,7 @@ const EVENT_HANDLERS = {
             case "Digit4":
             case "Digit5":
             case "Digit6":
-                // case "Digit7":
+            case "Digit7":
                 // case "Digit8":
                 // case "Digit9":
                 const index = key.code.slice(-1) - 1;
