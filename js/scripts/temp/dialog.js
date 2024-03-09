@@ -1,5 +1,3 @@
-
-
 // const PAPA_CHAD_1 = GAME.lang === "english" ? "Time to go hunting son!" : "";
 // const PAPA_CHAD_2 = GAME.lang === "english" ? "Press [key] to attack that snake with your sword." : "";
 // const PAPA_CHAD_3 = GAME.lang === "english" ? "Well done. That MEAT!! will come in handy later on." : "";

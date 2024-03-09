@@ -352,47 +352,6 @@ const EVENT_HANDLERS = {
     },
 
     gameplayKeyDown: (key) => {
-
-        if (key.code === "KeyM" && mickeyCount < 1 && keyPressCounter.M_KEY < keyPressCountMax) {
-            mickeyCount++;
-            keyPressCounter.M_KEY++;
-
-
-        } else if (key.code === "KeyI" && mickeyCount < 2 && keyPressCounter.I_KEY < keyPressCountMax) {
-            mickeyCount++;
-            keyPressCounter.I_KEY++;
-
-        } else if (key.code === "KeyC" && mickeyCount < 3 && keyPressCounter.C_KEY < keyPressCountMax) {
-            mickeyCount++;
-            keyPressCounter.C_KEY++;
-
-        } else if (key.code === "KeyK" && mickeyCount < 4 && keyPressCounter.K_KEY < keyPressCountMax) {
-            mickeyCount++;
-            keyPressCounter.K_KEY++;
-
-        } else if (key.code === "KeyE" && mickeyCount < 5 && keyPressCounter.E_KEY < keyPressCountMax) {
-            mickeyCount++;
-            keyPressCounter.E_KEY++;
-
-        } else if (key.code === "KeyY" && mickeyCount < 6 && keyPressCounter.Y_KEY < keyPressCountMax) {
-            mickeyCount++;
-            keyPressCounter.Y_KEY++;
-
-        } else {
-            mickeyCount = 0;
-            keyPressCounter.M_KEY = 0;
-            keyPressCounter.I_KEY = 0;
-            keyPressCounter.C_KEY = 0;
-            keyPressCounter.K_KEY = 0;
-            keyPressCounter.E_KEY = 0;
-            keyPressCounter.Y_KEY = 0;
-
-        }
-        console.log(mickeyCount);
-        if (mickeyCount == 6) {
-            window.open("https://www.youtube.com/watch?v=hmzO--ox7X0", '_blank').focus();
-            // window.location.href = "https://www.youtube.com/watch?v=hmzO--ox7X0";
-        }
         switch (key.code) {
             case "KeyA":
                 GAME.user.movingLeft = true;
@@ -432,9 +391,9 @@ const EVENT_HANDLERS = {
             case "Digit4":
             case "Digit5":
             case "Digit6":
-            // case "Digit7":
-            // case "Digit8":
-            // case "Digit9":
+                // case "Digit7":
+                // case "Digit8":
+                // case "Digit9":
                 const index = key.code.slice(-1) - 1;
                 if (!INVENTORY.ammoBag[index]) return; // make sure an ammo actually exists for this key
                 INVENTORY.switchToAmmo(INVENTORY.ammoBag[index].type);
@@ -468,6 +427,49 @@ const EVENT_HANDLERS = {
                     GAME.user.dashing = false;
                 }, 1000);
                 break;
+        }
+    },
+
+    mickeyKeyPresses: (key) => {
+        if (key.code === "KeyM" && mickeyCount < 1 && keyPressCounter.M_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.M_KEY++;
+
+
+        } else if (key.code === "KeyI" && mickeyCount < 2 && keyPressCounter.I_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.I_KEY++;
+
+        } else if (key.code === "KeyC" && mickeyCount < 3 && keyPressCounter.C_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.C_KEY++;
+
+        } else if (key.code === "KeyK" && mickeyCount < 4 && keyPressCounter.K_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.K_KEY++;
+
+        } else if (key.code === "KeyE" && mickeyCount < 5 && keyPressCounter.E_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.E_KEY++;
+
+        } else if (key.code === "KeyY" && mickeyCount < 6 && keyPressCounter.Y_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.Y_KEY++;
+
+        } else {
+            mickeyCount = 0;
+            keyPressCounter.M_KEY = 0;
+            keyPressCounter.I_KEY = 0;
+            keyPressCounter.C_KEY = 0;
+            keyPressCounter.K_KEY = 0;
+            keyPressCounter.E_KEY = 0;
+            keyPressCounter.Y_KEY = 0;
+
+        }
+        console.log(mickeyCount);
+        if (mickeyCount == 6) {
+            window.open("https://www.youtube.com/watch?v=hmzO--ox7X0", '_blank').focus();
+            // window.location.href = "https://www.youtube.com/watch?v=hmzO--ox7X0";
         }
     },
     gameplayKeyUp: (key) => {
