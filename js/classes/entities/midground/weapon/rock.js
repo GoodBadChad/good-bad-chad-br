@@ -75,7 +75,7 @@ class Rock {
     }
 
     static get DAMAGE() {
-        return 5;
+        return 7;
     }
 
     /** Called when the rock collides with a block. */
@@ -122,6 +122,10 @@ class Rock {
             this.aliveTimer += GAME.clockTick;
             if (this.aliveTimer >= Rock.ALIVE_TIME) {
                 this.removeFromWorld = true;
+
+                // spawn a rock on the ground because chad missed
+                const dropPos = Vector.add(this.pos, new Vector(0, -60));
+                GAME.addEntity(new AmmoDrop(dropPos, AmmoDrop.ROCK));
             }
         }
 
@@ -130,6 +134,8 @@ class Rock {
             const center = Vector.add(this.pos, Vector.divide(Rock.SCALED_SIZE, 2));
             GAME.addEntity(new ParticleEffect(center, ParticleEffect.WIND_TRAIL));
         }
+
+
     }
 
     draw() {

@@ -85,6 +85,14 @@ class AmmoItem {
                 SIZE: new Vector(72, 78),
                 SCALE: 1,
             },
+            water_balloon: {
+                SPRITESHEET: WaterBalloon.SPRITESHEET, // instead of loading a new spritesheet, we can just use the one from the WaterBalloon class
+                SPRITESHEET_START_POS: new Vector(0, 0),
+                FRAME_COUNT: 1,
+                FRAME_DURATION: 0,
+                SIZE: new Vector(32, 32),
+                SCALE: 1,
+            },
         }
     }
 
@@ -114,5 +122,10 @@ class AmmoItem {
     static get BROCCOLI() {
         return "broccoli";
     }
+
+    static get WATER_BALLOON() {
+        return "water_balloon";
+    }
+    
 
 }

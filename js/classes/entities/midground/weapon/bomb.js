@@ -79,7 +79,7 @@ class Bomb {
     // }
 
     static get DAMAGE() {
-        return 30;
+        return 40;
     }
 
     /** Called when the bomb collides with a block. */

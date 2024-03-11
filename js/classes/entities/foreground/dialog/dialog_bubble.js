@@ -230,9 +230,13 @@ class DialogBubble {
                 new Vector(0, 0),
                 new Vector(PapaChad.SIZE.x, 17),
                 1, 1),
-            WIZARD: new Animator(Wizard.SPRITESHEET,
+            Miner: new Animator(Miner.SPRITESHEET,
+                new Vector(0, 0),
+                new Vector(30, 24),
+                1, 1),
+            WIZARD: new Animator("./sprites/wizard.png",
                 new Vector(11, 0),
-                new Vector(23, 35),
+                new Vector(26, 43),
                 1, 1)
         };
     };

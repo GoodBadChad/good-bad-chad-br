@@ -1,9 +1,10 @@
 const villageConversationLoader = () => {
     return {
         papaChad: papaChadConversationLoader(),
-        mayor: mayorConversationLoader(), 
+        mayor: mayorConversationLoader(),
         blacksmith: blacksmithConversationLoader(),
         mamaChad: mamaChadConversationLoader(),
+        miner: minerConversationLoader(),
         wizard: wizardConversationLoader()
     };
 };
@@ -59,7 +60,7 @@ const papaChadConversationLoader = () => {
                 true,
                 () => {
                     STORY.huntingInstructionsReceived = true;
-                })          
+                })
         ],
         huntingInstructionShort: [
             new DialogBubble(papa,
@@ -204,7 +205,7 @@ const mamaChadConversationLoader = () => {
                 new Choice("I'll be careful", 4),
                 new Choice("I can handle myself!", 6)]),
             // 4
-            new DialogBubble(chad, 
+            new DialogBubble(chad,
                 "Of course I'll be careful mama. Gotta make sure I make it back to have some of that MEAT! you cook up!"),
             // 5
             new DialogBubble(mama,
@@ -224,6 +225,43 @@ const mamaChadConversationLoader = () => {
             // 10
             new DialogBubble(chad,
                 "I love you too mom.", true)
+        ]
+    };
+};
+
+const minerConversationLoader = () => {
+    const miner = DialogBubble.SPEAKERS.Miner;
+    const chad = DialogBubble.SPEAKERS.CHAD;
+    const none = DialogBubble.SPEAKERS.NONE;
+
+    return {
+        greeting: [
+            // 0
+            new DialogBubble(miner,
+                "Hey! I'm The Riddlemeister Miner. I haven't seen anybody down here in ages. I've just been mining my own business down here. Haha. I work on puzzles in my spare time..."),
+            // 1
+            new DecisionBubble('The Riddlemeister Miner', "Wanna try and solve it?", [
+                new Choice("Sure thing!", 2),
+                new Choice("Thanks, maybe later.", 7)]),
+            // 2
+            new DialogBubble(chad,
+                "That sounds amazing! I'm always up for a good challenge! How do I start?"),
+            // 3
+            new DialogBubble(miner,
+                "It starts with a riddle. When you solve the puzzle in the caves you'll find the answer to the riddle. Come back and answer the riddle when you solve it."),
+            // 4
+            new DialogBubble(miner,
+                "\"the type of letters your write will guide you through the dark, continue with Might and five will follow.\""),
+            // 5
+            new DialogBubble(miner,
+                "When you solve it, come back here and write the answer..."),
+            // 6
+            new DialogBubble(none,
+                "Type your response here. It will not be displayed, you will know if it is correct.\n*Allow Popups on your browser.*", true),
+            // 7
+            new DialogBubble(chad,
+                "That sounds fun but I've got adventuring to do. Let me get back to you on that!", true),
+
         ]
     };
 };

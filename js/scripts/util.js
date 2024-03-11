@@ -45,9 +45,11 @@ const COLORS = {
     DARK_GREEN: "#006400",
     IVY_GREEN: "#789d5e",
     BLUE: "#0000ff",
+    WATER_BLUE: "#57b2ec",
     YELLOW: "#ffff00",
     GOLD: "#ffd700",
     PURPLE: "#800080",
+    LIGHT_PURPLE: "#b582db",
     ORANGE: "#ffa500",
     PINK: "#ffc0cb",
     BROWN: "#8b4513",
@@ -88,8 +90,8 @@ const SFX = {
 
 
     // Player
-    JUMP1: {path: "./sfx/jump1.mp3", volume: 0.2},
-    JUMP2: {path: "./sfx/jump2.mp3", volume: 0.2},
+    JUMP1: {path: "./sfx/jump2 caleb.mp3", volume: 0.2},
+    JUMP2: {path: "./sfx/jump1 caleb.mp3", volume: 0.2},
     LAND: {path: "./sfx/land.mp3", volume: 0.2},
     SLINGSHOT_LAUNCH1: {path: "./sfx/launch1.mp3", volume: 0.5},
     SLINGSHOT_LAUNCH2: {path: "./sfx/launch2.mp3", volume: 0.6},
@@ -120,7 +122,10 @@ const SFX = {
     FOOD_EAT3: {path: "./sfx/food_eat3.mp3", volume: 0.4},
     FOOD_EAT4: {path: "./sfx/food_eat4.mp3", volume: 0.4},
     AMMO_COLLECT: {path: "./sfx/ammo_collect.mp3", volume: 0.4},
+    COIN_COLLECT: {path: "./sfx/rune_collect.mp3", volume: 0.4},
     MEGA_MUSHROOM: {path: "./sfx/mega_mushroom.mp3", volume: 0.4},
+    WATER_BALLOON: {path: "./sfx/water_balloon.wav", volume: 0.4},
+
     
     // UI
     UI_HIGH_BEEP: { path: "./sfx/ui_high_beep.mp3", volume: 0.4 },
@@ -162,8 +167,8 @@ const MUSIC = {
     PEACEFUL_CHIPTUNE: { path: "./music/peaceful_chiptune.mp3", volume: 0.1 }, // testing music
     HIGH_ENERGY: { path: "./music/high_energy_sample.wav", volume: 0.1 },
     VICTORY: { path: "./music/victory_sample.wav", volume: 0.1 },
-    UPBEAT_CHIPTUNE_1: { path: "./music/upbeat_chiptune_1_sample.wav", volume: 0.1 },
-    UPBEAT_CHIPTUNE_2: { path: "./music/upbeat_chiptune_2_sample.wav", volume: 0.1 },
+    UPBEAT_CHIPTUNE_1: { path: "./music/upbeat_chiptune_1.mp3", volume: 0.1 },
+    UPBEAT_CHIPTUNE_2: { path: "./music/upbeat_chiptune_2.mp3", volume: 0.1 },
 
     // Chad's themes
     CHAD_PLAYFUL_ADVENTURE: { path: "./music/chad_playful_adventure.mp3", volume: 0.1 },
@@ -349,47 +354,6 @@ const EVENT_HANDLERS = {
     },
 
     gameplayKeyDown: (key) => {
-
-        if (key.code === "KeyM" && mickeyCount < 1 && keyPressCounter.M_KEY < keyPressCountMax) {
-            mickeyCount++;
-            keyPressCounter.M_KEY++;
-
-
-        } else if (key.code === "KeyI" && mickeyCount < 2 && keyPressCounter.I_KEY < keyPressCountMax) {
-            mickeyCount++;
-            keyPressCounter.I_KEY++;
-
-        } else if (key.code === "KeyC" && mickeyCount < 3 && keyPressCounter.C_KEY < keyPressCountMax) {
-            mickeyCount++;
-            keyPressCounter.C_KEY++;
-
-        } else if (key.code === "KeyK" && mickeyCount < 4 && keyPressCounter.K_KEY < keyPressCountMax) {
-            mickeyCount++;
-            keyPressCounter.K_KEY++;
-
-        } else if (key.code === "KeyE" && mickeyCount < 5 && keyPressCounter.E_KEY < keyPressCountMax) {
-            mickeyCount++;
-            keyPressCounter.E_KEY++;
-
-        } else if (key.code === "KeyY" && mickeyCount < 6 && keyPressCounter.Y_KEY < keyPressCountMax) {
-            mickeyCount++;
-            keyPressCounter.Y_KEY++;
-
-        } else {
-            mickeyCount = 0;
-            keyPressCounter.M_KEY = 0;
-            keyPressCounter.I_KEY = 0;
-            keyPressCounter.C_KEY = 0;
-            keyPressCounter.K_KEY = 0;
-            keyPressCounter.E_KEY = 0;
-            keyPressCounter.Y_KEY = 0;
-
-        }
-        console.log(mickeyCount);
-        if (mickeyCount == 6) {
-            window.open("https://www.youtube.com/watch?v=hmzO--ox7X0", '_blank').focus();
-            // window.location.href = "https://www.youtube.com/watch?v=hmzO--ox7X0";
-        }
         switch (key.code) {
             case "KeyA":
                 GAME.user.movingLeft = true;
@@ -429,9 +393,9 @@ const EVENT_HANDLERS = {
             case "Digit4":
             case "Digit5":
             case "Digit6":
-            // case "Digit7":
-            // case "Digit8":
-            // case "Digit9":
+            case "Digit7":
+                // case "Digit8":
+                // case "Digit9":
                 const index = key.code.slice(-1) - 1;
                 if (!INVENTORY.ammoBag[index]) return; // make sure an ammo actually exists for this key
                 INVENTORY.switchToAmmo(INVENTORY.ammoBag[index].type);
@@ -465,6 +429,49 @@ const EVENT_HANDLERS = {
                     GAME.user.dashing = false;
                 }, 1000);
                 break;
+        }
+    },
+
+    mickeyKeyPresses: (key) => {
+        if (key.code === "KeyM" && mickeyCount < 1 && keyPressCounter.M_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.M_KEY++;
+
+
+        } else if (key.code === "KeyI" && mickeyCount < 2 && keyPressCounter.I_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.I_KEY++;
+
+        } else if (key.code === "KeyC" && mickeyCount < 3 && keyPressCounter.C_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.C_KEY++;
+
+        } else if (key.code === "KeyK" && mickeyCount < 4 && keyPressCounter.K_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.K_KEY++;
+
+        } else if (key.code === "KeyE" && mickeyCount < 5 && keyPressCounter.E_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.E_KEY++;
+
+        } else if (key.code === "KeyY" && mickeyCount < 6 && keyPressCounter.Y_KEY < keyPressCountMax) {
+            mickeyCount++;
+            keyPressCounter.Y_KEY++;
+
+        } else {
+            mickeyCount = 0;
+            keyPressCounter.M_KEY = 0;
+            keyPressCounter.I_KEY = 0;
+            keyPressCounter.C_KEY = 0;
+            keyPressCounter.K_KEY = 0;
+            keyPressCounter.E_KEY = 0;
+            keyPressCounter.Y_KEY = 0;
+
+        }
+        console.log(mickeyCount);
+        if (mickeyCount == 6) {
+            window.open("https://www.youtube.com/watch?v=hmzO--ox7X0", '_blank').focus();
+            // window.location.href = "https://www.youtube.com/watch?v=hmzO--ox7X0";
         }
     },
     gameplayKeyUp: (key) => {

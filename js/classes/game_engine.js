@@ -39,7 +39,7 @@ class GameEngine {
         };
 
         /** used to detect double taps */
-        this.lastKeyTime = { keyA: 0,  keyD: 0 };
+        this.lastKeyTime = { keyA: 0, keyD: 0 };
 
         // /** Where is the x coordinate of the user's mouse? */
         // this.mouseX = 0;
@@ -52,7 +52,7 @@ class GameEngine {
 
         /** How long has the game been running? */
         this.gameTime = 0;
-        
+
         this.conversation = null;
 
         this._mode = GameEngine.MENU_MODE;
@@ -170,7 +170,7 @@ class GameEngine {
 
 
         // This fixed a bug where once you switched choices, it switched in an infinite loop.
-        this.user.choiceUp  = false;
+        this.user.choiceUp = false;
         this.user.choiceDown = false;
         this.user.continuingConversation = false;
     };
@@ -184,19 +184,19 @@ class GameEngine {
         CTX.fillRect(0, 0, Camera.SIZE.x, Camera.SIZE.y);
 
         // (2) Draw the background entities.
-        this.entities.background.forEach((entity) => {entity.draw();});
+        this.entities.background.forEach((entity) => { entity.draw(); });
 
         // (3) Draw the midground entities.
-        this.entities.midground.forEach((entity) => {entity.draw();});
+        this.entities.midground.forEach((entity) => { entity.draw(); });
 
         // (4) Draw CHAD and the debugging grid:
         if (this.debug) {
             this.drawGrid();
         }
         CHAD.draw();
-      
+
         // (5) Draw the foreground entities.
-        this.entities.foreground.forEach((entity) => {entity.draw();});
+        this.entities.foreground.forEach((entity) => { entity.draw(); });
     };
 
     /**
@@ -214,12 +214,14 @@ class GameEngine {
             CANVAS.removeEventListener("keypress", EVENT_HANDLERS.dialogKeyPress, false);
             CANVAS.removeEventListener("keyup", EVENT_HANDLERS.dialogKeyUp, false);
             CANVAS.removeEventListener("keydown", EVENT_HANDLERS.dialogKeyDown, false);
+            CANVAS.removeEventListener("keypress", EVENT_HANDLERS.mickeyKeyPresses, false);
             // Add the gameplay listeners.
             CANVAS.addEventListener("mousedown", EVENT_HANDLERS.gameplayMouseDown, false);
             CANVAS.addEventListener("mouseup", EVENT_HANDLERS.gameplayMouseUp, false);
             CANVAS.addEventListener("mousemove", EVENT_HANDLERS.gameplayMouseMove, false);
             CANVAS.addEventListener("keydown", EVENT_HANDLERS.gameplayKeyDown, false);
             CANVAS.addEventListener("keyup", EVENT_HANDLERS.gameplayKeyUp, false);
+
         } else if (this.mode === GameEngine.DIALOG_MODE) {
             // Remove all other listeners.
             CANVAS.removeEventListener("mousedown", EVENT_HANDLERS.gameplayMouseDown, false);
@@ -227,8 +229,10 @@ class GameEngine {
             CANVAS.removeEventListener("mousemove", EVENT_HANDLERS.gameplayMouseMove, false);
             CANVAS.removeEventListener("keydown", EVENT_HANDLERS.gameplayKeyDown, false);
             CANVAS.removeEventListener("keyup", EVENT_HANDLERS.gameplayKeyUp, false);
+            CANVAS.addEventListener("keypress", EVENT_HANDLERS.mickeyKeyPresses, false);
             // Add the dialog listeners
             CANVAS.addEventListener("keypress", EVENT_HANDLERS.dialogKeyPress, false);
+
             /*
             Note: For whatever reason, "keypress" event with code "Space" does not work -
             so I fixed it by doing keyup and keydown. Works fine now.
@@ -244,6 +248,7 @@ class GameEngine {
             CANVAS.removeEventListener("keypress", EVENT_HANDLERS.dialogKeyPress, false);
             CANVAS.removeEventListener("keyup", EVENT_HANDLERS.dialogKeyUp, false);
             CANVAS.removeEventListener("keydown", EVENT_HANDLERS.dialogKeyDown, false);
+            CANVAS.removeEventListener("keypress", EVENT_HANDLERS.mickeyKeyPresses, false);
 
             // Add menu listeners
             CANVAS.addEventListener("mousemove", EVENT_HANDLERS.gameplayMouseMove, false);
@@ -293,7 +298,7 @@ class GameEngine {
 
         CTX.fillStyle = "red";
         CTX.font = FONT.VT323_NORMAL;
-        
+
         // Where we want to start drawing the label. Note: the +5 is so that it is clear which cell we are labeling.
         let gameX = ZONE.MIN_PT.x + 5;
         // This is the minimum y value that we will write at. Note: the +18 is related to the font size.

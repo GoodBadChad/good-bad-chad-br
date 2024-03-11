@@ -147,16 +147,17 @@ class AssetManager {
      */
     playMusic(path, volume, loop = true) {
         if (this.currentMusic) {
-            this.stopAudio(this.currentMusic.src);
+            this.currentMusic.pause();
+            this.currentMusic.currentTime = 0;
         }
 
         const audio = this.cache[path];
+        console.log(audio);
         audio.currentTime = 0;
         audio.volume = volume;
         this.currentMusic = audio;
 
         audio.play();
-        //! might have a bug where pauseMusic "ends" the music. Check it out
         if (loop) {
             audio.addEventListener("ended", () => {
                 audio.play();
@@ -175,6 +176,9 @@ class AssetManager {
         }
     }
 
+    /**
+     * Resumes the currently paused background music from where it left off.
+     */
     resumeMusic() {
         if (this.currentMusic) {
             this.currentMusic.play();
@@ -255,19 +259,18 @@ class AssetManager {
             DialogBubble.SPRITESHEET,
             OverheadIcon.SPRITESHEET,
             PapaChad.SPRITESHEET,
-            Projectile.SPRITESHEET,
             Slingshot.SPRITESHEET,
             StartMenu.TITLE_SPRITESHEET,
             Sun.SPRITESHEET,
             Sword.SPRITESHEET,
             RuneDrop.SPRITESHEET,
-            RuneItem.SPRITESHEET,
             FoodDrop.SPRITESHEET,
             AmmoDrop.SPRITESHEET,
             DashCooldown.SPRITESHEET,
             Bomb.SPRITESHEET,
             Rock.SPRITESHEET,
             Rock.SPRITESHEET_EASTER_EGG,
+            WaterBalloon.SPRITESHEET,
 
             // Sounds:
             SFX.JUMP1.path,
@@ -312,6 +315,15 @@ class AssetManager {
             SFX.DING.path,
             SFX.MEGA_MUSHROOM.path,
             SFX.AMMO_COLLECT.path,
+            SFX.COIN_COLLECT.path,
+            Snowball.SPRITESHEET,
+            SusSnowball.SPRITESHEET,
+            Slimeball.SPRITESHEET,
+            Slimeball.SPRITESHEET_EASTER_EGG,
+            SFX.SLIME_SPLAT.path,
+            Broccoli.SPRITESHEET,
+            SFX.BLEH.path,
+            SFX.WATER_BALLOON.path,
 
             //TEMPORARY
             SFX.GROWL1.path,
@@ -322,31 +334,16 @@ class AssetManager {
             Yeti.SPRITESHEET,
             SFX.SNOW_CRUNCH1.path,
             SFX.SNOW_CRUNCH2.path,
-            Snowball.SPRITESHEET,
-            SusSnowball.SPRITESHEET,
-            Slimeball.SPRITESHEET,
-            Slimeball.SPRITESHEET_EASTER_EGG,
-            SFX.SLIME_SPLAT.path,
-            Broccoli.SPRITESHEET,
-            SFX.BLEH.path,
-            Portal.SPRITESHEET,
-            MUSIC.CHAD_VICTORIOUS_EMOTIONAL.path,
-            MUSIC.VILLAGE_SIMPLE_LIFE.path,
             SFX.ROBOT_DEATH1.path,
             SFX.ROBOT_DEATH2.path,
             DrillBot.SPRITESHEET,
             SFX.DRILL1.path,
             SFX.DRILL2.path,
+            Portal.SPRITESHEET,
             SFX.PORTAL_ACTIVATE.path,
             SFX.PORTAL_IDLE.path,
 
             // Music:
-            MUSIC.PEACEFUL_CHIPTUNE.path,
-            MUSIC.HIGH_ENERGY.path,
-            MUSIC.VICTORY.path,
-            MUSIC.UPBEAT_CHIPTUNE_1.path,
-            MUSIC.UPBEAT_CHIPTUNE_2.path,
-            MUSIC.CHAD_PLAYFUL_ADVENTURE.path,
             DialogBubble.SPEAKERS.CHAD.spritesheet
         ];
     };
