@@ -58,6 +58,15 @@ class Wizard {
 
         this.boundingBox = new BoundingBox(this.pos, Wizard.SCALED_SIZE);
 
+        if (STORY.slimesKilled && STORY.slimesKilled >= 10) {
+            if (ZONE.name === "Village Main" && this.conversation === null) {
+                this.conversation = new Conversation(getAllConversationArrays().village.wizard.threateningIntroduction);
+            }
+        }
+
+        if (ZONE.name === "Village Main" && STORY.villageAttackEnded) {
+            this.removeFromWorld = true;
+        }
 
         // Step 4: Have we collided with anything?
         GAME.entities.midground.forEach((entity) => {

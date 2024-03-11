@@ -54,6 +54,14 @@ const loadVillageField = () => {
             Zone.getZones().village.main
         ));
 
+        // Add a locked border to the western edge of the zone to prevent character from falling off the edge of the world.
+        GAME.addEntity(new Border(
+            new Vector(ZONE.MIN_PT.x - 1, 0),
+            new Vector(1, ZONE.PIXEL_SIZE.y),
+            null,
+            true
+        ));
+
         TilemapInterpreter.setTilemap(fieldTilemap);
 
 
@@ -121,10 +129,10 @@ const loadVillageField = () => {
 
 
     }
-    STORY.huntingInvite = true;
-    if (STORY.huntingInvite) {
+    
+    if (STORY.invitedHunting) {
         GAME.addEntity(new PapaChad(
-            new Vector(ZONE.MAX_PT.x - 2 * PapaChad.SCALED_SIZE.x, ZONE.MAX_PT.y - 30 * Block.SCALED_SIZE),
+            new Vector(ZONE.MAX_PT.x - 2 * PapaChad.SCALED_SIZE.x, ZONE.MAX_PT.y - 12 * Block.SCALED_SIZE),
             new Conversation(getAllConversationArrays().village.papaChad.huntingInstruction)
         ));
     }
@@ -210,7 +218,7 @@ const loadVillageMain = () => {
         ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
         ASSET_MGR.queueDownload('./sprites/mama_chad_trapped.png');
         ASSET_MGR.queueDownload(Wizard.SPRITESHEET);
-
+        ASSET_MGR.queueDownload(Slime.SPRITESHEET);
     };
 
     const addEntities = () => {
@@ -227,17 +235,20 @@ const loadVillageMain = () => {
             Zone.getZones().village.field
         ));
 
+        const easternBorderLocked = STORY.villageAttackEnded ? false : true;
         GAME.addEntity(new Border(
             new Vector(ZONE.MAX_PT.x, 0),
             new Vector(1, ZONE.PIXEL_SIZE.y),
-            Zone.getZones().village.hillDownFromMain
+            Zone.getZones().village.hillDownFromMain,
+            easternBorderLocked
         ));
+
         let weather = "warm";
-        let surfaceSnow = false;
-        if (weather === "snow") {
-            surfaceSnow = true
-        }
-        TilemapInterpreter.setTilemap(villageMainTileMap, surfaceSnow);
+        // let surfaceSnow = false;
+        // if (weather === "snow") {
+        //     surfaceSnow = true
+        // }
+        TilemapInterpreter.setTilemap(villageMainTileMap, false);
         // NPCs
 
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.houses.CHAD_HOUSE, Vector.blockToWorldSpace(new Vector(30, aboveGroundLevel))));
@@ -296,34 +307,59 @@ const loadVillageMain = () => {
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(84, aboveGroundLevel))), 1);
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(87, aboveGroundLevel))));
 
-        const blockPosPapa = new Vector(33, chadOnGround);
-        const blockPosBlackSmith = new Vector(17, chadOnGround);
-        const blockPosMayor = new Vector(50, chadOnGround);
-        const blockPosMama = new Vector(65, chadOnGround + 1);
-        const blockPosWizard = new Vector(63, chadOnGround);
-        const blockPosIdleMama = new Vector(37, chadOnGround);
+        /*
+        The above content was all static. Below, there are conditional spawns/settings based on story progression.
+        Namely, we need to script the village attack when the tutorial (snake/bunny hunt) is complete.
+        */
 
-        const idleMama = new MamaChad(Vector.blockToWorldSpace(blockPosIdleMama), false, new Conversation(getAllConversationArrays().village.mamaChad.goodMorning));
-        idleMama.action = "idle";
-        GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), new Conversation(getAllConversationArrays().village.papaChad.huntingInvite)), 0);
-        GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().village.blacksmith.merchant)), 0);
-        GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().village.mayor.hopefulGreeting)), 0);
-        // TODO add these in after you get back from the field.
-        // GAME.addEntity(new MamaChad(Vector.blockToWorldSpace(blockPosMama)));
-        // GAME.addEntity(new Wizard(Vector.blockToWorldSpace(blockPosWizard)));
-        GAME.addEntity(idleMama);
+        if (!STORY.tutorialComplete) {
+            // NPCs
+            const blockPosPapa = new Vector(33, chadOnGround);
+            const blockPosBlackSmith = new Vector(17, chadOnGround);
+            const blockPosMayor = new Vector(50, chadOnGround);
+            const blockPosIdleMama = new Vector(37, chadOnGround);
 
-        if (LAST_ZONE === null) {
+            const idleMama = new MamaChad(Vector.blockToWorldSpace(blockPosIdleMama), false, new Conversation(getAllConversationArrays().village.mamaChad.goodMorning));
+            idleMama.action = "idle";
+
+            GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), new Conversation(getAllConversationArrays().village.papaChad.huntingInvite)), 0);
+            GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().village.blacksmith.merchant)), 0);
+            GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().village.mayor.hopefulGreeting)), 0);
+            GAME.addEntity(idleMama);
+
+            let weather = "warm";
+            WeatherSystem.setWeather(weather, 5, "day");
+        } else {
+            const blockPosTrappedMama = new Vector(65, chadOnGround + 1);
+            const blockPosWizard = new Vector(63, chadOnGround);
+            GAME.addEntity(new MamaChad(Vector.blockToWorldSpace(blockPosTrappedMama)));
+            GAME.addEntity(new Wizard(Vector.blockToWorldSpace(blockPosWizard)));
+            if (STORY.tutorialComplete && !STORY.villageAttackEnded) {
+                for (let blockx = 10; blockx < 60; blockx += 5) {
+                    console.log('adding a slime');
+                    GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(blockx, chadOnGround)), Slime.EVIL));
+                }
+            }
+            let weather = "rain";
+            WeatherSystem.setWeather(weather, 2, "day");
+        }
+        let surfaceSnow = false;
+        TilemapInterpreter.setTilemap(villageMainTileMap, surfaceSnow);
+
+
+        // Now, we've placed everything else - it's time to place CHAD!
+        if (LAST_ZONE === null) { // We've just started the game.
             // Spawn in middle.
             const blockPos = new Vector(70, chadOnGround);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
             // console.log(CHAD.pos);
 
-        } else if (LAST_ZONE.equals(Zone.getZones().village.field)) {
+        } else if (LAST_ZONE.name = "Village Field") { // Coming from field.
             // Set spawn point on the right.
             const blockPos = new Vector(ZONE.MIN_PT.x, chadOnGround + 5);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
-        } else if (LAST_ZONE.equals(Zone.getZones().village.hillDownFromMain)) {
+        } else if (LAST_ZONE.name = "Hill Down From Main") { // Coming from outside cave.
+            // spawn on left.
             const blockPos = new Vector(98, 16);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }

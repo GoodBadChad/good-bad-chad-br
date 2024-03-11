@@ -142,6 +142,11 @@ class Slime {
             }
         } else if (deathAnim.currentFrame() === deathAnim.frameCount - 1) {
             this.removeFromWorld = true;
+            if (STORY.slimesKilled) {
+                STORY.slimesKilled++;
+            } else {
+                STORY.slimesKilled = 1;
+            }
         }
     };
 

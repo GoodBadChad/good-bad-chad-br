@@ -237,7 +237,7 @@ class DialogBubble {
             WIZARD: new Animator("./sprites/wizard.png",
                 new Vector(11, 0),
                 new Vector(26, 43),
-                1, 1),
+                1, 1)
         };
     };
 };

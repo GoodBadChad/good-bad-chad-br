@@ -8,12 +8,14 @@ class Border {
      * @param {Vector} pos 
      * @param {Vector} size 
      * @param {Zone} target 
+     * @param {boolean} locked are we allowed to travel this way?
      */
-    constructor(pos, size, target) {
+    constructor(pos, size, target, locked = false) {
         this.pos = pos;
         this.size = size;
         this.target = target;
         this.boundingBox = new BoundingBox(this.pos, this.size);
+        this.locked = locked;
     };
 
     /**
@@ -29,6 +31,4 @@ class Border {
     draw() {
         // We don't draw these - they don't even exist within the visible world.
     };
-
-
 }
