@@ -27,26 +27,26 @@ class Block {
 
 
         // certain blocks can be passed through by Chad
-        if (needsBB) {
-            this.canPassThru = {
-                top: false,
-                bottom: false,
-                left: false,
-                right: false
-            }
-            switch(this.type) {
-                case Block.BR_LEFT_FULL:
-                case Block.BR_RIGHT_FULL:
-                case Block.BRANCH_LEFT_HALF:
-                case Block.BRANCH_RIGHT_HALF:
-                    this.canPassThru.bottom = true;
-                    this.canPassThru.left = true;
-                    this.canPassThru.right = true;
-                    break;
+        // if (needsBB) {
+        //     this.canPassThru = {
+        //         top: false,
+        //         bottom: false,
+        //         left: false,
+        //         right: false
+        //     }
+        //     switch(this.type) {
+        //         case Block.BR_LEFT_FULL:
+        //         case Block.BR_RIGHT_FULL:
+        //         case Block.BRANCH_LEFT_HALF:
+        //         case Block.BRANCH_RIGHT_HALF:
+        //             this.canPassThru.bottom = true;
+        //             this.canPassThru.left = true;
+        //             this.canPassThru.right = true;
+        //             break;
     
-                // ... other cases
-            }
-        }
+        //         // ... other cases
+        //     }
+        // }
     };
 
     /** Grass. */
@@ -246,11 +246,17 @@ class Block {
         return 48;
     }
     /** Stump for river. */
-    static get STUMP() {
+    static get BARREL() {
         return 49;
     }
-    static get BARREL() {
+    static get STUMP() {
         return 50;
+    }
+    static get LAVA_BOTTOM() {
+        return 51;
+    }
+    static get WATER_BOTTOM() {
+        return 52;
     }
     /** How much bigger should the sprite be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {

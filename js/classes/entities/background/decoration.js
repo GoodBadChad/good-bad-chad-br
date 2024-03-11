@@ -323,14 +323,146 @@ class Decoration {
                     SIZE: new Vector(176, 256),
                     SCALE: 3
                 },
-                DARK: {
-                    SPRITESHEET: "./sprites/dark.png",
+                TORCH_FOREGROUND: {
+                    SPRITESHEET: "./sprites/torch.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 6,
+                    FRAME_DURATION: .4,
+                    SIZE: new Vector(256, 256),
+                    SCALE: 1.5
+                },
+                TORCH_BACKGROUND: {
+                    SPRITESHEET: "./sprites/torch.png",
+                    SPRITESHEET_START_POS: new Vector(96, 352),
+                    FRAME_COUNT: 6,
+                    FRAME_DURATION: .4,
+                    SIZE: new Vector(256, 48),
+                    SCALE: 2.5
+                },
+                TORCH_BACKGROUND_EASTEREGG: {
+                    SPRITESHEET: "./sprites/torch.png",
+                    SPRITESHEET_START_POS: new Vector(96, 272),
+                    FRAME_COUNT: 6,
+                    FRAME_DURATION: .4,
+                    SIZE: new Vector(256, 48),
+                    SCALE: 2.5
+                }
+            },
+            crystals: {
+                CRYSTALS_1: {
+                    SPRITESHEET: "./sprites/groupcrystals1.png",
                     SPRITESHEET_START_POS: new Vector(0, 0),
                     FRAME_COUNT: 1,
                     FRAME_DURATION: 1,
-                    SIZE: new Vector(32, 32),
-                    SCALE: 20
-                }
+                    SIZE: new Vector(256, 256),
+                    SCALE: 6.5
+                },
+                CRYSTALS_2: {
+                    SPRITESHEET: "./sprites/groupcrystals2.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(256, 256),
+                    SCALE: 3
+                },
+                CRYSTALS_3: {
+                    SPRITESHEET: "./sprites/greenspikecrystal1.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 16),
+                    SCALE: 2
+                },
+                CRYSTALS_4: {
+                    SPRITESHEET: "./sprites/purplespikecrystal1.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 16),
+                    SCALE: 2
+                },
+                CRYSTALS_5: {
+                    SPRITESHEET: "./sprites/spikecyrstalblue1.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 16),
+                    SCALE: 3
+                },
+                CRYSTALS_6: {
+                    SPRITESHEET: "./sprites/greenspikecrystal1.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(16, 16),
+                    SCALE: 5
+                },
+                CRYSTALS_7: {
+                    SPRITESHEET: "./sprites/groupcrystals1.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(256, 256),
+                    SCALE: 1
+                },
+                CRYSTALS_8: {
+                    SPRITESHEET: "./sprites/groupcrystals2.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(256, 256),
+                    SCALE: 1
+                },
+                CRYSTALS_9: {
+                    SPRITESHEET: "./sprites/groupcrystals1.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(256, 256),
+                    SCALE: .5
+                },
+                CRYSTALS_10: {
+                    SPRITESHEET: "./sprites/groupcrystals2.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(256, 256),
+                    SCALE: .5
+                },
+                CRYSTALS_11: {
+                    SPRITESHEET: "./sprites/crystal1green.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(256, 256),
+                    SCALE: 1
+                },
+            },
+            towers: {
+                TOWER_1: {
+                    SPRITESHEET: "./sprites/tower1.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(256, 1024),
+                    SCALE: 3.5
+                },
+                TOWER_GROUP_1: {
+                    SPRITESHEET: "./sprites/towergroup1.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(512, 512),
+                    SCALE: 2
+                },
+                TOWER_GROUP_2: {
+                    SPRITESHEET: "./sprites/towergroup2.png",
+                    SPRITESHEET_START_POS: new Vector(0, 0),
+                    FRAME_COUNT: 1,
+                    FRAME_DURATION: 1,
+                    SIZE: new Vector(2048, 2048),
+                    SCALE: 1
+                },
             }
         };
     };

@@ -47,7 +47,7 @@ class DrillBot {
 
     /** The speed of the DrillBot. */
     static get SPEED() {
-        return DrillBot.SCALE * 30;
+        return DrillBot.SCALE * 32;
     }
 
     /** The file path to the DrillBot's spritesheet. */
@@ -114,6 +114,12 @@ class DrillBot {
 
         ASSET_MGR.playSFX(SFX.ROBOT_DEATH1.path, SFX.ROBOT_DEATH1.volume);
         this.statusEffect.removeAll();
+
+        if (STORY.botsKilled) {
+            STORY.botsKilled++;
+        } else {
+            STORY.botsKilled = 1;
+        }
     }
 
     

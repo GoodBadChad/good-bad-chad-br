@@ -47,7 +47,13 @@ class MamaChad {
 
     /** Change what mama Chad is doing and where it is. */
     update() {
-        if (this.action === 'trapped') return;
+        if (this.action === 'trapped') {
+            if (ZONE.name === "Village Main" && STORY.villageAttackEnded) {
+                this.removeFromWorld = true;
+            }
+            return;
+        }
+        
         // Set the velocity, according to gravity.
         this.velocity = {
             x: this.velocity.x,
@@ -62,10 +68,6 @@ class MamaChad {
         };
 
         this.boundingBox = new BoundingBox(this.pos, PapaChad.SCALED_SIZE);
-
-        if (ZONE.name === "Village Main" && STORY.villageAttackEnded) {
-            this.removeFromWorld = true;
-        }
 
         // Step 4: Have we collided with anything?
         GAME.entities.midground.forEach((entity) => {

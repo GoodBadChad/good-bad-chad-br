@@ -18,16 +18,18 @@
     <script type="text/javascript" src="./js/scripts/conversation_loaders/main_conversation_loader.js"></script>
     <script type="text/javascript" src="./js/scripts/conversation_loaders/playground_conversation_loaders.js"></script>
     <script type="text/javascript" src="./js/scripts/conversation_loaders/village_conversation_loader.js"></script>
+    <script type="text/javascript" src="./js/scripts/conversation_loaders/end_conversation_loader.js"></script>
     <!-- Scripts containing Zone-loading functions: -->
-    <script type="text/javascript" src="./js/scripts/zone_loaders/playground_zone_loaders.js"></script>
-    <script type="text/javascript" src="./js/scripts/zone_loaders/village_zone_loaders.js"></script>
-    <script type="text/javascript" src="./js/scripts/zone_loaders/hill_zone_loaders.js"></script>
     <script type="text/javascript" src="./js/scripts/zone_loaders/cave_zone_loaders.js"></script>
-    <script type="text/javascript" src="./js/scripts/zone_loaders/river_zone_loaders.js"></script>
-    <script type="text/javascript" src="./js/scripts/zone_loaders/valley_zone_loaders.js"></script>
+    <script type="text/javascript" src="./js/scripts/zone_loaders/end_zone_loader.js"></script>
+    <script type="text/javascript" src="./js/scripts/zone_loaders/hill_zone_loaders.js"></script>
     <script type="text/javascript" src="./js/scripts/zone_loaders/mountain_zone_loaders.js"></script>
-    <script type="text/javascript" src="./js/scripts/zone_loaders/woods_zone_loaders.js"></script>
+    <script type="text/javascript" src="./js/scripts/zone_loaders/playground_zone_loaders.js"></script>
+    <script type="text/javascript" src="./js/scripts/zone_loaders/river_zone_loaders.js"></script>
     <script type="text/javascript" src="./js/scripts/zone_loaders/tilemap_interpreter.js"></script>
+    <script type="text/javascript" src="./js/scripts/zone_loaders/valley_zone_loaders.js"></script>
+    <script type="text/javascript" src="./js/scripts/zone_loaders/village_zone_loaders.js"></script>
+    <script type="text/javascript" src="./js/scripts/zone_loaders/woods_zone_loaders.js"></script>
 
     <!-- Scripts containing dimension-building methods. -->
     <!-- <script type="text/javascript" src="./js/scripts/dimension/playground_dimension.js"></script>
@@ -37,8 +39,13 @@
     <!-- Tile maps here. -->
     <script type="text/javascript" src="./js/scripts/tile_maps/caleb_zone_playground.js"></script>
     <script type="text/javascript" src="./js/scripts/tile_maps/cave_tilemap.js"></script>
+    <script type="text/javascript" src="./js/scripts/tile_maps/cave_2_zone.js"></script>
+    <script type="text/javascript" src="./js/scripts/tile_maps/end_tilemap.js"></script>
+
     <script type="text/javascript" src="./js/scripts/tile_maps/field_tilemap.js"></script>
     <script type="text/javascript" src="./js/scripts/tile_maps/hill_tilemap.js"></script>
+    <script type="text/javascript" src="./js/scripts/tile_maps/river_tilemap.js"></script>
+
     <script type="text/javascript" src="./js/scripts/tile_maps/village_tilemap.js"></script>
     <script type="text/javascript" src="./js/scripts/tile_maps/woods_tilemap.js"></script>
     <script type="text/javascript" src="./js/scripts/tile_maps/mountain_slope1_tilemap.js"></script>
@@ -65,7 +72,7 @@
     <script type="text/javascript" src="./js/classes/entities/background/village/bird.js"></script>
     <!-- Midground: -->
     <script type="text/javascript" src="./js/classes/entities/midground/block.js"></script>
-    <script type="text/javascript" src="./js/classes/entities/midground/water.js"></script>
+    <script type="text/javascript" src="./js/classes/entities/midground/liquid_block.js"></script>
     <script type="text/javascript" src="./js/classes/entities/midground/border.js"></script>
     <script type="text/javascript" src="./js/classes/entities/midground/chad.js"></script>
     <script type="text/javascript" src="./js/classes/entities/midground/portal.js"></script>
@@ -90,9 +97,10 @@
     <script type="text/javascript" src="./js/classes/entities/midground/enemies/wizard.js"></script>
 
     <!-- NPCs: -->
+    <script type="text/javascript" src="./js/classes/entities/midground/npc/miner.js"></script>
+    <script type="text/javascript" src="./js/classes/entities/midground/npc/lava/mine_boss.js"></script>
     <script type="text/javascript" src="./js/classes/entities/midground/npc/traveling_merchant.js"></script>
 
-    <script type="text/javascript" src="./js/classes/entities/midground/npc/lava/mine_boss.js"></script>
 
     <script type="text/javascript" src="./js/classes/entities/midground/npc/village/blacksmith.js"></script>
     <script type="text/javascript" src="./js/classes/entities/midground/npc/village/mama_chad.js"></script>
@@ -101,7 +109,6 @@
 
     <script type="text/javascript" src="./js/classes/entities/midground/npc/village/papa_chad.js"></script>
     <!-- Weapons: -->
-    <script type="text/javascript" src="./js/classes/entities/midground/weapon/projectile.js"></script>
     <script type="text/javascript" src="./js/classes/entities/midground/weapon/projectile_factory.js"></script>
     <script type="text/javascript" src="./js/classes/entities/midground/weapon/projectile_base.js"></script>
     <script type="text/javascript" src="./js/classes/entities/midground/weapon/rock.js"></script>
@@ -112,6 +119,7 @@
     <script type="text/javascript" src="./js/classes/entities/midground/weapon/sonic_wave.js"></script>
     <script type="text/javascript" src="./js/classes/entities/midground/weapon/laser.js"></script>
     <script type="text/javascript" src="./js/classes/entities/midground/weapon/broccoli.js"></script>
+    <script type="text/javascript" src="./js/classes/entities/midground/weapon/water_balloon.js"></script>
     <script type="text/javascript" src="./js/classes/entities/midground/weapon/slingshot.js"></script>
     <script type="text/javascript" src="./js/classes/entities/midground/weapon/sword.js"></script>
     <!-- Foreground: -->
@@ -122,7 +130,6 @@
     <script type="text/javascript" src="./js/classes/entities/foreground/loading_animation.js"></script>
     <script type="text/javascript" src="./js/classes/entities/foreground/overhead_icon.js"></script>
     <script type="text/javascript" src="./js/classes/entities/foreground/precipitation.js"></script>
-    <script type="text/javascript" src="./js/classes/entities/foreground/rune_item.js"></script>
     <script type="text/javascript" src="./js/classes/entities/foreground/weather_system.js"></script>
 
     <!-- User Interface -->

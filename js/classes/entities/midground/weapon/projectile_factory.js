@@ -6,7 +6,8 @@ class ProjectileFactory {
             [ProjectileFactory.BOMB]: Bomb,
             [ProjectileFactory.SNOWBALL]: Snowball,
             [ProjectileFactory.SUS_SNOWBALL]: SusSnowball,
-            [ProjectileFactory.BROCCOLI]: Broccoli
+            [ProjectileFactory.BROCCOLI]: Broccoli,
+            [ProjectileFactory.WATER_BALLOON]: WaterBalloon
         };
         return new (projectileMap[type])(startPos, targetPos);
     }
@@ -33,5 +34,9 @@ class ProjectileFactory {
 
     static get SUS_SNOWBALL() {
         return "sus_snowball";
+    }
+
+    static get WATER_BALLOON() {
+        return "water_balloon";
     }
 }
