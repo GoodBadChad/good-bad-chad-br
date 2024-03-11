@@ -69,7 +69,7 @@ const loadEndZone = () => {
 
         // create portals
 
-        const portal1Coordinates = new Vector(63, 28);
+        const portal1Coordinates = new Vector(63, 27);
         const portal1 = new Portal(portal1Coordinates, Portal.YELLOW);
         GAME.addEntity(portal1);
         portal1.fillWithEnemies([new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)), 
@@ -80,9 +80,6 @@ const loadEndZone = () => {
                                 new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
                                 new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
                                 new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
-                                new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
-                                new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
-                                new Yeti(Vector.blockToWorldSpace(portal1Coordinates)),
                                 new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
                                 new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
                             ]);
@@ -100,10 +97,12 @@ const loadEndZone = () => {
                                 new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
                                 new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
                                 new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
-                                new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
                             ]);
         
-        
+        GAME.addEntity(new Wizard(Vector.blockToWorldSpace(new Vector(90, 32)), 
+            null));
+
+        STORY.botsKilled = 0;
     };
 
     queueAssets();
