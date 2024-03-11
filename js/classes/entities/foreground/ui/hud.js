@@ -151,7 +151,7 @@ class Hud {
 
 
         this.addComponent("dashCooldown", new DashCooldown(
-            new Vector(Camera.SIZE.x - 700, Camera.SIZE.y - 100)
+            new Vector(Camera.SIZE.x - 600, Camera.SIZE.y - 100)
         ));
 
         // TODO: commented out because storing food is not currently implemented
