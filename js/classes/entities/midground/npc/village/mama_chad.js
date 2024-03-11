@@ -63,6 +63,9 @@ class MamaChad {
 
         this.boundingBox = new BoundingBox(this.pos, PapaChad.SCALED_SIZE);
 
+        if (ZONE.name === "Village Main" && STORY.villageAttackEnded) {
+            this.removeFromWorld = true;
+        }
 
         // Step 4: Have we collided with anything?
         GAME.entities.midground.forEach((entity) => {

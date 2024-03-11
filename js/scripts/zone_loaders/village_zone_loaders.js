@@ -119,10 +119,10 @@ const loadVillageField = () => {
 
 
     }
-    STORY.huntingInvite = true;
-    if (STORY.huntingInvite) {
+    
+    if (STORY.invitedHunting) {
         GAME.addEntity(new PapaChad(
-            new Vector(ZONE.MAX_PT.x - 2 * PapaChad.SCALED_SIZE.x, ZONE.MAX_PT.y - 30 * Block.SCALED_SIZE),
+            new Vector(ZONE.MAX_PT.x - 2 * PapaChad.SCALED_SIZE.x, ZONE.MAX_PT.y - 12 * Block.SCALED_SIZE),
             new Conversation(getAllConversationArrays().village.papaChad.huntingInstruction)
         ));
     }
@@ -280,6 +280,7 @@ const loadVillageMain = () => {
         ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
         ASSET_MGR.queueDownload('./sprites/mama_chad_trapped.png');
         ASSET_MGR.queueDownload(Wizard.SPRITESHEET);
+        ASSET_MGR.queueDownload(Slime.SPRITESHEET);
     };
 
     const addEntities = () => {
@@ -357,44 +358,60 @@ const loadVillageMain = () => {
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(84, aboveGroundLevel))), 1);
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(87, aboveGroundLevel))));
 
-        // NPCs
-        const blockPosPapa = new Vector(33, chadOnGround);
-        const blockPosBlackSmith = new Vector(17, chadOnGround);
-        const blockPosMayor = new Vector(50, chadOnGround);
-        const blockPosMama = new Vector(65, chadOnGround + 1);
-        const blockPosWizard = new Vector(63, chadOnGround);
-        const blockPosIdleMama = new Vector(37, chadOnGround);
+        /*
+        The above content was all static. Below, there are conditional spawns/settings based on story progression.
+        Namely, we need to script the village attack when the tutorial (snake/bunny hunt) is complete.
+        */
 
-        const idleMama = new MamaChad(Vector.blockToWorldSpace(blockPosIdleMama), false, new Conversation(getAllConversationArrays().village.mamaChad.goodMorning));
-        idleMama.action = "idle";
+        if (!STORY.tutorialComplete) {
+            // NPCs
+            const blockPosPapa = new Vector(33, chadOnGround);
+            const blockPosBlackSmith = new Vector(17, chadOnGround);
+            const blockPosMayor = new Vector(50, chadOnGround);
+            const blockPosIdleMama = new Vector(37, chadOnGround);
 
-        GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), new Conversation(getAllConversationArrays().village.papaChad.huntingInvite)), 0);
-        GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().village.blacksmith.merchant)), 0);
-        GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().village.mayor.hopefulGreeting)), 0);
-        // TODO add these in after you get back from the field.
-        // GAME.addEntity(new MamaChad(Vector.blockToWorldSpace(blockPosMama)));
-        // GAME.addEntity(new Wizard(Vector.blockToWorldSpace(blockPosWizard)));
-        GAME.addEntity(idleMama);
+            const idleMama = new MamaChad(Vector.blockToWorldSpace(blockPosIdleMama), false, new Conversation(getAllConversationArrays().village.mamaChad.goodMorning));
+            idleMama.action = "idle";
 
-        let weather = "warm";
-        let surfaceSnow = false;
-        if (weather === "snow") {
-            surfaceSnow = true
+            GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), new Conversation(getAllConversationArrays().village.papaChad.huntingInvite)), 0);
+            GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().village.blacksmith.merchant)), 0);
+            GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().village.mayor.hopefulGreeting)), 0);
+            GAME.addEntity(idleMama);
+
+            let weather = "warm";
+            WeatherSystem.setWeather(weather, 5, "day");
+        } else {
+            const blockPosTrappedMama = new Vector(65, chadOnGround + 1);
+            const blockPosWizard = new Vector(63, chadOnGround);
+            GAME.addEntity(new MamaChad(Vector.blockToWorldSpace(blockPosTrappedMama)));
+            GAME.addEntity(new Wizard(Vector.blockToWorldSpace(blockPosWizard)));
+            if (STORY.tutorialComplete && !STORY.villageAttackEnded) {
+                for (let i = 0; i < 10; i++) {
+                    // I want the slimes to appear between blockx 10 and 60.
+                    const blockx = Math.floor(Math.random() * 50) + 10;
+                    const blockPosSlime = new Vector(blockx, chadOnGround);
+                    GAME.addEntity(new Slime(new Vector(Vector.blockToWorldSpace(blockPosSlime)), Slime.SAP));
+                }
+            }
+            let weather = "rain";
+            WeatherSystem.setWeather(weather, 2, "day");
         }
+        let surfaceSnow = false;
         TilemapInterpreter.setTilemap(villageMainTileMap, surfaceSnow);
-        WeatherSystem.setWeather(weather, 5, "day");
 
+
+        // Now, we've placed everything else - it's time to place CHAD!
         if (LAST_ZONE === null) { // We've just started the game.
             // Spawn in middle.
             const blockPos = new Vector(70, chadOnGround);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
             // console.log(CHAD.pos);
 
-        } else if (LAST_ZONE.equals(Zone.getZones().village.field)) { // Coming from field.
+        } else if (LAST_ZONE.name = "Village Field") { // Coming from field.
             // Set spawn point on the right.
             const blockPos = new Vector(ZONE.MIN_PT.x, chadOnGround + 5);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
-        } else if (LAST_ZONE.equals(Zone.getZones().village.hillDownFromMain)) { // Coming from outside cave.
+        } else if (LAST_ZONE.name = "Hill Down From Main") { // Coming from outside cave.
             // spawn on left.
             const blockPos = new Vector(98, 16);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);

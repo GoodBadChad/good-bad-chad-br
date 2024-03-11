@@ -229,6 +229,10 @@ class DialogBubble {
             PAPA_CHAD: new Animator(PapaChad.SPRITESHEET,
                 new Vector(0, 0),
                 new Vector(PapaChad.SIZE.x, 17),
+                1, 1),
+            WIZARD: new Animator(Wizard.SPRITESHEET,
+                new Vector(11, 0),
+                new Vector(23, 35),
                 1, 1)
         };
     };

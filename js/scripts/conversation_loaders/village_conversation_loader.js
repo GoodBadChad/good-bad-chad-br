@@ -3,7 +3,8 @@ const villageConversationLoader = () => {
         papaChad: papaChadConversationLoader(),
         mayor: mayorConversationLoader(), 
         blacksmith: blacksmithConversationLoader(),
-        mamaChad: mamaChadConversationLoader()
+        mamaChad: mamaChadConversationLoader(),
+        wizard: wizardConversationLoader()
     };
 };
 
@@ -68,7 +69,15 @@ const papaChadConversationLoader = () => {
         ],
         endOfHunt: [
             new DialogBubble(papa,
-                "Fantastic work son! Now, run these back over to Mama Chad so she can whip us up some nourishing MEAT!")
+                "Fantastic work son! Now, run these back over to Mama Chad so she can whip us up some nourishing MEAT!"),
+            new DialogBubble(papa,
+                "I'm gonna stick around here, look for some pretty flowers for Mama, she always loves those."),
+            new DialogBubble(chad,
+                "Get her the rainbow ones, those are her favorite!",
+                true,
+                () => {
+                    STORY.tutorialComplete = true;
+                })
         ]
     };
 };
@@ -218,3 +227,24 @@ const mamaChadConversationLoader = () => {
         ]
     };
 };
+
+const wizardConversationLoader = () => {
+    const wiz = DialogBubble.SPEAKERS.WIZARD;
+    const chad = DialogBubble.SPEAKERS.CHAD;
+    return {
+        threateningIntroduction: [
+            new DialogBubble(wiz, 
+                "Stop right there, boy!"),
+            new DialogBubble(wiz,
+                "You've gotten lucky facing my army of slime. Do not spoil your luck now by trying anything stupid."),
+            new DialogBubble(chad,
+                "What have you done to my Mama?! I'll make you pay for this you sombie looking freak!"),
+            new DialogBubble(wiz,
+                "Well, child, you're gonna have to try a lot harder than that! We're out of here!",
+                true,
+                () => {
+                    STORY.villageAttackEnded = true;
+                })
+        ]
+    }
+}
