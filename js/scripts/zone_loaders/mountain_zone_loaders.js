@@ -10,6 +10,8 @@ const loadMountainSlope1 = () => {
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET);
 
         ASSET_MGR.queueDownload(Precipitation.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(MUSIC.MOUNTAIN_MYSTERIOUS.path);
     };
 
     const addEntities = () => {
@@ -68,8 +70,13 @@ const loadMountainSlope1 = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
-
+        // add 8 snowball ammodrops
+        GAME.addEntity(new AmmoDrop(Vector.blockToWorldSpace(new Vector(46, 75)), AmmoDrop.SNOWBALL, 8));       
     };
+
+    setTimeout(() => {
+        ASSET_MGR.playMusic(MUSIC.MOUNTAIN_MYSTERIOUS.path, MUSIC.MOUNTAIN_MYSTERIOUS.volume);
+    }, 500);
 
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);
@@ -87,6 +94,8 @@ const loadMountainSlope2 = () => {
 
         ASSET_MGR.queueDownload(Slime.SPRITESHEET);
         ASSET_MGR.queueDownload(Yeti.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(MUSIC.MOUNTAIN_MYSTERIOUS.path);
     };
 
     const addEntities = () => {
@@ -150,6 +159,10 @@ const loadMountainSlope2 = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
     };
+
+    setTimeout(() => {
+        ASSET_MGR.playMusic(MUSIC.MOUNTAIN_MYSTERIOUS.path, MUSIC.MOUNTAIN_MYSTERIOUS.volume);
+    }, 500);
 
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);

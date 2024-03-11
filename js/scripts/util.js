@@ -45,9 +45,11 @@ const COLORS = {
     DARK_GREEN: "#006400",
     IVY_GREEN: "#789d5e",
     BLUE: "#0000ff",
+    WATER_BLUE: "#57b2ec",
     YELLOW: "#ffff00",
     GOLD: "#ffd700",
     PURPLE: "#800080",
+    LIGHT_PURPLE: "#b582db",
     ORANGE: "#ffa500",
     PINK: "#ffc0cb",
     BROWN: "#8b4513",
@@ -88,40 +90,43 @@ const SFX = {
 
 
     // Player
-    JUMP1: { path: "./sfx/jump1.mp3", volume: 0.2 },
-    JUMP2: { path: "./sfx/jump2.mp3", volume: 0.2 },
-    LAND: { path: "./sfx/land.mp3", volume: 0.2 },
-    SLINGSHOT_LAUNCH1: { path: "./sfx/launch1.mp3", volume: 0.5 },
-    SLINGSHOT_LAUNCH2: { path: "./sfx/launch2.mp3", volume: 0.6 },
-    SLINGSHOT_LAUNCH3: { path: "./sfx/launch3.mp3", volume: 0.5 },
-    SLINGSHOT_LAUNCH4: { path: "./sfx/launch4.mp3", volume: 0.5 },
-    SLINGSHOT_STRETCH: { path: "./sfx/slingshot_stretch.mp3", volume: 0.4 },
-    SWORD_SWING1: { path: "./sfx/sword_swing1.mp3", volume: 0.2 },
-    SWORD_SWING2: { path: "./sfx/sword_swing2.mp3", volume: 0.2 },
-    SWORD_SWING3: { path: "./sfx/sword_swing3.mp3", volume: 0.2 },
-    SWORD_SWING4: { path: "./sfx/sword_swing4.mp3", volume: 0.2 },
-    SWORD_SWING5: { path: "./sfx/sword_swing5.mp3", volume: 0.2 },
-    SWORD_SWING6: { path: "./sfx/sword_swing6.mp3", volume: 0.2 },
-    SWORD_SWING7: { path: "./sfx/sword_swing7.mp3", volume: 0.2 },
-    SWORD_SWING8: { path: "./sfx/sword_swing8.mp3", volume: 0.2 },
-    SWORD_SWING9: { path: "./sfx/sword_swing9.mp3", volume: 0.2 },
-    SWORD_SWING10: { path: "./sfx/sword_swing10.mp3", volume: 0.2 },
-    SWORD_HIT1: { path: "./sfx/sword_hit1.mp3", volume: 0.1 },
-    SWORD_HIT2: { path: "./sfx/sword_hit2.mp3", volume: 0.1 },
-    SWORD_HIT3: { path: "./sfx/sword_hit3.mp3", volume: 0.1 },
-    SWOOSH: { path: "./sfx/swoosh.mp3", volume: 0.4 },
-    EXPLOSION_SMALL: { path: "./sfx/explosion_small.mp3", volume: 0.4 },
-    ITEM_EQUIP: { path: "./sfx/item_equip.mp3", volume: 0.4 },
-    ITEM_COLLECT1: { path: "./sfx/item_collect1.mp3", volume: 0.4 },
-    ITEM_COLLECT2: { path: "./sfx/item_collect2.mp3", volume: 0.4 },
-    ITEM_COLLECT3: { path: "./sfx/item_collect3.mp3", volume: 0.4 },
-    FOOD_EAT1: { path: "./sfx/food_eat1.mp3", volume: 0.4 },
-    FOOD_EAT2: { path: "./sfx/food_eat2.mp3", volume: 0.4 },
-    FOOD_EAT3: { path: "./sfx/food_eat3.mp3", volume: 0.4 },
-    FOOD_EAT4: { path: "./sfx/food_eat4.mp3", volume: 0.4 },
-    AMMO_COLLECT: { path: "./sfx/ammo_collect.mp3", volume: 0.4 },
-    MEGA_MUSHROOM: { path: "./sfx/mega_mushroom.mp3", volume: 0.4 },
+    JUMP1: {path: "./sfx/jump2 caleb.mp3", volume: 0.2},
+    JUMP2: {path: "./sfx/jump1 caleb.mp3", volume: 0.2},
+    LAND: {path: "./sfx/land.mp3", volume: 0.2},
+    SLINGSHOT_LAUNCH1: {path: "./sfx/launch1.mp3", volume: 0.5},
+    SLINGSHOT_LAUNCH2: {path: "./sfx/launch2.mp3", volume: 0.6},
+    SLINGSHOT_LAUNCH3: {path: "./sfx/launch3.mp3", volume: 0.5},
+    SLINGSHOT_LAUNCH4: {path: "./sfx/launch4.mp3", volume: 0.5},
+    SLINGSHOT_STRETCH: {path: "./sfx/slingshot_stretch.mp3", volume: 0.4},
+    SWORD_SWING1: {path: "./sfx/sword_swing1.mp3", volume: 0.2},
+    SWORD_SWING2: {path: "./sfx/sword_swing2.mp3", volume: 0.2},
+    SWORD_SWING3: {path: "./sfx/sword_swing3.mp3", volume: 0.2},
+    SWORD_SWING4: {path: "./sfx/sword_swing4.mp3", volume: 0.2},
+    SWORD_SWING5: {path: "./sfx/sword_swing5.mp3", volume: 0.2},
+    SWORD_SWING6: {path: "./sfx/sword_swing6.mp3", volume: 0.2},
+    SWORD_SWING7: {path: "./sfx/sword_swing7.mp3", volume: 0.2},
+    SWORD_SWING8: {path: "./sfx/sword_swing8.mp3", volume: 0.2},
+    SWORD_SWING9: {path: "./sfx/sword_swing9.mp3", volume: 0.2},
+    SWORD_SWING10: {path: "./sfx/sword_swing10.mp3", volume: 0.2},
+    SWORD_HIT1: {path: "./sfx/sword_hit1.mp3", volume:0.1},
+    SWORD_HIT2: {path: "./sfx/sword_hit2.mp3", volume:0.1},
+    SWORD_HIT3: {path: "./sfx/sword_hit3.mp3", volume:0.1},
+    SWOOSH: {path: "./sfx/swoosh.mp3", volume: 0.4},
+    EXPLOSION_SMALL: {path: "./sfx/explosion_small.mp3", volume: 0.4},
+    ITEM_EQUIP: {path: "./sfx/item_equip.mp3", volume: 0.4},
+    ITEM_COLLECT1: {path: "./sfx/item_collect1.mp3", volume: 0.4},
+    ITEM_COLLECT2: {path: "./sfx/item_collect2.mp3", volume: 0.4},
+    ITEM_COLLECT3: {path: "./sfx/item_collect3.mp3", volume: 0.4},
+    FOOD_EAT1: {path: "./sfx/food_eat1.mp3", volume: 0.4},
+    FOOD_EAT2: {path: "./sfx/food_eat2.mp3", volume: 0.4},
+    FOOD_EAT3: {path: "./sfx/food_eat3.mp3", volume: 0.4},
+    FOOD_EAT4: {path: "./sfx/food_eat4.mp3", volume: 0.4},
+    AMMO_COLLECT: {path: "./sfx/ammo_collect.mp3", volume: 0.4},
+    COIN_COLLECT: {path: "./sfx/rune_collect.mp3", volume: 0.4},
+    MEGA_MUSHROOM: {path: "./sfx/mega_mushroom.mp3", volume: 0.4},
+    WATER_BALLOON: {path: "./sfx/water_balloon.wav", volume: 0.4},
 
+    
     // UI
     UI_HIGH_BEEP: { path: "./sfx/ui_high_beep.mp3", volume: 0.4 },
     UI_SCIFI: { path: "./sfx/ui_scifi.mp3", volume: 0.4 },
@@ -162,8 +167,8 @@ const MUSIC = {
     PEACEFUL_CHIPTUNE: { path: "./music/peaceful_chiptune.mp3", volume: 0.1 }, // testing music
     HIGH_ENERGY: { path: "./music/high_energy_sample.wav", volume: 0.1 },
     VICTORY: { path: "./music/victory_sample.wav", volume: 0.1 },
-    UPBEAT_CHIPTUNE_1: { path: "./music/upbeat_chiptune_1_sample.wav", volume: 0.1 },
-    UPBEAT_CHIPTUNE_2: { path: "./music/upbeat_chiptune_2_sample.wav", volume: 0.1 },
+    UPBEAT_CHIPTUNE_1: { path: "./music/upbeat_chiptune_1.mp3", volume: 0.1 },
+    UPBEAT_CHIPTUNE_2: { path: "./music/upbeat_chiptune_2.mp3", volume: 0.1 },
 
     // Chad's themes
     CHAD_PLAYFUL_ADVENTURE: { path: "./music/chad_playful_adventure.mp3", volume: 0.1 },
@@ -388,7 +393,7 @@ const EVENT_HANDLERS = {
             case "Digit4":
             case "Digit5":
             case "Digit6":
-                // case "Digit7":
+            case "Digit7":
                 // case "Digit8":
                 // case "Digit9":
                 const index = key.code.slice(-1) - 1;

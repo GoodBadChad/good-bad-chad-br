@@ -12,7 +12,7 @@ class FoodDrop {
      * @param {Vector} pos The position at which the FoodDrop should start.
      * @param {number} type The type of FoodDrop that should be generated. FoodDrop.BACON, .BURGER, .ENERGY_DRINK, .STEAK, .HAM, or .CHICKEN. 
      */
-    constructor(pos, type, hasGravity = true) {
+    constructor(pos, type, hasGravity = true, popInAir = false) {
         if (typeof type !== "number" || type % 1 !== 0 || type < 0) {
             throw new Error("Invalid FoodDrop type: please use a FoodDrop member type (e.g. FoodDrop.STEAK).");
         }
@@ -21,6 +21,10 @@ class FoodDrop {
         this.pos = pos;
         this.hasGravity = hasGravity;
         this.yVelocity = 0;
+        if (popInAir) {
+            // give the drop a little pop in the air when it spawns
+            this.yVelocity = -200;
+        }
         this.scale = FoodDrop.NORMAL_FOOD_SCALE;
         if (this.type == FoodDrop.BACON) {
             this.scale = FoodDrop.SPECIAL_FOOD_SCALE;

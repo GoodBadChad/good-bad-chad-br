@@ -37,6 +37,8 @@ const loadVillageField = () => {
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_2.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_3.SPRITESHEET);
 
+        ASSET_MGR.queueDownload(MUSIC.UPBEAT_CHIPTUNE_2.path);
+
         // NPCs
         ASSET_MGR.queueDownload(Bird.SPRITESHEET);
         ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
@@ -161,6 +163,10 @@ const loadVillageField = () => {
     BG_COLOR = COLORS.SKY_BLUE;
     GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), -1);
 
+    setTimeout(() => {
+        ASSET_MGR.playMusic(MUSIC.UPBEAT_CHIPTUNE_2.path, MUSIC.UPBEAT_CHIPTUNE_2.volume);  
+    }, 500);
+
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);
 };
@@ -193,6 +199,11 @@ const loadVillageMain = () => {
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_2.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_3.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET);
+
+
+        ASSET_MGR.queueDownload(MUSIC.PEACEFUL_CHIPTUNE.path);
+
+
         // NPCs
         ASSET_MGR.queueDownload(BlackSmith.SPRITESHEET);
         ASSET_MGR.queueDownload(Mayor.SPRITESHEET);
@@ -317,6 +328,23 @@ const loadVillageMain = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
+        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(64, aboveGroundLevel - 2)), RuneDrop.GREEN, 1, false));
+
+
+
+        // draw portal
+
+        // const portal = new Portal(new Vector(6, 13.5), Portal.YELLOW);
+        // GAME.addEntity(portal);
+        // portal.fillWithEnemies([new DrillBot(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5))), 
+        //                         new Yeti(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5))),
+        //                         new Yeti(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5)))]);
+
+
+
+
+        // ASSET_MGR.playMusic(MUSIC.VILLAGE_SIMPLE_LIFE.path, MUSIC.VILLAGE_SIMPLE_LIFE.volume);
+        ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
 
         LoadingAnimation.stop();
     };
@@ -372,6 +400,8 @@ const loadHillDownFromMain = () => {
         ASSET_MGR.queueDownload(BlackSmith.SPRITESHEET);
         ASSET_MGR.queueDownload(Mayor.SPRITESHEET);
         ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(MUSIC.CHAD_PLAYFUL_ADVENTURE.path);
     };
 
     const addEntities = () => {
@@ -506,6 +536,10 @@ const loadHillDownFromMain = () => {
 
     };
 
+    setTimeout(() => {
+        ASSET_MGR.playMusic(MUSIC.CHAD_PLAYFUL_ADVENTURE.path, MUSIC.CHAD_PLAYFUL_ADVENTURE.volume);
+    }, 500);
+
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);
 };
@@ -547,6 +581,8 @@ const loadWoods = () => {
         ASSET_MGR.queueDownload(BlackSmith.SPRITESHEET);
         ASSET_MGR.queueDownload(Mayor.SPRITESHEET);
         ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(MUSIC.UPBEAT_CHIPTUNE_1.path);
     };
 
     const addEntities = () => {
@@ -613,7 +649,9 @@ const loadWoods = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
-
+        setTimeout(() => {
+            ASSET_MGR.playMusic(MUSIC.UPBEAT_CHIPTUNE_1.path, MUSIC.UPBEAT_CHIPTUNE_1.volume);
+        }, 500);
     };
 
     queueAssets();
