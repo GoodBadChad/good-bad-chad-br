@@ -30,20 +30,21 @@ const loadRiver = () => {
         // NPCs
         ASSET_MGR.queueDownload(Bird.SPRITESHEET);
 
+        ASSET_MGR.queueDownload(MUSIC.PEACEFUL_CHIPTUNE.path);
     };
 
     const addEntities = () => {
         // Add a border to the right side of the map
-        GAME.addEntity(new Border(
-            new Vector(ZONE.MIN_PT.x, 0),
-            new Vector(1, ZONE.PIXEL_SIZE.y),
-            Zone.getZones().village.woods
-        ));
-        GAME.addEntity(new Border(
-            new Vector(ZONE.MAX_PT.x, 0),
-            new Vector(1, ZONE.PIXEL_SIZE.y),
-            Zone.getZones().mountain.slope1
-        ));
+        // GAME.addEntity(new Border(
+        //     new Vector(ZONE.MIN_PT.x, 0),
+        //     new Vector(1, ZONE.PIXEL_SIZE.y),
+        //     Zone.getZones().village.woods
+        // ));
+        // GAME.addEntity(new Border(
+        //     Vector.blockToWorldSpace(new Vector(65, 0)),
+        //     new Vector(1, ZONE.PIXEL_SIZE.y),
+        //     Zone.getZones().mountain.slope1
+        // ));
 
         // spread water in a line
         for (let i = 4; i < 54; i++) {
@@ -84,6 +85,10 @@ const loadRiver = () => {
         20,
         false
     ));
+
+    setTimeout(() => {
+        ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+    }, 500);
     
 
     // Set background color:

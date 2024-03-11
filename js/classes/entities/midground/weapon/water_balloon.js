@@ -58,7 +58,7 @@ class WaterBalloon {
     }
 
     static get DAMAGE() {
-        return 20;
+        return 10;
     }
 
     static get ALIVE_TIME_AFTER_HIT() {
@@ -85,6 +85,14 @@ class WaterBalloon {
         const center = Vector.add(this.pos, Vector.divide(WaterBalloon.SCALED_SIZE, 2));
         GAME.addEntity(new ParticleEffect(center, ParticleEffect.WATER_EXPLOSION));
         ASSET_MGR.playSFX(SFX.WATER_BALLOON.path, SFX.WATER_BALLOON.volume);
+
+        const nearbyEntities = getNearbyEntities(this.pos, 120);
+        for (const entity of nearbyEntities) {
+            if (entity.takeDamage) {
+                entity.takeDamage(WaterBalloon.DAMAGE);
+            }
+        }
+
         this.action = "exploding";
         this.speed = 0;
         this.hasHit = true;
