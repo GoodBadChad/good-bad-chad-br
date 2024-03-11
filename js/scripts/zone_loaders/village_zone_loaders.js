@@ -595,7 +595,8 @@ const loadWoods = () => {
         GAME.addEntity(new Border(
             new Vector(ZONE.MAX_PT.x, 0), // start at the far right side of the Zone, and at the top
             new Vector(1, ZONE.PIXEL_SIZE.y), // only one pixel wide, but as tall as the entire Zone.
-            Zone.getZones().river.river1
+            // Zone.getZones().river.river1
+            Zone.getZones().mountain.slope1
         ));
         TilemapInterpreter.setTilemap(woodsTilemap);
         GAME.addEntity(new Bunny(Vector.blockToWorldSpace(new Vector(10, 18))));

@@ -19,13 +19,15 @@ const loadMountainSlope1 = () => {
         GAME.addEntity(new Border(
             new Vector(ZONE.MIN_PT.x, 0),
             new Vector(1, ZONE.PIXEL_SIZE.y),
-            Zone.getZones().river.river1
+            // Zone.getZones().river.river1
+            Zone.getZones().village.woods
         ));
         GAME.addEntity(new Border(
             new Vector(0, 0),
             new Vector(ZONE.PIXEL_SIZE.x, 1),
             Zone.getZones().mountain.slope2
         ));
+        const groundLevel = 92;
 
         TilemapInterpreter.setTilemap(mountainSlope1TileMap, false);
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(0, groundLevel))), 1);
@@ -41,7 +43,6 @@ const loadMountainSlope1 = () => {
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_2, Vector.blockToWorldSpace(new Vector(28, groundLevel))), 1);
         WeatherSystem.setWeather("snow", 1, "day");
 
-        const groundLevel = 92;
 
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_5, Vector.blockToWorldSpace(new Vector(-15, groundLevel))), -1);
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(5, groundLevel - 1))), -1);

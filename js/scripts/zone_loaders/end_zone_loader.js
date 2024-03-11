@@ -66,6 +66,43 @@ const loadEndZone = () => {
             const blockPos = new Vector(ZONE.MIN_BLOCK.x, 26);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
+
+        // create portals
+
+        const portal1Coordinates = new Vector(63, 27);
+        const portal1 = new Portal(portal1Coordinates, Portal.YELLOW);
+        GAME.addEntity(portal1);
+        portal1.fillWithEnemies([new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)), 
+                                new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
+                                new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
+                                new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
+                                new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
+                                new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
+                                new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
+                                new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
+                                new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
+                                new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
+                            ]);
+
+        const portal2Coordinates = new Vector(70, 23);
+        const portal2 = new Portal(portal2Coordinates, Portal.YELLOW);
+        GAME.addEntity(portal2);
+        portal2.fillWithEnemies([new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)), 
+                                new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
+                                new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
+                                new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
+                                new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
+                                new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
+                                new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
+                                new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
+                                new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
+                                new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
+                            ]);
+        
+        GAME.addEntity(new Wizard(Vector.blockToWorldSpace(new Vector(90, 32)), 
+            null));
+
+        STORY.botsKilled = 0;
     };
 
     queueAssets();

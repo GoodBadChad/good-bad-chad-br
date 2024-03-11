@@ -114,6 +114,12 @@ class DrillBot {
 
         ASSET_MGR.playSFX(SFX.ROBOT_DEATH1.path, SFX.ROBOT_DEATH1.volume);
         this.statusEffect.removeAll();
+
+        if (STORY.botsKilled) {
+            STORY.botsKilled++;
+        } else {
+            STORY.botsKilled = 1;
+        }
     }
 
     

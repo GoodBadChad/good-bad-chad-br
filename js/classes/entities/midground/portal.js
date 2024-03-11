@@ -33,7 +33,7 @@ class Portal {
 
         this.activationTimer = Portal.ACTIVATION_DELAY;
         this.particleTimer = 0;
-        this.spawnTimer = Portal.SPAWN_DELAY;
+        this.spawnTimer = 1;
         this.center = Vector.add(this.pos, new Vector(Portal.SCALED_SIZE.x / 2, Portal.SCALED_SIZE.y / 2));
     };
 
@@ -148,11 +148,11 @@ class Portal {
      * NOTE: consider only spawning new enemies when the previous ones are dead.
      */
     static get SPAWN_DELAY() {
-        return 8;
+        return 10;
     }
 
     static get SPAWN_GROUP_SIZE() {
-        return 3;
+        return 1;
     }
 
     static get SPRITESHEET() {
