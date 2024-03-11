@@ -14,6 +14,7 @@ class Sword {
     constructor() {
         this.hasHit = false;
         this.lastAttack = 0;
+        this.damage = Sword.LEVEL_1_DAMAGE;
     };
 
     /** The size of the Sword in the game world before scaling. */
@@ -28,15 +29,25 @@ class Sword {
         return "./sprites/swords.png";
     };
 
-    /** The amount of damage the Sword deals during an attack. */
-    static get DAMAGE() {
-        return 5;
-    }
-
     /** The duration of an attack, in seconds. */
     static get DURATION() {
         return 2 / 5;
     }
+
+    /** The amount of damage the Sword deals during an attack. */
+    static get LEVEL_1_DAMAGE() {
+        return 3;
+    };
+
+    /** The amount of damage the Sword deals during an attack. */
+    static get LEVEL_2_DAMAGE() {
+        return 5;
+    };
+
+    /** The amount of damage the Sword deals during an attack. */
+    static get LEVEL_3_DAMAGE() {
+        return 7;
+    };
 
     /** 
      * Whether or not an attack is ongoing. 
@@ -99,7 +110,7 @@ class Sword {
             GAME.entities.midground.forEach((entity) => {
                 if (this != entity && entity.boundingBox && entity.takeDamage) {
                     if (bb.collide(entity.boundingBox)) {
-                        entity.takeDamage(Sword.DAMAGE * CHAD.damageMultiplier);
+                        entity.takeDamage(this.damage * CHAD.damageMultiplier);
                         this.hasHit = true;
                         
                         // choose from 3 different hit sounds
@@ -120,4 +131,5 @@ class Sword {
             CTX.strokeRect(basePos.x, basePos.y, this.calculateSize().x, this.calculateSize().y)
         }
     };
+
 };

@@ -112,7 +112,7 @@ class Chad {
 
     /** The delay between dashes in seconds. */
     static get DASH_COOLDOWN() {
-        return 1;
+        return 1.5;
     }
 
     /** The maximum amount of health Chad can have. */
@@ -543,12 +543,12 @@ class Chad {
                         if (isOverlapY) {
                             if (this.lastBoundingBox.right <= entity.boundingBox.left
                                 && this.boundingBox.right > entity.boundingBox.left
-                                && !entity.canPassThru.left) {
+                                ) { //&& !entity.canPassThru.left
                                 // We are colliding with the left side.
                                 this.pos = new Vector(entity.boundingBox.left - this.scaledSize.x - bbOffset.x, this.pos.y);
                             } else if (this.lastBoundingBox.left >= entity.boundingBox.right
                                 && this.boundingBox.left < entity.boundingBox.right
-                                && !entity.canPassThru.right) {
+                                ) { //&& !entity.canPassThru.right
                                 // We are colliding with the right side.
                                 this.pos = new Vector(entity.boundingBox.right - bbOffset.x, this.pos.y);
                             }
@@ -563,7 +563,7 @@ class Chad {
                         if (isOverlapX) {
                             if (this.lastBoundingBox.bottom <= entity.boundingBox.top
                                 && this.boundingBox.bottom > entity.boundingBox.top
-                                && !entity.canPassThru.top) {
+                                ) { //&& !entity.canPassThru.top
                                 // We are colliding with the top.
                                 this.pos = new Vector(this.pos.x, entity.boundingBox.top - this.scaledSize.y - bbOffset.y);
                                 this.velocity = new Vector(this.velocity.x, 0);
@@ -571,7 +571,7 @@ class Chad {
                                 this.prevYPosOnGround = this.pos.y;
                             } else if (this.lastBoundingBox.top >= entity.boundingBox.bottom
                                 && this.boundingBox.top < entity.boundingBox.bottom
-                                && !entity.canPassThru.bottom) {
+                                ) { //&& !entity.canPassThru.bottom
                                 // We are colliding with the bottom.
                                 this.pos = new Vector(this.pos.x, entity.boundingBox.bottom - bbOffset.y);
                             }
@@ -595,7 +595,7 @@ class Chad {
                             this.statusEffect.didSomeStomping();
                         }
                     }
-                }
+                } 
                 // There's no collision - don't do anything!
             }
             // There's no bounding box, so who gives a shrek?
@@ -603,6 +603,13 @@ class Chad {
 
         // Step 5: Now that your position is actually figured out, draw your correct bounding box.
         this.boundingBox = this.createBoundingBox();
+
+        // Step 6: Check for any zone-specific conditions
+        if (ZONE.name === "River Start") {
+            if (this.pos.y > Vector.blockToWorldSpace(new Vector(0, 28)).y) {
+                this.takeDamage(Chad.MAX_HEALTH);
+            }
+        }
     };
 
     /** Draw Chad on the canvas. */

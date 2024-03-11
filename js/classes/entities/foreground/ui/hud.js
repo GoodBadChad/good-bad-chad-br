@@ -100,7 +100,7 @@ class Hud {
         ));
         this.addComponent("runeCounter", new ItemCounter(
             new Vector(CHAD.scaledSize.x + 20, (healthBarYPos - ItemCounter.HEIGHT) / 2),
-            new Animator("./sprites/runes.png", new Vector(0, 32), new Vector(32, 32), 1, 1),
+            new Animator(RuneDrop.SPRITESHEET, new Vector(0, 0), RuneDrop.SIZE, 1, 1),
             INVENTORY.runes
         ));
 
@@ -143,6 +143,12 @@ class Hud {
             AmmoItem.BROCCOLI,
             "6"
         ));
+        this.addComponent("ammoWaterBalloonLabel", new AmmoLabel(
+            new Vector(hotbarXStart + 6 * (hotbarItemWidth + 4), hotbarY),
+            AmmoItem.WATER_BALLOON,
+            "7"
+        ));
+
 
         this.addComponent("dashCooldown", new DashCooldown(
             new Vector(Camera.SIZE.x - 700, Camera.SIZE.y - 100)
@@ -213,7 +219,6 @@ class ItemCounter {
 
     /** Update the ItemCounter. Does nothing. */
     update() {
-
     }
 
     /** Draw the ItemCounter. */
@@ -221,12 +226,12 @@ class ItemCounter {
         // draw the item image
         const animScale = ItemCounter.HEIGHT / this.animation.size.y;
         this.animation.drawFrame(this.pos, animScale);
+        const animScaledSize = Vector.multiply(this.animation.size, animScale);
 
         // draw the count
         CTX.fillStyle = "white";
         CTX.font = ItemCounter.TEXT_SIZE + "px vt323";
-        CTX.fillText(this.count, this.pos.x + this.animation.size.x * animScale + ItemCounter.TEXT_LEFT_MARGIN,
-            this.pos.y + ItemCounter.HEIGHT - (ItemCounter.HEIGHT - CTX.measureText(this.count).emHeightAscent) / 2);
+        CTX.fillText(this.count, this.pos.x + animScaledSize.x + 2, this.pos.y + ItemCounter.HEIGHT - 5);
     }
 }
 

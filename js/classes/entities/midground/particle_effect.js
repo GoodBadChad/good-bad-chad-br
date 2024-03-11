@@ -362,6 +362,18 @@ class ParticleEffect {
         };
     }
 
+    static get WATER_EXPLOSION() {
+        return {
+            spread: 80,
+            size: 10,
+            amount: 15,
+            lifetime: 0.5,
+            color: COLORS.WATER_BLUE,
+            opacity: 1.0,
+            behavior: ParticleEffect.FAST_EXPAND
+        };
+    }
+
     /**
      * A "preset" particle effect for collecting food.
      */
@@ -384,6 +396,18 @@ class ParticleEffect {
             amount: 20,
             lifetime: 0.8,
             color: COLORS.BLUE,
+            opacity: 0.8,
+            behavior: ParticleEffect.RISE
+        };
+    }
+
+    static get RUNE_PICKUP() {
+        return {
+            spread: 80,
+            size: 4,
+            amount: 20,
+            lifetime: 0.8,
+            color: COLORS.LIGHT_PURPLE,
             opacity: 0.8,
             behavior: ParticleEffect.RISE
         };

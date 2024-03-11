@@ -27,12 +27,13 @@ class Inventory {
     }
 
     initAmmoBag() {
-        this.ammoBag.push(new AmmoItem(AmmoItem.ROCK, Infinity));
+        this.ammoBag.push(new AmmoItem(AmmoItem.ROCK, 10));
         this.ammoBag.push(new AmmoItem(AmmoItem.SLIMEBALL, 0));
         this.ammoBag.push(new AmmoItem(AmmoItem.BOMB, 0));
         this.ammoBag.push(new AmmoItem(AmmoItem.SNOWBALL, 0));
         this.ammoBag.push(new AmmoItem(AmmoItem.SUS_SNOWBALL, 0));
         this.ammoBag.push(new AmmoItem(AmmoItem.BROCCOLI, 0));
+        this.ammoBag.push(new AmmoItem(AmmoItem.WATER_BALLOON, 0));
 
         this.switchToAmmo(AmmoItem.ROCK);
     }
@@ -45,12 +46,6 @@ class Inventory {
         this.foodBag.push(new FoodItem(FoodItem.BACON, 0));
         this.foodBag.push(new FoodItem(FoodItem.BURGER, 0));
         this.foodBag.push(new FoodItem(FoodItem.ENERGY_DRINK, 0));
-
-        // this.currentFood = null;
-
-        // temporary, for testing purposes
-        this.adjustFood(FoodItem.BURGER, 10);
-        this.switchToFood(FoodItem.BURGER);
     }
 
 
@@ -195,35 +190,6 @@ class Inventory {
         this.runes += runes;
         HUD.runeCounter.setCount(this.runes);
     };
-
-    // /**
-    //  * @param {number} type The type of the rune to add to the inventory.
-    //  * @param {number} amount The amount of rune to add to the inventory.
-    //  */
-    // addRune(type, amount) {
-
-    // }
-
-    // /**
-    //  * @returns {Array} An array of all the rune in the inventory.
-    //  */
-    // getAllRunes() {
-    //     return this.runeBag;
-    // }
-
-    // /**
-    //  * @param {number} type The type of the rune to get.
-    //  * @returns {RuneItem} The rune with the given name.
-    //  */
-    // getRune(type) {
-    //     for (let i = 0; i < this.runeBag.length; i++) {
-    //         let rune = this.runeBag[i];
-    //         if (rune.type == type) {
-    //             return this.runeBag[i];
-    //         }
-    //     }
-    // }
-
 
 
 

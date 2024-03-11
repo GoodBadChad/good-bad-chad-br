@@ -30,6 +30,18 @@ class TilemapInterpreter {
                     case 'X':
                         GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE), -1);
                         break;
+                    case 'Z':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.BARREL), 0);
+                        break;
+                    case 'U':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.STUMP), 0);
+                        break;
+                    case 'T':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.LAVA_BOTTOM), -1);
+                        break;
+                    case 'Y':
+                        GAME.addEntity(new Block(new Vector(x, y), Block.WATER_BOTTOM), -1);
+                        break;
                     case 'W':
                         GAME.addEntity(new LiquidBlock(new Vector(x, y), LiquidBlock.WATER), 1);
                         break;
