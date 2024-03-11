@@ -50,8 +50,14 @@ class MamaChad {
         if (this.action === 'trapped') {
             if (ZONE.name === "Village Main" && STORY.villageAttackEnded) {
                 this.removeFromWorld = true;
+                return;
             }
-            return;
+            if (ZONE.name === "End Fight Section") {
+                if (STORY.botsKilled && STORY.botsKilled >= 20) {
+                    this.action = "idle";
+                    this.conversation = new Conversation(getAllConversationArrays().end.mama.thanks);
+                }
+            }
         }
         
         // Set the velocity, according to gravity.
