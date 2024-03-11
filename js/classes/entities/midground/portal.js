@@ -148,7 +148,7 @@ class Portal {
      * NOTE: consider only spawning new enemies when the previous ones are dead.
      */
     static get SPAWN_DELAY() {
-        return 25;
+        return 10;
     }
 
     static get SPAWN_GROUP_SIZE() {
