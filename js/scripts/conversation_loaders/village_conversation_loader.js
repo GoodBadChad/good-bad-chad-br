@@ -269,6 +269,7 @@ const minerConversationLoader = () => {
 const wizardConversationLoader = () => {
     const wiz = DialogBubble.SPEAKERS.WIZARD;
     const chad = DialogBubble.SPEAKERS.CHAD;
+    const none = DialogBubble.SPEAKERS.NONE;
     return {
         threateningIntroduction: [
             new DialogBubble(wiz, 
@@ -276,13 +277,22 @@ const wizardConversationLoader = () => {
             new DialogBubble(wiz,
                 "You've gotten lucky facing my army of slime. Do not spoil your luck now by trying anything stupid."),
             new DialogBubble(chad,
-                "What have you done to my Mama?! I'll make you pay for this you sombie looking freak!"),
+                "What have you done to my Mama?! I'll make you pay for this you zombie looking freak!"),
             new DialogBubble(wiz,
                 "Well, child, you're gonna have to try a lot harder than that! We're out of here!",
-                true,
+                false,
                 () => {
                     STORY.villageAttackEnded = true;
-                })
+                    // Unlock all borders in the current zone.
+                    GAME.entities.midground.forEach((entity) => {
+                        if (entity instanceof Border) {
+                            entity.locked = false;
+                        }
+                    });
+                }),
+            new DialogBubble(none,
+                "The rest of the world has opened up to explore! He must have run off somewhere to the east!",
+                true)
         ]
     }
 }

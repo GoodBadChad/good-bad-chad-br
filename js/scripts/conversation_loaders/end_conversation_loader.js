@@ -1,10 +1,10 @@
 const endConversationLoader = () => {
   return {
-      wizard: wizardConversationLoader()
+      wizard: wizardConversationLoaderEnd()
   };
 };
 
-const wizardConversationLoader = () => {
+const wizardConversationLoaderEnd = () => {
   const chad = DialogBubble.SPEAKERS.CHAD;
   const wizard = DialogBubble.SPEAKERS.WIZARD;
   const none = DialogBubble.SPEAKERS.NONE;

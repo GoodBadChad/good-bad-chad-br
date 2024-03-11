@@ -140,7 +140,6 @@ class Zone {
                 trae: new Zone(zeros, new Vector(200, 25), loadPlaygroundTrae, "Trae Town"),
             },
             village: {
-                canyon: new Zone(zeros, defaultMaxBlock, loadVillageCanyon, "Village Canyon"),
                 field: new Zone(zeros, defaultMaxBlock, loadVillageField, "Village Field"),
                 main: new Zone(zeros, defaultMaxBlock, loadVillageMain, "Village Main"),
                 hillDownFromMain: new Zone(zeros, new Vector(75, 50), loadHillDownFromMain, "Hill Down From Main"),

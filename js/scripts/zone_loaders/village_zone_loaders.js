@@ -54,6 +54,14 @@ const loadVillageField = () => {
             Zone.getZones().village.main
         ));
 
+        // Add a locked border to the western edge of the zone to prevent character from falling off the edge of the world.
+        GAME.addEntity(new Border(
+            new Vector(ZONE.MIN_PT.x - 1, 0),
+            new Vector(1, ZONE.PIXEL_SIZE.y),
+            null,
+            true
+        ));
+
         TilemapInterpreter.setTilemap(fieldTilemap);
 
 
@@ -227,17 +235,20 @@ const loadVillageMain = () => {
             Zone.getZones().village.field
         ));
 
+        const easternBorderLocked = STORY.villageAttackEnded ? false : true;
         GAME.addEntity(new Border(
             new Vector(ZONE.MAX_PT.x, 0),
             new Vector(1, ZONE.PIXEL_SIZE.y),
-            Zone.getZones().village.hillDownFromMain
+            Zone.getZones().village.hillDownFromMain,
+            easternBorderLocked
         ));
+
         let weather = "warm";
-        let surfaceSnow = false;
-        if (weather === "snow") {
-            surfaceSnow = true
-        }
-        TilemapInterpreter.setTilemap(villageMainTileMap, surfaceSnow);
+        // let surfaceSnow = false;
+        // if (weather === "snow") {
+        //     surfaceSnow = true
+        // }
+        TilemapInterpreter.setTilemap(villageMainTileMap, false);
         // NPCs
 
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.houses.CHAD_HOUSE, Vector.blockToWorldSpace(new Vector(30, aboveGroundLevel))));
@@ -324,11 +335,9 @@ const loadVillageMain = () => {
             GAME.addEntity(new MamaChad(Vector.blockToWorldSpace(blockPosTrappedMama)));
             GAME.addEntity(new Wizard(Vector.blockToWorldSpace(blockPosWizard)));
             if (STORY.tutorialComplete && !STORY.villageAttackEnded) {
-                for (let i = 0; i < 10; i++) {
-                    // I want the slimes to appear between blockx 10 and 60.
-                    const blockx = Math.floor(Math.random() * 50) + 10;
-                    const blockPosSlime = new Vector(blockx, chadOnGround);
-                    GAME.addEntity(new Slime(new Vector(Vector.blockToWorldSpace(blockPosSlime)), Slime.SAP));
+                for (let blockx = 10; blockx < 60; blockx += 5) {
+                    console.log('adding a slime');
+                    GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(blockx, chadOnGround)), Slime.EVIL));
                 }
             }
             let weather = "rain";
