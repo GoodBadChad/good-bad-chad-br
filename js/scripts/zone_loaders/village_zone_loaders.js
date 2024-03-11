@@ -354,11 +354,11 @@ const loadVillageMain = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
             // console.log(CHAD.pos);
 
-        } else if (LAST_ZONE.name = "Village Field") { // Coming from field.
+        } else if (LAST_ZONE.name === "Village Field") { // Coming from field.
             // Set spawn point on the right.
             const blockPos = new Vector(ZONE.MIN_PT.x, chadOnGround + 5);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
-        } else if (LAST_ZONE.name = "Hill Down From Main") { // Coming from outside cave.
+        } else if (LAST_ZONE.name === "Hill Down From Main") { // Coming from outside cave.
             // spawn on left.
             const blockPos = new Vector(98, 16);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
