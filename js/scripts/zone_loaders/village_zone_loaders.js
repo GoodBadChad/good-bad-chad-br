@@ -214,9 +214,9 @@ const loadVillageMain = () => {
     };
 
     const addEntities = () => {
-        setTimeout(() => {
-            ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
-        }, 500);
+        // setTimeout(() => {
+        //     ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+        // }, 500);
 
         // let groundLevel = 18;
         let aboveGroundLevel = 17;
