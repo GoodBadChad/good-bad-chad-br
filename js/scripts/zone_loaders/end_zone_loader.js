@@ -18,6 +18,9 @@ const loadEndZone = () => {
 
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_1.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.MAGIC_TREE_1.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.MAGIC_TREE_4.SPRITESHEET);
+
         ASSET_MGR.queueDownload(Precipitation.SPRITESHEET);
         // NPCs
         ASSET_MGR.queueDownload(BlackSmith.SPRITESHEET);
@@ -36,25 +39,31 @@ const loadEndZone = () => {
         ));
 
         WeatherSystem.setWeather("rain", 5, "night", 33);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_GROUP_2, Vector.blockToWorldSpace(new Vector(0, 50))), -1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_GROUP_2, Vector.blockToWorldSpace(new Vector(30, 48))), -1);
+        // GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_GROUP_2, Vector.blockToWorldSpace(new Vector(0, 50))), -1);
+        // GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_GROUP_2, Vector.blockToWorldSpace(new Vector(30, 48))), -1);
         // GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_GROUP_2, Vector.blockToWorldSpace(new Vector(64, 48))), -1);
 
         // GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_GROUP_2, Vector.blockToWorldSpace(new Vector(37.7, 55))), -1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_GROUP_2, Vector.blockToWorldSpace(new Vector(59, 55))), -1);
+        // GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_GROUP_2, Vector.blockToWorldSpace(new Vector(59, 55))), -1);
 
-        // GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_GROUP_1, Vector.blockToWorldSpace(new Vector(15, 35))), -1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_1, Vector.blockToWorldSpace(new Vector(56, 67))), -1);
+        // // GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_GROUP_1, Vector.blockToWorldSpace(new Vector(15, 35))), -1);
+        // GAME.addEntity(new Decoration(Decoration.DECORATIONS.towers.TOWER_1, Vector.blockToWorldSpace(new Vector(56, 67))), -1);
 
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_4, Vector.blockToWorldSpace(new Vector(0, 30))), -1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_4, Vector.blockToWorldSpace(new Vector(-6, 30))), -1);
+        // GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_4, Vector.blockToWorldSpace(new Vector(0, 30))), -1);
+        // GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_4, Vector.blockToWorldSpace(new Vector(-6, 30))), -1);
 
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_4, Vector.blockToWorldSpace(new Vector(10, 30))), -1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_4, Vector.blockToWorldSpace(new Vector(15, 30))), -1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(29, 30))), -1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(35, 31))), -1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(40, 32))), -1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(42, 33))), -1);
+        // GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_4, Vector.blockToWorldSpace(new Vector(10, 30))), -1);
+        // GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_4, Vector.blockToWorldSpace(new Vector(15, 30))), -1);
+        // GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(29, 30))), -1);
+        // GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(35, 31))), -1);
+        // GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(40, 32))), -1);
+        // GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(42, 33))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.MAGIC_TREE_1, Vector.blockToWorldSpace(new Vector(15, 30))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.MAGIC_TREE_2, Vector.blockToWorldSpace(new Vector(5, 30))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.MAGIC_TREE_3, Vector.blockToWorldSpace(new Vector(27, 31))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.MAGIC_TREE_4, Vector.blockToWorldSpace(new Vector(5, 30))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.MAGIC_TREE_5, Vector.blockToWorldSpace(new Vector(10, 30))), -1);
+        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.MAGIC_TREE_6, Vector.blockToWorldSpace(new Vector(15, 30))), -1);
 
 
         TilemapInterpreter.setTilemap(end_tilemap);
@@ -73,36 +82,36 @@ const loadEndZone = () => {
         const portal1 = new Portal(portal1Coordinates, Portal.YELLOW);
         GAME.addEntity(portal1);
         if (STORY.botsKilled < 20) {
-            portal1.fillWithEnemies([new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)), 
-                                    new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
-                                    new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
-                                    new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
-                                    new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
-                                    new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
-                                    new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
-                                    new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
-                                    new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
-                                    new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
-                                ]);
+            portal1.fillWithEnemies([new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
+            new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
+            new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
+            new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
+            new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
+            new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
+            new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
+            new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
+            new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
+            new DrillBot(Vector.blockToWorldSpace(portal1Coordinates)),
+            ]);
         }
 
         const portal2Coordinates = new Vector(70, 23);
         const portal2 = new Portal(portal2Coordinates, Portal.YELLOW);
         GAME.addEntity(portal2);
         if (STORY.botsKilled < 20) {
-            portal2.fillWithEnemies([new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)), 
-                                    new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
-                                    new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
-                                    new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
-                                    new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
-                                    new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
-                                    new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
-                                    new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
-                                    new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
-                                    new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
-                                ]);
+            portal2.fillWithEnemies([new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
+            new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
+            new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
+            new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
+            new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
+            new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
+            new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
+            new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
+            new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
+            new DrillBot(Vector.blockToWorldSpace(portal2Coordinates)),
+            ]);
         }
-        GAME.addEntity(new Wizard(Vector.blockToWorldSpace(new Vector(90, 32)), 
+        GAME.addEntity(new Wizard(Vector.blockToWorldSpace(new Vector(90, 32)),
             null));
         GAME.addEntity(new MamaChad(Vector.blockToWorldSpace(new Vector(85, 29))));
     };
