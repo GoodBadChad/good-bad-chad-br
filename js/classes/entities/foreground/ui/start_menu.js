@@ -75,6 +75,7 @@ class StartMenu {
         GAME.mode = GameEngine.GAMEPLAY_MODE;
         HUD.addComponents();
         this.removeFromWorld = true;
+        ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
     }
 
     /** Respond to a controls button click. */

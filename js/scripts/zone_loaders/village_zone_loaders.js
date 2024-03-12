@@ -214,7 +214,9 @@ const loadVillageMain = () => {
     };
 
     const addEntities = () => {
-        ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+        // setTimeout(() => {
+        //     ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+        // }, 500);
 
         // let groundLevel = 18;
         let aboveGroundLevel = 17;
@@ -330,21 +332,6 @@ const loadVillageMain = () => {
 
         GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(64, aboveGroundLevel - 2)), RuneDrop.GREEN, 1, false));
 
-
-
-        // draw portal
-
-        // const portal = new Portal(new Vector(6, 13.5), Portal.YELLOW);
-        // GAME.addEntity(portal);
-        // portal.fillWithEnemies([new DrillBot(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5))), 
-        //                         new Yeti(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5))),
-        //                         new Yeti(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5)))]);
-
-
-
-
-        // ASSET_MGR.playMusic(MUSIC.VILLAGE_SIMPLE_LIFE.path, MUSIC.VILLAGE_SIMPLE_LIFE.volume);
-        ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
 
         LoadingAnimation.stop();
     };
