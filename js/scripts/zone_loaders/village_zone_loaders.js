@@ -95,17 +95,13 @@ const loadVillageField = () => {
 
 
         // Spawn Chad.
-        if (LAST_ZONE.equals(Zone.getZones().village.mountain)) { // Coming from mountain.
+        if (LAST_ZONE.equals(Zone.getZones().village.main)) { // Coming from mountain.
             // Set spawn point on the right.
-            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 3, aboveGroundLevel);
-            CHAD.pos = Vector.blockToWorldSpace(blockPos);
-        } else if (LAST_ZONE.equals(Zone.getZones().village.main)) { // Coming from main.
-            // spawn on left.
-            const blockPos = new Vector(95, aboveGroundLevel + 5);
+            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 3, aboveGroundLevel + 6.5);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
     };
-    let aboveGroundLevel = 12;
+    let aboveGroundLevel = 10;
     WeatherSystem.setWeather("clouds", 2, "day");
 
     if (STORY.invitedHunting) {
@@ -310,7 +306,7 @@ const loadVillageMain = () => {
         // Now, we've placed everything else - it's time to place CHAD!
         if (LAST_ZONE === null) { // We've just started the game.
             // Spawn in middle.
-            const blockPos = new Vector(0, chadOnGround);
+            const blockPos = new Vector(70, chadOnGround);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
             // console.log(CHAD.pos);
 
