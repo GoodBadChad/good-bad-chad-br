@@ -139,16 +139,16 @@ const loadVillageField = () => {
 
     GAME.addEntity(new AmmoDrop(
         Vector.blockToWorldSpace(new Vector(78.5, aboveGroundLevel + 2)),
-        AmmoDrop.SUS_SNOWBALL,
-        1,
+        AmmoDrop.ROCK,
+        10,
         false
     ));
 
 
     GAME.addEntity(new AmmoDrop(
         Vector.blockToWorldSpace(new Vector(80, aboveGroundLevel + 2)),
-        AmmoDrop.SNOWBALL,
-        4,
+        AmmoDrop.ROCK,
+        5,
         false
     ));
 
@@ -214,9 +214,9 @@ const loadVillageMain = () => {
     };
 
     const addEntities = () => {
-        // setTimeout(() => {
-        //     ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
-        // }, 500);
+        setTimeout(() => {
+            ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+        }, 500);
 
         // let groundLevel = 18;
         let aboveGroundLevel = 17;
@@ -330,8 +330,12 @@ const loadVillageMain = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
-        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(64, aboveGroundLevel - 2)), RuneDrop.GREEN, 1, false));
+        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(64, aboveGroundLevel - 4)), RuneDrop.GREEN, false));
+        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(66, aboveGroundLevel - 4)), RuneDrop.GRAY, false));
 
+        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(93, aboveGroundLevel - 4)), RuneDrop.WHITE, false));
+        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(95, aboveGroundLevel - 3)), RuneDrop.WHITE, false));
+        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(97, aboveGroundLevel - 2)), RuneDrop.WHITE, false));
 
         LoadingAnimation.stop();
     };

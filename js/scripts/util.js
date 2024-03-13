@@ -122,7 +122,7 @@ const SFX = {
     FOOD_EAT3: {path: "./sfx/food_eat3.mp3", volume: 0.4},
     FOOD_EAT4: {path: "./sfx/food_eat4.mp3", volume: 0.4},
     AMMO_COLLECT: {path: "./sfx/ammo_collect.mp3", volume: 0.4},
-    COIN_COLLECT: {path: "./sfx/rune_collect.mp3", volume: 0.4},
+    COIN_COLLECT: {path: "./sfx/rune_collect.mp3", volume: 0.7},
     MEGA_MUSHROOM: {path: "./sfx/mega_mushroom.mp3", volume: 0.4},
     WATER_BALLOON: {path: "./sfx/water_balloon.wav", volume: 0.4},
 
@@ -147,8 +147,8 @@ const SFX = {
     PORTAL_IDLE: { path: "./sfx/portal_idle.mp3", volume: 0.15 },
 
     // Enemies
-    GROWL1: { path: "./sfx/growl1.mp3", volume: 0.4 },
-    GROWL2: { path: "./sfx/growl2.mp3", volume: 0.4 },
+    GROWL1: { path: "./sfx/growl1.mp3", volume: 0.2 },
+    GROWL2: { path: "./sfx/growl2.mp3", volume: 0.2 },
     SMASH1: { path: "./sfx/smash1.mp3", volume: 0.4 },
     SMASH2: { path: "./sfx/smash2.mp3", volume: 0.4 },
     SMASH3: { path: "./sfx/smash3.mp3", volume: 0.4 },
@@ -171,8 +171,8 @@ const MUSIC = {
     UPBEAT_CHIPTUNE_2: { path: "./music/upbeat_chiptune_2.mp3", volume: 0.05 },
 
     // Chad's themes
-    CHAD_PLAYFUL_ADVENTURE: { path: "./music/chad_playful_adventure.mp3", volume: 0.05 },
-    CHAD_VICTORIOUS_EMOTIONAL: { path: "./music/chad_victorious_emotional.mp3", volume: 0.05 },
+    CHAD_PLAYFUL_ADVENTURE: { path: "./music/chad_playful_adventure2.mp3", volume: 0.1 },
+    CHAD_VICTORIOUS_EMOTIONAL: { path: "./music/chad_victorious_emotional.mp3", volume: 0.1 },
 
     // Village themes
     VILLAGE_TOWN_SQUARE: { path: "./music/village_town_square_sample.wav", volume: 0.05 },

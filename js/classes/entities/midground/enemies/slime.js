@@ -117,13 +117,21 @@ class Slime {
     handleDeath() {
         this.action = "dying";
 
+        const pos = Vector.add(this.base.getCenter(), new Vector(0, -40));
+
         const rand = Math.random();
         if (rand < 0.3) {
-            const pos = Vector.add(this.base.getCenter(), new Vector(0, -40));
-            GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SLIMEBALL));
+            if (this.type === Slime.FROST) {
+                GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SNOWBALL, 2, true, true));
+            } else {
+                GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SLIMEBALL, 1, true, true));
+            }
         } else if (rand < 0.5) {
-            const pos = Vector.add(this.base.getCenter(), new Vector(0, -40));
-            GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SLIMEBALL, 2));
+            if (this.type === Slime.FROST) {
+                GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SUS_SNOWBALL, 2, true, true));
+            } else {
+                GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SLIMEBALL, 2, true, true));
+            }
         }
     }
     

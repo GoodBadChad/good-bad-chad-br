@@ -159,6 +159,8 @@ const loadMountainSlope2 = () => {
             const blockPos = new Vector(ZONE.MAX_BLOCK.x - 2, 20);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
+
+        GAME.addEntity(new AmmoDrop(Vector.blockToWorldSpace(new Vector(25, 60)), AmmoDrop.SNOWBALL, 5, false));
     };
 
     setTimeout(() => {
