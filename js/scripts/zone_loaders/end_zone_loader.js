@@ -37,9 +37,7 @@ const loadEndZone = () => {
         ASSET_MGR.queueDownload(Wizard.SPRITESHEET);
 
         ASSET_MGR.queueDownload(MUSIC.END.path);
-        ASSET_MGR.queueDownload(MUSIC.END_2.path);
-        ASSET_MGR.queueDownload(MUSIC.END_3.path);
-        ASSET_MGR.queueDownload(MUSIC.END_4.path);
+
 
 
     };
