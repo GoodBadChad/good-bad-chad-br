@@ -623,6 +623,10 @@ const loadWoods = () => {
             // Set spawn point on the right.
             const blockPos = new Vector(ZONE.MAX_BLOCK.x - 2, 15);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
+        } else if (LAST_ZONE.equals(Zone.getZones().mountain.slope1)) { // Coming from main.
+            // Set spawn point on the right.
+            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 2, 15);
+            CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
         setTimeout(() => {
