@@ -197,10 +197,10 @@ const MUSIC = {
     LAVA_TENSE: { path: "./music/lava_tense.mp3", volume: 0.1 }, // might be timed task OR boss music
 
     // END theme
-    END_1: { path: "music/caleb_music/Thunder1.mp3", volume: 0.1 },
-    END_2: { path: "music/caleb_music/Intimidating1.mp3", volume: 0.1 },
-    END_3: { path: "music/caleb_music/ICE.mp3", volume: 0.1 },
-    END_4: { path: "music/caleb_music/Cave Adventure.mp3", volume: 0.1 }
+    END: { path: "music/caleb_music/Thunder1.mp3", volume: 0.1 },
+    VILLAGE_ATTACK: { path: "music/caleb_music/Intimidating1.mp3", volume: 0.1 },
+    ICE: { path: "music/caleb_music/ICE.mp3", volume: 0.1 },
+    ADVENTURE_SEARCH: { path: "music/caleb_music/Cave Adventure.mp3", volume: 0.1 }
 
 
 }

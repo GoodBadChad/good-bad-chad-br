@@ -180,10 +180,7 @@ const loadVillageMain = () => {
 
 
         ASSET_MGR.queueDownload(MUSIC.PEACEFUL_CHIPTUNE.path);
-        ASSET_MGR.queueDownload(MUSIC.END_2.path);
-        ASSET_MGR.queueDownload(MUSIC.END_3.path);
-        ASSET_MGR.queueDownload(MUSIC.END_4.path);
-
+        ASSET_MGR.queueDownload(MUSIC.VILLAGE_ATTACK.path);
 
         // NPCs
         ASSET_MGR.queueDownload(BlackSmith.SPRITESHEET);
@@ -326,7 +323,7 @@ const loadVillageMain = () => {
 
             ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
         } else {
-            ASSET_MGR.playMusic(MUSIC.END_2.path, MUSIC.END_2.volume);
+            ASSET_MGR.playMusic(MUSIC.VILLAGE_ATTACK.path, MUSIC.VILLAGE_ATTACK.volume);
 
         }
 

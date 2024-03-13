@@ -97,7 +97,7 @@ const loadMountainSlope2 = () => {
         ASSET_MGR.queueDownload(Slime.SPRITESHEET);
         ASSET_MGR.queueDownload(Yeti.SPRITESHEET);
 
-        ASSET_MGR.queueDownload(MUSIC.END_3.path);
+        ASSET_MGR.queueDownload(MUSIC.ICE.path);
 
 
     };
@@ -153,10 +153,14 @@ const loadMountainSlope2 = () => {
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(71, 25))), -1);
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(75, 25))), -1);
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(92, 25))), -1);
-
+        GAME.addEntity(new FoodDrop(
+            Vector.blockToWorldSpace(new Vector(67, 57)),
+            FoodDrop.BURGER,
+            false
+        ));
         if ((LAST_ZONE && LAST_ZONE.equals(Zone.getZones().mountain.slope1) || LAST_ZONE === null)) { // Coming down the mounatin.
             // Set spawn point on the right.
-            const blockPos = new Vector(ZONE.MIN_BLOCK.x, 86);
+            const blockPos = new Vector(ZONE.MIN_BLOCK.x + 67, 45);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         } else {
             const blockPos = new Vector(ZONE.MAX_BLOCK.x - 2, 20);
@@ -165,7 +169,7 @@ const loadMountainSlope2 = () => {
     };
 
     setTimeout(() => {
-        ASSET_MGR.playMusic(MUSIC.END_3.path, MUSIC.END_3.volume);
+        ASSET_MGR.playMusic(MUSIC.ICE.path, MUSIC.ICE.volume);
     }, 500);
 
     queueAssets();
