@@ -195,6 +195,14 @@ const MUSIC = {
     LAVA_NORMAL: { path: "./music/lava_normal.mp3", volume: 0.1 },
     LAVA_UNDERGROUND: { path: "./music/lava_underground.mp3", volume: 0.1 },
     LAVA_TENSE: { path: "./music/lava_tense.mp3", volume: 0.1 }, // might be timed task OR boss music
+
+    // END theme
+    END_1: { path: "music/caleb_music/Thunder1.mp3", volume: 0.1 },
+    END_2: { path: "music/caleb_music/Intimidating1.mp3", volume: 0.1 },
+    END_3: { path: "music/caleb_music/ICE.mp3", volume: 0.1 },
+    END_4: { path: "music/caleb_music/Cave Adventure.mp3", volume: 0.1 }
+
+
 }
 
 /**
