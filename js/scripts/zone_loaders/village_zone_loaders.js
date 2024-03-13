@@ -129,7 +129,7 @@ const loadVillageField = () => {
 
 
     }
-    
+
     if (STORY.invitedHunting) {
         GAME.addEntity(new PapaChad(
             new Vector(ZONE.MAX_PT.x - 2 * PapaChad.SCALED_SIZE.x, ZONE.MAX_PT.y - 12 * Block.SCALED_SIZE),
@@ -172,7 +172,7 @@ const loadVillageField = () => {
     GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), -1);
 
     setTimeout(() => {
-        ASSET_MGR.playMusic(MUSIC.UPBEAT_CHIPTUNE_2.path, MUSIC.UPBEAT_CHIPTUNE_2.volume);  
+        ASSET_MGR.playMusic(MUSIC.UPBEAT_CHIPTUNE_2.path, MUSIC.UPBEAT_CHIPTUNE_2.volume);
     }, 500);
 
     queueAssets();
@@ -210,6 +210,9 @@ const loadVillageMain = () => {
 
 
         ASSET_MGR.queueDownload(MUSIC.PEACEFUL_CHIPTUNE.path);
+        ASSET_MGR.queueDownload(MUSIC.END_2.path);
+        ASSET_MGR.queueDownload(MUSIC.END_3.path);
+        ASSET_MGR.queueDownload(MUSIC.END_4.path);
 
 
         // NPCs
@@ -380,7 +383,13 @@ const loadVillageMain = () => {
 
 
         // ASSET_MGR.playMusic(MUSIC.VILLAGE_SIMPLE_LIFE.path, MUSIC.VILLAGE_SIMPLE_LIFE.volume);
-        ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+        if (!STORY.tutorialComplete) {
+
+            ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+        } else {
+            ASSET_MGR.playMusic(MUSIC.END_2.path, MUSIC.END_2.volume);
+
+        }
 
         LoadingAnimation.stop();
     };
