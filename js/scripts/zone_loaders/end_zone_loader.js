@@ -36,7 +36,7 @@ const loadEndZone = () => {
         ASSET_MGR.queueDownload('./sprites/mama_chad_trapped.png');
         ASSET_MGR.queueDownload(Wizard.SPRITESHEET);
 
-        ASSET_MGR.queueDownload(MUSIC.END_1.path);
+        ASSET_MGR.queueDownload(MUSIC.END.path);
         ASSET_MGR.queueDownload(MUSIC.END_2.path);
         ASSET_MGR.queueDownload(MUSIC.END_3.path);
         ASSET_MGR.queueDownload(MUSIC.END_4.path);
@@ -172,7 +172,7 @@ const loadEndZone = () => {
         GAME.addEntity(new Wizard(Vector.blockToWorldSpace(new Vector(85, 32)),
             null));
         GAME.addEntity(new MamaChad(Vector.blockToWorldSpace(new Vector(82, 25))));
-        ASSET_MGR.playMusic(MUSIC.END_1.path, MUSIC.END_1.volume);
+        ASSET_MGR.playMusic(MUSIC.END.path, MUSIC.END.volume);
 
         setTimeout(() => {
         }, 1000);
