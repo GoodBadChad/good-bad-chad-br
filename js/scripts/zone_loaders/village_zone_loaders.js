@@ -94,42 +94,16 @@ const loadVillageField = () => {
         GAME.addEntity(new Bunny(Vector.blockToWorldSpace(new Vector(70, aboveGroundLevel))));
 
 
-        // Draw Sun.
-
         // Spawn Chad.
-        if (LAST_ZONE.equals(Zone.getZones().village.mountain)) { // Coming from mountain.
+        if (LAST_ZONE.equals(Zone.getZones().village.main)) { // Coming from mountain.
             // Set spawn point on the right.
-            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 3, aboveGroundLevel);
-            CHAD.pos = Vector.blockToWorldSpace(blockPos);
-        } else if (LAST_ZONE.equals(Zone.getZones().village.main)) { // Coming from main.
-            // spawn on left.
-            const blockPos = new Vector(95, aboveGroundLevel + 5);
+            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 3, aboveGroundLevel + 6.5);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
     };
-    let makeClouds = true;
-    let aboveGroundLevel = 10
-    if (makeClouds) {
-        let cloudNum = 10;
-        let randomOrigin = (Math.random() * (0 + 100)) - 0;
-        randomOrigin = randomOrigin % 10;
+    let aboveGroundLevel = 10;
+    WeatherSystem.setWeather("clouds", 2, "day");
 
-
-        for (let i = 0; i < cloudNum; i++) {
-            let yVariation = Math.random() * (10 - 12) + 10;
-            let xVariation = Math.random() * (8 - 12) + 10;
-            if (i % 2 == 0) {
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD, Vector.blockToWorldSpace(new Vector(randomOrigin + xVariation * i, aboveGroundLevel - yVariation))), 0);
-            } else if (i % 3 == 0) {
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_LANKY, Vector.blockToWorldSpace(new Vector(randomOrigin + xVariation * i, aboveGroundLevel - yVariation))), 0);
-            } else {
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_BUSHY, Vector.blockToWorldSpace(new Vector(randomOrigin + xVariation * i, aboveGroundLevel - yVariation))), 0);
-            }
-        }
-
-
-    }
-    
     if (STORY.invitedHunting) {
         GAME.addEntity(new PapaChad(
             new Vector(ZONE.MAX_PT.x - 2 * PapaChad.SCALED_SIZE.x, ZONE.MAX_PT.y - 12 * Block.SCALED_SIZE),
@@ -167,12 +141,8 @@ const loadVillageField = () => {
         false
     ));
 
-    // Set background color:
-    BG_COLOR = COLORS.SKY_BLUE;
-    GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), -1);
-
     setTimeout(() => {
-        ASSET_MGR.playMusic(MUSIC.UPBEAT_CHIPTUNE_2.path, MUSIC.UPBEAT_CHIPTUNE_2.volume);  
+        ASSET_MGR.playMusic(MUSIC.UPBEAT_CHIPTUNE_2.path, MUSIC.UPBEAT_CHIPTUNE_2.volume);
     }, 500);
 
     queueAssets();
@@ -210,7 +180,7 @@ const loadVillageMain = () => {
 
 
         ASSET_MGR.queueDownload(MUSIC.PEACEFUL_CHIPTUNE.path);
-
+        ASSET_MGR.queueDownload(MUSIC.VILLAGE_ATTACK.path);
 
         // NPCs
         ASSET_MGR.queueDownload(BlackSmith.SPRITESHEET);
@@ -243,11 +213,6 @@ const loadVillageMain = () => {
             easternBorderLocked
         ));
 
-        let weather = "warm";
-        // let surfaceSnow = false;
-        // if (weather === "snow") {
-        //     surfaceSnow = true
-        // }
         TilemapInterpreter.setTilemap(villageMainTileMap, false);
         // NPCs
 
@@ -255,15 +220,6 @@ const loadVillageMain = () => {
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.houses.MAYOR_HOUSE, Vector.blockToWorldSpace(new Vector(48, aboveGroundLevel))));
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.houses.BLACKSMITH_HOUSE, Vector.blockToWorldSpace(new Vector(13, aboveGroundLevel))));
         GAME.addEntity(new Decoration(Decoration.DECORATIONS.houses.CHAD_HOUSE, Vector.blockToWorldSpace(new Vector(70, aboveGroundLevel))));
-        WeatherSystem.setWeather(weather, 5, "day");
-        // Add a layer of blocks to the floor.
-        // for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
-        //     GAME.addEntity(new Block(new Vector(x, ZONE.MAX_BLOCK.y), Block.DIRT));
-        // }
-        // TODO - make this its own class for interpreting the tile map so to clean up code.
-        // const gamePos = Vector.blockToWorldSpace(new Vector(5, 15));
-        // GAME.addEntity(new House(gamePos, 1));
-        // Decorations
 
         for (let i = 0; i < 18; i++) {
             if (i % 2 == 0) {
@@ -311,7 +267,7 @@ const loadVillageMain = () => {
         The above content was all static. Below, there are conditional spawns/settings based on story progression.
         Namely, we need to script the village attack when the tutorial (snake/bunny hunt) is complete.
         */
-
+        let weather = "warm";
         if (!STORY.tutorialComplete) {
             // NPCs
             const blockPosPapa = new Vector(33, chadOnGround);
@@ -322,13 +278,12 @@ const loadVillageMain = () => {
             const idleMama = new MamaChad(Vector.blockToWorldSpace(blockPosIdleMama), false, new Conversation(getAllConversationArrays().village.mamaChad.goodMorning));
             idleMama.action = "idle";
 
-            GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), new Conversation(getAllConversationArrays().village.papaChad.huntingInvite)), 0);
+            if (!STORY.invitedHunting) {
+                GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), new Conversation(getAllConversationArrays().village.papaChad.huntingInvite)), 0);
+            }
             GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().village.blacksmith.merchant)), 0);
             GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().village.mayor.hopefulGreeting)), 0);
             GAME.addEntity(idleMama);
-
-            let weather = "warm";
-            WeatherSystem.setWeather(weather, 5, "day");
         } else {
             const blockPosTrappedMama = new Vector(65, chadOnGround + 1);
             const blockPosWizard = new Vector(63, chadOnGround);
@@ -336,15 +291,13 @@ const loadVillageMain = () => {
             GAME.addEntity(new Wizard(Vector.blockToWorldSpace(blockPosWizard)));
             if (STORY.tutorialComplete && !STORY.villageAttackEnded) {
                 for (let blockx = 10; blockx < 60; blockx += 5) {
-                    console.log('adding a slime');
                     GAME.addEntity(new Slime(Vector.blockToWorldSpace(new Vector(blockx, chadOnGround)), Slime.EVIL));
                 }
             }
-            let weather = "rain";
-            WeatherSystem.setWeather(weather, 2, "day");
+            weather = "rain";
         }
-        let surfaceSnow = false;
-        TilemapInterpreter.setTilemap(villageMainTileMap, surfaceSnow);
+        WeatherSystem.setWeather(weather, 3, "day");
+        TilemapInterpreter.setTilemap(villageMainTileMap);
 
 
         // Now, we've placed everything else - it's time to place CHAD!
@@ -366,21 +319,13 @@ const loadVillageMain = () => {
 
         GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(64, aboveGroundLevel - 2)), RuneDrop.GREEN, 1, false));
 
+        if (!STORY.tutorialComplete) {
 
+            ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+        } else {
+            ASSET_MGR.playMusic(MUSIC.VILLAGE_ATTACK.path, MUSIC.VILLAGE_ATTACK.volume);
 
-        // draw portal
-
-        // const portal = new Portal(new Vector(6, 13.5), Portal.YELLOW);
-        // GAME.addEntity(portal);
-        // portal.fillWithEnemies([new DrillBot(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5))), 
-        //                         new Yeti(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5))),
-        //                         new Yeti(Vector.blockToWorldSpace(new Vector(15, aboveGroundLevel - 5)))]);
-
-
-
-
-        // ASSET_MGR.playMusic(MUSIC.VILLAGE_SIMPLE_LIFE.path, MUSIC.VILLAGE_SIMPLE_LIFE.volume);
-        ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+        }
 
         LoadingAnimation.stop();
     };
@@ -432,10 +377,6 @@ const loadHillDownFromMain = () => {
         ASSET_MGR.queueDownload(Bird.SPRITESHEET);
         ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
         ASSET_MGR.queueDownload(Snake.SPRITESHEET);
-        // NPCs
-        ASSET_MGR.queueDownload(BlackSmith.SPRITESHEET);
-        ASSET_MGR.queueDownload(Mayor.SPRITESHEET);
-        ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
 
         ASSET_MGR.queueDownload(MUSIC.CHAD_PLAYFUL_ADVENTURE.path);
     };
@@ -613,11 +554,6 @@ const loadWoods = () => {
         ASSET_MGR.queueDownload(Snake.SPRITESHEET);
         ASSET_MGR.queueDownload(Slime.SPRITESHEET);
 
-        // NPCs
-        ASSET_MGR.queueDownload(BlackSmith.SPRITESHEET);
-        ASSET_MGR.queueDownload(Mayor.SPRITESHEET);
-        ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
-
         ASSET_MGR.queueDownload(MUSIC.UPBEAT_CHIPTUNE_1.path);
     };
 
@@ -681,6 +617,10 @@ const loadWoods = () => {
             const blockPos = new Vector(1, 16);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         } else if (LAST_ZONE.equals(Zone.getZones().river.river1)) { // Coming from main.
+            // Set spawn point on the right.
+            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 2, 15);
+            CHAD.pos = Vector.blockToWorldSpace(blockPos);
+        } else if (LAST_ZONE.equals(Zone.getZones().mountain.slope1)) { // Coming from main.
             // Set spawn point on the right.
             const blockPos = new Vector(ZONE.MAX_BLOCK.x - 2, 15);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
