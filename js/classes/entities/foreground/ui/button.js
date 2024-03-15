@@ -19,8 +19,7 @@ class Button {
         this.size = size;
         this.text = text;
         this.fontSize = fontSize;
-
-        this.listener = document.body.addEventListener("click", () => {
+        this.listener = () => {
             const mouseOverButton = GAME.mousePos.x > this.pos.x
                 && GAME.mousePos.y > this.pos.y
                 && GAME.mousePos.x < this.pos.x + this.size.x
@@ -32,7 +31,8 @@ class Button {
                     this.removeFromWorld = true;
                 }
             }
-        });
+        }
+        document.body.addEventListener("click", this.listener);
     }
 
     /** The width, in pixels, of the Button's border. */
