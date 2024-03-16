@@ -85,10 +85,10 @@ class WaterBalloon {
         const center = Vector.add(this.pos, Vector.divide(WaterBalloon.SCALED_SIZE, 2));
         GAME.addEntity(new ParticleEffect(center, ParticleEffect.WATER_EXPLOSION));
         ASSET_MGR.playSFX(SFX.WATER_BALLOON.path, SFX.WATER_BALLOON.volume);
-
+        
         const nearbyEntities = getNearbyEntities(this.pos, 120);
         for (const entity of nearbyEntities) {
-            if (entity.takeDamage) {
+            if (entity.takeDamage && entity != CHAD) {
                 entity.takeDamage(WaterBalloon.DAMAGE);
             }
         }
