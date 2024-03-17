@@ -61,8 +61,8 @@ class Button {
         const buttonTextSize = CTX.measureText(this.text);
         CTX.fillText(
             this.text, this.pos.x + (this.size.x - buttonTextSize.width) / 2,
-            this.pos.y + this.size.y - (this.size.y - buttonTextSize.emHeightAscent
-                + buttonTextSize.emHeightDescent) / 2
+            this.pos.y + this.size.y - (this.size.y - buttonTextSize.actualBoundingBoxAscent
+                + buttonTextSize.actualBoundingBoxDescent) / 2
         );
     }
 }
