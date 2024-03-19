@@ -20,7 +20,7 @@ class Slime {
         /** The type of Slime that this is. Slime.SAP, .POLLUTED, .FROST, .MAGMA, or .EVIL. Default SAP. */
         this.type = type ?? Slime.SAP; // If no type parameter input, assume SAP.
 
-        this.base = new EnemyBase(
+        this.base = new GroundEnemyBase(
             this, 
             pos, 
             Slime.SCALED_SIZE, 
@@ -28,7 +28,7 @@ class Slime {
             Slime.MAX_HEALTH, 
             Slime.PACE_DISTANCE, 
             () => this.handleDeath(),
-            EnemyBase.AGGRESSIVE_STANCE
+            GroundEnemyBase.AGGRESSIVE_STANCE
         );
 
         /** An associative array of the animations for this Snake. Arranged [facing][action]. */

@@ -10,7 +10,7 @@ class DrillBot {
      * @param {Vector} pos the initial position of the DrillBot
      */
     constructor(pos) {
-        this.base = new EnemyBase(
+        this.base = new GroundEnemyBase(
             this, 
             pos, 
             DrillBot.SCALED_SIZE, 
@@ -18,7 +18,7 @@ class DrillBot {
             DrillBot.MAX_HEALTH, 
             DrillBot.ROAM_DISTANCE, 
             () => this.handleDeath(),
-            EnemyBase.AGGRESSIVE_STANCE
+            GroundEnemyBase.AGGRESSIVE_STANCE
         );
 
         this.animations = [];
