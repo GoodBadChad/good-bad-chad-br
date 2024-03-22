@@ -58,6 +58,15 @@ class Wizard {
 
         this.boundingBox = new BoundingBox(this.pos, Wizard.SCALED_SIZE);
 
+        if (STORY.slimesKilled && STORY.slimesKilled >= 10) {
+            if (ZONE.name === "Village Main" && this.conversation === null) {
+                this.conversation = new Conversation(getAllConversationArrays().village.wizard.threateningIntroduction);
+            }
+        }
+
+        if (ZONE.name === "Village Main" && STORY.villageAttackEnded) {
+            this.removeFromWorld = true;
+        }
 
         // Step 4: Have we collided with anything?
         GAME.entities.midground.forEach((entity) => {
@@ -106,6 +115,10 @@ class Wizard {
         });
         // Step 5: Now that your position is actually figured out, draw your correct bounding box.
         this.boundingBox = new BoundingBox(this.pos, Wizard.SCALED_SIZE);
+
+        if (ZONE.name === "End Fight Section" && STORY.botsKilled >= 20) {
+            this.conversation = new Conversation(getAllConversationArrays().end.wizard.victory)
+        }
     };
 
     /** Draw Papa Chad on the canvas. */

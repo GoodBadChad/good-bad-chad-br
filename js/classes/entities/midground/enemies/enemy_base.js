@@ -87,6 +87,11 @@ class EnemyBase {
         return "avoid";
     }
 
+    /** The initial velocity, in pixels/s of an enemy's jump. */
+    get jumpVelocity() {
+        return 450;
+    }
+
     /** 
      * Decrease the health of the enemy by the provided amount and perform any necessary operations
      * based on the new health value. If the enemy's health is less than or equal to 0, its onDeath 
@@ -247,7 +252,10 @@ class EnemyBase {
             // Update bounding box and check collisions.
             this.enemy.lastBoundingBox = this.enemy.boundingBox;
             this.enemy.boundingBox = new BoundingBox(this.enemy.pos, this.enemy.scaledSize);
-            checkBlockCollisions(this.enemy, this.enemy.scaledSize);
+            const collisions = checkBlockCollisions(this.enemy, this.enemy.scaledSize);
+            if ((collisions.left || collisions.right) && collisions.top) {
+                this.enemy.yVelocity = -this.jumpVelocity;
+            }
         } 
     }
 }

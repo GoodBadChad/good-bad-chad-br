@@ -30,6 +30,7 @@ const COLORS = {
     SEA_FOAM_GREEN: "#a0d6b4",
     SKY_BLUE: "#5da6b3",
     SKY_DARK: "#235654",
+    SKY_DARK_BLUE: "#181552",
     SKY_SNOW_GREY: "#91B3B2",
     SKY_GREY: "#73908F",
     SKY_HOT_SKY: "#59979c",
@@ -126,7 +127,7 @@ const SFX = {
     MEGA_MUSHROOM: {path: "./sfx/mega_mushroom.mp3", volume: 0.4},
     WATER_BALLOON: {path: "./sfx/water_balloon.wav", volume: 0.4},
 
-    
+
     // UI
     UI_HIGH_BEEP: { path: "./sfx/ui_high_beep.mp3", volume: 0.4 },
     UI_SCIFI: { path: "./sfx/ui_scifi.mp3", volume: 0.4 },
@@ -197,6 +198,14 @@ const MUSIC = {
     LAVA_NORMAL: { path: "./music/lava_normal.mp3", volume: 0.05 },
     LAVA_UNDERGROUND: { path: "./music/lava_underground.mp3", volume: 0.05 },
     LAVA_TENSE: { path: "./music/lava_tense.mp3", volume: 0.05 }, // might be timed task OR boss music
+
+    // END theme
+    END: { path: "music/caleb_music/Thunder1.mp3", volume: 0.1 },
+    VILLAGE_ATTACK: { path: "music/caleb_music/Intimidating1.mp3", volume: 0.1 },
+    ICE: { path: "music/caleb_music/ICE.mp3", volume: 0.1 },
+    ADVENTURE_SEARCH: { path: "music/caleb_music/Cave Adventure.mp3", volume: 0.1 }
+
+
 }
 
 /**

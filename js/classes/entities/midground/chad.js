@@ -578,12 +578,59 @@ class Chad {
                         }
                     }
                     else if (entity instanceof Border) {
-                        LAST_ZONE = ZONE;
-                        ZONE = entity.target;
-                        ZONE.load();
-                        setTimeout(() => {
-                            HUD.addComponents();
-                        }, 1000);
+                        if (!entity.locked) {
+                            LAST_ZONE = ZONE;
+                            ZONE = entity.target;
+                            ZONE.load();
+                            setTimeout(() => {
+                                HUD.addComponents();
+                            }, 1000);
+                        } else {
+                            // Is there overlap with the block on the x or y-axes?
+                            const isOverlapX = this.lastBoundingBox.left < entity.boundingBox.right
+                                && this.lastBoundingBox.right > entity.boundingBox.left;
+                            const isOverlapY = this.lastBoundingBox.bottom > entity.boundingBox.top
+                                && this.lastBoundingBox.top < entity.boundingBox.bottom;
+                            const bbOffset = this.getBoundingBoxOffset();
+
+                            // First, check for X-axis collisions
+                            if (isOverlapY) {
+                                if (this.lastBoundingBox.right <= entity.boundingBox.left
+                                    && this.boundingBox.right > entity.boundingBox.left
+                                    ) { //&& !entity.canPassThru.left
+                                    // We are colliding with the left side.
+                                    this.pos = new Vector(entity.boundingBox.left - this.scaledSize.x - bbOffset.x, this.pos.y);
+                                } else if (this.lastBoundingBox.left >= entity.boundingBox.right
+                                    && this.boundingBox.left < entity.boundingBox.right
+                                    ) { //&& !entity.canPassThru.right
+                                    // We are colliding with the right side.
+                                    this.pos = new Vector(entity.boundingBox.right - bbOffset.x, this.pos.y);
+                                }
+                            }
+
+                            // Updating the bounding box after resolving X-axis collisions 
+                            // is necessary to ensure that the bounding box accurately represents
+                            // the new position of the entity after the collision.
+                            this.boundingBox = this.createBoundingBox();
+
+                            // Then, check for Y-axis collisions
+                            if (isOverlapX) {
+                                if (this.lastBoundingBox.bottom <= entity.boundingBox.top
+                                    && this.boundingBox.bottom > entity.boundingBox.top
+                                    ) { //&& !entity.canPassThru.top
+                                    // We are colliding with the top.
+                                    this.pos = new Vector(this.pos.x, entity.boundingBox.top - this.scaledSize.y - bbOffset.y);
+                                    this.velocity = new Vector(this.velocity.x, 0);
+                                    this.isOnGround = true;
+                                    this.prevYPosOnGround = this.pos.y;
+                                } else if (this.lastBoundingBox.top >= entity.boundingBox.bottom
+                                    && this.boundingBox.top < entity.boundingBox.bottom
+                                    ) { //&& !entity.canPassThru.bottom
+                                    // We are colliding with the bottom.
+                                    this.pos = new Vector(this.pos.x, entity.boundingBox.bottom - bbOffset.y);
+                                }
+                            }
+                        }
                     }
                     else if (entity.conversation) {
                         if (GAME.user.interacting) {
