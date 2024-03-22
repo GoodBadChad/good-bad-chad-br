@@ -447,10 +447,10 @@ const loadHillDownFromMain = () => {
             false
         ));
 
-        // TODO add ammo here instead.
-        GAME.addEntity(new FoodDrop(
+        GAME.addEntity(new AmmoDrop(
             Vector.blockToWorldSpace(new Vector(51, 7.5), -1),
-            FoodDrop.BURGER,
+            FoodDrop.ROCK,
+            20,
             false
         ));
 

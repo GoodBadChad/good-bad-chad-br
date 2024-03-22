@@ -82,12 +82,12 @@ class Eel {
 
         // add a piece of food in the snake's place at bottom-center of snake
         if (Math.random() < 0.6) {
-            GAME.addEntity(new FoodDrop(center, FoodDrop.STEAK, true, true));
+            GAME.addEntity(new FoodDrop(center, FoodDrop.STEAK));
         }
         if (Math.random() < 0.5) {
-            GAME.addEntity(new RuneDrop(center, RuneDrop.RED, true, true));
+            GAME.addEntity(new RuneDrop(center, RuneDrop.RED));
         }
-        GAME.addEntity(new AmmoDrop(center, AmmoDrop.WATER_BALLOON, 5, true, true));
+        GAME.addEntity(new AmmoDrop(center, AmmoDrop.WATER_BALLOON, 5));
     }
 
     /**

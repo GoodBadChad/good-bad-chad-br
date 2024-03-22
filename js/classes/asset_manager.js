@@ -328,7 +328,6 @@ class AssetManager {
             Broccoli.SPRITESHEET,
             SFX.BLEH.path,
             SFX.WATER_BALLOON.path,
-            Eel.SPRITESHEET,
 
             //TEMPORARY
             SFX.GROWL1.path,

@@ -94,12 +94,12 @@ class Yeti {
         GAME.addEntity(new FoodDrop(pos, FoodDrop.BACON));
 
         if (Math.random() < 0.6) {
-            GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SNOWBALL, 10, true, true));
+            GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SNOWBALL, 10));
         } else {
-            GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SUS_SNOWBALL, 5, true, true));
+            GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SUS_SNOWBALL, 5));
         }
 
-        GAME.addEntity(new RuneDrop(pos, RuneDrop.YELLOW, true, true));
+        GAME.addEntity(new RuneDrop(pos, RuneDrop.YELLOW));
 
     }
 

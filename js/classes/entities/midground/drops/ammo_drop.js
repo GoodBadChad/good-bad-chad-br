@@ -10,7 +10,7 @@ class AmmoDrop {
      * @param {Vector} pos The position at which the AmmoDrop should start.
      * @param {number} type The type of AmmoDrop that should be generated. AmmoDrop.ROCK, .BOMB, etc.
      */
-    constructor(pos, type, amount = 1, hasGravity = true, popInAir = false) {
+    constructor(pos, type, amount = 1, hasGravity = true, popInAir = true) {
 
         this.type = type;
         this.pos = pos;

@@ -108,11 +108,11 @@ class DrillBot {
         if (Math.random() < 0.5) {
             GAME.addEntity(new FoodDrop(pos, FoodDrop.ENERGY_DRINK, true, true));
         } else if (Math.random() < 0.5) {
-            GAME.addEntity(new AmmoDrop(pos, AmmoDrop.BOMB, true, true));
+            GAME.addEntity(new AmmoDrop(pos, AmmoDrop.BOMB));
         }
 
         if (Math.random() < 0.5) {
-            GAME.addEntity(new RuneDrop(pos, RuneDrop.RED, true, true));
+            GAME.addEntity(new RuneDrop(pos, RuneDrop.RED));
         }
 
         ASSET_MGR.playSFX(SFX.ROBOT_DEATH1.path, SFX.ROBOT_DEATH1.volume);

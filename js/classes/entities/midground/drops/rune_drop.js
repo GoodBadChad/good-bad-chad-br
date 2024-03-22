@@ -9,7 +9,7 @@ class RuneDrop {
      * @param {Vector} pos 
      * @param {number} type 
      */
-    constructor(pos, type, hasGravity = true, popInAir = false) {
+    constructor(pos, type, hasGravity = true, popInAir = true) {
         this.pos = pos;
         this.type = type;
         this.amount = RuneDrop.VALUE_MAP[type];

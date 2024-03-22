@@ -27,6 +27,7 @@ const loadRiver = () => {
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_3.SPRITESHEET);
         ASSET_MGR.queueDownload(LiquidBlock.SPRITESHEET);
         ASSET_MGR.queueDownload(EelBoss.SPRITESHEET);
+        ASSET_MGR.queueDownload(Eel.SPRITESHEET);
 
         // NPCs
         ASSET_MGR.queueDownload(Bird.SPRITESHEET);
