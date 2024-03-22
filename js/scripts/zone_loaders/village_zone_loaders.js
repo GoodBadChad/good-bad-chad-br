@@ -121,16 +121,16 @@ const loadVillageField = () => {
 
     GAME.addEntity(new AmmoDrop(
         Vector.blockToWorldSpace(new Vector(78.5, aboveGroundLevel + 2)),
-        AmmoDrop.SUS_SNOWBALL,
-        1,
+        AmmoDrop.ROCK,
+        10,
         false
     ));
 
 
     GAME.addEntity(new AmmoDrop(
         Vector.blockToWorldSpace(new Vector(80, aboveGroundLevel + 2)),
-        AmmoDrop.SNOWBALL,
-        4,
+        AmmoDrop.ROCK,
+        5,
         false
     ));
 
@@ -192,7 +192,9 @@ const loadVillageMain = () => {
     };
 
     const addEntities = () => {
-        ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+        setTimeout(() => {
+            ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+        }, 500);
 
         // let groundLevel = 18;
         let aboveGroundLevel = 17;
@@ -317,15 +319,12 @@ const loadVillageMain = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
-        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(64, aboveGroundLevel - 2)), RuneDrop.GREEN, 1, false));
+        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(64, aboveGroundLevel - 4)), RuneDrop.GREEN, false));
+        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(66, aboveGroundLevel - 4)), RuneDrop.GRAY, false));
 
-        if (!STORY.tutorialComplete) {
-
-            ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
-        } else {
-            ASSET_MGR.playMusic(MUSIC.VILLAGE_ATTACK.path, MUSIC.VILLAGE_ATTACK.volume);
-
-        }
+        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(93, aboveGroundLevel - 4)), RuneDrop.WHITE, false));
+        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(95, aboveGroundLevel - 3)), RuneDrop.WHITE, false));
+        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(97, aboveGroundLevel - 2)), RuneDrop.WHITE, false));
 
         LoadingAnimation.stop();
     };
@@ -567,8 +566,8 @@ const loadWoods = () => {
         GAME.addEntity(new Border(
             new Vector(ZONE.MAX_PT.x, 0), // start at the far right side of the Zone, and at the top
             new Vector(1, ZONE.PIXEL_SIZE.y), // only one pixel wide, but as tall as the entire Zone.
-            // Zone.getZones().river.river1
-            Zone.getZones().mountain.slope1
+            Zone.getZones().river.river1
+            // Zone.getZones().mountain.slope1
         ));
         TilemapInterpreter.setTilemap(woodsTilemap);
         GAME.addEntity(new Bunny(Vector.blockToWorldSpace(new Vector(10, 18))));

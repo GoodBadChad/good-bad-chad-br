@@ -58,7 +58,7 @@ class SusSnowball {
     }
 
     static get ALIVE_TIME() {
-        return 3;
+        return 2;
     }
 
     /** Called when the sus snowball collides with a block. */

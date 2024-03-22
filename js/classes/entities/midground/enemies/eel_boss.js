@@ -1,29 +1,27 @@
 /** 
- * A Snake can appear in the village <or the lava> dimension(s).
- * He is able to face right or left, slither, attack and die.
  * 
  * @author Devin Peevy
  * @author Trae Claar
  */
-class Snake {
+class EelBoss {
     /**
-     * Constructor for a Snake.
+     * Constructor for a EelBoss.
      * 
-     * @param {Vector} pos the position at which the Snake should start
+     * @param {Vector} pos the position at which the EelBoss should start
      */
     constructor(pos) {
-        this.base = new GroundEnemyBase(
+        this.base = new EnemyBase(
             this, 
             pos, 
-            Snake.SCALED_SIZE, 
-            Snake.SPEED, 
-            Snake.MAX_HEALTH, 
-            Snake.PACE_DISTANCE, 
+            EelBoss.SCALED_SIZE, 
+            EelBoss.SPEED, 
+            EelBoss.MAX_HEALTH, 
+            EelBoss.PACE_DISTANCE, 
             () => this.handleDeath(),
-            GroundEnemyBase.DEFENSIVE_STANCE
+            EnemyBase.DEFENSIVE_STANCE
         );
 
-        /** An associative array of the animations for this Snake. Arranged [facing][action]. */
+        /** An associative array of the animations for this EelBoss. Arranged [facing][action]. */
         this.animations = [];
         this.loadAnimations();
 
@@ -31,74 +29,75 @@ class Snake {
         this.dealtDamage = false;
     };
 
-    /** The size, in pixels, of the Snake ON THE SPRITESHEET. */
+    /** The size, in pixels, of the EelBoss ON THE SPRITESHEET. */
     static get SIZE() {
         return new Vector(40, 13);
     }
 
-    /** How much bigger should the Snake be drawn on the canvas than it is on the spritesheet? */
+    /** How much bigger should the EelBoss be drawn on the canvas than it is on the spritesheet? */
     static get SCALE() {
-        return 3;
+        return 10;
     };
 
-    /** This will be the size of the Snake ON THE CANVAS. */
+    /** This will be the size of the EelBoss ON THE CANVAS. */
     static get SCALED_SIZE() {
-        return Vector.multiply(Snake.SIZE, Snake.SCALE);
+        return Vector.multiply(EelBoss.SIZE, EelBoss.SCALE);
     }
 
-    /** The speed of the Snake. */
+    /** The speed of the EelBoss. */
     static get SPEED() {
-        return Snake.SCALE * 30;
+        return 50;
     }
 
-    /** The filepath to the spritesheet of the Snake. */
+    /** The filepath to the spritesheet of the EelBoss. */
     static get SPRITESHEET() {
-        return "./sprites/snake.png";
+        return "./sprites/snake_red.png";
     };
 
-    /** The maximum health of the Snake. */
+    /** The maximum health of the EelBoss. */
     static get MAX_HEALTH() {
-        return 20;
+        return 150;
     };
 
-    /** The distance the Snake will "pace" back and forth. */
+    /** The distance the EelBoss will "pace" back and forth. */
     static get PACE_DISTANCE() {
-        return Snake.SCALED_SIZE.x * 2;
+        return EelBoss.SCALED_SIZE.x * 2;
     };
 
     /** The number of seconds between attacks. */
     static get ATTACK_COOLDOWN() {
-        return 1;
+        return 2;
     };
 
-    /** The amount of damage a Snake deals during an attack. */
+    /** The amount of damage a EelBoss deals during an attack. */
     static get ATTACK_DAMAGE() {
-        return 10;
+        return 30;
     };
 
     /** Number of seconds after the start of the attack animation when damage should be dealt. */
     static get DAMAGE_DELAY() {
-        return 0.4;
+        return 0.6;
     }
 
     /**
-     * Perform any necessary operations when the Snake dies.
+     * Perform any necessary operations when the EelBoss dies.
      */
     handleDeath() {
         this.action = "dying";
 
-        const pos = Vector.add(this.base.getCenter(), new Vector(0, -80));
+        const pos = Vector.add(this.base.getCenter(), new Vector(0, -60));
 
-        // add a piece of food in the snake's place at bottom-center of snake
-        if (Math.random() < 0.6) {
-            GAME.addEntity(new FoodDrop(pos, FoodDrop.STEAK, true, true));
-        }
-        if (Math.random() < 0.5) {
-            GAME.addEntity(new RuneDrop(pos, RuneDrop.GREEN, true, true));
-        }
+        // add a piece of food in the eel_boss's place at bottom-center of eel_boss
+        GAME.addEntity(new FoodDrop(pos, FoodDrop.BURGER, true, true));
+
+        GAME.addEntity(new RuneDrop(pos, RuneDrop.RED, true, true));
+        GAME.addEntity(new RuneDrop(Vector.add(pos, new Vector(5, 0)), RuneDrop.GREEN, true, true));
+        GAME.addEntity(new RuneDrop(Vector.add(pos, new Vector(-5, 0)), RuneDrop.GREEN, true, true));
+        GAME.addEntity(new RuneDrop(Vector.add(pos, new Vector(2, -2)), RuneDrop.GREEN, true, true));
+
     }
     
-    /** Change what the Snake is doing and where it is. */
+    /** Change what the EelBoss is doing and where it is. */
     update() {
         this.base.update();
 
@@ -115,8 +114,8 @@ class Snake {
             }
     
             // if Chad is close enough, bite him
-            if (this.base.chadDistance() < Snake.SCALED_SIZE.x / 2) {
-                if (secondsSinceLastAttack > Snake.ATTACK_COOLDOWN) {
+            if (this.base.chadDistance() < EelBoss.SCALED_SIZE.x) {
+                if (secondsSinceLastAttack > EelBoss.ATTACK_COOLDOWN) {
                     // if it's been long enough, start a new attack 
                     this.state = "pursue";
                     this.base.setTargetX(CHAD.getCenter().x);
@@ -125,28 +124,23 @@ class Snake {
                     this.lastAttack = Date.now() / 1000;
                     this.dealtDamage = false;
                 } else if (this.action === "attacking" 
-                    && secondsSinceLastAttack > Snake.DAMAGE_DELAY && !this.dealtDamage) {
+                    && secondsSinceLastAttack > EelBoss.DAMAGE_DELAY && !this.dealtDamage) {
                     // if we're at the proper point in our attack animation, deal damage
     
-                    CHAD.takeDamage(Snake.ATTACK_DAMAGE);
+                    CHAD.takeDamage(EelBoss.ATTACK_DAMAGE);
                     this.dealtDamage = true;
                 }
             }
         } else if (deathAnim.currentFrame() === deathAnim.frameCount - 1) {
             this.removeFromWorld = true;
-            if (STORY.snakesKilled) {
-                STORY.snakesKilled++;
-            } else {
-                STORY.snakesKilled = 1;
-            }
         }
         
 
     };
 
-    /** Draw the Snake on the canvas. */
+    /** Draw the EelBoss on the canvas. */
     draw() {
-        this.animations[this.base.getFacing()][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), Snake.SCALE);
+        this.animations[this.base.getFacing()][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), EelBoss.SCALE);
     };
 
     /** Called by the constructor. Fills up the animations array. */
@@ -155,51 +149,51 @@ class Snake {
         this.animations["right"] = [];
 
         this.animations["right"]["idle"] = new Animator(
-            Snake.SPRITESHEET,
+            EelBoss.SPRITESHEET,
             new Vector(0, 0),
-            Snake.SIZE,
+            EelBoss.SIZE,
             1, 1);
         this.animations["left"]["idle"] = new Animator(
-            Snake.SPRITESHEET,
-            new Vector(0, Snake.SIZE.y),
-            Snake.SIZE,
+            EelBoss.SPRITESHEET,
+            new Vector(0, EelBoss.SIZE.y),
+            EelBoss.SIZE,
             1, 1);
         
         // SLITHERING ANIMATIONS
         // (it takes him 1s to slither)
         this.animations["right"]["moving"] = new Animator(
-            Snake.SPRITESHEET,
+            EelBoss.SPRITESHEET,
             new Vector(0, 0),
-            Snake.SIZE,
+            EelBoss.SIZE,
             9, 1/9);
         this.animations["left"]["moving"] = new Animator(
-            Snake.SPRITESHEET,
-            new Vector(0, Snake.SIZE.y),
-            Snake.SIZE,
+            EelBoss.SPRITESHEET,
+            new Vector(0, EelBoss.SIZE.y),
+            EelBoss.SIZE,
             9, 1/9);
 
         // ATTACKING ANIMATIONS
         this.animations["right"]["attacking"] = new Animator(
-            Snake.SPRITESHEET,
-            new Vector(0, Snake.SIZE.y * 2),
-            Snake.SIZE,
+            EelBoss.SPRITESHEET,
+            new Vector(0, EelBoss.SIZE.y * 2),
+            EelBoss.SIZE,
             10, 0.05);
         this.animations["left"]["attacking"] = new Animator(
-            Snake.SPRITESHEET,
-            new Vector(0, Snake.SIZE.y * 3),
-            Snake.SIZE,
+            EelBoss.SPRITESHEET,
+            new Vector(0, EelBoss.SIZE.y * 3),
+            EelBoss.SIZE,
             10, 0.05);
 
         // DEATH ANIMATIONS
         this.animations["right"]["dying"] = new Animator(
-            Snake.SPRITESHEET,
-            new Vector(0, Snake.SIZE.y * 4),
-            Snake.SIZE,
+            EelBoss.SPRITESHEET,
+            new Vector(0, EelBoss.SIZE.y * 4),
+            EelBoss.SIZE,
             7, 1/14);
         this.animations["left"]["dying"] = new Animator(
-            Snake.SPRITESHEET,
-            new Vector(0, Snake.SIZE.y * 5),
-            Snake.SIZE,
+            EelBoss.SPRITESHEET,
+            new Vector(0, EelBoss.SIZE.y * 5),
+            EelBoss.SIZE,
             7, 1/14);
         
     };
