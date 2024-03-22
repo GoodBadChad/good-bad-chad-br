@@ -58,7 +58,7 @@ class Snowball {
     }
 
     static get ALIVE_TIME() {
-        return 2;
+        return 1;
     }
 
     static get DAMAGE() {

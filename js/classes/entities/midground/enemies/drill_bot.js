@@ -102,17 +102,14 @@ class DrillBot {
         // replace this code with any death effects, state changes, etc.
         this.removeFromWorld = true;
 
-        const pos = Vector.add(this.base.getCenter(), new Vector(0, -40));
-
         // add a piece of bacon in the DrillBot's place at bottom-center of drill_bot
         if (Math.random() < 0.5) {
-            GAME.addEntity(new FoodDrop(pos, FoodDrop.ENERGY_DRINK, true, true));
+            const pos = Vector.add(this.base.getCenter(), new Vector(0, -40));
+            GAME.addEntity(new FoodDrop(pos, FoodDrop.ENERGY_DRINK));
         } else if (Math.random() < 0.5) {
-            GAME.addEntity(new AmmoDrop(pos, AmmoDrop.BOMB, true, true));
-        }
+            const pos = Vector.add(this.base.getCenter(), new Vector(0, -40));
+            GAME.addEntity(new AmmoDrop(pos, AmmoDrop.BOMB));
 
-        if (Math.random() < 0.5) {
-            GAME.addEntity(new RuneDrop(pos, RuneDrop.RED, true, true));
         }
 
         ASSET_MGR.playSFX(SFX.ROBOT_DEATH1.path, SFX.ROBOT_DEATH1.volume);

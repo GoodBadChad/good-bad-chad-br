@@ -87,14 +87,10 @@ class Snake {
     handleDeath() {
         this.action = "dying";
 
-        const pos = Vector.add(this.base.getCenter(), new Vector(0, -80));
-
         // add a piece of food in the snake's place at bottom-center of snake
         if (Math.random() < 0.6) {
-            GAME.addEntity(new FoodDrop(pos, FoodDrop.STEAK, true, true));
-        }
-        if (Math.random() < 0.5) {
-            GAME.addEntity(new RuneDrop(pos, RuneDrop.GREEN, true, true));
+            const pos = Vector.add(this.base.getCenter(), new Vector(0, -80));
+            GAME.addEntity(new FoodDrop(pos, FoodDrop.STEAK));
         }
     }
     

@@ -107,7 +107,7 @@ class RuneDrop {
     }
 
     static get SCALE() {
-        return 1.5;
+        return 1.8;
     }
 
     static get SIZE() {

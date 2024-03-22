@@ -70,15 +70,10 @@ class Bunny {
     handleDeath() {
         this.action = "dying";
 
-        const pos = Vector.add(this.base.getCenter(), new Vector(0, -60));
-
         // add a piece of food in the bunny's place at bottom-center of bunny
         if (Math.random() < 0.6) {
-            GAME.addEntity(new FoodDrop(pos, FoodDrop.CHICKEN, true, true));
-        }
-        // add a rune drop in the bunny's place at bottom-center of bunny
-        if (Math.random() < 0.5) {
-            GAME.addEntity(new RuneDrop(pos, RuneDrop.WHITE, true, true));
+            const pos = Vector.add(this.base.getCenter(), new Vector(0, -60));
+            GAME.addEntity(new FoodDrop(pos, FoodDrop.CHICKEN));
         }
     }
     

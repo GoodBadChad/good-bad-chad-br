@@ -27,6 +27,8 @@ class AmmoDrop {
         this.lastBoundingBox = this.boundingBox;
 
         const yCoordinate = AmmoDrop.SPRITESHEET_COORDINATES[type];
+        console.log("y coordinate", yCoordinate);
+        console.log("sprite sheet", AmmoDrop.SPRITESHEET);
         this.animation = new Animator(AmmoDrop.SPRITESHEET, 
             new Vector(0, yCoordinate * AmmoDrop.SIZE.y),
             AmmoDrop.SIZE, 7, 0.15);
