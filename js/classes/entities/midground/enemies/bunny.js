@@ -12,7 +12,7 @@ class Bunny {
      * @param {Vector} pos The position at which the Bunny should start.
      */
     constructor(pos) {
-        this.base = new EnemyBase(
+        this.base = new GroundEnemyBase(
             this, 
             pos, 
             Bunny.SCALED_SIZE, 
@@ -20,7 +20,7 @@ class Bunny {
             Bunny.MAX_HEALTH, 
             Bunny.PACE_DISTANCE, 
             () => this.handleDeath(),
-            EnemyBase.PASSIVE_STANCE
+            GroundEnemyBase.PASSIVE_STANCE
         );
 
         /** An associative array of the animations for this Bunny. Arranged [facing][action]. */
@@ -95,6 +95,11 @@ class Bunny {
     /** Draw the Bunny on the canvas. */
     draw() {
         this.animations[this.base.getFacing()][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), Bunny.SCALE);
+        if (GAME.debug) {
+            CTX.strokeStyle = "red";
+            const pos = Vector.worldToCanvasSpace(this.boundingBox.pos);
+            CTX.strokeRect(pos.x, pos.y, this.boundingBox.size.x, this.boundingBox.size.y);
+        }
     };
 
     /** Called by the constructor. Fills up the animations array. */
