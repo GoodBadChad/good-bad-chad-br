@@ -18,7 +18,7 @@ class FlyingSnake {
             FlyingSnake.SPEED, 
             FlyingSnake.MAX_HEALTH, 
             () => this.handleDeath(),
-            [Vector.add(pos, {x: 20, y: 0}), Vector.add(pos, {x: 500, y: 100}), Vector.add(pos, {x: 1000, y: -200})]
+            [new Vector(20, 0), new Vector(500, 100), new Vector(1000, -200)]
         );
 
         /** An associative array of the animations for this Snake. Arranged [facing][action]. */

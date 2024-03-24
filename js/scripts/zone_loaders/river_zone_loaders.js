@@ -27,11 +27,13 @@ const loadRiver = () => {
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_3.SPRITESHEET);
         ASSET_MGR.queueDownload(LiquidBlock.SPRITESHEET);
         ASSET_MGR.queueDownload(EelBoss.SPRITESHEET);
+        ASSET_MGR.queueDownload(Eel.SPRITESHEET);
 
         // NPCs
         ASSET_MGR.queueDownload(Bird.SPRITESHEET);
 
         ASSET_MGR.queueDownload(MUSIC.RUSHING_WATER.path);
+        ASSET_MGR.queueDownload(MUSIC.RIVER_BOSS.path);
     };
 
     const addEntities = () => {

@@ -17,7 +17,8 @@ class WaterBalloon {
             WaterBalloon.INITIAL_SPEED,
             WaterBalloon.WEIGHT,
             (block) => this.onBlockCollision(block),
-            (enemy) => this.onEnemyCollision(enemy)
+            (enemy) => this.onEnemyCollision(enemy),
+            (player) => this.onPlayerCollision(player)
         );
 
         this.animations = [];
@@ -77,6 +78,11 @@ class WaterBalloon {
     /** Called when the waterballoon collides with an enemy. */
     onEnemyCollision(enemy) {
         this.explode();
+    }
+
+    /** Called when the waterballoon collides with the player. */
+    onPlayerCollision(player) {
+        // do nothing
     }
 
     explode() {

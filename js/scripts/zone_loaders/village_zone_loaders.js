@@ -141,6 +141,12 @@ const loadVillageField = () => {
         false
     ));
 
+    GAME.addEntity(new FoodDrop(
+        Vector.blockToWorldSpace(new Vector(5, aboveGroundLevel + 4), -1), 
+        FoodDrop.ROAST_TURKEY, 
+        false
+    ));
+
     setTimeout(() => {
         ASSET_MGR.playMusic(MUSIC.UPBEAT_CHIPTUNE_2.path, MUSIC.UPBEAT_CHIPTUNE_2.volume);
     }, 500);
@@ -319,12 +325,26 @@ const loadVillageMain = () => {
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
-        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(64, aboveGroundLevel - 4)), RuneDrop.GREEN, false));
-        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(66, aboveGroundLevel - 4)), RuneDrop.GRAY, false));
+        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(46, aboveGroundLevel - 4)), RuneDrop.GREEN, false));
+        GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(73, aboveGroundLevel - 4)), RuneDrop.GRAY, false));
 
         GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(93, aboveGroundLevel - 4)), RuneDrop.WHITE, false));
         GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(95, aboveGroundLevel - 3)), RuneDrop.WHITE, false));
         GAME.addEntity(new RuneDrop(Vector.blockToWorldSpace(new Vector(97, aboveGroundLevel - 2)), RuneDrop.WHITE, false));
+
+        GAME.addEntity(new OculiBot(Vector.blockToWorldSpace(
+            new Vector(65, aboveGroundLevel - 4)),
+            [new Vector(300, 100), new Vector(-300, -100), new Vector(0, 0)]
+        ));
+
+        GAME.addEntity(new OverseerBot(Vector.blockToWorldSpace(
+            new Vector(75, aboveGroundLevel - 3)),
+            [new Vector(300, 0), new Vector(-300, 0), new Vector(0, 0)]
+        ));
+
+        GAME.addEntity(new DrillBot(Vector.blockToWorldSpace(
+            new Vector(65, aboveGroundLevel - 5))
+        ));
 
         LoadingAnimation.stop();
     };
@@ -447,12 +467,13 @@ const loadHillDownFromMain = () => {
             false
         ));
 
-        // TODO add ammo here instead.
-        GAME.addEntity(new FoodDrop(
+        GAME.addEntity(new AmmoDrop(
             Vector.blockToWorldSpace(new Vector(51, 7.5), -1),
-            FoodDrop.BURGER,
+            AmmoDrop.ROCK,
+            20,
             false
         ));
+
 
         for (let i = 0; i < 3; i++) {
             GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_3, Vector.blockToWorldSpace(new Vector(67 + 5 * (1 / 2) * i, 45))), -1);

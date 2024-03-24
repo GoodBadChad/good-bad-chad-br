@@ -60,7 +60,7 @@ class DeathScreen {
      * Respond to the respawn button click.
      */
     handleRespawnButtonClick() {
-        CHAD.health = Chad.MAX_HEALTH;
+        CHAD.health = CHAD.maxHealth;
         LAST_ZONE = null;
         ZONE = Zone.getZones().village.main;
         ZONE.load();

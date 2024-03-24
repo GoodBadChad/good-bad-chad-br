@@ -113,7 +113,6 @@ const SFX = {
     SWORD_HIT2: {path: "./sfx/sword_hit2.mp3", volume:0.1},
     SWORD_HIT3: {path: "./sfx/sword_hit3.mp3", volume:0.1},
     SWOOSH: {path: "./sfx/swoosh.mp3", volume: 0.4},
-    EXPLOSION_SMALL: {path: "./sfx/explosion_small.mp3", volume: 0.4},
     ITEM_EQUIP: {path: "./sfx/item_equip.mp3", volume: 0.4},
     ITEM_COLLECT1: {path: "./sfx/item_collect1.mp3", volume: 0.4},
     ITEM_COLLECT2: {path: "./sfx/item_collect2.mp3", volume: 0.4},
@@ -126,15 +125,18 @@ const SFX = {
     COIN_COLLECT: {path: "./sfx/rune_collect.mp3", volume: 0.7},
     MEGA_MUSHROOM: {path: "./sfx/mega_mushroom.mp3", volume: 0.4},
     WATER_BALLOON: {path: "./sfx/water_balloon.wav", volume: 0.4},
-
-
+    LIFE_UP: {path: "./sfx/life_up.wav", volume: 0.4},
+    
+    
     // UI
     UI_HIGH_BEEP: { path: "./sfx/ui_high_beep.mp3", volume: 0.4 },
     UI_SCIFI: { path: "./sfx/ui_scifi.mp3", volume: 0.4 },
     UI_SNAP: { path: "./sfx/ui_snap.mp3", volume: 0.4 },
     UI_GAMEBOY_BEEP: { path: "./sfx/ui_gameboy_beep.mp3", volume: 0.4 },
-
+    
     // Environment
+    EXPLOSION_SMALL: {path: "./sfx/explosion_small.mp3", volume: 0.4},
+    EXPLOSION_BIG: {path: "./sfx/explosion_big.mp3", volume: 0.4},
     RICOCHET1: { path: "./sfx/ricochet1.mp3", volume: 0.4 },
     RICOCHET2: { path: "./sfx/ricochet2.mp3", volume: 0.4 },
     RICOCHET3: { path: "./sfx/ricochet3.mp3", volume: 0.4 },
@@ -156,8 +158,14 @@ const SFX = {
     BLEH: { path: "./sfx/bleh.mp3", volume: 0.3 },
     ROBOT_DEATH1: { path: "./sfx/robot_death1.mp3", volume: 0.4 },
     ROBOT_DEATH2: { path: "./sfx/robot_death2.mp3", volume: 0.4 },
+    ROBOT_DEATH3: { path: "./sfx/robot_death3.mp3", volume: 0.4 },
+    ROBOT_DEATH_LONG: { path: "./sfx/robot_death_LONG.mp3", volume: 0.4 },
     DRILL1: { path: "./sfx/drill1.mp3", volume: 0.4 },
     DRILL2: { path: "./sfx/drill2.mp3", volume: 0.4 },
+    LASER_FIRE: { path: "./sfx/laser_fire.wav", volume: 0.4 },
+    SONIC_WAVE: { path: "./sfx/sonic_wave.mp3", volume: 0.4 },
+    MISSILE_LAUNCH: { path: "./sfx/missile_launch.mp3", volume: 0.4 },
+    SNAKE_HISS: { path: "./sfx/snake_hiss.mp3", volume: 0.4 },
 }
 
 /**
@@ -165,39 +173,42 @@ const SFX = {
  */
 const MUSIC = {
     // Misc.
-    PEACEFUL_CHIPTUNE: { path: "./music/peaceful_chiptune.mp3", volume: 0.05 }, // testing music
-    HIGH_ENERGY: { path: "./music/high_energy_sample.wav", volume: 0.05 },
-    VICTORY: { path: "./music/victory_sample.wav", volume: 0.05 },
-    UPBEAT_CHIPTUNE_1: { path: "./music/upbeat_chiptune_1.mp3", volume: 0.05 },
-    UPBEAT_CHIPTUNE_2: { path: "./music/upbeat_chiptune_2.mp3", volume: 0.05 },
+    PEACEFUL_CHIPTUNE: { path: "./music/peaceful_chiptune.mp3", volume: 0.1 }, // testing music
+    HIGH_ENERGY: { path: "./music/high_energy_sample.wav", volume: 0.1 },
+    VICTORY: { path: "./music/victory_sample.wav", volume: 0.1 },
+    UPBEAT_CHIPTUNE_2: { path: "./music/upbeat_chiptune_2.mp3", volume: 0.1 },
+    UPBEAT_CHIPTUNE_1: { path: "./music/upbeat_chiptune_1.mp3", volume: 0.1 },
 
     // ambient
-    RUSHING_WATER: { path: "./music/rushing_water.mp3", volume: 0.05 },
+    RUSHING_WATER: { path: "./music/rushing_water.mp3", volume: 0.1 },
 
     // Chad's themes
-    CHAD_PLAYFUL_ADVENTURE: { path: "./music/chad_playful_adventure2.mp3", volume: 0.1 },
-    CHAD_VICTORIOUS_EMOTIONAL: { path: "./music/chad_victorious_emotional.mp3", volume: 0.1 },
+    CHAD_PLAYFUL_ADVENTURE: { path: "./music/chad_playful_adventure2.mp3", volume: 0.15 },
+    CHAD_VICTORIOUS_EMOTIONAL: { path: "./music/chad_victorious_emotional.mp3", volume: 0.15 },
 
     // Village themes
-    VILLAGE_TOWN_SQUARE: { path: "./music/village_town_square_sample.wav", volume: 0.05 },
-    VILLAGE_SIMPLE_LIFE: { path: "./music/village_simple_life.mp3", volume: 0.05 },
+    VILLAGE_TOWN_SQUARE: { path: "./music/village_town_square_sample.wav", volume: 0.1 },
+    VILLAGE_SIMPLE_LIFE: { path: "./music/village_simple_life.mp3", volume: 0.1 },
 
     // Forest themes
-    FOREST_BOSS: { path: "./music/forest_boss.mp3", volume: 0.05 },
+    FOREST_BOSS: { path: "./music/forest_boss.mp3", volume: 0.1 },
     // FOREST_NORMAL: {path: "./music/forest_normal.mp3", volume: 0.1},
+    
+    // River themes
+    RIVER_BOSS: { path: "./music/river_boss.mp3", volume: 0.1 },
 
     // Factory themes
-    FACTORY_BOSS: { path: "./music/factory_boss_sample.wav", volume: 0.05 },
+    FACTORY_BOSS: { path: "./music/factory_boss_sample.wav", volume: 0.1 },
     // FACTORY_NORMAL: {path: "./music/factory_normal.mp3", volume: 0.1},
 
     // Mountain themes
-    MOUNTAIN_MYSTERIOUS: { path: "./music/mountain_mysterious.mp3", volume: 0.05 },
+    MOUNTAIN_MYSTERIOUS: { path: "./music/mountain_mysterious.mp3", volume: 0.1},
     // MOUNTAIN_NORMAL: {path: "./music/mountain_normal.mp3", volume: 0.1}, // will be more peaceful, might contain an irish harp and flutes, and ice tinkling sfx
 
-    // Lava themes (all finished!)
-    LAVA_NORMAL: { path: "./music/lava_normal.mp3", volume: 0.05 },
-    LAVA_UNDERGROUND: { path: "./music/lava_underground.mp3", volume: 0.05 },
-    LAVA_TENSE: { path: "./music/lava_tense.mp3", volume: 0.05 }, // might be timed task OR boss music
+    // Lava themes
+    LAVA_NORMAL: { path: "./music/lava_normal.mp3", volume: 0.1},
+    LAVA_UNDERGROUND: { path: "./music/lava_underground.mp3", volume: 0.1},
+    LAVA_TENSE: { path: "./music/lava_tense.mp3", volume: 0.1 }, // might be timed task OR boss music
 
     // END theme
     END: { path: "music/caleb_music/Thunder1.mp3", volume: 0.1 },

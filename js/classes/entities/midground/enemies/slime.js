@@ -122,15 +122,15 @@ class Slime {
         const rand = Math.random();
         if (rand < 0.3) {
             if (this.type === Slime.FROST) {
-                GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SNOWBALL, 2, true, true));
+                GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SNOWBALL, 2));
             } else {
-                GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SLIMEBALL, 1, true, true));
+                GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SLIMEBALL, 1));
             }
         } else if (rand < 0.5) {
             if (this.type === Slime.FROST) {
-                GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SUS_SNOWBALL, 2, true, true));
+                GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SUS_SNOWBALL, 2));
             } else {
-                GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SLIMEBALL, 2, true, true));
+                GAME.addEntity(new AmmoDrop(pos, AmmoDrop.SLIMEBALL, 2));
             }
         }
     }

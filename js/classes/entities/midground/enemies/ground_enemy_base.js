@@ -32,6 +32,7 @@ class GroundEnemyBase {
         enemy.yVelocity = 0;
 
         enemy.getDirection = () => this.getDirection();
+        enemy.knockback = (amount) => this.knockback(amount);
 
         this.minRoamX = pos.x - maxRoamDistance;
         this.targetX = pos.x;
@@ -89,6 +90,14 @@ class GroundEnemyBase {
             case GroundEnemyBase.PASSIVE_STANCE:
             case GroundEnemyBase.AVOID_STANCE:
                 this.flee();
+        }
+    }
+
+    knockback(amount) {
+        if (this.getDirection() == 1) {
+            this.enemy.pos.x -= amount;
+        } else {
+            this.enemy.pos.x += amount;
         }
     }
 
