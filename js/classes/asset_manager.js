@@ -358,6 +358,7 @@ class AssetManager {
             Missile.SPRITESHEET,
             SFX.EXPLOSION_BIG.path,
             SFX.SNAKE_HISS.path,
+            SFX.LIFE_UP.path,
 
             // Music:
             DialogBubble.SPEAKERS.CHAD.spritesheet

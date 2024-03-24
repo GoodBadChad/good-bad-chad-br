@@ -55,9 +55,10 @@ class FoodDrop {
         switch (this.type) {
             case FoodItem.ROAST_TURKEY:
                 // grant Chad extra max health
-                CHAD.increaseMaxHealth(10);
+                CHAD.increaseMaxHealth(15);
                 CHAD.restoreHealth(CHAD.maxHealth);
                 console.log("Chad's max health is now " + CHAD.maxHealth + " HP.");
+                ASSET_MGR.playSFX(SFX.LIFE_UP.path, SFX.LIFE_UP.volume);
                 break;
             case FoodItem.GIANT_MUSHROOM:
                 // grow chad total size by 3.5x 
