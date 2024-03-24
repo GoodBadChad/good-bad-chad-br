@@ -26,7 +26,7 @@ class FoodDrop {
             this.yVelocity = -200;
         }
         this.scale = FoodDrop.NORMAL_FOOD_SCALE;
-        if (this.type == FoodDrop.BACON) {
+        if (this.type == FoodDrop.BACON || this.type == FoodDrop.ROAST_TURKEY) {
             this.scale = FoodDrop.SPECIAL_FOOD_SCALE;
         }
         this.scaledSize = Vector.multiply(FoodDrop.SIZE, this.scale);
@@ -53,6 +53,12 @@ class FoodDrop {
         ASSET_MGR.playSFX(sfx.path, sfx.volume);
 
         switch (this.type) {
+            case FoodItem.ROAST_TURKEY:
+                // grant Chad extra max health
+                CHAD.increaseMaxHealth(10);
+                CHAD.restoreHealth(CHAD.maxHealth);
+                console.log("Chad's max health is now " + CHAD.maxHealth + " HP.");
+                break;
             case FoodItem.GIANT_MUSHROOM:
                 // grow chad total size by 3.5x 
                 // allow him to crush enemies
@@ -94,8 +100,8 @@ class FoodDrop {
                 break;
 
             case FoodItem.BEEF:
-                // fully restore HP
-                CHAD.restoreHealth(Chad.MAX_HEALTH);
+                // restore 80 HP
+                CHAD.restoreHealth(80);
                 break;
         }
     }
@@ -188,5 +194,10 @@ class FoodDrop {
     /** The Giant Mushroom FoodDrop type. */
     static get GIANT_MUSHROOM() {
         return 7;
+    }
+
+    /** The Roast Turkey FoodDrop type. */
+    static get ROAST_TURKEY() {
+        return 8;
     }
 }

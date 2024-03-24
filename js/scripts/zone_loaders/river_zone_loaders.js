@@ -33,6 +33,7 @@ const loadRiver = () => {
         ASSET_MGR.queueDownload(Bird.SPRITESHEET);
 
         ASSET_MGR.queueDownload(MUSIC.RUSHING_WATER.path);
+        ASSET_MGR.queueDownload(MUSIC.RIVER_BOSS.path);
     };
 
     const addEntities = () => {

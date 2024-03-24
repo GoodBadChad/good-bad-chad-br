@@ -128,6 +128,7 @@ class Snake {
                     && secondsSinceLastAttack > Snake.DAMAGE_DELAY && !this.dealtDamage) {
                     // if we're at the proper point in our attack animation, deal damage
     
+                    ASSET_MGR.playSFX(SFX.SNAKE_HISS.path, SFX.SNAKE_HISS.volume);
                     CHAD.takeDamage(Snake.ATTACK_DAMAGE);
                     this.dealtDamage = true;
                 }

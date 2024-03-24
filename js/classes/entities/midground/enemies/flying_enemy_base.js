@@ -21,7 +21,7 @@ class FlyingEnemyBase {
         this.enemy = enemy;
         this.base = new EnemyBase(enemy, pos, scaledSize, speed, health, onDeath);
 
-        this.path = path;
+        this.path = this.relativeToAbsolute(path, pos);
     
         enemy.getDirection = () => this.getDirection();
         
@@ -37,6 +37,17 @@ class FlyingEnemyBase {
         if (!enemy.takeDamage) {
             enemy.takeDamage = (amount) => this.takeDamage(amount);
         }
+    }
+
+    /**
+     * Convert the relative path to an absolute path.
+     * 
+     * @param {Vector[]} path the relative path
+     * @param {Vector} pos the position of the enemy
+     * @returns {Vector[]} the absolute path
+     */
+    relativeToAbsolute(path, pos) {
+        return path.map((node) => Vector.add(node, pos));
     }
 
     /**
@@ -59,6 +70,8 @@ class FlyingEnemyBase {
      * Update the enemy's position and target.
      */
     update() {
+        if (this.enemy.isDead) return;
+
         this.base.updateBoundingBox();
 
         // if we've reached the target position, select a new target position

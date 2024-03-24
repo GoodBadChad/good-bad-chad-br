@@ -95,11 +95,17 @@ class EelBoss {
         GAME.addEntity(new RuneDrop(Vector.add(pos, new Vector(-5, 0)), RuneDrop.GREEN, true, true));
         GAME.addEntity(new RuneDrop(Vector.add(pos, new Vector(2, -2)), RuneDrop.GREEN, true, true));
 
+        ASSET_MGR.stopAudio(MUSIC.RIVER_BOSS.path);
     }
     
     /** Change what the EelBoss is doing and where it is. */
     update() {
         this.base.update();
+
+        if (!this.playingBossMusic && this.base.isInView()) {
+            ASSET_MGR.playMusic(MUSIC.RIVER_BOSS.path, MUSIC.RIVER_BOSS.volume);
+            this.playingBossMusic = true;
+        }
 
         const deathAnim = this.animations[this.base.getFacing()]["dying"];
 

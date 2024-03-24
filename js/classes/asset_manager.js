@@ -329,6 +329,7 @@ class AssetManager {
             SFX.BLEH.path,
             SFX.WATER_BALLOON.path,
 
+
             //TEMPORARY
             SFX.GROWL1.path,
             SFX.GROWL2.path,
@@ -340,12 +341,23 @@ class AssetManager {
             SFX.SNOW_CRUNCH2.path,
             SFX.ROBOT_DEATH1.path,
             SFX.ROBOT_DEATH2.path,
+            SFX.ROBOT_DEATH3.path,
             DrillBot.SPRITESHEET,
             SFX.DRILL1.path,
             SFX.DRILL2.path,
+            OverseerBot.SPRITESHEET,
+            OculiBot.SPRITESHEET,
             Portal.SPRITESHEET,
             SFX.PORTAL_ACTIVATE.path,
-            SFX.PORTAL_IDLE.path,
+            SFX.PORTAL_IDLE.path, 
+            SFX.LASER_FIRE.path,
+            Laser.SPRITESHEET,
+            SFX.SONIC_WAVE.path,  
+            SonicWave.SPRITESHEET, 
+            SFX.MISSILE_LAUNCH.path,
+            Missile.SPRITESHEET,
+            SFX.EXPLOSION_BIG.path,
+            SFX.SNAKE_HISS.path,
 
             // Music:
             DialogBubble.SPEAKERS.CHAD.spritesheet

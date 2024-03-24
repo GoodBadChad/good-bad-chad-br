@@ -72,7 +72,7 @@ class RuneDrop {
 
         const text = "$" + this.amount;
         const textWidth = CTX.measureText(text).width;
-        const worldPos = Vector.worldToCanvasSpace(this.pos);
+        const worldPos = Vector.worldToCanvasSpace(Vector.add(this.pos, new Vector(0, -ItemLabel.TEXT_SIZE)));
         CTX.fillText(text, worldPos.x + this.scaledSize.x - textWidth, worldPos.y + ItemLabel.TEXT_SIZE);
     }
 
