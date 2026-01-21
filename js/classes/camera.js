@@ -1,6 +1,6 @@
 /** 
- * The Camera is going to be updated according to the wizard's position, doing its best to keep
- * the wizard in the center of the camera while respecting the boundaries of the map.
+ * The Camera is going to be updated according to Chad's position, doing its best to keep
+ * Chad in the center of the camera while respecting the boundaries of the map.
  * The Camera itself is not an entity, but it IS going to be updated after the rest of them.
  * @author Devin Peevy 
  */

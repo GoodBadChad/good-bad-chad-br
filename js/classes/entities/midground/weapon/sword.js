@@ -1,5 +1,8 @@
 /**
- * A class that represents Chad's sword.
+ * A class that represents Chad's sword. Because the sword sprite is a part of 
+ * Chad's attack animation, the Sword does not draw itself. Instead, this class
+ * is responsible for (1) waiting for the user to initiate a Sword attack,  
+ * (2) dealing damage, and (3) drawing its bounding box in debug mode.
  * 
  * @author Trae Claar
  * @author Nathan Hinthorne
@@ -7,216 +10,152 @@
 class Sword {
     /**
      * Constructor for a Sword which takes an initial type.
-     * 
-     * @param {number} type the type of the Sword (please use Sword.TYPE_1, .TYPE_2, etc.)
-     * @throws {Error} Will throw an error if type is not a Sword member type.
      */
-    constructor(type) {
-        Sword.checkType(type);
-
-        this.pos = CHAD.pos;
-        this.isAttacking = false;
+    constructor(swordLevel) {
         this.hasHit = false;
-        this.speed = 0;
-        this.offsetX = 0;
-        this.offsetDirX = 0;
-        this.delayTimer = 0;
-
-        this.setType(type);
-
-        this.loadAnimations();
+        this.lastAttack = 0;
+        this.damage = Sword.LEVEL_1_DAMAGE;
+        
+        if (swordLevel === 1) {
+            this.damage = Sword.LEVEL_1_DAMAGE;
+        } else if (swordLevel === 2) {
+             this.damage = Sword.LEVEL_2_DAMAGE;
+        } else if (swordLevel === 3) {
+             this.damage = Sword.LEVEL_3_DAMAGE;
+        }
     };
 
-    /** The size of the Sword on the spritesheet. */
+    /** The size of the Sword in the game world before scaling. */
     static get SIZE() {
-        return new Vector(40, 40);
+        return new Vector(40, Chad.DEFAULT_BOUNDING_BOX_SIZE.y);
     };
-
-    /** The scale factor applied to the Sword when drawing. */
-    static get SCALE() {
-        return 3;
-    };
-
-    /** The size of the Sword after the scale factor is applied. */
-    static get SCALED_SIZE() {
-        return Vector.multiply(Sword.SIZE, Sword.SCALE);
-    };
-
-    /** The maximum distance the Sword can be from Chad while jabbing before it begins retracting. */
-    static get MAX_OFFSET() {
-        return 30;
-    }
-
-    /** The offset from Chad's y-position applied to the Sword's y-position. */
-    static get Y_OFFSET() {
-        return 10;
-    }
 
     /** The spritesheet containing all the Sword types. */
     static get SPRITESHEET() {
+        // TODO: determine if this property still belongs here. The HUD still uses
+        // it, but it is no longer used within this class.
         return "./sprites/swords.png";
     };
 
-    /** How fast the Sword moves while jabbing. */
-    static get JAB_SPEED() {
-        return 300;
-    };
-
-    /** How fast the Sword moves while retracting. */
-    static get RETRACT_SPEED() {
-        return 150;
-    };
-
-    /** Sword type 1 (rename later). */
-    static get TYPE_1() {
-        return 0;
+    /** The duration of an attack, in seconds. */
+    static get DURATION() {
+        return 2 / 5;
     }
 
-    /** Sword type 2 (rename later). */
-    static get TYPE_2() {
-        return 1;
-    }
-
-    /** Sword type 3 (rename later). */
-    static get TYPE_3() {
-        return 2;
-    }
-
-    /** Sword type 4 (rename later). */
-    static get TYPE_4() {
+    /** The amount of damage the Sword deals during an attack. */
+    static get LEVEL_1_DAMAGE() {
         return 3;
-    }
-
-    /** Sword type 5 (rename later). */
-    static get TYPE_5() {
-        return 4;
-    }
-
-    /** The property table for Sword types. */
-    static get PROPERTY_TABLE() {
-        return {
-            [Sword.TYPE_1]: {
-                DAMAGE: 5,
-                DELAY: 0.9
-            },
-            [Sword.TYPE_2]: {
-                DAMAGE: 10,
-                DELAY: 0.6
-            },
-            [Sword.TYPE_3]: {
-                DAMAGE: 20,
-                DELAY: 0.6
-            },
-            [Sword.TYPE_4]: {
-                DAMAGE: 40,
-                DELAY: 0.3
-            },
-            [Sword.TYPE_5]: {
-                DAMAGE: 80,
-                DELAY: 0.0
-            }
-        };
     };
 
-    /**
-     * Helper method that checks the validity of the provided Sword type.
-     * 
-     * @param {number} type the type value to check
-     * @throws {Error} Will throw an error if type is invalid.
-     */
-    static checkType(type) {
-        if (typeof type !== "number" || type % 1 !== 0 || type < 0 || type > 4) {
-            throw new Error("Invalid Sword type: please use a Sword member type (e.g. Sword.TYPE_1).");
+    /** The amount of damage the Sword deals during an attack. */
+    static get LEVEL_2_DAMAGE() {
+        return 6;
+    };
+
+    /** The amount of damage the Sword deals during an attack. */
+    static get LEVEL_3_DAMAGE() {
+        return 9;
+    };
+
+    upgrade() {
+        if (this.damage === Sword.LEVEL_1_DAMAGE) {
+            this.damage = Sword.LEVEL_2_DAMAGE;
+            CHAD.swordLevel = 2;
+        } else if (this.damage === Sword.LEVEL_2_DAMAGE) {
+            this.damage = Sword.LEVEL_3_DAMAGE;
+            CHAD.swordLevel = 3;
+        } else {
+            console.log("Sword is already at its maximum damage level.");
         }
     }
 
-    /**
-     * Helper method. Gets the value of a property for the current Sword type.
+    /** 
+     * Whether or not an attack is ongoing. 
      * 
-     * @param {string} propertyName the name of the property
-     * @returns the value associated with propertyName for the Sword type
+     * @returns {boolean} true if a Sword attack is underway, false otherwise
      */
-    getProperty(propertyName) {
-        return Sword.PROPERTY_TABLE[this.type][propertyName];
-    };
+    isSlicing() {
+        return (Date.now() - this.lastAttack) / 1000 < Sword.DURATION;
+    }
 
     /**
-     * Set the sword to another type.
+     * Finds the position of the Sword's bounding box based on Chad's current position, 
+     * scale, and direction.
      * 
-     * @param {number} type the type of sword we're switching to
+     * @returns {Vector} the current position of the Sword's bounding box
      */
-    setType(type) {
-        this.type = type;
-        this.loadAnimations();
+    calculatePosition() {
+        const chadBBOffset = CHAD.getBoundingBoxOffset().x;
+        const offset = (CHAD.facing === "left") ? -this.calculateSize().x + chadBBOffset : chadBBOffset + CHAD.scaledSize.x;
+        return Vector.add(CHAD.pos, new Vector(offset, CHAD.getBoundingBoxOffset().y));
+    }
+
+    /**
+     * Calculates the current size of the Sword's bounding box based on Chad's current
+     * scale factor.
+     * 
+     * @returns {Vector} the size of the Sword's bounding box
+     */
+    calculateSize() {
+        return new Vector(Sword.SIZE.x * CHAD.scale.x, Sword.SIZE.y * CHAD.scale.y);
     }
 
     /** Update the Sword. */
     update() {
-        if (CHAD.health <= 0) {
-            return;
-        }
+        if (CHAD.health <= 0) return;
 
-        this.delayTimer -= GAME.clockTick;
+        if (!this.isSlicing()) {
+            // the Sword is not currently attacking
 
-        if (GAME.user.jabbing && !this.isAttacking && this.delayTimer <= 0) {
-            // choose from 3 different slash sounds
-            const rand = Math.floor(Math.random() * 3) + 8; //Math.floor(Math.random() * 8) + 1;  use this if you want all 8 sounds
-            const sfx = SFX["SWORD_SWING" + rand];
-            ASSET_MGR.playSFX(sfx.path, sfx.volume);
+            if (GAME.user.jabbing) { 
+                // a new attack is starting
 
-            this.isAttacking = true;
-            this.offsetDirX = 1;
-            this.speed = Sword.JAB_SPEED;
-            this.hasHit = false;
+                this.hasHit = false;
+                this.lastAttack = Date.now();
 
-            this.delayTimer = this.getProperty("DELAY"); // reset the hit delay
-            
-        } else if (this.offsetX >= Sword.MAX_OFFSET) {
-            this.offsetDirX *= -1;
-            this.speed = Sword.RETRACT_SPEED;
-        } else if (this.offsetX <= 0) {
-            this.isAttacking = false;
-        }
+                // choose from 3 different swing sounds
+                const rand = Math.floor(Math.random() * 3) + 8;
+                const sfx = SFX["SWORD_SWING" + rand];
+                ASSET_MGR.playSFX(sfx.path, sfx.volume);
 
-        const padding = (CHAD.facing === "left") ? -Sword.SCALED_SIZE.x : CHAD.scaledSize.x;
-
-        const basePos = Vector.add(CHAD.pos, new Vector(padding, Sword.Y_OFFSET));
-
-        if (this.isAttacking) {
-            this.offsetX = Math.min(this.offsetX + this.offsetDirX * this.speed * GAME.clockTick, Sword.MAX_OFFSET);
-
-            // attack only once per animation cycle
-            if (!this.hasHit) {
-                const bb = new BoundingBox(basePos, new Vector(Sword.SCALED_SIZE.x, CHAD.scaledSize.y));
-                GAME.entities.midground.forEach((entity) => {
-                    if (this != entity && entity.boundingBox && entity.takeDamage) {
-                        if (bb.collide(entity.boundingBox)) {
-                            entity.takeDamage(this.getProperty("DAMAGE") * CHAD.damageMultiplier);
-                            this.hasHit = true;
-                            ASSET_MGR.playSFX(SFX.SWORD_HIT.path, SFX.SWORD_HIT.volume);
-                        }
-                    }
-                });
+                // reset Chad's attack animations
+                CHAD.animations[CHAD.facing]["slicing"].elapsedTime = 0;
+                CHAD.animations[CHAD.facing]["slicingStill"].elapsedTime = 0;
             }
+        } else if (!this.hasHit) {
+            // an attack is currently underway
+
+            const bb = new BoundingBox(this.calculatePosition(), this.calculateSize());
+
+            GAME.entities.midground.forEach((entity) => {
+                if (this != entity && entity.boundingBox && entity.takeDamage) {
+                    if (bb.collide(entity.boundingBox)) {
+                        entity.takeDamage(this.damage * CHAD.damageMultiplier);
+                        this.hasHit = true;
+
+                        //TODO find a way to implement knockback that appears more natural
+                        // if (entity.knockback) {
+                        //     // if the entity has a knockback method, knock it back
+                        //     entity.knockback(30);
+                        // }
+                        
+                        // choose from 3 different hit sounds
+                        const rand = Math.floor(Math.random() * 3) + 1;
+                        const sfx = SFX["SWORD_HIT" + rand];
+                        ASSET_MGR.playSFX(sfx.path, sfx.volume);
+                    }
+                }
+            });
         }
-
-        const chadDirX = (CHAD.facing === "left") ? -1 : 1;
-        this.pos = Vector.add(basePos, new Vector(this.offsetX * chadDirX, 0));
     };
 
-    /** Draw the Sword. */
+    /** Draw the Sword's bounding box when debug mode is on. */
     draw() {
-        //    if (this.isAttacking) {
-        //         this.animations[CHAD.facing].drawFrame(Vector.worldToCanvasSpace(this.pos), Sword.SCALE);
-        //    }
+        if (GAME.debug) {
+            const basePos = Vector.worldToCanvasSpace(this.calculatePosition());
+            CTX.strokeStyle = "purple";
+            CTX.strokeRect(basePos.x, basePos.y, this.calculateSize().x, this.calculateSize().y)
+        }
     };
 
-    /** Load the Sword's animations. */
-    loadAnimations() {
-        this.animations = [];
-        this.animations["left"] = new Animator(Sword.SPRITESHEET,
-            new Vector(0, this.type * Sword.SIZE.y), Sword.SIZE, 1, 1);
-        this.animations["right"] = new Animator(Sword.SPRITESHEET,
-            new Vector(Sword.SIZE.x, this.type * Sword.SIZE.y), Sword.SIZE, 1, 1);
-    }
 };

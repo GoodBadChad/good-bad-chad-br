@@ -15,7 +15,7 @@ class AssetManager {
         this.cache = [];
         /** The current background music */
         this.currentMusic = null;
-    };
+    }
 
     /**
      * This method simply adds a filepath to the downloadQueue.
@@ -23,14 +23,16 @@ class AssetManager {
     queueDownload(path) {
         // console.log("Queueing " + path);
         this.downloadQueue.push(path);
-    };
+    }
 
     /**
-     * @returns true if the AssetManager has put (or attempted to put) every Asset into the cache. 
+     * @returns true if the AssetManager has put (or attempted to put) every Asset into the cache.
      */
     isDone() {
-        return this.downloadQueue.length === this.successCount + this.errorCount;
-    };
+        return (
+            this.downloadQueue.length === this.successCount + this.errorCount
+        );
+    }
 
     /**
      * This method is going to take all paths from the downloadQueue and actually download them into images or audio, which will be stored in
@@ -40,12 +42,11 @@ class AssetManager {
     downloadAll(callback) {
         if (this.downloadQueue.length === 0) setTimeout(callback, 10);
         for (let i = 0; i < this.downloadQueue.length; i++) {
-
             const path = this.downloadQueue[i];
 
             // make sure the path is a string
             if (typeof path !== 'string') {
-                console.log("Error loading " + path + ": not a string");
+                console.log('Error loading ' + path + ': not a string');
             }
 
             const ext = path.substring(path.length - 3);
@@ -54,14 +55,14 @@ class AssetManager {
                 case 'jpg':
                 case 'png':
                     const img = new Image();
-                    img.addEventListener("load", () => {
+                    img.addEventListener('load', () => {
                         // console.log("Loaded " + path);
                         this.successCount++;
                         if (this.isDone()) callback();
                     });
 
-                    img.addEventListener("error", () => {
-                        console.log("Error loading " + path);
+                    img.addEventListener('error', () => {
+                        console.log('Error loading ' + path);
                         this.errorCount++;
                         if (this.isDone()) callback();
                     });
@@ -73,19 +74,19 @@ class AssetManager {
                 case 'mp3':
                 case 'wav':
                     const audio = new Audio();
-                    audio.addEventListener("loadeddata", () => {
+                    audio.addEventListener('loadeddata', () => {
                         // console.log("Loaded " + path);
                         this.successCount++;
                         if (this.isDone()) callback();
                     });
 
-                    audio.addEventListener("error", () => {
-                        console.log("Error loading " + path);
+                    audio.addEventListener('error', () => {
+                        console.log('Error loading ' + path);
                         this.errorCount++;
                         if (this.isDone()) callback();
                     });
 
-                    audio.addEventListener("ended", () => {
+                    audio.addEventListener('ended', () => {
                         audio.pause();
                         audio.currentTime = 0;
                     });
@@ -97,12 +98,14 @@ class AssetManager {
                     break;
 
                 default:
-                    console.log("Error loading " + path + ": unknown file extension");
+                    console.log(
+                        'Error loading ' + path + ': unknown file extension'
+                    );
                     this.errorCount++;
                     if (this.isDone()) callback();
             }
         }
-    };
+    }
 
     /**
      * @param {string} path The filepath of the Asset you are trying to access.
@@ -110,7 +113,7 @@ class AssetManager {
      */
     getAsset(path) {
         return this.cache[path];
-    };
+    }
 
     /**
      * This refreshes the AssetManager to be like new. This is done upon loading a zone to keep down space waste.
@@ -120,37 +123,51 @@ class AssetManager {
         this.errorCount = 0;
         this.downloadQueue = AssetManager.BAREBONES_DL_Q;
         this.cache = [];
-    };
+    }
 
     /**
      * Plays the audio associated with the given path.
      * @param {string} path The filepath of the audio you are trying to play.
      * @param {number} volume The volume to which you want to set the audio.
      */
-    playSFX(path, volume) {
+    playSFX(path, volume, loop = false) {
         const audio = this.cache[path];
         audio.currentTime = 0;
         audio.volume = volume;
 
         audio.play();
-    };
+        if (loop) {
+            audio.addEventListener('ended', () => {
+                audio.play();
+            });
+        }
+    }
 
     /**
      * Plays the audio associated with the given path.
      * @param {string} path The filepath of the audio you are trying to play.
      * @param {number} volume The volume to which you want to set the audio.
      */
-    playMusic(path, volume) {
+    playMusic(path, volume, loop = true) {
+        // console.log("Playing music: " + path);
+        if (this.currentMusic) {
+            this.currentMusic.pause();
+            this.currentMusic.currentTime = 0;
+        }
+
         const audio = this.cache[path];
+        // console.log(audio);
         audio.currentTime = 0;
         audio.volume = volume;
         this.currentMusic = audio;
 
         audio.play();
-        audio.addEventListener("ended", () => { //! might have a bug where pauseMusic "ends" the music. Check it out
-            audio.play();
-        });
-    };
+        if (loop) {
+            audio.addEventListener('ended', () => {
+                audio.play();
+            });
+        }
+    }
 
     /**
      * Pauses the currently playing background music.
@@ -158,17 +175,31 @@ class AssetManager {
     pauseMusic() {
         if (this.currentMusic) {
             this.currentMusic.pause();
+            console.log('Music paused.');
         } else {
-            console.log("No music to pause.");
+            console.log('No music to pause.');
         }
     }
 
+    /**
+     * Resumes the currently paused background music from where it left off.
+     */
     resumeMusic() {
         if (this.currentMusic) {
             this.currentMusic.play();
+            console.log('Music resumed.');
         } else {
-            console.log("No music to unpause.");
+            console.log('No music to resume.');
         }
+    }
+
+    /**
+     * @param {string} path The filepath of the audio you are trying to check if it is playing.
+     * @returns true if the audio associated with the given path is currently playing.
+     */
+    audioIsPlaying(path) {
+        const audio = this.cache[path];
+        return audio.currentTime != 0 && !audio.paused;
     }
 
     /**
@@ -176,12 +207,40 @@ class AssetManager {
      * @param {string} path The filepath of the audio you are trying to stop.
      */
     stopAudio(path) {
+        // console.log("Stopped audio: " + path);
         const audio = this.cache[path];
         audio.pause();
         audio.currentTime = 0;
-    };
+    }
 
-    /** 
+    /**
+     * Stops all audio currently playing.
+     */
+    stopAllAudio() {
+        for (let key in this.cache) {
+            const audio = this.cache[key];
+            if (audio instanceof Audio) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+        }
+    }
+
+    /**
+     * Stops all sound effects currently playing.
+     * This is useful for stopping all sound effects when the game is paused.
+     */
+    stopAllSFX() {
+        for (let key in this.cache) {
+            const audio = this.cache[key];
+            if (audio instanceof Audio && !audio.loop) {
+                audio.pause();
+                audio.currentTime = 0;
+            }
+        }
+    }
+
+    /**
      * Sets the volume of all audio in the cache to the given volume.
      * @param {number} volume The volume to which you want to set the audio.
      */
@@ -192,7 +251,7 @@ class AssetManager {
                 audio.volume = volume;
             }
         }
-    };
+    }
 
     /**
      * The BAREBONES_DL_Q is an array of strings, filepaths to the most essential assets in our game.
@@ -207,13 +266,19 @@ class AssetManager {
             DialogBubble.SPRITESHEET,
             OverheadIcon.SPRITESHEET,
             PapaChad.SPRITESHEET,
-            Projectile.SPRITESHEET,
             Slingshot.SPRITESHEET,
+            StartMenu.TITLE_SPRITESHEET,
             Sun.SPRITESHEET,
             Sword.SPRITESHEET,
             RuneDrop.SPRITESHEET,
-            RuneItem.SPRITESHEET,
             FoodDrop.SPRITESHEET,
+            AmmoDrop.SPRITESHEET,
+            DashCooldown.SPRITESHEET,
+            Bomb.SPRITESHEET,
+            Rock.SPRITESHEET,
+            Rock.SPRITESHEET_EASTER_EGG,
+            WaterBalloon.SPRITESHEET,
+            Spawnpoint.SPRITESHEET,
 
             // Sounds:
             SFX.JUMP1.path,
@@ -234,7 +299,9 @@ class AssetManager {
             SFX.SWORD_SWING8.path,
             SFX.SWORD_SWING9.path,
             SFX.SWORD_SWING10.path,
-            SFX.SWORD_HIT.path,
+            SFX.SWORD_HIT1.path,
+            SFX.SWORD_HIT2.path,
+            SFX.SWORD_HIT3.path,
             SFX.SWOOSH.path,
             SFX.RICOCHET1.path,
             SFX.RICOCHET2.path,
@@ -248,20 +315,61 @@ class AssetManager {
             SFX.GAME_OVER.path,
             SFX.UI_HIGH_BEEP.path,
             SFX.UI_GAMEBOY_BEEP.path,
+            SFX.UI_SNAP.path,
             SFX.FOOD_EAT1.path,
             SFX.FOOD_EAT2.path,
             SFX.FOOD_EAT3.path,
             SFX.FOOD_EAT4.path,
+            SFX.DING.path,
+            SFX.MEGA_MUSHROOM.path,
+            SFX.AMMO_COLLECT.path,
+            SFX.COIN_COLLECT.path,
+            Snowball.SPRITESHEET,
+            SusSnowball.SPRITESHEET,
+            Slimeball.SPRITESHEET,
+            Slimeball.SPRITESHEET_EASTER_EGG,
+            SFX.SLIME_SPLAT.path,
+            Broccoli.SPRITESHEET,
+            SFX.BLEH.path,
+            SFX.WATER_BALLOON.path,
+            SFX.HMM1.path,
+            SFX.HMM2.path,
+            SFX.REVIVE.path,
 
+            //TEMPORARY
+            SFX.SLIME_ATTACK.path,
+            SFX.GROWL1.path,
+            SFX.GROWL2.path,
+            SFX.SMASH1.path,
+            SFX.SMASH2.path,
+            SFX.SMASH3.path,
+            Yeti.SPRITESHEET,
+            SFX.SNOW_CRUNCH1.path,
+            SFX.SNOW_CRUNCH2.path,
+            SFX.ROBOT_DEATH1.path,
+            SFX.ROBOT_DEATH2.path,
+            SFX.ROBOT_DEATH3.path,
+            DrillBot.SPRITESHEET,
+            SFX.DRILL1.path,
+            SFX.DRILL2.path,
+            OverseerBot.SPRITESHEET,
+            OculiBot.SPRITESHEET,
+            Portal.SPRITESHEET,
+            SFX.PORTAL_ACTIVATE.path,
+            SFX.PORTAL_IDLE.path,
+            SFX.LASER_FIRE.path,
+            Laser.SPRITESHEET,
+            SFX.SONIC_WAVE.path,
+            SonicWave.SPRITESHEET,
+            SFX.MISSILE_LAUNCH.path,
+            Missile.SPRITESHEET,
+            SFX.EXPLOSION_BIG.path,
+            SFX.SNAKE_HISS.path,
+            SFX.LIFE_UP.path,
+            SFX.SWORD_UPGRADE.path,
+            ClearFieldTrashCan.SPRITESHEET,
             // Music:
-            MUSIC.PEACEFUL_CHIPTUNE.path,
-            MUSIC.HIGH_ENERGY.path,
-            MUSIC.VICTORY.path,
-            MUSIC.UPBEAT_CHIPTUNE_1.path,
-            MUSIC.UPBEAT_CHIPTUNE_2.path,
-            MUSIC.CHAD_PLAYFUL_ADVENTURE.path,
             DialogBubble.SPEAKERS.CHAD.spritesheet
         ];
-    };
-};
-
+    }
+}

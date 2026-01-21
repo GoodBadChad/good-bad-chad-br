@@ -12,30 +12,33 @@ class Inventory {
     constructor() {
         /** The current ammo that the player has collected. Filled with AmmoItem objects */
         this.ammoBag = [];
-        this.intializeAmmoBag();
+        this.initAmmoBag();
+
         /** The current ammo that the player has collected. Filled with FoodItem objects */
-        this.foodBag = [];
-        this.intializeFoodBag();
-        /** The current runes that the player has collected. Filled with RuneItem objects */
-        this.runeBag = [];
-        this.intializeRuneBag();
+
+        this.foodBag = []; //! not currently in use
+        this.initFoodBag(); 
+
+        /** The total value of runes that the player has collected. A single number */
+        this.runes = 10;
+
         /** Permanent items Chad collects and potentially has abilities tied to */
-        this.unlockables = [];
+        this.unlockables = []; //! not currently in use
     }
 
-    intializeAmmoBag() {
-        this.ammoBag.push(new AmmoItem(AmmoItem.STONE, Infinity));
-        this.ammoBag.push(new AmmoItem(AmmoItem.WOOD, 0));
+    initAmmoBag() {
+        this.ammoBag.push(new AmmoItem(AmmoItem.ROCK, 15));
+        this.ammoBag.push(new AmmoItem(AmmoItem.SLIMEBALL, 0));
         this.ammoBag.push(new AmmoItem(AmmoItem.BOMB, 0));
-        this.ammoBag.push(new AmmoItem(AmmoItem.METAL, 0));
-        this.ammoBag.push(new AmmoItem(AmmoItem.LASER, 0));
+        this.ammoBag.push(new AmmoItem(AmmoItem.SNOWBALL, 0));
+        this.ammoBag.push(new AmmoItem(AmmoItem.SUS_SNOWBALL, 0));
+        this.ammoBag.push(new AmmoItem(AmmoItem.BROCCOLI, 0));
+        this.ammoBag.push(new AmmoItem(AmmoItem.WATER_BALLOON, 0));
 
-        // temporary, for testing purposes
-        this.adjustAmmo(AmmoItem.BOMB, 10);
-        this.switchToAmmo(AmmoItem.BOMB);
+        this.switchToAmmo(AmmoItem.ROCK);
     }
 
-    intializeFoodBag() {
+    initFoodBag() {
         this.foodBag.push(new FoodItem(FoodItem.CHICKEN, 0));
         this.foodBag.push(new FoodItem(FoodItem.STEAK, 0));
         this.foodBag.push(new FoodItem(FoodItem.HAM, 0));
@@ -43,26 +46,11 @@ class Inventory {
         this.foodBag.push(new FoodItem(FoodItem.BACON, 0));
         this.foodBag.push(new FoodItem(FoodItem.BURGER, 0));
         this.foodBag.push(new FoodItem(FoodItem.ENERGY_DRINK, 0));
-
-        // this.currentFood = null;
-
-        // temporary, for testing purposes
-        this.adjustFood(FoodItem.BURGER, 10);
-        this.switchToFood(FoodItem.BURGER);
-    }
-
-    intializeRuneBag() {
-        this.runeBag.push(new RuneItem(RuneItem.YELLOW, 0));
-        this.runeBag.push(new RuneItem(RuneItem.WHITE, 0));
-        this.runeBag.push(new RuneItem(RuneItem.BLUE, 0));
-        this.runeBag.push(new RuneItem(RuneItem.RED, 0));
-        this.runeBag.push(new RuneItem(RuneItem.GREEN, 0));
-        this.runeBag.push(new RuneItem(RuneItem.PURPLE, 0));
     }
 
 
     /**
-     * @param {number} type The type of the ammo to adjust the supply of.
+     * @param {string} type The type of the ammo to adjust the supply of.
      * @param {number} amount The amount to adjust the ammo supply by.
      */
     adjustAmmo(type, amount) {
@@ -113,8 +101,8 @@ class Inventory {
 
         if (this.currentAmmo.amount != Infinity) {
             this.currentAmmo.adjustSupply(-1);
-            return this.currentAmmo.type;
         }
+        return this.currentAmmo.type;
     }
 
     /**
@@ -193,36 +181,15 @@ class Inventory {
         return this.currentFood;
     }
 
+    spendRunes(runes) {
+        this.runes -= runes;
+        HUD.runeCounter.setCount(this.runes);
+    };
 
-
-    /**
-     * @param {number} type The type of the rune to add to the inventory.
-     * @param {number} amount The amount of rune to add to the inventory.
-     */
-    addRune(type, amount) {
-
-    }
-
-    /**
-     * @returns {Array} An array of all the rune in the inventory.
-     */
-    getAllRunes() {
-        return this.runeBag;
-    }
-
-    /**
-     * @param {number} type The type of the rune to get.
-     * @returns {RuneItem} The rune with the given name.
-     */
-    getRune(type) {
-        for (let i = 0; i < this.runeBag.length; i++) {
-            let rune = this.runeBag[i];
-            if (rune.type == type) {
-                return this.runeBag[i];
-            }
-        }
-    }
-
+    collectRunes(runes) {
+        this.runes += runes;
+        HUD.runeCounter.setCount(this.runes);
+    };
 
 
 
@@ -230,8 +197,8 @@ class Inventory {
      * Logs the current state of the inventory to the console.
      */
     toString() {
-        console.log("♠ Ammo ♠ -- " + this.ammoBag);
-        console.log("♥ Food ♥ -- " + this.foodBag);
-        console.log("♦ Runes ♦ -- " + this.runeBag);
+        console.log("♠ Ammo ♠ -- ", this.ammoBag);
+        console.log("♥ Food ♥ -- ", this.foodBag);
+        console.log("♦ Runes ♦ -- ", this.runeBag);
     }
 }

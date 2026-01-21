@@ -1,11 +1,7 @@
 const loadVillageCanyon = () => {
-    const queueAssets = () => {
+    const queueAssets = () => {};
 
-    };
-
-    const addEntities = () => {
-
-    };
+    const addEntities = () => {};
 
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);
@@ -13,253 +9,330 @@ const loadVillageCanyon = () => {
 
 const loadVillageField = () => {
     const queueAssets = () => {
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_BUSHY.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_LANKY.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.CARROT.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.MED_RED_FLOWER_1.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.MED_RED_FLOWER_2.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.MED_RED_FLOWER_3.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.POTATO.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.PRIDE_FLOWER_1.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.PRIDE_FLOWER_2.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.PRIDE_FLOWER_3.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_1.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_2.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_3.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.grass.GRASS_1.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.grass.GRASS_2.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.grass.GRASS_3.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.houses.BLACKSMITH_HOUSE.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.houses.CHAD_HOUSE.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.houses.MAYOR_HOUSE.SPRITESHEET);
-        ASSET_MGR.queueDownload(Rain.SPRITESHEET_DOWN);
-        ASSET_MGR.queueDownload(Rain.SPRITESHEET_LEFT);
-        ASSET_MGR.queueDownload(Rain.SPRITESHEET_RIGHT);
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_BUSHY.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_LANKY.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.CARROT.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.MED_RED_FLOWER_1.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.POTATO.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.PRIDE_FLOWER_1.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.PRIDE_FLOWER_2.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.PRIDE_FLOWER_3.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_1.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.grass.GRASS_1.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.grass.GRASS_2.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.grass.GRASS_3.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.houses.BLACKSMITH_HOUSE.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.houses.CHAD_HOUSE.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.houses.MAYOR_HOUSE.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(Precipitation.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_1.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_2.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_3.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_2.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_3.SPRITESHEET);
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.trees.SPRUCE_2.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.trees.SPRUCE_3.SPRITESHEET
+        );
+
+        ASSET_MGR.queueDownload(MUSIC.UPBEAT_CHIPTUNE_2.path);
+
         // NPCs
         ASSET_MGR.queueDownload(Bird.SPRITESHEET);
         ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
         ASSET_MGR.queueDownload(Snake.SPRITESHEET);
-
     };
 
     const addEntities = () => {
-        // Add a border to the right side of the map, leading to the field.
-        GAME.addEntity(new Border(
-            new Vector(ZONE.MAX_PT.x, 0), // start at the far right side of the Zone, and at the top
-            new Vector(1, ZONE.PIXEL_SIZE.y), // only one pixel wide, but as tall as the entire Zone.
-            Zone.getZones().village.main
-        ));
+        // Add a border to the right side of the map, leading to the village.
+        GAME.addEntity(
+            new Border(
+                new Vector(ZONE.MAX_PT.x, 0),
+                new Vector(1, ZONE.PIXEL_SIZE.y),
+                Zone.getZones().village.main
+            )
+        );
 
+        // Add a locked border to the western edge of the zone to prevent character from falling off the edge of the world.
+        GAME.addEntity(
+            new Border(
+                new Vector(ZONE.MIN_PT.x - 1, 0),
+                new Vector(1, ZONE.PIXEL_SIZE.y),
+                null,
+                true
+            )
+        );
 
-        // Add 10 layers of blocks to the bottom
-        for (let y = ZONE.MAX_BLOCK.y; y >= ZONE.MIN_BLOCK.y; y--) {
-            for (let x = ZONE.MAX_BLOCK.x; x >= ZONE.MIN_BLOCK.x; x--) {
-                // GAME.addEntity(new Block(i, j, Block.DIRT));a
-
-                // const pos = new Vector(y, x);
-                // console.log('Starting block x ' + x);
-                // console.log('Starting block y ' + y);
-
-                switch (fieldTilemap[y][x]) {
-
-                    case 'j':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_SPRUCE_STAIRS_RIGHT));
-                        break;
-                    case 'i':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_SPRUCE_STAIRS_LEFT));
-                        break;
-                    case 'h':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_OAK_STAIRS_RIGHT), 0);
-                        break;
-                    case 'g':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_OAK_STAIRS_LEFT), -1);
-                        break;
-                    case 'f':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE_VOLCANIC));
-                        break;
-                    case 'e':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE_DARK));
-                        break;
-                    case 'd':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE));
-                        break;
-                    case 'c':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_REDWOOD_LIGHT));
-                        break;
-                    case 'b':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_REDWOOD));
-                        break;
-                    case 'a':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.LOG_SPRUCE_VIRTICAL));
-                        break;
-                    case '9':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.LOG_SPRUCE_HORIZONTAL));
-                        break;
-                    case '8':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_SPRUCE));
-                        break;
-                    case '7':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_OAK));
-                        break;
-                    case '6':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.BARS));
-                        break;
-                    case '5':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.LAVA_ROCK));
-                        break;
-                    case '4':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.SNOWY_ICE));
-                        break;
-                    case '3':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.SNOWY_DIRT));
-                        break;
-                    case '2':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.GRASS));
-                        break;
-                    case '1':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.DIRT), -1);
-                        break;
-
-                    default:
-                        break;
-                }
-            }
-
-        }
+        TilemapInterpreter.setTilemap(fieldTilemap);
 
         for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
             if (x % 3 == 0) {
-
                 for (let i = 0; i < 5; i += 0.5) {
-                    i += .5;
-                    GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_3, Vector.blockToWorldSpace(new Vector(x + i, 20))), 0);
-                    i += .4;
-                    GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.PRIDE_FLOWER_4, Vector.blockToWorldSpace(new Vector(x + i, 20))), 0);
-                    i += .35;
+                    i += 0.5;
+                    GAME.addEntity(
+                        new Decoration(
+                            Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_3,
+                            Vector.blockToWorldSpace(new Vector(x + i, 20))
+                        ),
+                        0
+                    );
+                    i += 0.4;
+                    GAME.addEntity(
+                        new Decoration(
+                            Decoration.DECORATIONS.flowers.PRIDE_FLOWER_4,
+                            Vector.blockToWorldSpace(new Vector(x + i, 20))
+                        ),
+                        0
+                    );
+                    i += 0.35;
 
-                    GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.MED_RED_FLOWER_3, Vector.blockToWorldSpace(new Vector(x + i, 20))), 0);
+                    GAME.addEntity(
+                        new Decoration(
+                            Decoration.DECORATIONS.flowers.MED_RED_FLOWER_3,
+                            Vector.blockToWorldSpace(new Vector(x + i, 20))
+                        ),
+                        0
+                    );
                 }
             }
 
-            GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_1, Vector.blockToWorldSpace(new Vector(x, 20))), 1);
-            GAME.addEntity(new Decoration(Decoration.DECORATIONS.grass.GRASS_3, Vector.blockToWorldSpace(new Vector(x + 10, 20))), -1);
-
-
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.grass.GRASS_1,
+                    Vector.blockToWorldSpace(new Vector(x, 20))
+                ),
+                1
+            );
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.grass.GRASS_3,
+                    Vector.blockToWorldSpace(new Vector(x + 10, 20))
+                ),
+                -1
+            );
 
             // Also, add a flower to the top of every block!
         }
-        GAME.addEntity(new Snake(Vector.blockToWorldSpace(new Vector(50, aboveGroundLevel))));
-        GAME.addEntity(new Snake(Vector.blockToWorldSpace(new Vector(55, aboveGroundLevel))));
-        GAME.addEntity(new Snake(Vector.blockToWorldSpace(new Vector(53, aboveGroundLevel))));
-        GAME.addEntity(new Bunny(Vector.blockToWorldSpace(new Vector(60, aboveGroundLevel))));
-        GAME.addEntity(new Bunny(Vector.blockToWorldSpace(new Vector(65, aboveGroundLevel))));
-        GAME.addEntity(new Bunny(Vector.blockToWorldSpace(new Vector(70, aboveGroundLevel))));
-
-
-        // Draw Sun.
+        GAME.addEntity(
+            new Snake(
+                Vector.blockToWorldSpace(new Vector(50, aboveGroundLevel))
+            )
+        );
+        GAME.addEntity(
+            new Snake(
+                Vector.blockToWorldSpace(new Vector(55, aboveGroundLevel))
+            )
+        );
+        GAME.addEntity(
+            new Snake(
+                Vector.blockToWorldSpace(new Vector(53, aboveGroundLevel))
+            )
+        );
+        GAME.addEntity(
+            new Bunny(
+                Vector.blockToWorldSpace(new Vector(60, aboveGroundLevel))
+            )
+        );
+        GAME.addEntity(
+            new Bunny(
+                Vector.blockToWorldSpace(new Vector(65, aboveGroundLevel))
+            )
+        );
+        GAME.addEntity(
+            new Bunny(
+                Vector.blockToWorldSpace(new Vector(70, aboveGroundLevel))
+            )
+        );
 
         // Spawn Chad.
-        if (LAST_ZONE.equals(Zone.getZones().village.mountain)) { // Coming from mountain.
+        if (LAST_ZONE.equals(Zone.getZones().village.main)) {
+            // Coming from mountain.
             // Set spawn point on the right.
-            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 3, aboveGroundLevel);
-            CHAD.pos = Vector.blockToWorldSpace(blockPos);
-        } else if (LAST_ZONE.equals(Zone.getZones().village.main)) { // Coming from main.
-            // spawn on left.
-            const blockPos = new Vector(95, aboveGroundLevel + 5);
+            const blockPos = new Vector(
+                ZONE.MAX_BLOCK.x - 3,
+                aboveGroundLevel + 6.5
+            );
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
     };
-    let makeClouds = true;
-    let aboveGroundLevel = 10
-    if (makeClouds) {
-        let cloudNum = 10;
-        let randomOrigin = (Math.random() * (0 + 100)) - 0;
-        randomOrigin = randomOrigin % 10;
-
-
-        for (let i = 0; i < cloudNum; i++) {
-            let yVariation = Math.random() * (10 - 12) + 10;
-            let xVariation = Math.random() * (8 - 12) + 10;
-            if (i % 2 == 0) {
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD, Vector.blockToWorldSpace(new Vector(randomOrigin + xVariation * i, aboveGroundLevel - yVariation))), 0);
-            } else if (i % 3 == 0) {
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_LANKY, Vector.blockToWorldSpace(new Vector(randomOrigin + xVariation * i, aboveGroundLevel - yVariation))), 0);
-            } else {
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_BUSHY, Vector.blockToWorldSpace(new Vector(randomOrigin + xVariation * i, aboveGroundLevel - yVariation))), 0);
-            }
-        }
-
-
-    }
+    let aboveGroundLevel = 10;
+    WeatherSystem.setWeather('clouds', 2, 'day');
 
     if (STORY.invitedHunting) {
-        GAME.addEntity(new PapaChad(
-            new Vector(ZONE.MAX_PT.x - 2 * PapaChad.SCALED_SIZE.x, ZONE.MAX_PT.y - 17 * Block.SCALED_SIZE),
-            new Conversation(getAllConversationArrays().village.papaChad.huntingInstruction)
-        ));
+        GAME.addEntity(
+            new PapaChad(
+                new Vector(
+                    ZONE.MAX_PT.x - 2 * PapaChad.SCALED_SIZE.x,
+                    ZONE.MAX_PT.y - 14 * Block.SCALED_SIZE
+                ),
+                new Conversation(
+                    getAllConversationArrays().village.papaChad.huntingInstruction
+                )
+            )
+        );
     }
-    // Set background color:
-    BG_COLOR = COLORS.SKY_BLUE;
-    GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), -1);
 
-    queueAssets();
-    ASSET_MGR.downloadAll(addEntities);
-};
+    GAME.addEntity(
+        new AmmoDrop(
+            Vector.blockToWorldSpace(new Vector(74, aboveGroundLevel - 2)),
+            AmmoDrop.BOMB,
+            3,
+            false
+        )
+    );
 
-const loadVillageInsideCave = () => {
-    const queueAssets = () => {
+    GAME.addEntity(
+        new AmmoDrop(
+            Vector.blockToWorldSpace(new Vector(78.5, aboveGroundLevel + 2)),
+            AmmoDrop.ROCK,
+            10,
+            false
+        )
+    );
 
-    };
+    GAME.addEntity(
+        new AmmoDrop(
+            Vector.blockToWorldSpace(new Vector(80, aboveGroundLevel + 2)),
+            AmmoDrop.ROCK,
+            5,
+            false
+        )
+    );
 
-    const addEntities = () => {
+    GAME.addEntity(
+        new FoodDrop(
+            Vector.blockToWorldSpace(new Vector(73, aboveGroundLevel + 4.7)),
+            FoodDrop.BURGER,
+            false
+        )
+    );
 
-    };
+    GAME.addEntity(
+        new FoodDrop(
+            Vector.blockToWorldSpace(new Vector(5, aboveGroundLevel + 4), -1),
+            FoodDrop.ROAST_TURKEY,
+            false
+        )
+    );
+
+    setTimeout(() => {
+        ASSET_MGR.playMusic(
+            MUSIC.UPBEAT_CHIPTUNE_2.path,
+            MUSIC.UPBEAT_CHIPTUNE_2.volume
+        );
+    }, 500);
 
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);
 };
 
 const loadVillageMain = () => {
-
     const queueAssets = () => {
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_BUSHY.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.clouds.CLOUD_LANKY.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.CARROT.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.MED_RED_FLOWER_1.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.MED_RED_FLOWER_2.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.MED_RED_FLOWER_3.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.POTATO.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.PRIDE_FLOWER_1.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.PRIDE_FLOWER_2.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.PRIDE_FLOWER_3.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_1.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_2.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_3.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.houses.BLACKSMITH_HOUSE.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.houses.CHAD_HOUSE.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.houses.MAYOR_HOUSE.SPRITESHEET);
-        ASSET_MGR.queueDownload(Rain.SPRITESHEET_DOWN);
-        ASSET_MGR.queueDownload(Rain.SPRITESHEET_LEFT);
-        ASSET_MGR.queueDownload(Rain.SPRITESHEET_RIGHT);
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_BUSHY.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_LANKY.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD_DARK.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_BUSHY_DARK.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_LANKY_DARK.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.CARROT.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.MED_RED_FLOWER_1.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.POTATO.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.PRIDE_FLOWER_1.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_1.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.grass.GRASS_1.SPRITESHEET
+        );
+
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.houses.BLACKSMITH_HOUSE.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.houses.CHAD_HOUSE.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.houses.MAYOR_HOUSE.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(Precipitation.SPRITESHEET);
+
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_1.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_2.SPRITESHEET);
         ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_3.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_2.SPRITESHEET);
-        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.SPRUCE_3.SPRITESHEET);
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET
+        );
+
+        // ASSET_MGR.queueDownload(MUSIC.PEACEFUL_CHIPTUNE.path);
+        ASSET_MGR.queueDownload(MUSIC.CHAD_PLAYFUL_ADVENTURE.path);
+        ASSET_MGR.queueDownload(MUSIC.CHAD_VICTORIOUS_EMOTIONAL.path);
+        ASSET_MGR.queueDownload(MUSIC.VILLAGE_ATTACK.path);
 
         // NPCs
         ASSET_MGR.queueDownload(BlackSmith.SPRITESHEET);
         ASSET_MGR.queueDownload(Mayor.SPRITESHEET);
         ASSET_MGR.queueDownload(PapaChad.SPRITESHEET);
+        ASSET_MGR.queueDownload('./sprites/mama_chad_trapped.png');
+        ASSET_MGR.queueDownload(Wizard.SPRITESHEET);
+        ASSET_MGR.queueDownload(Slime.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(SFX.EVIL_LAUGH.path);
     };
 
     const addEntities = () => {
@@ -268,316 +341,469 @@ const loadVillageMain = () => {
         // let skyHeight = 14;
         let chadOnGround = 10;
         // Add a border to the right side of the map, leading to the field.
-        GAME.addEntity(new Border(
-            new Vector(ZONE.MIN_PT.x, 0), // start at the far right side of the Zone, and at the top
-            new Vector(1, ZONE.PIXEL_SIZE.y), // only one pixel wide, but as tall as the entire Zone.
-            Zone.getZones().village.field
-        ));
-        // Add a layer of blocks to the floor.
-        // for (let x = ZONE.MIN_BLOCK.x; x <= ZONE.MAX_BLOCK.x; x++) {
-        //     GAME.addEntity(new Block(new Vector(x, ZONE.MAX_BLOCK.y), Block.DIRT));
-        // }
-        // TODO - make this its own class for interpreting the tile map so to clean up code.
-        for (let y = ZONE.MAX_BLOCK.y; y >= ZONE.MIN_BLOCK.y; y--) {
-            for (let x = ZONE.MAX_BLOCK.x; x >= ZONE.MIN_BLOCK.x; x--) {
-                // GAME.addEntity(new Block(i, j, Block.DIRT));a
+        GAME.addEntity(
+            new Border(
+                new Vector(ZONE.MIN_PT.x, 0),
+                new Vector(1, ZONE.PIXEL_SIZE.y),
+                Zone.getZones().village.field
+            )
+        );
 
-                // const pos = new Vector(y, x);
-                // console.log('Starting block x ' + x);
-                // console.log('Starting block y ' + y);
+        const easternBorderLocked = STORY.villageAttackEnded ? false : true;
+        GAME.addEntity(
+            new Border(
+                new Vector(ZONE.MAX_PT.x, 0),
+                new Vector(1, ZONE.PIXEL_SIZE.y),
+                Zone.getZones().village.hillDownFromMain,
+                easternBorderLocked
+            )
+        );
 
-                switch (villageMainTileMap[y][x]) {
+        TilemapInterpreter.setTilemap(villageMainTileMap, false);
+        // NPCs
 
-                    case 'j':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_SPRUCE_STAIRS_RIGHT));
-                        break;
-                    case 'i':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_SPRUCE_STAIRS_LEFT));
-                        break;
-                    case 'h':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_OAK_STAIRS_RIGHT), 0);
-                        break;
-                    case 'g':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANK_OAK_STAIRS_LEFT), -1);
-                        break;
-                    case 'f':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE_VOLCANIC));
-                        break;
-                    case 'e':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE_DARK));
-                        break;
-                    case 'd':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.STONE_COBBLE));
-                        break;
-                    case 'c':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_REDWOOD_LIGHT));
-                        break;
-                    case 'b':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_REDWOOD));
-                        break;
-                    case 'a':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.LOG_SPRUCE_VIRTICAL));
-                        break;
-                    case '9':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.LOG_SPRUCE_HORIZONTAL));
-                        break;
-                    case '8':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_SPRUCE));
-                        break;
-                    case '7':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.PLANKS_OAK));
-                        break;
-                    case '6':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.BARS));
-                        break;
-                    case '5':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.LAVA_ROCK));
-                        break;
-                    case '4':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.SNOWY_ICE));
-                        break;
-                    case '3':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.SNOWY_DIRT));
-                        break;
-                    case '2':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.GRASS));
-                        break;
-                    case '1':
-                        GAME.addEntity(new Block(new Vector(x, y), Block.DIRT), -1);
-                        break;
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.houses.CHAD_HOUSE,
+                Vector.blockToWorldSpace(new Vector(30, aboveGroundLevel))
+            )
+        );
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.houses.MAYOR_HOUSE,
+                Vector.blockToWorldSpace(new Vector(48, aboveGroundLevel))
+            )
+        );
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.houses.BLACKSMITH_HOUSE,
+                Vector.blockToWorldSpace(new Vector(13, aboveGroundLevel))
+            )
+        );
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.houses.CHAD_HOUSE,
+                Vector.blockToWorldSpace(new Vector(70, aboveGroundLevel))
+            )
+        );
 
-                    default:
-                        break;
-                }
-            }
-
-        }
-
-        // const gamePos = Vector.blockToWorldSpace(new Vector(5, 15));
-        // GAME.addEntity(new House(gamePos, 1));
-        // Decorations
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.houses.BLACKSMITH_HOUSE, Vector.blockToWorldSpace(new Vector(13, aboveGroundLevel))));
-
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.OAK_3, Vector.blockToWorldSpace(new Vector(8, aboveGroundLevel))), -1);
         for (let i = 0; i < 18; i++) {
             if (i % 2 == 0) {
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.POTATO, Vector.blockToWorldSpace(new Vector(27 + i * 1 / 5, aboveGroundLevel))), - 1);
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.POTATO, Vector.blockToWorldSpace(new Vector(27 + i * 1 / 5, aboveGroundLevel))), - 1);
+                GAME.addEntity(
+                    new Decoration(
+                        Decoration.DECORATIONS.flowers.POTATO,
+                        Vector.blockToWorldSpace(
+                            new Vector(27 + (i * 1) / 5, aboveGroundLevel)
+                        )
+                    ),
+                    -1
+                );
+                GAME.addEntity(
+                    new Decoration(
+                        Decoration.DECORATIONS.flowers.POTATO,
+                        Vector.blockToWorldSpace(
+                            new Vector(27 + (i * 1) / 5, aboveGroundLevel)
+                        )
+                    ),
+                    -1
+                );
             } else {
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.CARROT, Vector.blockToWorldSpace(new Vector(27 + i * 1 / 5, aboveGroundLevel))), - 1);
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.CARROT, Vector.blockToWorldSpace(new Vector(27 + i * 1 / 5, aboveGroundLevel))), - 1);
-
+                GAME.addEntity(
+                    new Decoration(
+                        Decoration.DECORATIONS.flowers.CARROT,
+                        Vector.blockToWorldSpace(
+                            new Vector(27 + (i * 1) / 5, aboveGroundLevel)
+                        )
+                    ),
+                    -1
+                );
+                GAME.addEntity(
+                    new Decoration(
+                        Decoration.DECORATIONS.flowers.CARROT,
+                        Vector.blockToWorldSpace(
+                            new Vector(27 + (i * 1) / 5, aboveGroundLevel)
+                        )
+                    ),
+                    -1
+                );
             }
         }
 
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.OAK_1, Vector.blockToWorldSpace(new Vector(20, aboveGroundLevel))), 1);
-
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.houses.CHAD_HOUSE, Vector.blockToWorldSpace(new Vector(30, aboveGroundLevel))));
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.OAK_3, Vector.blockToWorldSpace(new Vector(39, aboveGroundLevel))), -1);
-
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.houses.MAYOR_HOUSE, Vector.blockToWorldSpace(new Vector(48, aboveGroundLevel))));
         for (let i = 0; i < 5; i++) {
-            GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.PRIDE_FLOWER_3, Vector.blockToWorldSpace(new Vector(49 + i * 1 / 4, aboveGroundLevel))), 0);
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.flowers.PRIDE_FLOWER_3,
+                    Vector.blockToWorldSpace(
+                        new Vector(49 + (i * 1) / 4, aboveGroundLevel)
+                    )
+                ),
+                0
+            );
 
             if (i % 2 == 0) {
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.MED_RED_FLOWER_3, Vector.blockToWorldSpace(new Vector(55 + i * 1 / 2, aboveGroundLevel))), 0);
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.MED_RED_FLOWER_3, Vector.blockToWorldSpace(new Vector(51 + i * 1 / 2, aboveGroundLevel))), 0);
-
+                GAME.addEntity(
+                    new Decoration(
+                        Decoration.DECORATIONS.flowers.MED_RED_FLOWER_3,
+                        Vector.blockToWorldSpace(
+                            new Vector(55 + (i * 1) / 2, aboveGroundLevel)
+                        )
+                    ),
+                    0
+                );
+                GAME.addEntity(
+                    new Decoration(
+                        Decoration.DECORATIONS.flowers.MED_RED_FLOWER_3,
+                        Vector.blockToWorldSpace(
+                            new Vector(51 + (i * 1) / 2, aboveGroundLevel)
+                        )
+                    ),
+                    0
+                );
             } else {
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_3, Vector.blockToWorldSpace(new Vector(55 + i * 1 / 2, aboveGroundLevel))), 0);
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_3, Vector.blockToWorldSpace(new Vector(51 + i * 1 / 2, aboveGroundLevel))), 0);
+                GAME.addEntity(
+                    new Decoration(
+                        Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_3,
+                        Vector.blockToWorldSpace(
+                            new Vector(55 + (i * 1) / 2, aboveGroundLevel)
+                        )
+                    ),
+                    0
+                );
+                GAME.addEntity(
+                    new Decoration(
+                        Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_3,
+                        Vector.blockToWorldSpace(
+                            new Vector(51 + (i * 1) / 2, aboveGroundLevel)
+                        )
+                    ),
+                    0
+                );
             }
         }
-
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.OAK_3, Vector.blockToWorldSpace(new Vector(55, aboveGroundLevel))), -1);
-
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.houses.CHAD_HOUSE, Vector.blockToWorldSpace(new Vector(70, aboveGroundLevel))));
 
         for (let i = 0; i < 4; i++) {
-            GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_3, Vector.blockToWorldSpace(new Vector(75 + (1 / 2) * i, aboveGroundLevel))), 0);
-            GAME.addEntity(new Decoration(Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_3, Vector.blockToWorldSpace(new Vector(71.5 + (1 / 2) * i, aboveGroundLevel))), 0);
-
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_3,
+                    Vector.blockToWorldSpace(
+                        new Vector(75 + (1 / 2) * i, aboveGroundLevel)
+                    )
+                ),
+                0
+            );
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_3,
+                    Vector.blockToWorldSpace(
+                        new Vector(71.5 + (1 / 2) * i, aboveGroundLevel)
+                    )
+                ),
+                0
+            );
         }
 
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(76, aboveGroundLevel))));
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_3, Vector.blockToWorldSpace(new Vector(79, aboveGroundLevel))), 1);
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.OAK_3,
+                Vector.blockToWorldSpace(new Vector(8, aboveGroundLevel))
+            ),
+            -1
+        );
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.OAK_1,
+                Vector.blockToWorldSpace(new Vector(20, aboveGroundLevel))
+            ),
+            1
+        );
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.OAK_3,
+                Vector.blockToWorldSpace(new Vector(39, aboveGroundLevel))
+            ),
+            -1
+        );
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.OAK_3,
+                Vector.blockToWorldSpace(new Vector(55, aboveGroundLevel))
+            ),
+            -1
+        );
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.SPRUCE_3,
+                Vector.blockToWorldSpace(new Vector(76, aboveGroundLevel))
+            )
+        );
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.SPRUCE_3,
+                Vector.blockToWorldSpace(new Vector(79, aboveGroundLevel))
+            ),
+            1
+        );
 
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(82, aboveGroundLevel))));
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_2, Vector.blockToWorldSpace(new Vector(84, aboveGroundLevel))), 1);
-        GAME.addEntity(new Decoration(Decoration.DECORATIONS.trees.SPRUCE_1, Vector.blockToWorldSpace(new Vector(87, aboveGroundLevel))));
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.SPRUCE_1,
+                Vector.blockToWorldSpace(new Vector(82, aboveGroundLevel))
+            )
+        );
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.SPRUCE_2,
+                Vector.blockToWorldSpace(new Vector(84, aboveGroundLevel))
+            ),
+            1
+        );
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.SPRUCE_1,
+                Vector.blockToWorldSpace(new Vector(87, aboveGroundLevel))
+            )
+        );
 
-        // NPCs
-        const blockPosPapa = new Vector(33, chadOnGround);
-        const blockPosBlackSmith = new Vector(17, chadOnGround);
-        const blockPosMayor = new Vector(50, chadOnGround);
-
-
-        GAME.addEntity(new PapaChad(Vector.blockToWorldSpace(blockPosPapa), new Conversation(getAllConversationArrays().village.papaChad.huntingInvite)), 0);
-        GAME.addEntity(new BlackSmith(Vector.blockToWorldSpace(blockPosBlackSmith), new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)), 0);
-        GAME.addEntity(new Mayor(Vector.blockToWorldSpace(blockPosMayor), new Conversation(getAllConversationArrays().playground.papaChad.testNoChoices)), 0);
-
-        BG_COLOR = COLORS.SKY_BLUE;
-        let makeRain = false;
-
-        // makeRain = Math.random() < .4 ? true : false;
-        // let hot = Math.random() < .9 ? true : false;
-        // let makeClouds = Math.random() < .7 ? true : false;
-        let dir = ["left", "down", "right", "down", "down"];
-        let rainStrength = [2, 5, 10, 20, 25, 30];
-        let strengthIndex = 5;
-        let dirIndex = Math.floor(Math.random() * dir.length);
-        let cloudNum = (Math.random() * (8 + 20)) - 3;
-        let randomOrigin = (Math.random() * (0 + 100)) - 0;
-        randomOrigin = randomOrigin % cloudNum;
-
-
-        if (makeRain) {
-            for (let i = 0; i < cloudNum; i++) {
-                let chooseForGround = Math.random();
-                chooseForGround = chooseForGround < 0.5 ? -1 : 0;
-                let yVariation = Math.random() * (10 - 12) + 10;
-                let xVariation = Math.random() * (8 - 12) + 8;
-                // console.log(chooseForGround);
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_BUSHY, Vector.blockToWorldSpace(new Vector(randomOrigin + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
+        /*
+        The above content was all static. Below, there are conditional spawns/settings based on story progression.
+        Namely, we need to script the village attack when the tutorial (snake/bunny hunt) is complete.
+        */
+        let weather = 'warm';
+        if (!STORY.tutorialComplete) {
+            if (GAME.mode == GameEngine.GAMEPLAY_MODE) {
+                // if we've already clicked the start button, but we re-entered the village.
+                setTimeout(() => {
+                    ASSET_MGR.playMusic(
+                        MUSIC.CHAD_PLAYFUL_ADVENTURE.path,
+                        MUSIC.CHAD_PLAYFUL_ADVENTURE.volume
+                    );
+                }, 500);
             }
-            cloudNum = (Math.random() * (3 + 10)) - 3;
 
-            for (let i = 0; i < cloudNum; i++) {
-                let chooseForGround = Math.random();
-                chooseForGround = chooseForGround < 0.5 ? -1 : 0;
-                let yVariation = Math.random() * (10 - 12) + 10;
-                let xVariation = Math.random() * (8 - 12) + 8;
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_LANKY, Vector.blockToWorldSpace(new Vector(randomOrigin + 5 + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
-            }
-            cloudNum = (Math.random() * (3 + 10)) - 3;
+            GAME.addEntity(
+                new RuneDrop(
+                    Vector.blockToWorldSpace(
+                        new Vector(46, aboveGroundLevel - 4)
+                    ),
+                    RuneDrop.GREEN,
+                    false
+                )
+            );
+            GAME.addEntity(
+                new RuneDrop(
+                    Vector.blockToWorldSpace(
+                        new Vector(73, aboveGroundLevel - 4)
+                    ),
+                    RuneDrop.GRAY,
+                    false
+                )
+            );
 
-            for (let i = 0; i < cloudNum; i++) {
-                let chooseForGround = Math.random();
-                chooseForGround = chooseForGround < 0.5 ? -1 : 0;
-                let yVariation = Math.random() * (10 - 12) + 10;
-                let xVariation = Math.random() * (8 - 12) + 8;
-                GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD, Vector.blockToWorldSpace(new Vector(randomOrigin + 10 + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
+            GAME.addEntity(
+                new RuneDrop(
+                    Vector.blockToWorldSpace(
+                        new Vector(93, aboveGroundLevel - 4)
+                    ),
+                    RuneDrop.WHITE,
+                    false
+                )
+            );
+            GAME.addEntity(
+                new RuneDrop(
+                    Vector.blockToWorldSpace(
+                        new Vector(95, aboveGroundLevel - 3)
+                    ),
+                    RuneDrop.WHITE,
+                    false
+                )
+            );
+            GAME.addEntity(
+                new RuneDrop(
+                    Vector.blockToWorldSpace(
+                        new Vector(97, aboveGroundLevel - 2)
+                    ),
+                    RuneDrop.WHITE,
+                    false
+                )
+            );
+
+            // NPCs
+            const blockPosPapa = new Vector(33, chadOnGround);
+            const blockPosBlackSmith = new Vector(17, chadOnGround);
+            const blockPosMayor = new Vector(50, chadOnGround);
+            const blockPosIdleMama = new Vector(37, chadOnGround);
+
+            const idleMama = new MamaChad(
+                Vector.blockToWorldSpace(blockPosIdleMama),
+                false,
+                new Conversation(
+                    getAllConversationArrays().village.mamaChad.goodMorning
+                )
+            );
+            idleMama.action = 'idle';
+
+            if (!STORY.invitedHunting) {
+                GAME.addEntity(
+                    new PapaChad(
+                        Vector.blockToWorldSpace(blockPosPapa),
+                        new Conversation(
+                            getAllConversationArrays().village.papaChad.huntingInvite
+                        )
+                    ),
+                    0
+                );
             }
-            BG_COLOR = COLORS.SKY_GREY;
-            for (let j = 0; j < rainStrength[strengthIndex]; j++) {
-                for (let i = 0; i < 20; i++) {
-                    // 960 - CHAD.pos.x, CHAD.pos.y - 1080
-                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
-                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
-                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
-                    GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
+            GAME.addEntity(
+                new BlackSmith(
+                    Vector.blockToWorldSpace(blockPosBlackSmith),
+                    new Conversation(
+                        getAllConversationArrays().village.blacksmith.merchant
+                    )
+                ),
+                0
+            );
+            GAME.addEntity(
+                new Mayor(
+                    Vector.blockToWorldSpace(blockPosMayor),
+                    new Conversation(
+                        getAllConversationArrays().village.mayor.hopefulGreeting
+                    )
+                ),
+                0
+            );
+            GAME.addEntity(idleMama);
+
+            // These should not be here at the beginning of the game. (Devin)
+
+            // GAME.addEntity(new OculiBot(Vector.blockToWorldSpace(
+            //     new Vector(93, aboveGroundLevel - 4)),
+            //     FlyingEnemyBase.SINE_WAVE
+            // ));
+
+            // GAME.addEntity(new OverseerBot(Vector.blockToWorldSpace(
+            //     new Vector(95, aboveGroundLevel - 10)),
+            //     FlyingEnemyBase.CIRCLE
+            // ));
+        } else if (STORY.ending) {
+            console.log('ENDING TIME');
+            ASSET_MGR.playMusic(
+                MUSIC.CHAD_VICTORIOUS_EMOTIONAL.path,
+                MUSIC.CHAD_VICTORIOUS_EMOTIONAL.volume
+            );
+
+            // NPCs
+            const blockPosPapa = new Vector(62, chadOnGround + 3);
+            const blockPosBlackSmith = new Vector(17, chadOnGround + 3);
+            const blockPosMayor = new Vector(50, chadOnGround + 3);
+            const blockPosIdleMama = new Vector(65, chadOnGround + 3);
+
+            const idleMama = new MamaChad(
+                Vector.blockToWorldSpace(blockPosIdleMama),
+                false,
+                new Conversation(
+                    getAllConversationArrays().village.mamaChad.ending
+                )
+            );
+            idleMama.action = 'idle';
+
+            GAME.addEntity(
+                new PapaChad(
+                    Vector.blockToWorldSpace(blockPosPapa),
+                    new Conversation(
+                        getAllConversationArrays().village.papaChad.ending
+                    )
+                ),
+                0
+            );
+            GAME.addEntity(
+                new BlackSmith(
+                    Vector.blockToWorldSpace(blockPosBlackSmith),
+                    new Conversation(
+                        getAllConversationArrays().village.blacksmith.ending
+                    )
+                ),
+                0
+            );
+            GAME.addEntity(
+                new Mayor(
+                    Vector.blockToWorldSpace(blockPosMayor),
+                    new Conversation(
+                        getAllConversationArrays().village.mayor.ending
+                    )
+                ),
+                0
+            );
+            GAME.addEntity(idleMama);
+
+            for (let i = 0; i < 6; i++) {
+                for (let j = 0; j < 3; j++) {
+                    GAME.addEntity(
+                        new RuneDrop(
+                            Vector.blockToWorldSpace(
+                                new Vector(75 + i, aboveGroundLevel - 2 - j)
+                            ),
+                            RuneDrop.YELLOW,
+                            false
+                        )
+                    );
                 }
             }
-            // console.log(strengthIndex);
-
-
         } else {
-            GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), -1);
+            setTimeout(() => {
+                ASSET_MGR.playMusic(
+                    MUSIC.VILLAGE_ATTACK.path,
+                    MUSIC.VILLAGE_ATTACK.volume
+                );
+                // ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
+            }, 500);
 
-
+            // wizard has appeared, mama chad is trapped.
+            const blockPosTrappedMama = new Vector(65, chadOnGround + 1);
+            const blockPosWizard = new Vector(63, chadOnGround);
+            GAME.addEntity(
+                new MamaChad(Vector.blockToWorldSpace(blockPosTrappedMama))
+            );
+            GAME.addEntity(
+                new Wizard(Vector.blockToWorldSpace(blockPosWizard))
+            );
+            if (STORY.tutorialComplete && !STORY.villageAttackEnded) {
+                for (let blockx = 10; blockx < 60; blockx += 5) {
+                    GAME.addEntity(
+                        new Slime(
+                            Vector.blockToWorldSpace(
+                                new Vector(blockx, chadOnGround)
+                            ),
+                            Slime.EVIL
+                        )
+                    );
+                }
+            }
+            weather = 'rain';
         }
-        // Place chad.
-        if (LAST_ZONE === null) { // We've just started the game.
+        WeatherSystem.setWeather(weather, 3, 'day');
+        TilemapInterpreter.setTilemap(villageMainTileMap);
+
+        // Now, we've placed everything else - it's time to place CHAD!
+        if (LAST_ZONE === null) {
+            // We've just started the game.
             // Spawn in middle.
-            const blockPos = new Vector(26, chadOnGround);
+            const blockPos = new Vector(70, chadOnGround);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
             // console.log(CHAD.pos);
-
-        } else if (LAST_ZONE.equals(Zone.getZones().village.field)) { // Coming from field.
+        } else if (LAST_ZONE.name === 'Village Field') {
+            // Coming from field.
             // Set spawn point on the right.
             const blockPos = new Vector(ZONE.MIN_PT.x, chadOnGround + 5);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
-        } else if (LAST_ZONE.equals(Zone.getZones().village.outsideCave)) { // Coming from outside cave.
+        } else if (LAST_ZONE.name === 'Hill Down From Main') {
+            // Coming from outside cave.
             // spawn on left.
-            const blockPos = new Vector(1, 20);
+            const blockPos = new Vector(98, 16);
             CHAD.pos = Vector.blockToWorldSpace(blockPos);
         }
 
-        // NOTE: we can't activate music until the user has interacted with the canvas. (this issue is inherent to HTML5)
-        //  If listening for a click is the only way to activate music, that's fine. 
-        //  Our game's START button in the final version can be the trigger.
-        let playMusic = () => {
-            ASSET_MGR.playMusic(MUSIC.PEACEFUL_CHIPTUNE.path, MUSIC.PEACEFUL_CHIPTUNE.volume);
-        
-            // delete the event listener so that the music doesn't restart when the user clicks again
-            document.body.removeEventListener('click', playMusic);
-        };
-        document.body.addEventListener('click', playMusic);
-
         LoadingAnimation.stop();
     };
-    // Weather should be added last.
-    // TODO - This block of code is commented out for the minimum deliverable as the first time the village is entered
-    // in the story we have scripted the village to start with sun and no clouds or adverse weather.
-    // The weather code will be later consolidated into a weather class for ease of use.
-    // Add rain 3/5 chance that rain will go down and not left or right.
-    // let dir = ["left", "down", "right", "down", "down"];
-    // let rainStrength = [2, 5, 10, 20, 25, 30];
-    // let dirIndex = Math.floor(Math.random() * dir.length);
-    // let strengthIndex = Math.floor(Math.random() * rainStrength.length);
-    // // chance of rain TODO make it rain only if there are clouds.
-    // let makeRain = false;
-    // makeRain = Math.random() < .4 ? true : false;
-    // let hot = Math.random() < .9 ? true : false;
-    // let makeClouds = Math.random() < .7 ? true : false;
-
-    // if (!makeRain && !makeClouds) {
-    //     if (hot) {
-    //         BG_COLOR = COLORS.SKY_HOT_BLUE_SKY;
-    //         GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.LAVA), -1);
-
-    //     }
-    // } else {
-    //     BG_COLOR = COLORS.SKY_BLUE;
-    //     GAME.addEntity(new Sun(new Vector(Camera.SIZE.x - 2 * Sun.SCALED_SIZE, Sun.SCALED_SIZE - 100), Sun.VILLAGE), -1);
-    // }
-
-    // if (makeClouds) {
-    //     if (makeRain) {
-    //         BG_COLOR = COLORS.SKY_GREY;
-    //         console.log(dirIndex);
-    //         for (let j = 0; j < rainStrength[strengthIndex]; j++) {
-    //             for (let i = 0; i < 20; i++) {
-    //                 // 960 - CHAD.pos.x, CHAD.pos.y - 1080
-    //                 GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
-    //                 GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
-    //                 GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
-    //                 GAME.addEntity(new Rain(dir[dirIndex], Vector.blockToWorldSpace(new Vector(i, i - 10))), 1);
-    //             }
-    //         }
-    //         // console.log(strengthIndex);
-    //     }
-    //     let cloudNum = (Math.random() * (8 + 20)) - 3;
-    //     let randomOrigin = (Math.random() * (0 + 100)) - 0;
-    //     randomOrigin = randomOrigin % cloudNum;
-    //     for (let i = 0; i < cloudNum; i++) {
-    //         let chooseForGround = Math.random();
-    //         chooseForGround = chooseForGround < 0.5 ? -1 : 0;
-    //         let yVariation = Math.random() * (10 - 12) + 10;
-    //         let xVariation = Math.random() * (8 - 12) + 8;
-    //         // console.log(chooseForGround);
-    //         GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_BUSHY, Vector.blockToWorldSpace(new Vector(randomOrigin + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
-    //     }
-    //     cloudNum = (Math.random() * (3 + 10)) - 3;
-
-    //     for (let i = 0; i < cloudNum; i++) {
-    //         let chooseForGround = Math.random();
-    //         chooseForGround = chooseForGround < 0.5 ? -1 : 0;
-    //         let yVariation = Math.random() * (10 - 12) + 10;
-    //         let xVariation = Math.random() * (8 - 12) + 8;
-    //         GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_LANKY, Vector.blockToWorldSpace(new Vector(randomOrigin + 5 + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
-    //     }
-    //     cloudNum = (Math.random() * (3 + 10)) - 3;
-
-    //     for (let i = 0; i < cloudNum; i++) {
-    //         let chooseForGround = Math.random();
-    //         chooseForGround = chooseForGround < 0.5 ? -1 : 0;
-    //         let yVariation = Math.random() * (10 - 12) + 10;
-    //         let xVariation = Math.random() * (8 - 12) + 8;
-    //         GAME.addEntity(new Decoration(Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD, Vector.blockToWorldSpace(new Vector(randomOrigin + 10 + xVariation * i, aboveGroundLevel - yVariation))), chooseForGround);
-    //     }
-    // }
-    // Set Background Color:
 
     LoadingAnimation.start();
     queueAssets();
@@ -585,12 +811,613 @@ const loadVillageMain = () => {
 };
 
 const loadVillageMountain = () => {
-    const queueAssets = () => {
+    const queueAssets = () => {};
 
+    const addEntities = () => {};
+
+    queueAssets();
+    ASSET_MGR.downloadAll(addEntities);
+};
+
+const loadHillDownFromMain = () => {
+    const queueAssets = () => {
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_BUSHY.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_LANKY.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD_DARK.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_BUSHY_DARK.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_LANKY_DARK.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.CARROT.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.MED_RED_FLOWER_1.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.POTATO.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.PRIDE_FLOWER_1.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_1.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.grass.GRASS_1.SPRITESHEET
+        );
+
+        ASSET_MGR.queueDownload(Precipitation.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_1.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_2.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_3.SPRITESHEET);
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(Bird.SPRITESHEET);
+        ASSET_MGR.queueDownload(BlackSmith.SPRITESHEET);
+        ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
+        ASSET_MGR.queueDownload(Snake.SPRITESHEET);
+
+        // ASSET_MGR.queueDownload(MUSIC.CHAD_PLAYFUL_ADVENTURE.path);
+        ASSET_MGR.queueDownload(MUSIC.PEACEFUL_CHIPTUNE.path);
     };
 
     const addEntities = () => {
+        GAME.addEntity(
+            new Border(
+                new Vector(ZONE.MIN_PT.x, 0),
+                new Vector(1, ZONE.PIXEL_SIZE.y),
+                Zone.getZones().village.main
+            )
+        );
 
+        GAME.addEntity(
+            new Border(
+                new Vector(ZONE.MAX_PT.x, 0),
+                new Vector(1, ZONE.PIXEL_SIZE.y),
+                Zone.getZones().village.woods
+            )
+        );
+        TilemapInterpreter.setTilemap(hillDownFromMainTilemap);
+        WeatherSystem.setWeather('rain', 3, 'day');
+
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.SPRUCE_1,
+                Vector.blockToWorldSpace(new Vector(-3.5, 30))
+            ),
+            1
+        );
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.SPRUCE_1,
+                Vector.blockToWorldSpace(new Vector(-1.5, 30))
+            ),
+            -1
+        );
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.SPRUCE_1,
+                Vector.blockToWorldSpace(new Vector(1, 30))
+            ),
+            1
+        );
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.SPRUCE_1,
+                Vector.blockToWorldSpace(new Vector(7, 32))
+            ),
+            -1
+        );
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.SPRUCE_1,
+                Vector.blockToWorldSpace(new Vector(10, 34))
+            ),
+            -1
+        );
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.SPRUCE_2,
+                Vector.blockToWorldSpace(new Vector(20, 45))
+            ),
+            -1
+        );
+        const blockPosBlackSmith = new Vector(40, 40);
+        GAME.addEntity(
+            new BlackSmith(
+                Vector.blockToWorldSpace(blockPosBlackSmith),
+                new Conversation(
+                    getAllConversationArrays().village.blacksmith.merchantScared
+                )
+            ),
+            0
+        );
+
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.SPRUCE_1,
+                Vector.blockToWorldSpace(new Vector(72, 45))
+            ),
+            1
+        );
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.SPRUCE_4,
+                Vector.blockToWorldSpace(new Vector(70, 45))
+            ),
+            1
+        );
+
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.SPRUCE_2,
+                Vector.blockToWorldSpace(new Vector(65, 45))
+            ),
+            -1
+        );
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.SPRUCE_4,
+                Vector.blockToWorldSpace(new Vector(58, 45))
+            ),
+            1
+        );
+        GAME.addEntity(
+            new Decoration(
+                Decoration.DECORATIONS.trees.SPRUCE_4,
+                Vector.blockToWorldSpace(new Vector(50, 45))
+            ),
+            1
+        );
+
+        GAME.addEntity(new Bunny(Vector.blockToWorldSpace(new Vector(70, 42))));
+        GAME.addEntity(new Bunny(Vector.blockToWorldSpace(new Vector(40, 42))));
+        GAME.addEntity(new Bunny(Vector.blockToWorldSpace(new Vector(41, 42))));
+
+        // TODO add in birds.
+        // for (let i = 0; i < 10000; i++) {
+        //     GAME.addEntity(new Bird(ZONE.MIN_PT.x, i, ZONE.MAX_PT.x, ZONE.MAX_PT.y))
+
+        // // }
+        // GAME.addEntity(new FoodDrop(FoodDrop.CHICKEN, Vector.blockToWorldSpace(new Vector(8, 8))), -1);
+
+        // GAME.addEntity(new FoodDrop(FoodDrop.ENERGY_DRINK, Vector.blockToWorldSpace(new Vector(49, 25))));
+        // GAME.addEntity(new FoodDrop(FoodDrop.STEAK, Vector.blockToWorldSpace(new Vector(39, 37))));
+        // GAME.addEntity(new FoodDrop(FoodDrop.CHICKEN, Vector.blockToWorldSpace(new Vector(61.6, 18.7))), -1);
+        GAME.addEntity(
+            new FoodDrop(
+                Vector.blockToWorldSpace(new Vector(8, 8), -1),
+                FoodDrop.CHICKEN,
+                false
+            )
+        );
+
+        GAME.addEntity(
+            new FoodDrop(
+                Vector.blockToWorldSpace(new Vector(49, 25)),
+                FoodDrop.ENERGY_DRINK,
+                false
+            )
+        );
+
+        GAME.addEntity(
+            new FoodDrop(
+                Vector.blockToWorldSpace(new Vector(39, 37)),
+                FoodDrop.STEAK,
+                false
+            )
+        );
+        GAME.addEntity(
+            new FoodDrop(
+                Vector.blockToWorldSpace(new Vector(61.6, 18.7), -1),
+                FoodDrop.CHICKEN,
+                false
+            )
+        );
+
+        GAME.addEntity(
+            new AmmoDrop(
+                Vector.blockToWorldSpace(new Vector(51, 7.5), -1),
+                AmmoDrop.ROCK,
+                20,
+                false
+            )
+        );
+
+        for (let i = 0; i < 3; i++) {
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_3,
+                    Vector.blockToWorldSpace(
+                        new Vector(67 + 5 * (1 / 2) * i, 45)
+                    )
+                ),
+                -1
+            );
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_3,
+                    Vector.blockToWorldSpace(
+                        new Vector(71 + 2 * (1 / 2) * i, 45)
+                    )
+                ),
+                1
+            );
+        }
+        let cloudTypeLanky = Decoration.DECORATIONS.clouds.CLOUD_LANKY;
+        let cloudTypeBushy = Decoration.DECORATIONS.clouds.CLOUD_BUSHY;
+        let weatherType = 'rain';
+        if (weatherType === 'rain') {
+            cloudTypeLanky = Decoration.DECORATIONS.clouds.CLOUD_LANKY_DARK;
+            cloudTypeBushy = Decoration.DECORATIONS.clouds.CLOUD_BUSHY_DARK;
+        }
+        GAME.addEntity(
+            new Decoration(
+                cloudTypeLanky,
+                Vector.blockToWorldSpace(new Vector(8, 12))
+            ),
+            1
+        );
+        for (let i = 0; i < 3; i++) {
+            GAME.addEntity(
+                new Block(new Vector(8 + i, 10), Block.HIDDEN_BLOCK_CLOUD)
+            );
+        }
+        GAME.addEntity(
+            new Decoration(
+                cloudTypeLanky,
+                Vector.blockToWorldSpace(new Vector(60, 25))
+            ),
+            1
+        );
+        for (let i = 0; i < 3; i++) {
+            GAME.addEntity(
+                new Block(new Vector(60 + i, 23), Block.HIDDEN_BLOCK_CLOUD)
+            );
+        }
+        GAME.addEntity(
+            new Decoration(
+                cloudTypeLanky,
+                Vector.blockToWorldSpace(new Vector(65, 20))
+            ),
+            1
+        );
+        for (let i = 0; i < 3; i++) {
+            GAME.addEntity(
+                new Block(new Vector(65 + i, 18), Block.HIDDEN_BLOCK_CLOUD)
+            );
+        }
+        GAME.addEntity(
+            new Decoration(
+                cloudTypeLanky,
+                Vector.blockToWorldSpace(new Vector(55, 15))
+            ),
+            1
+        );
+        for (let i = 0; i < 3; i++) {
+            GAME.addEntity(
+                new Block(new Vector(55 + i, 13), Block.HIDDEN_BLOCK_CLOUD)
+            );
+        }
+        GAME.addEntity(
+            new Decoration(
+                cloudTypeBushy,
+                Vector.blockToWorldSpace(new Vector(50, 10))
+            ),
+            1
+        );
+        for (let i = 0; i < 3; i++) {
+            GAME.addEntity(
+                new Block(new Vector(50 + i, 8), Block.HIDDEN_BLOCK_CLOUD)
+            );
+        }
+
+        if (LAST_ZONE.equals(Zone.getZones().village.main)) {
+            // if (LAST_ZONE === null) { // Coming from main.
+            // Set spawn point on the right.
+            const blockPos = new Vector(1, 26);
+            CHAD.pos = Vector.blockToWorldSpace(blockPos);
+        } else if (LAST_ZONE.equals(Zone.getZones().village.main)) {
+            // Coming from main.
+            // Set spawn point on the right.
+            const blockPos = new Vector(ZONE.MIN_PT.x, 26);
+            CHAD.pos = Vector.blockToWorldSpace(blockPos);
+        } else if (LAST_ZONE.equals(Zone.getZones().village.woods)) {
+            // Coming from main.
+            // Set spawn point on the right.
+            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 2, 41);
+            CHAD.pos = Vector.blockToWorldSpace(blockPos);
+        }
+    };
+
+    setTimeout(() => {
+        // ASSET_MGR.playMusic(MUSIC.CHAD_PLAYFUL_ADVENTURE.path, MUSIC.CHAD_PLAYFUL_ADVENTURE.volume);
+        ASSET_MGR.playMusic(
+            MUSIC.PEACEFUL_CHIPTUNE.path,
+            MUSIC.PEACEFUL_CHIPTUNE.volume
+        );
+    }, 500);
+
+    queueAssets();
+    ASSET_MGR.downloadAll(addEntities);
+};
+
+const loadWoods = () => {
+    const queueAssets = () => {
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_BUSHY.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_LANKY.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_JUST_CLOUD_DARK.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_BUSHY_DARK.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.clouds.CLOUD_LANKY_DARK.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.CARROT.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.MED_RED_FLOWER_1.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.POTATO.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.PRIDE_FLOWER_1.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.PRIDE_FLOWER_2.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.PRIDE_FLOWER_3.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_1.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.grass.GRASS_1.SPRITESHEET
+        );
+
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.houses.BLACKSMITH_HOUSE.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.houses.CHAD_HOUSE.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.houses.MAYOR_HOUSE.SPRITESHEET
+        );
+        ASSET_MGR.queueDownload(Precipitation.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_1.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_2.SPRITESHEET);
+        ASSET_MGR.queueDownload(Decoration.DECORATIONS.trees.OAK_3.SPRITESHEET);
+        ASSET_MGR.queueDownload(
+            Decoration.DECORATIONS.trees.SPRUCE_1.SPRITESHEET
+        );
+
+        ASSET_MGR.queueDownload(Bird.SPRITESHEET);
+        ASSET_MGR.queueDownload(Bunny.SPRITESHEET);
+        ASSET_MGR.queueDownload(Snake.SPRITESHEET);
+        ASSET_MGR.queueDownload(Slime.SPRITESHEET);
+
+        ASSET_MGR.queueDownload(MUSIC.UPBEAT_CHIPTUNE_1.path);
+    };
+
+    const addEntities = () => {
+        GAME.addEntity(
+            new Border(
+                new Vector(ZONE.MIN_PT.x, 0),
+                new Vector(1, ZONE.PIXEL_SIZE.y),
+                Zone.getZones().village.hillDownFromMain
+            )
+        );
+        GAME.addEntity(
+            new Border(
+                new Vector(ZONE.MAX_PT.x, 0), // start at the far right side of the Zone, and at the top
+                new Vector(1, ZONE.PIXEL_SIZE.y), // only one pixel wide, but as tall as the entire Zone.
+                Zone.getZones().river.river1
+                // Zone.getZones().mountain.slope1
+            )
+        );
+        TilemapInterpreter.setTilemap(woodsTilemap);
+        GAME.addEntity(new Bunny(Vector.blockToWorldSpace(new Vector(10, 18))));
+        GAME.addEntity(new Bunny(Vector.blockToWorldSpace(new Vector(20, 18))));
+
+        let distanceOffset = 1;
+        for (let i = 0; i < 25; i++) {
+            if (i % 5 == 0) {
+                distanceOffset *= 5;
+                GAME.addEntity(
+                    new Bunny(
+                        Vector.blockToWorldSpace(
+                            new Vector(i + distanceOffset, 18)
+                        )
+                    )
+                );
+            }
+            GAME.addEntity(
+                new Snake(
+                    Vector.blockToWorldSpace(
+                        new Vector(i + distanceOffset + 50, 18)
+                    )
+                )
+            );
+
+            GAME.addEntity(
+                new Slime(
+                    Vector.blockToWorldSpace(
+                        new Vector(i + distanceOffset + 25, 18)
+                    )
+                )
+            );
+        }
+        WeatherSystem.setWeather('rain', 5, 'day', 22);
+        for (let i = 0; i < 100; i++) {
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.trees.SPRUCE_1,
+                    Vector.blockToWorldSpace(new Vector(i * 10, 20))
+                ),
+                -1
+            );
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.trees.SPRUCE_3,
+                    Vector.blockToWorldSpace(new Vector(i * 8, 20))
+                ),
+                -1
+            );
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.flowers.CARROT,
+                    Vector.blockToWorldSpace(new Vector(i * 9, 20))
+                ),
+                0
+            );
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.flowers.POTATO,
+                    Vector.blockToWorldSpace(new Vector(i * 11, 20))
+                ),
+                0
+            );
+        }
+        let treeDistOffset = 0;
+        let zLayer = 0;
+        for (let i = 0; i < 150; i++) {
+            // if (i % 5 == 0) {
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.trees.SPRUCE_4,
+                    Vector.blockToWorldSpace(
+                        new Vector(i * (i - treeDistOffset), 20)
+                    )
+                ),
+                zLayer
+            );
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.trees.SPRUCE_5,
+                    Vector.blockToWorldSpace(
+                        new Vector(i * (i - treeDistOffset - 15), 20)
+                    )
+                ),
+                zLayer
+            );
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.trees.SPRUCE_0,
+                    Vector.blockToWorldSpace(
+                        new Vector((i + 3.5) * (i - treeDistOffset), 20)
+                    )
+                ),
+                1
+            );
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_1,
+                    Vector.blockToWorldSpace(
+                        new Vector((i + 7.5) * (i - treeDistOffset), 20)
+                    )
+                ),
+                0
+            );
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.flowers.TALL_PURPLE_FLOWER_2,
+                    Vector.blockToWorldSpace(
+                        new Vector((i + 12) * (i - treeDistOffset), 20)
+                    )
+                ),
+                zLayer
+            );
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.grass.GRASS_1,
+                    Vector.blockToWorldSpace(
+                        new Vector((i + 12) * (i - treeDistOffset), 20)
+                    )
+                ),
+                zLayer
+            );
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.grass.GRASS_1,
+                    Vector.blockToWorldSpace(
+                        new Vector((i + 5) * (i - treeDistOffset), 20)
+                    )
+                ),
+                zLayer
+            );
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.grass.GRASS_1,
+                    Vector.blockToWorldSpace(
+                        new Vector((i + 2) * (i - treeDistOffset), 20)
+                    )
+                ),
+                zLayer
+            );
+            GAME.addEntity(
+                new Decoration(
+                    Decoration.DECORATIONS.grass.GRASS_1,
+                    Vector.blockToWorldSpace(
+                        new Vector((i + 17) * (i - treeDistOffset), 20)
+                    )
+                ),
+                zLayer
+            );
+        }
+
+        if (LAST_ZONE.equals(Zone.getZones().village.hillDownFromMain)) {
+            // Coming from main.
+            // Set spawn point on the right.
+            // if (LAST_ZONE === null) { // Coming from main.
+
+            const blockPos = new Vector(1, 16);
+            CHAD.pos = Vector.blockToWorldSpace(blockPos);
+        } else if (LAST_ZONE.equals(Zone.getZones().river.river1)) {
+            // Coming from main.
+            // Set spawn point on the right.
+            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 2, 15);
+            CHAD.pos = Vector.blockToWorldSpace(blockPos);
+        } else if (LAST_ZONE.equals(Zone.getZones().mountain.slope1)) {
+            // Coming from main.
+            // Set spawn point on the right.
+            const blockPos = new Vector(ZONE.MAX_BLOCK.x - 2, 15);
+            CHAD.pos = Vector.blockToWorldSpace(blockPos);
+        }
+
+        setTimeout(() => {
+            ASSET_MGR.playMusic(
+                MUSIC.UPBEAT_CHIPTUNE_1.path,
+                MUSIC.UPBEAT_CHIPTUNE_1.volume
+            );
+        }, 500);
     };
 
     queueAssets();
@@ -598,13 +1425,9 @@ const loadVillageMountain = () => {
 };
 
 const loadVillageOutsideCave = () => {
-    const queueAssets = () => {
+    const queueAssets = () => {};
 
-    };
-
-    const addEntities = () => {
-
-    };
+    const addEntities = () => {};
 
     queueAssets();
     ASSET_MGR.downloadAll(addEntities);

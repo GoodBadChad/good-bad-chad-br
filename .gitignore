@@ -1,1 +1,5 @@
 .DS_Store
+/backend/mongo_login.json
+/node_modules
+/sprites/gif
+/sprites/piskel

@@ -1,8 +1,11 @@
-
-
 const villageConversationLoader = () => {
     return {
-        papaChad: papaChadConversationLoader()
+        papaChad: papaChadConversationLoader(),
+        mayor: mayorConversationLoader(),
+        blacksmith: blacksmithConversationLoader(),
+        mamaChad: mamaChadConversationLoader(),
+        miner: minerConversationLoader(),
+        wizard: wizardConversationLoader()
     };
 };
 
@@ -57,7 +60,7 @@ const papaChadConversationLoader = () => {
                 true,
                 () => {
                     STORY.huntingInstructionsReceived = true;
-                })          
+                })
         ],
         huntingInstructionShort: [
             new DialogBubble(papa,
@@ -67,7 +70,497 @@ const papaChadConversationLoader = () => {
         ],
         endOfHunt: [
             new DialogBubble(papa,
-                "Fantastic work son! Now, run these back over to Mama Chad so she can whip us up some nourishing MEAT!")
+                "Fantastic work son! Now, run these back over to Mama Chad so she can whip us up some nourishing MEAT!"),
+            new DialogBubble(papa,
+                "I'm gonna stick around here, look for some pretty flowers for Mama, she always loves those."),
+            new DialogBubble(chad,
+                "Get her the rainbow ones, those are her favorite!",
+                true,
+                () => {
+                    STORY.tutorialComplete = true;
+                })
+        ],
+        ending: [
+            // 0
+            new DialogBubble(papa,
+                "Well done son! You've rescued your mother and brought the evil wizard to justice!"),
+            // 1
+            new DialogBubble(papa,
+                "What was I doing during the attack on the village you ask?"),
+            
+            new DialogBubble(papa,
+                "Uhh..."),
+            
+            new DialogBubble(papa,
+                "Now is not the time for questions :)"),
+            
+            new DialogBubble(none,
+                "(Papa Chad looks slightly embarrassed, considering he was hiding in a corner of the basement during your entire adventure)", true),
         ]
     };
 };
+
+const mayorConversationLoader = () => {
+    const chad = DialogBubble.SPEAKERS.CHAD;
+    const mayor = DialogBubble.SPEAKERS.MAYOR;
+
+    return {
+        hopefulGreeting: [
+            // 0
+            new DialogBubble(mayor,
+                "Good morning Chad! It's a beautiful day outside, wouldn't you say?"),
+            // 1
+            new DecisionBubble('Mayor', 'Beautiful day isn\'t it?', [
+                new Choice('Sure is! Great for swimming', 2),
+                new Choice('It would be nicer outside this tiny town.', 6)
+            ]),
+            // 2
+            new DialogBubble(chad,
+                "Sure is, and warm! Might head over to the lake and go swimming!"),
+            // 3
+            new DialogBubble(mayor,
+                "Maybe wait a bit before doing that. I know it doesn't look it, but I sense there will be a storm. There's a strange chill in the air tonight."),
+            // 4
+            new DialogBubble(mayor,
+                "Years of worrying for the people of this town have given me a sense for these things, but they've also made me a bit paranoid."),
+            // 5
+            new DialogBubble(mayor,
+                "But don't let my nerves spoil your fun. The carelessness of youth is a special thing. It escapes from you all too quickly.",
+                true),
+            // 6
+            new DialogBubble(chad,
+                "It's nice, sure, but I wonder what it would look like outside this tiny village. I'm dying to get out and explore."),
+            // 7
+            new DialogBubble(mayor,
+                "That feeling is inevitable. There is indeed a lot to see outside of this \"tiny village\". All of us here have had our time outside the boundaries of this peaceful burg."),
+            // 8
+            new DialogBubble(mayor,
+                "Maybe I'm biased, as mayor of this fine village, but my days on the outside have made me all the more grateful for the tranquility of this region."),
+            // 9
+            new DialogBubble(mayor,
+                "I guess all I'm trying to say is, your time will come, Chad, but you shouldn't be too anxious to escape."),
+            // 10
+            new DialogBubble(mayor,
+                "The carelessness of youth is a special thing, and it has a way of escaping from you way too quickly out there."),
+            // 11
+            new DialogBubble(mayor,
+                "But I'll tell ya Chad, when that day does come and you're ready to set out on some great adventure into the unknown, stop by and talk to me first. I may have something to share with you that could help you along the way.",
+                true)
+        ],
+        ending: [
+            // 0
+            new DialogBubble(mayor,
+                "You actually did it! You defeated that nasty wizard."),
+            // 1
+            new DialogBubble(mayor,
+                "Not that I doubted you for a second."),
+            // 2
+            new DialogBubble(mayor,
+                "I should probably give you a reward of some sort..."),
+            
+            new DialogBubble(mayor,
+                "hmm... all my money seems to have disappeared. As I was fleeing the village earlier, my coins got scattered throughout the town. Unfortunately, some rotten thief must have nabbed it all >:("),
+            
+            new DialogBubble(mayor,
+                "Oh well, I have another prize that will do!"
+            ),
+            
+            new DialogBubble(mayor,
+                "Now you can truly be... a GIGA CHAD", true, () => {
+                    GAME.addEntity(new FoodDrop(Vector.add(CHAD.getCenter() , new Vector(-75, -250)), FoodDrop.GIANT_MUSHROOM, false));
+            }),
+        ]
+    };
+};
+
+const blacksmithConversationLoader = () => {
+    const chad = DialogBubble.SPEAKERS.CHAD;
+    const bs = DialogBubble.SPEAKERS.BLACKSMITH;
+    return {
+        merchant: [
+            // 0
+            new DialogBubble(bs,
+                "Hello.", false, () => {
+                    ASSET_MGR.playSFX(SFX.HMM2.path, SFX.HMM2.volume);
+                }),
+            // 1
+            new DecisionBubble('Blacksmith', 'Hello.', [
+                new Choice('I\'d like to see what you have for sale.', 2),
+                new Choice('Leave.', 7)
+            ]),
+            // 2
+            new DialogBubble(bs, 'Okay.'),
+            // 3
+            new DecisionBubble('Blacksmith', 'Okay', [
+                new Choice("Rock ammo (25 for 25 runes)", () => {
+                    return INVENTORY.runes >= 25 ? 4 : 9;
+                }),
+                new Choice("Rock ammo (100 for 100 runes)", () => {
+                    return INVENTORY.runes >= 100 ? 5 : 9;
+                }),
+                new Choice("Bomb ammo (5 for 50 runes)", () => {
+                    return INVENTORY.runes >= 50 ? 6 : 9;
+                }),
+                new Choice('Leave.', 7)
+            ]),
+            // 4
+            new DialogBubble(bs, "Here you go.", true, () => {
+                ASSET_MGR.playSFX(SFX.HMM1.path, SFX.HMM1.volume);
+                INVENTORY.spendRunes(25);
+                INVENTORY.adjustAmmo(AmmoItem.ROCK, 25);
+            }),
+            // 5
+            new DialogBubble(bs, "Here you go.", true, () => {
+                ASSET_MGR.playSFX(SFX.HMM1.path, SFX.HMM1.volume);
+                INVENTORY.spendRunes(100);
+                INVENTORY.adjustAmmo(AmmoItem.ROCK, 100);
+            }),
+            // 6
+            new DialogBubble(bs, "Here you go.", true, () => {
+                ASSET_MGR.playSFX(SFX.HMM1.path, SFX.HMM1.volume);
+                INVENTORY.spendRunes(50);
+                INVENTORY.adjustAmmo(AmmoItem.BOMB, 5);
+            }),
+            // 7
+            new DialogBubble(chad, "See ya!"),
+            // 8
+            new DialogBubble(bs, "mmhm...", true),
+            // 9
+            new DialogBubble(bs, "Gonna need more than that.", true)
+        ],
+        merchantScared: [
+            // 0
+            new DialogBubble(bs,
+                "Ever since the attack I decided to leave the village. \nI will sell from here to support you as you bring our village to justice.", false, () => {
+                    ASSET_MGR.playSFX(SFX.HMM2.path, SFX.HMM2.volume);
+                }),
+            // 1
+            new DecisionBubble('Blacksmith', 'Hello.', [
+                new Choice('I\'d like to see what you have for sale.', 2),
+                new Choice('Leave.', 7)
+            ]),
+            // 2
+            new DialogBubble(bs, 'Okay.'),
+            // 3
+            new DecisionBubble('Blacksmith', 'Okay', [
+                new Choice("Rock ammo (25 for 25 runes)", () => {
+                    return INVENTORY.runes >= 25 ? 4 : 9;
+                }),
+                new Choice("Rock ammo (100 for 100 runes)", () => { //todo slime ammo
+                    return INVENTORY.runes >= 100 ? 5 : 9;
+                }),
+                new Choice("Bomb ammo (5 for 40 runes)", () => {
+                    return INVENTORY.runes >= 40 ? 6 : 9;
+                }),
+                new Choice('Leave.', 7)
+            ]),
+            // 4
+            new DialogBubble(bs, "Here you go.", true, () => {
+                ASSET_MGR.playSFX(SFX.HMM1.path, SFX.HMM1.volume);
+                INVENTORY.spendRunes(25);
+                INVENTORY.adjustAmmo(AmmoItem.ROCK, 25);
+            }),
+            // 5
+            new DialogBubble(bs, "Here you go.", true, () => {
+                ASSET_MGR.playSFX(SFX.HMM1.path, SFX.HMM1.volume);
+                INVENTORY.spendRunes(100);
+                INVENTORY.adjustAmmo(AmmoItem.ROCK, 100);
+            }),
+            // 6
+            new DialogBubble(bs, "Here you go.", true, () => {
+                ASSET_MGR.playSFX(SFX.HMM1.path, SFX.HMM1.volume);
+                INVENTORY.spendRunes(40);
+                INVENTORY.adjustAmmo(AmmoItem.BOMB, 5);
+            }),
+            // 7
+            new DialogBubble(chad, "See ya!"),
+            // 8
+            new DialogBubble(bs, "mmhm...", true),
+            // 9
+            new DialogBubble(bs, "Gonna need more than that.", true)
+        ], 
+        merchantSnow: [
+            // 0
+            new DialogBubble(bs,
+                "Brrr. It's cold out here. Did you see that huge yeti?!", false, () => {
+                    ASSET_MGR.playSFX(SFX.HMM2.path, SFX.HMM2.volume);
+                }),
+            // 1
+            new DecisionBubble('Blacksmith', 'Hello.', [
+                new Choice('I\'d like to see what you have for sale.', 2),
+                new Choice('Leave.', 7)
+            ]),
+            // 2
+            new DialogBubble(bs, 'Okay.'),
+            // 3
+            new DecisionBubble('Blacksmith', 'Okay', [
+                new Choice("Rock ammo (25 for 15 runes)", () => {
+                    return INVENTORY.runes >= 15 ? 4 : 9;
+                }),
+                new Choice("Suspicious Snowball ammo (25 for 35 runes)", () => {
+                    return INVENTORY.runes >= 35 ? 5 : 9;
+                }),
+                new Choice("Snowball ammo (25 for 25 runes)", () => {
+                    return INVENTORY.runes >= 25 ? 6 : 9;
+                }),
+                new Choice('Leave.', 7)
+            ]),
+            // 4
+            new DialogBubble(bs, "Here you go.", true, () => {
+                ASSET_MGR.playSFX(SFX.HMM1.path, SFX.HMM1.volume);
+                INVENTORY.spendRunes(25);
+                INVENTORY.adjustAmmo(AmmoItem.ROCK, 25);
+            }),
+            // 5
+            new DialogBubble(bs, "Here you go.", true, () => {
+                ASSET_MGR.playSFX(SFX.HMM1.path, SFX.HMM1.volume);
+                INVENTORY.spendRunes(25);
+                INVENTORY.adjustAmmo(AmmoItem.SUS_SNOWBALL, 25);
+            }),
+            // 6
+            new DialogBubble(bs, "Here you go.", true, () => {
+                ASSET_MGR.playSFX(SFX.HMM1.path, SFX.HMM1.volume);
+                INVENTORY.spendRunes(25);
+                INVENTORY.adjustAmmo(AmmoItem.SNOWBALL, 25);
+            }),
+            // 7
+            new DialogBubble(chad, "See ya!"),
+            // 8
+            new DialogBubble(bs, "mmhm...", true),
+            // 9
+            new DialogBubble(bs, "Gonna need more than that.", true)
+        ],
+        merchantWater: [
+            // 0
+            new DialogBubble(bs,
+                "Well hello there! Watch out for the rushing water. Come to think of it, it probably wasn't a smart idea for me to setup shop in the middle of the river. ¯\\_(ツ)_/¯", false, () => {
+                    ASSET_MGR.playSFX(SFX.HMM2.path, SFX.HMM2.volume);
+                }), 
+            
+            // 1
+            new DecisionBubble('Blacksmith', 'Hello.', [
+                new Choice('I\'d like to see what you have for sale.', 2),
+                new Choice('Leave.', 7)
+            ]),
+            // 2
+            new DialogBubble(bs, 'Okay.'),
+            // 3
+            new DecisionBubble('Blacksmith', 'Okay', [
+                new Choice("SWORD UPGRADE (50 runes)", () => {
+                    return INVENTORY.runes >= 40 ? 4 : 9;
+                }),
+                new Choice("Slimeball ammo (25 for 40 runes)", () => {
+                    return INVENTORY.runes >= 40 ? 5 : 9;
+                }),
+                new Choice("Bomb ammo (10 for 40 runes)", () => {
+                    return INVENTORY.runes >= 40 ? 6 : 9;
+                }),
+                new Choice('Leave.', 7)
+            ]),
+            // 4
+            new DialogBubble(bs, "Here you go.", true, () => {
+                INVENTORY.spendRunes(50);
+                ASSET_MGR.playSFX(SFX.SWORD_UPGRADE.path, SFX.SWORD_UPGRADE.volume);
+                CHAD.sword.upgrade();
+            }),
+            // 5
+            new DialogBubble(bs, "Here you go.", true, () => {
+                ASSET_MGR.playSFX(SFX.HMM1.path, SFX.HMM1.volume);
+                INVENTORY.spendRunes(40);
+                INVENTORY.adjustAmmo(AmmoItem.SLIMEBALL, 25);
+            }),
+            // 6
+            new DialogBubble(bs, "Here you go.", true, () => {
+                ASSET_MGR.playSFX(SFX.HMM1.path, SFX.HMM1.volume);
+                INVENTORY.spendRunes(40);
+                INVENTORY.adjustAmmo(AmmoItem.SNOWBALL, 10);
+            }),
+            // 7
+            new DialogBubble(chad, "See ya!"),
+            // 8
+            new DialogBubble(bs, "mmhm...", true),
+            // 9
+            new DialogBubble(bs, "Gonna need more than that.", true)
+        ],
+        merchantCave: [
+            // 0
+            new DialogBubble(bs,
+                "Fancy seeing you down here!", false, () => {
+                    ASSET_MGR.playSFX(SFX.HMM2.path, SFX.HMM2.volume);
+                }),
+            // 1
+            new DecisionBubble('Blacksmith', 'Hello.', [
+                new Choice('I\'d like to see what you have for sale.', 2),
+                new Choice('Leave.', 7)
+            ]),
+            // 2
+            new DialogBubble(bs, 'Okay.'),
+            // 3
+            new DecisionBubble('Blacksmith', 'Okay', [
+                new Choice("SWORD UPGRADE (50 runes)", () => {
+                    return INVENTORY.runes >= 10 ? 4 : 9;
+                }),
+                new Choice("Bomb ammo (10 for 40 runes)", () => {
+                    return INVENTORY.runes >= 40 ? 5 : 9;
+                }),
+                new Choice("Rock ammo (25 for 10 runes)", () => {
+                    return INVENTORY.runes >= 10 ? 4 : 9;
+                }),
+                new Choice('Leave.', 7)
+            ]),
+            // 4
+            new DialogBubble(bs, "Here you go.", true, () => {
+                INVENTORY.spendRunes(50);
+                ASSET_MGR.playSFX(SFX.SWORD_UPGRADE.path, SFX.SWORD_UPGRADE.volume);
+                CHAD.sword.upgrade();
+            }),
+            // 5
+            new DialogBubble(bs, "Here you go.", true, () => {
+                ASSET_MGR.playSFX(SFX.HMM1.path, SFX.HMM1.volume);
+                INVENTORY.spendRunes(40);
+                INVENTORY.adjustAmmo(AmmoItem.BOMB, 10);
+            }),
+            // 6
+            new DialogBubble(bs, "Here you go.", true, () => {
+                ASSET_MGR.playSFX(SFX.HMM1.path, SFX.HMM1.volume);
+                INVENTORY.spendRunes(10);
+                INVENTORY.adjustAmmo(AmmoItem.ROCK, 25);
+            }),
+            // 7
+            new DialogBubble(chad, "See ya!"),
+            // 8
+            new DialogBubble(bs, "mmhm...", true),
+            // 9
+            new DialogBubble(bs, "Gonna need more than that.", true)
+        ],
+        ending: [
+            // 0
+            new DialogBubble(bs,
+                "Now that the wizard is gone, life can finally go back to normal."),
+            // 1
+            new DialogBubble(bs,
+                "Don't think that just because you saved our village you'll be getting any discounts! heh...", true),
+        ]
+    };
+}
+
+const mamaChadConversationLoader = () => {
+    const mama = DialogBubble.SPEAKERS.MAMA_CHAD;
+    const chad = DialogBubble.SPEAKERS.CHAD;
+    return {
+        goodMorning: [
+            // 0
+            new DialogBubble(mama,
+                "Good morning Chad! I do hope you're careful out there hunting with your father."),
+            // 1
+            new DialogBubble(mama,
+                "I know it's just bunnies and snakes out there, but I always worry you'll run into something more dangerous."),
+            // 2
+            new DialogBubble(mama,
+                "There's a lot of scary things out there in the world."),
+            // 3
+            new DecisionBubble('Mama Chad', "There's a lot of scary things out there.", [
+                new Choice("I'll be careful", 4),
+                new Choice("I can handle myself!", 6)]),
+            // 4
+            new DialogBubble(chad,
+                "Of course I'll be careful mama. Gotta make sure I make it back to have some of that MEAT! you cook up!"),
+            // 5
+            new DialogBubble(mama,
+                "Whatever motivates you to stay safe honey. Maybe tonight I'll make your favorite - Burgers! I love you honey.", true),
+            // 6
+            new DialogBubble(chad,
+                "I can handle myself out there! Ain't nothing in these fields that I couldn't fight!"),
+            // 7
+            new DialogBubble(mama,
+                "You're a strong young man, I probably shouldn't be worried. But you'll always be my little boy!"),
+            // 8
+            new DialogBubble(chad,
+                "Aww, stop mama! I gotta go!"),
+            // 9
+            new DialogBubble(mama,
+                "I love you son!"),
+            // 10
+            new DialogBubble(chad,
+                "I love you too mom.", true)
+        ],
+        ending: [
+            // 0
+            new DialogBubble(mama,
+                "Thank you for saving me dear!"),
+            // 1
+            new DialogBubble(mama,
+                "You are a hero!", true),
+        ]
+    };
+};
+
+const minerConversationLoader = () => {
+    const miner = DialogBubble.SPEAKERS.Miner;
+    const chad = DialogBubble.SPEAKERS.CHAD;
+    const none = DialogBubble.SPEAKERS.NONE;
+
+    return {
+        greeting: [
+            // 0
+            new DialogBubble(miner,
+                "Hey! I'm The Riddlemeister Miner. I haven't seen anybody down here in ages. I've just been mining my own business down here. Haha. I work on puzzles in my spare time..."),
+            // 1
+            new DecisionBubble('The Riddlemeister Miner', "Wanna try and solve it?", [
+                new Choice("Sure thing!", 2),
+                new Choice("Thanks, maybe later.", 7)]),
+            // 2
+            new DialogBubble(chad,
+                "That sounds amazing! I'm always up for a good challenge! How do I start?"),
+            // 3
+            new DialogBubble(miner,
+                "It starts with a riddle. When you solve the puzzle in the caves you'll find the answer to the riddle. Come back and answer the riddle when you solve it."),
+            // 4
+            new DialogBubble(miner,
+                "\"the type of letters your write will guide you through the dark, continue with Might and five will follow.\""),
+            // 5
+            new DialogBubble(miner,
+                "When you solve it, come back here and write the answer..."),
+            // 6
+            new DialogBubble(none,
+                "Type your response here. It will not be displayed, you will know if it is correct.\n*Allow Popups on your browser.*", true),
+            // 7
+            new DialogBubble(chad,
+                "That sounds fun but I've got adventuring to do. Let me get back to you on that!", true),
+
+        ]
+    };
+};
+
+const wizardConversationLoader = () => {
+    const wiz = DialogBubble.SPEAKERS.WIZARD;
+    const chad = DialogBubble.SPEAKERS.CHAD;
+    const none = DialogBubble.SPEAKERS.NONE;
+    return {
+        threateningIntroduction: [
+            new DialogBubble(wiz,
+                "Stop right there, boy!", false, () => {
+                    ASSET_MGR.playSFX(SFX.EVIL_LAUGH.path, SFX.EVIL_LAUGH.volume);
+                }),
+            new DialogBubble(wiz,
+                "You've gotten lucky facing my army of slime. Do not spoil your luck now by trying anything stupid."),
+            new DialogBubble(chad,
+                "What have you done to my Mama?! I'll make you pay for this you zombie looking freak!"),
+            new DialogBubble(wiz,
+                "Well, child, you're gonna have to try a lot harder than that! We're out of here!",
+                false,
+                () => {
+                    STORY.villageAttackEnded = true;
+                    // Unlock all borders in the current zone.
+                    GAME.entities.midground.forEach((entity) => {
+                        if (entity instanceof Border) {
+                            entity.locked = false;
+                        }
+                    });
+                }),
+            new DialogBubble(none,
+                "The rest of the world has opened up to explore! The evil wizard must have run off somewhere to the east!",
+                true)
+        ]
+    }
+}

@@ -26,8 +26,6 @@ class Chad {
         this.prevYPosOnGround = 0;
         /** The position of the Chad (in the game world). */
         this.pos = pos;
-        /** Gets the the x position of CHAD from the origin of where he started dashing. */
-        this.xDashAnchoredOrigin = 0;
         /** An associative array of the animations for this Chad. Arranged [facing][action]. */
         this.animations = [];
         this.loadAnimations();
@@ -35,44 +33,46 @@ class Chad {
         this.facing = "right";
         /** What is the Chad doing? */
         this.action = "idle";
-       
         /** The velocity at which Chad is moving. */
         this.velocity = new Vector(0, 0);
         /** Name of character. */
         this.name = "Chad";
         /** The health of Chad. */
-        this.health = Chad.MAX_HEALTH;
+        this.health = Chad.DEFAULT_MAX_HEALTH;
+        /** The maximum health of Chad. */
+        this.maxHealth = Chad.DEFAULT_MAX_HEALTH;
         /** Chad's base speed */
         this.speed = Chad.DEFAULT_SPEED;
         /** Chad's damage multiplier (applied on sword/slingshot hit) */
         this.damageMultiplier = 1;
-        /** Chad's invincibility state. */
-        this.isInvincible = false;
-        /** The scale of Chad on the canvas. A VECTOR */
-        this.scale = Chad.DEFAULT_SCALE;
+        /** level of sword */
+        this.swordLevel = 1; 
+
         /** The size of Chad on the canvas */
-        this.scaledSize = new Vector(Chad.BOUNDING_BOX_SIZE.x * Chad.DEFAULT_SCALE.x, 
-            Chad.BOUNDING_BOX_SIZE.y * Chad.DEFAULT_SCALE.y);
-        /** Used to check for collisions with other applicable entities. */
-        this.boundingBox = this.createBoundingBox();
+        this.scaledSize = new Vector(Chad.DEFAULT_BOUNDING_BOX_SIZE.x * Chad.DEFAULT_SCALE.x,
+            Chad.DEFAULT_BOUNDING_BOX_SIZE.y * Chad.DEFAULT_SCALE.y);
         /** Used to check how to deal with collisions with other applicable entities. */
         this.lastBoundingBox = this.boundingBox;
         /** The force of Chad's first jump. */
         this.firstJumpVelocity = Chad.DEFAULT_FIRST_JUMP_VELOCITY;
         /** The force of Chad's second jump. */
         this.secondJumpVelocity = Chad.DEFAULT_SECOND_JUMP_VELOCITY;
-
+        /** If Chad is currently jumping. */
         this.isJumping = false;
-        /** The timer for the jump. Used to ensure the jump force is applied for a minimum amount of time. */
+        /** The timer for the jump. Used to ensure the jump velocity is applied for a minimum amount of time. */
         this.firstJumpTimer = 0;
-        this.groundDashTimer = Chad.GROUND_DASH_COOLDOWN;
-        /** Ground dashes are reset based off a timer  */
-        this.canGroundDash = true;
-        /** Air dashes are reset when landing on the ground (we only want one air dash per jump) */
-        this.canAirDash = true;
-        
+        /** Dashes are reset based off a timer  */
+        this.canDash = true;
+        /** The cooldown timer for the dash. */
+        this.dashCooldownTimer = Chad.DASH_COOLDOWN;
+        /** The timer for how long Chad has been dashing. */
+        this.dashStopTimer = 0;
         /** If Chad has landed on the ground. Used to determine when Chad first hit the ground. */
         this.alreadyLanded = false;
+        /** The scale of Chad on the canvas. A VECTOR */
+        this.scale = Chad.DEFAULT_SCALE;
+        /** Used to check for collisions with other applicable entities. */
+        this.boundingBox = this.createBoundingBox();
     };
 
     /** The size, in pixels of the sprite ON THE SPRITESHEET. */
@@ -81,12 +81,12 @@ class Chad {
     }
 
     /** The size, in pixels of the boundingbox of Chad. */
-    static get BOUNDING_BOX_SIZE() {
+    static get DEFAULT_BOUNDING_BOX_SIZE() {
         return new Vector(28, 49);
     }
 
     /** The offset applied to the bounding box's position from Chad's position. */
-    static get BOUNDING_BOX_OFFSET() {
+    static get DEFAULT_BOUNDING_BOX_OFFSET() {
         return new Vector(33, 15);
     }
 
@@ -109,18 +109,18 @@ class Chad {
         return 3.5;
     }
 
-    /** The barrier that limits the length of the longest dash. */
-    static get DASH_LIMIT() {
-        return 280;
+    /** The barrier that limits the time of the longest dash. */
+    static get DASH_TIME_LIMIT() {
+        return 0.32;
     }
 
     /** The delay between dashes in seconds. */
-    static get GROUND_DASH_COOLDOWN() {
-        return 0.8;
+    static get DASH_COOLDOWN() {
+        return 1.3;
     }
 
     /** The maximum amount of health Chad can have. */
-    static get MAX_HEALTH() {
+    static get DEFAULT_MAX_HEALTH() {
         return 100;
     };
 
@@ -134,12 +134,61 @@ class Chad {
         return 1;
     }
 
+    /**
+     * @returns {number} the force of Chad's first jump
+     */
     static get DEFAULT_FIRST_JUMP_VELOCITY() {
-        return 650;
+        return Chad.DEFAULT_SCALE.y * 360;
     }
 
+    /**
+     * @returns {number} the force of Chad's second jump
+    */
     static get DEFAULT_SECOND_JUMP_VELOCITY() {
-        return 700;
+        return Chad.DEFAULT_SCALE.y * 380;
+    }
+
+    /**
+     * Update the scale of Chad along with his scaled size.
+     * @param {Vector} newScale the new scale of Chad
+     */
+    set scale(newScale) {
+        this._scale = newScale;
+
+        // we need to update the scaled size of Chad when we change his scale
+        // this is the reason we have a getter and setter for scale
+        this.scaledSize = new Vector(Chad.DEFAULT_BOUNDING_BOX_SIZE.x * this._scale.x, Chad.DEFAULT_BOUNDING_BOX_SIZE.y * this._scale.y);
+    }
+
+    /**
+     * Get the scale of Chad.
+     * @returns {Vector} the scale of Chad
+     */
+    get scale() {
+        return this._scale;
+    }
+
+
+    /** 
+     * Initialize Chad's slingshot and sword.
+     */
+    initWeapons() {
+        this.sword = new Sword(this.swordLevel);
+        GAME.addEntity(this.sword, 1);
+
+        this.slingshot = new Slingshot();
+        GAME.addEntity(this.slingshot);
+    }
+
+    /**
+     * Initialize Chad's status effect.
+     */
+    initStatusEffect() {
+        // if we don't have a status effect, create one
+        if (!this.statusEffect) {
+            this.statusEffect = new StatusEffect(this);
+        }
+        GAME.addEntity(this.statusEffect);
     }
 
     /** 
@@ -148,7 +197,7 @@ class Chad {
      * @returns {BoundingBox} Chad's new bounding box
      */
     createBoundingBox() {
-        return new BoundingBox(Vector.add(this.pos, this.scaleBoundingBoxOffset()), this.scaledSize);
+        return new BoundingBox(Vector.add(this.pos, this.getBoundingBoxOffset()), this.scaledSize);
     }
 
     /**
@@ -157,10 +206,20 @@ class Chad {
      * 
      * @returns {Vector} Chad's current bounding box offset
      */
-    scaleBoundingBoxOffset() {
-        return new Vector(Chad.BOUNDING_BOX_OFFSET.x * this.scale.x,
-            Chad.BOUNDING_BOX_OFFSET.y * this.scale.y);
+    getBoundingBoxOffset() {
+        return new Vector(Chad.DEFAULT_BOUNDING_BOX_OFFSET.x * this.scale.x,
+            Chad.DEFAULT_BOUNDING_BOX_OFFSET.y * this.scale.y);
     }
+
+    getCenter() {
+        return new Vector(this.pos.x + this.getBoundingBoxOffset().x + this.scaledSize.x / 2,
+            this.pos.y + this.getBoundingBoxOffset().y + this.scaledSize.y / 2);
+    }
+
+    getTopLeft() {
+        return new Vector(this.pos.x + this.getBoundingBoxOffset().x, this.pos.y + this.getBoundingBoxOffset().y);
+    }
+
 
     /** 
      * Decrease the health of Chad by the provided amount and perform any necessary operations
@@ -169,22 +228,12 @@ class Chad {
      * @param {number} amount the amount by which to decrease Chad's health
      */
     takeDamage(amount) {
-        if (this.isInvincible) {
-            // playSFX(SFX.DING.path, SFX.DING.volume);
-            return;
-        }
-
-        this.health -= amount;
-        if (this.health <= 0) {
-            // Chad should die here
-            ASSET_MGR.playSFX(SFX.GAME_OVER.path, SFX.GAME_OVER.volume);
-        }
         if (this.health > 0) {
-            if (this.isInvincible) {
-                // playAudio(SFX.DING.path, SFX.DING.volume);
+            if (this.statusEffect.invincible) {
+                ASSET_MGR.playSFX(SFX.DING.path, SFX.DING.volume);
                 return;
             }
-    
+
             this.health -= amount;
             if (this.health <= 0) {
                 // Chad should die here
@@ -197,17 +246,46 @@ class Chad {
         }
     };
 
+    knockback(direction, amount) {
+        // this.pos = Vector.add(this.pos, Vector.multiply(direction, amount));
+
+        this.knockbackForce = Vector.multiply(direction, amount * 100);
+        this.isKnockedBack = true;
+    }
+
+    manageKnockback() {
+        if (this.isKnockedBack) {
+            this.knockbackForce = Vector.multiply(this.knockbackForce, 0.5);
+            this.velocity = Vector.add(this.velocity, this.knockbackForce);
+
+            // If velocity is below a certain threshold, end knockback
+            if (Vector.magnitude(this.knockbackForce) < 0.1) {
+                this.isKnockedBack = false;
+            }
+        }
+    }
+
+
     /**
      * Increase the health of Chad by the provided amount
      * 
      * @param {number} amount the amount by which to increase Chad's health
      */
     restoreHealth(amount) {
-        if (this.health + amount > Chad.MAX_HEALTH) {
-            this.health = Chad.MAX_HEALTH;
+        if (this.health + amount > this.maxHealth) {
+            this.health = this.maxHealth;
         } else {
             this.health += amount;
         }
+    }
+
+    /**
+     * Increase the maximum health of Chad by the provided amount
+     * 
+     * @param {number} amount the amount by which to increase Chad's max health
+     */
+    increaseMaxHealth(amount) {
+        this.maxHealth += amount;
     }
 
     /**
@@ -216,6 +294,11 @@ class Chad {
      * @returns {number} the x velocity of Chad
      */
     manageXDirectionMovement() {
+        if (this.isKnockedBack) {
+            // don't allow movement while knocked back
+            return this.velocity.x;
+        }
+
         let xVelocity = this.velocity.x;
 
         let dirSign = 0;
@@ -228,74 +311,75 @@ class Chad {
             dirSign = 1;
         }
 
+        xVelocity = dirSign * this.speed;
 
         // Run action
-        if (GAME.user.running) {
-            this.action = "running";
-            xVelocity = dirSign * this.speed * Chad.RUN_MULTIPLIER;
+        if (GAME.user.movingLeft || GAME.user.movingRight) {
+            if (GAME.user.running) {
+                this.action = "running";
+                xVelocity = dirSign * this.speed * Chad.RUN_MULTIPLIER;
 
-
-            // if you're on the ground, running, AND moving, release dust particles
-            if (this.isOnGround && (GAME.user.movingLeft || GAME.user.movingRight)) {
-                GAME.addEntity(new ParticleEffect(Vector.add(this.scaleBoundingBoxOffset(), 
-                    new Vector(this.pos.x + this.scaledSize.x / 2, this.pos.y + this.scaledSize.y - 10)),
-                    ParticleEffect.DUST));
+                // if you're on the ground, running, AND moving, release dust particles
+                if (this.isOnGround) {
+                    GAME.addEntity(new ParticleEffect(
+                        Vector.add(this.getCenter(), new Vector(0, this.scaledSize.y / 2 - 10)),
+                        ParticleEffect.LITTLE_DUST)
+                    );
+                }
+            } else {
+                // Walk action
+                this.action = "walking";
             }
-        } else {
-            // Walk action
-            this.action = "walking";
-            xVelocity = dirSign * this.speed;
         }
 
 
         // Dash action
-        // console.log("DASH TIMER: " + this.dashTimer);
-        if (this.groundDashTimer > 0 && this.isOnGround) {
-            this.groundDashTimer -= GAME.clockTick;
-        } else if (this.groundDashTimer <= 0) {
-            this.canGroundDash = true;
-        }
-                    
-        const canDash = ((this.canAirDash && !this.isOnGround) || 
-                        (this.canGroundDash && this.isOnGround));
 
-        if (GAME.user.dashing && canDash) {
+        // update dash conditions
+        if (this.dashCooldownTimer > 0) {
+            this.dashCooldownTimer = Math.max(this.dashCooldownTimer - GAME.clockTick, 0);
+        }
+
+        if (this.isDashing) {
+            this.dashStopTimer += GAME.clockTick;
+        }
+
+        if (this.dashCooldownTimer <= 0 && this.dashStopTimer < Chad.DASH_TIME_LIMIT) {
+            this.canDash = true;
+        }
+
+        // do the dash
+        if (GAME.user.dashing && this.canDash) {
             if (!this.isDashing) {
                 // we just started dashing
-                this.xDashAnchoredOrigin = this.pos.x;
-                this.isDashing = true
-                ASSET_MGR.playSFX(SFX.SWOOSH.path, SFX.SWOOSH.volume);
+                this.isDashing = true;
             }
 
-            // release wind particles every 0.05 seconds
-            if (GAME.gameTime % 0.05 < 0.01) { // we use `< 0.01` instead of `== 0` to avoid floating point errors
-                GAME.addEntity(new ParticleEffect(new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y/2), 
-                                        ParticleEffect.WIND));
+            // release wind particles every 0.07 seconds
+            if (GAME.gameTime % 0.07 < 0.01) { // we use `< 0.01` instead of `== 0` to avoid floating point errors
+                GAME.addEntity(new ParticleEffect(this.getCenter(), ParticleEffect.WIND));
             }
 
             this.action = "dashing";
             xVelocity = dirSign * this.speed * Chad.DASH_MULTIPLIER;
-            // Used to limit the distance of the dash.
-            let deltaX = Math.abs(this.pos.x - this.xDashAnchoredOrigin);
-            // Limit the delta in x that CHAD can dash. Set booleans as necessary to ensure
-            // correct limitations on dash functionality, i.e. no double dashing, no infinite dash.
-            if (deltaX >= Chad.DASH_LIMIT) {
+
+            if (this.dashStopTimer >= Chad.DASH_TIME_LIMIT) {
                 // we just finished dashing
-                this.canAirDash = false;
-                this.canGroundDash = false;
+                this.canDash = false;
                 this.hasDashed = true;
                 this.isDashing = false;
-                this.groundDashTimer = Chad.GROUND_DASH_COOLDOWN;
+                this.dashCooldownTimer = Chad.DASH_COOLDOWN;
+                this.dashStopTimer = 0;
             }
         }
         // Prevents continuing a dash after lifting the dash key.
         if (!GAME.user.dashing && this.isDashing) {
             // we just finished dashing
-            this.canAirDash = false;
-            this.canGroundDash = false;
+            this.canDash = false;
             this.hasDashed = true;
             this.isDashing = false;
-            this.groundDashTimer = Chad.GROUND_DASH_COOLDOWN;
+            this.dashCooldownTimer = Chad.DASH_COOLDOWN;
+            this.dashStopTimer = 0;
         }
 
         return xVelocity;
@@ -317,8 +401,7 @@ class Chad {
 
         if (this.isOnGround && !this.alreadyLanded) {
             ASSET_MGR.playSFX(SFX.LAND.path, SFX.LAND.volume);
-            this.groundDashTimer = 0; // let the player dash immediately after landing
-            console.log("Landed on the ground");
+            // this.groundDashTimer = 0; // let the player dash immediately after landing
 
             // TODO add a landing animation?
             // TODO more things related to landing
@@ -329,7 +412,7 @@ class Chad {
         if (!this.isOnGround) {
             this.alreadyLanded = false;
         }
-        
+
         if (GAME.user.jumping && this.isOnGround) {
             yVelocity = -this.firstJumpVelocity;
             ASSET_MGR.playSFX(SFX.JUMP1.path, SFX.JUMP1.volume);
@@ -338,7 +421,7 @@ class Chad {
             this.isOnGround = false;
             this.firstJumpTimer = 0.13;
         }
-        
+
         // If the jump button is released early and the character is still moving upward, reduce the jump force
         if (!GAME.user.jumping && this.isJumping && yVelocity < 0) {
             this.firstJumpTimer -= GAME.clockTick; // Decrease the jump timer
@@ -375,9 +458,12 @@ class Chad {
         // If Chad can double jump and user is trying to jump than do it!
         if (this.canDoubleJump && GAME.user.jumping && !this.isOnGround) {
             ASSET_MGR.playSFX(SFX.JUMP2.path, SFX.JUMP2.volume);
-            GAME.addEntity(new ParticleEffect(Vector.add(this.scaleBoundingBoxOffset(), 
-            new Vector(this.pos.x + this.scaledSize.x/2, this.pos.y + this.scaledSize.y-10)),
-                ParticleEffect.CLOUD));
+
+            GAME.addEntity(new ParticleEffect(
+                Vector.add(this.getCenter(), new Vector(0, this.scaledSize.y / 2 - 10)),
+                ParticleEffect.CLOUD)
+            );
+
             this.action = "jumping";
             yVelocity = -this.secondJumpVelocity;
             this.canDoubleJump = false;
@@ -398,69 +484,75 @@ class Chad {
             return;
         }
 
+        this.manageKnockback();
+
         // Chad shouldn't be able to double jump by default.
         this.canDoubleJump = false;
 
-        // Reset double jump and air dash if Chad is on the ground.
+        // Reset double jump and dash if Chad is on the ground.
         if (this.isOnGround) {
             this.hasDoubleJumped = false;
-            this.canAirDash = true;
             this.hasDashed = false;
         }
+
+        this.action = "idle"; // default action
 
         // Step 1: Listen for user input.
         const newXVelocity = this.manageXDirectionMovement();
         const newYVelocity = this.manageYDirectionMovement();
         this.velocity = new Vector(newXVelocity, newYVelocity);
 
-        if (!(GAME.user.movingRight || GAME.user.movingLeft)) {
-            this.action = "idle";
-        }
-        // User intends to for Chad to jump in any way possible.
-        //         if (GAME.user.jumping) {
-        //             if (!this.isDashing) {
-        //                 this.action = "jumping";
-
-        //             }
-        //             // Gets change in y from when CHAD left ground to current.
-        //             this.manageYDirectionMovement()
-        //         }
-
-        // this is for the slingshot
-        //         if (GAME.user.aiming) {
-
-        // TODO - decide whether this is necessary or not. Make it so that Chad moves in the correct direction
-        // when doing this.
         // Step 2: Face in the direction of a mouse click
-        if (GAME.user.aiming || GAME.user.jabbing) {
+        if (GAME.user.aiming || this.sword.isSlicing()) {
             // determine if mouse is to the right or left of Chad
             // remember, the mouse is in screen coordinates, not world coordinates
             const mouseX = GAME.mousePos.x + CAMERA.pos.x;
-            if (mouseX > this.pos.x) {
+            const chadCenterX = this.pos.x + this.scaledSize.x / 2;
+            if (mouseX > chadCenterX) {
                 this.facing = "right";
             } else {
                 this.facing = "left";
             }
         }
 
-
-        if (GAME.user.jabbing) {
+        if (this.sword.isSlicing()) {
             this.action = "slicing";
         }
+
         if (this.isOnGround && !(GAME.user.movingRight || GAME.user.movingLeft)) {
-            this.action = "idle";
-            if (GAME.user.jabbing) {
+            if (this.sword.isSlicing()) {
                 this.action = "slicingStill";
             }
         } else if (!(this.isOnGround) && GAME.user.jumping && !(GAME.user.dashing)) {
             this.action = "jumping"
+            if (this.sword.isSlicing()) {
+                this.action = "slicingStill";
+            }
+        }
+
+        // leave it up to the slingshot to decide where chad is aiming
+        const slingshotAction = this.slingshot != null ? this.slingshot.getAction() : "none";
+        if (slingshotAction != "none") {
+            // provided the slingshot is doing something, override chad's action to a combination of the two
+            switch (this.action) {
+                case "idle":
+                    this.action = "idle" + slingshotAction;
+                    break;
+                case "walking":
+                    this.action = "walking" + slingshotAction;
+                    break;
+                case "running":
+                    this.action = "running" + slingshotAction;
+                    break;
+                case "jumping":
+                    this.action = "idle" + slingshotAction; // no jumping animations for aiming
+                    break;
+            }
         }
 
 
-        // Step 2: Account for gravity, which is always going to push you downward.
+        // Step 3: Account for gravity, which is always going to push you downward.
         this.velocity.y += PHYSICS.GRAVITY_ACC * GAME.clockTick;
-
-
 
         // Step 4: Now move.
         this.pos = Vector.add(this.pos, Vector.multiply(this.velocity, GAME.clockTick));
@@ -473,7 +565,7 @@ class Chad {
         GAME.entities.midground.forEach((entity) => {
             // Does entity even have a BB?
             if (entity.boundingBox) {
-                
+
                 // Are they even colliding?
                 if (this.boundingBox.collide(entity.boundingBox)) {
                     if (entity instanceof Block) {
@@ -483,45 +575,110 @@ class Chad {
                             && this.lastBoundingBox.right > entity.boundingBox.left;
                         const isOverlapY = this.lastBoundingBox.bottom > entity.boundingBox.top
                             && this.lastBoundingBox.top < entity.boundingBox.bottom;
+                        const bbOffset = this.getBoundingBoxOffset();
 
-                        const bbOffset = this.scaleBoundingBoxOffset();
-                        if (isOverlapX
-                            && this.lastBoundingBox.bottom <= entity.boundingBox.top
-                            && this.boundingBox.bottom > entity.boundingBox.top) {
-                            // We are colliding with the top.
+                        // First, check for X-axis collisions
+                        if (isOverlapY) {
+                            if (this.lastBoundingBox.right <= entity.boundingBox.left
+                                && this.boundingBox.right > entity.boundingBox.left
+                            ) { //&& !entity.canPassThru.left
+                                // We are colliding with the left side.
+                                this.pos = new Vector(entity.boundingBox.left - this.scaledSize.x - bbOffset.x, this.pos.y);
+                            } else if (this.lastBoundingBox.left >= entity.boundingBox.right
+                                && this.boundingBox.left < entity.boundingBox.right
+                            ) { //&& !entity.canPassThru.right
+                                // We are colliding with the right side.
+                                this.pos = new Vector(entity.boundingBox.right - bbOffset.x, this.pos.y);
+                            }
+                        }
 
-                            this.pos = new Vector(this.pos.x, entity.boundingBox.top - this.scaledSize.y - bbOffset.y);
+                        // Updating the bounding box after resolving X-axis collisions 
+                        // is necessary to ensure that the bounding box accurately represents
+                        // the new position of the entity after the collision.
+                        this.boundingBox = this.createBoundingBox();
 
-                            this.velocity = new Vector(this.velocity.x, 0);
-                            this.isOnGround = true;
-                            this.prevYPosOnGround = this.pos.y;
-                        } else if (isOverlapY
-                            && this.lastBoundingBox.right <= entity.boundingBox.left
-                            && this.boundingBox.right > entity.boundingBox.left) {
-                            // We are colliding with the left side.
-
-                            this.pos = new Vector(entity.boundingBox.left - this.scaledSize.x - bbOffset.x, this.pos.y);
-                        } else if (isOverlapY
-                            && this.lastBoundingBox.left >= entity.boundingBox.right
-                            && this.boundingBox.left < entity.boundingBox.right) {
-                            // We are colliding with the right side.
-
-                            this.pos = new Vector(entity.boundingBox.right - bbOffset.x, this.pos.y);
-                        } else if (isOverlapX
-                            && this.lastBoundingBox.top >= entity.boundingBox.bottom
-                            && this.boundingBox.top < entity.boundingBox.bottom) {
-                            // We are colliding with the bottom.
-                            this.pos = new Vector(this.pos.x, entity.boundingBox.bottom - bbOffset.y);
+                        // Then, check for Y-axis collisions
+                        if (isOverlapX) {
+                            if (this.lastBoundingBox.bottom <= entity.boundingBox.top
+                                && this.boundingBox.bottom > entity.boundingBox.top
+                            ) { //&& !entity.canPassThru.top
+                                // We are colliding with the top.
+                                this.pos = new Vector(this.pos.x, entity.boundingBox.top - this.scaledSize.y - bbOffset.y);
+                                this.velocity = new Vector(this.velocity.x, 0);
+                                this.isOnGround = true;
+                                this.prevYPosOnGround = this.pos.y;
+                            } else if (this.lastBoundingBox.top >= entity.boundingBox.bottom
+                                && this.boundingBox.top < entity.boundingBox.bottom
+                            ) { //&& !entity.canPassThru.bottom
+                                // We are colliding with the bottom.
+                                this.pos = new Vector(this.pos.x, entity.boundingBox.bottom - bbOffset.y);
+                            }
                         }
                     }
                     else if (entity instanceof Border) {
-                        LAST_ZONE = ZONE;
-                        ZONE = entity.target;
-                        ZONE.load();
+                        if (!entity.locked) {
+                            LAST_ZONE = ZONE;
+                            ZONE = entity.target;
+                            SAVED_ZONE = ZONE;
+                            ZONE.load();
+                            setTimeout(() => {
+                                HUD.addComponents();
+                            }, 1000);
+                        } else {
+                            // Is there overlap with the block on the x or y-axes?
+                            const isOverlapX = this.lastBoundingBox.left < entity.boundingBox.right
+                                && this.lastBoundingBox.right > entity.boundingBox.left;
+                            const isOverlapY = this.lastBoundingBox.bottom > entity.boundingBox.top
+                                && this.lastBoundingBox.top < entity.boundingBox.bottom;
+                            const bbOffset = this.getBoundingBoxOffset();
+
+                            // First, check for X-axis collisions
+                            if (isOverlapY) {
+                                if (this.lastBoundingBox.right <= entity.boundingBox.left
+                                    && this.boundingBox.right > entity.boundingBox.left
+                                ) { //&& !entity.canPassThru.left
+                                    // We are colliding with the left side.
+                                    this.pos = new Vector(entity.boundingBox.left - this.scaledSize.x - bbOffset.x, this.pos.y);
+                                } else if (this.lastBoundingBox.left >= entity.boundingBox.right
+                                    && this.boundingBox.left < entity.boundingBox.right
+                                ) { //&& !entity.canPassThru.right
+                                    // We are colliding with the right side.
+                                    this.pos = new Vector(entity.boundingBox.right - bbOffset.x, this.pos.y);
+                                }
+                            }
+
+                            // Updating the bounding box after resolving X-axis collisions 
+                            // is necessary to ensure that the bounding box accurately represents
+                            // the new position of the entity after the collision.
+                            this.boundingBox = this.createBoundingBox();
+
+                            // Then, check for Y-axis collisions
+                            if (isOverlapX) {
+                                if (this.lastBoundingBox.bottom <= entity.boundingBox.top
+                                    && this.boundingBox.bottom > entity.boundingBox.top
+                                ) { //&& !entity.canPassThru.top
+                                    // We are colliding with the top.
+                                    this.pos = new Vector(this.pos.x, entity.boundingBox.top - this.scaledSize.y - bbOffset.y);
+                                    this.velocity = new Vector(this.velocity.x, 0);
+                                    this.isOnGround = true;
+                                    this.prevYPosOnGround = this.pos.y;
+                                } else if (this.lastBoundingBox.top >= entity.boundingBox.bottom
+                                    && this.boundingBox.top < entity.boundingBox.bottom
+                                ) { //&& !entity.canPassThru.bottom
+                                    // We are colliding with the bottom.
+                                    this.pos = new Vector(this.pos.x, entity.boundingBox.bottom - bbOffset.y);
+                                }
+                            }
+                        }
                     }
                     else if (entity.conversation) {
                         if (GAME.user.interacting) {
                             entity.conversation.initiateConversation();
+                        }
+                    } else if (entity.isEnemy) {
+                        if (this.statusEffect.giant && this.statusEffect.canCrush) { // every 0.5 seconds
+                            entity.takeDamage(5);
+                            this.statusEffect.didSomeStomping();
                         }
                     }
                 }
@@ -533,100 +690,37 @@ class Chad {
         // Step 5: Now that your position is actually figured out, draw your correct bounding box.
         this.boundingBox = this.createBoundingBox();
 
-        // Step 7: Has Chad eaten any food?
-        // -Consider moving the effects of food into an effect() method in the FoodItem class. 
-        //      -This would allow for easier management of food effects
-        //      -This would result in tighter coupling between Chad and FoodItem
-        /*if (GAME.user.eatFood) {                                                  //! uncomment when HUD food-picker is implemented
-            const foodType = INVENTORY.useCurrentFood();
-
-            if (foodType === "Empty") { // no food to eat
-                return;
+        // Step 6: Check for any zone-specific conditions
+        if (ZONE.name === "River Start") {
+            if (this.pos.y > Vector.blockToWorldSpace(new Vector(0, 28)).y) {
+                this.takeDamage(this.maxHealth);
             }
-
-            switch (foodType) {
-                case FoodItem.BACON:
-                    // give chad invincibility for 10 seconds
-                    // grow chad total size by 1.5x 
-                    this.isInvincible = true;
-                    this.scale = new Vector(Chad.DEFAULT_SCALE.x * 1.2, Chad.DEFAULT_SCALE.y * 1.2);
-                    this.scaledSize = new Vector(Chad.SIZE.x * this.scale.x, Chad.SIZE.y * this.scale.y); // update scaled size accordingly
-                    this.pos = new Vector(this.pos.x, this.pos.y - 10);
-                    setTimeout(() => {
-                        this.isInvincible = false;
-                        this.scale = Chad.DEFAULT_SCALE;
-                        this.scaledSize = new Vector(Chad.SIZE.x * this.scale.x, Chad.SIZE.y * this.scale.y); // update scaled size accordingly
-                    }, 10000);
-                    console.log("*munch munch* Bacon");
-                    break;
-
-                case FoodItem.BURGER:
-                    // give chad extra attack power for 20 seconds
-                    // grow chad's width by 1.5x
-                    this.damageMultiplier = 2;
-                    this.speed /= 1.3;
-                    this.scale = new Vector(Chad.DEFAULT_SCALE.x * 1.5, Chad.DEFAULT_SCALE.y);
-                    this.scaledSize = new Vector(Chad.SIZE.x * this.scale.x, Chad.SIZE.y * this.scale.y); // update scaled size accordingly
-                    setTimeout(() => {
-                        this.damageMultiplier = Chad.DEFAULT_DAMAGE_MULTIPLIER;
-                        this.speed = Chad.DEFAULT_SPEED;
-                        this.scale = Chad.DEFAULT_SCALE;
-                        this.scaledSize = new Vector(Chad.SIZE.x * this.scale.x, Chad.SIZE.y * this.scale.y); // update scaled size accordingly
-                    }, 20000);
-                    console.log("*munch munch* Burger");
-                    break;
-
-                case FoodItem.ENERGY_DRINK:
-                    // give chad extra speed and jump height for 30 seconds
-                    this.speed = Chad.DEFAULT_SPEED * 1.5;
-                    this.firstJumpForce = Chad.DEFAULT_FIRST_JUMP_FORCE * 1.2;
-                    this.secondJumpForce = Chad.DEFAULT_SECOND_JUMP_FORCE * 1.2;
-                    setTimeout(() => {
-                        this.speed = Chad.DEFAULT_SPEED;
-                        this.firstJumpForce = 650;
-                        this.secondJumpForce = 700;
-                    }, 30000);
-                    console.log("*glug glug* Energy Drink");
-                    break;
-
-                case FoodItem.CHICKEN:
-                    // restore 20 HP
-                    this.restoreHealth(20);
-                    console.log("*munch munch* Chicken Leg");
-                    break;
-
-                case FoodItem.STEAK:
-                    // restore 40 HP
-                    this.restoreHealth(40);
-                    console.log("*munch munch* Steak");
-                    break;
-
-                case FoodItem.HAM:
-                    // restore 60 HP
-                    this.restoreHealth(60);
-                    console.log("*munch munch* Ham");
-                    break;
-
-                case FoodItem.BEEF:
-                    // fully restore HP
-                    this.restoreHealth(Chad.MAX_HEALTH);
-                    console.log("*munch munch* Beef");
-                    break;
+        }
+        if (ZONE.name === "End Fight Section") {
+            if (this.pos.y > Vector.blockToWorldSpace(new Vector(0, 75)).y) {
+                this.takeDamage(this.maxHealth);
             }
-
-            // play a randomly chosen sound effect
-            const rand = Math.floor(Math.random() * 4) + 1;
-            const sfx = SFX["FOOD_EAT" + rand];
-            ASSET_MGR.playSFX(sfx.path, sfx.volume);
-
-            GAME.user.eatFood = false; // we only want to eat once per click
-        }*/
+        }
+        // Step 7: Check general zone conditions
+        // if (this.pos.y > Vector.blockToWorldSpace(new Vector(0, 75)).y) {
+        //     this.takeDamage(this.maxHealth);
+        // }
     };
-
 
     /** Draw Chad on the canvas. */
     draw() {
         this.animations[this.facing][this.action].drawFrame(Vector.worldToCanvasSpace(this.pos), this.scale);
+
+        //* draw spritesheet box in blue
+        // CTX.strokeStyle = "blue";
+        // const pos = Vector.worldToCanvasSpace(this.pos);
+        // const scale = this.scale || Chad.DEFAULT_SCALE;
+        // CTX.strokeRect(pos.x, pos.y, Chad.SIZE.x * scale.x, Chad.SIZE.y * scale.y);
+
+        //* draw bounding box in red
+        // CTX.strokeStyle = "red";
+        // const pos2 = Vector.worldToCanvasSpace(this.boundingBox.pos);
+        // CTX.strokeRect(pos2.x, pos2.y, this.boundingBox.size.x, this.boundingBox.size.y);
     };
 
 
@@ -651,22 +745,22 @@ class Chad {
             Chad.SPRITESHEET,
             new Vector(0, 0),
             Chad.SIZE,
-            31, 1 / 10);
+            30, 1 / 10);
         this.animations["left"]["walking"] = new Animator(
             Chad.SPRITESHEET,
             new Vector(96, 64),
             Chad.SIZE,
-            31, 1 / 10, true, true);
+            30, 1 / 10, true, true);
         this.animations["right"]["running"] = new Animator(
             Chad.SPRITESHEET,
             new Vector(0, 0),
             Chad.SIZE,
-            31, 1 / 10);
+            30, 1 / 10);
         this.animations["left"]["running"] = new Animator(
             Chad.SPRITESHEET,
             new Vector(96, 64),
             Chad.SIZE,
-            31, 1 / 10, true, true);
+            30, 1 / 10, true, true);
 
         this.animations["right"]["dashing"] = new Animator(
             Chad.SPRITESHEET,
@@ -693,13 +787,13 @@ class Chad {
             Chad.SPRITESHEET,
             new Vector(0, 128),
             Chad.SIZE,
-            32, 1 / 20);
+            30, 1 / 20);
         this.animations["left"]["slicing"] = new Animator(
             Chad.SPRITESHEET,
             new Vector(
                 0, 192),
             Chad.SIZE,
-            32, 1 / 20, true, true);
+            30, 1 / 20, true, true);
 
         this.animations["right"]["slicingStill"] = new Animator(
             Chad.SPRITESHEET,
@@ -712,6 +806,129 @@ class Chad {
                 0, 1888),
             Chad.SIZE,
             8, 1 / 20);
+
+        this.animations["right"]["idleUpAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 6),
+            Chad.SIZE,
+            1, 1, true);
+        this.animations["left"]["idleUpAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 7),
+            Chad.SIZE,
+            1, 1, true);
+        this.animations["right"]["idleUpFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 8),
+            Chad.SIZE,
+            1, 1, true);
+        this.animations["left"]["idleUpFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 9),
+            Chad.SIZE,
+            1, 1, true);
+        this.animations["right"]["idleDownAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 10),
+            Chad.SIZE,
+            1, 1, true);
+        this.animations["left"]["idleDownAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 11),
+            Chad.SIZE,
+            1, 1, true);
+        this.animations["right"]["idleDownFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 12),
+            Chad.SIZE,
+            1, 1, true);
+        this.animations["left"]["idleDownFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 13),
+            Chad.SIZE,
+            1, 1, true);
+
+        this.animations["right"]["walkingUpAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 6),
+            Chad.SIZE,
+            32, 1 / 10, true);
+        this.animations["left"]["walkingUpAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 7),
+            Chad.SIZE,
+            32, 1 / 10, true);
+        this.animations["right"]["walkingUpFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 8),
+            Chad.SIZE,
+            32, 1 / 10, true);
+        this.animations["left"]["walkingUpFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 9),
+            Chad.SIZE,
+            32, 1 / 10, true);
+        this.animations["right"]["walkingDownAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 10),
+            Chad.SIZE,
+            32, 1 / 10, true);
+        this.animations["left"]["walkingDownAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 11),
+            Chad.SIZE,
+            32, 1 / 10, true);
+        this.animations["right"]["walkingDownFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 12),
+            Chad.SIZE,
+            32, 1 / 10, true);
+        this.animations["left"]["walkingDownFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 13),
+            Chad.SIZE,
+            32, 1 / 10, true);
+
+        this.animations["right"]["runningUpAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 6),
+            Chad.SIZE,
+            32, 1 / 20, true);
+        this.animations["left"]["runningUpAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 7),
+            Chad.SIZE,
+            32, 1 / 20, true);
+        this.animations["right"]["runningUpFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 8),
+            Chad.SIZE,
+            32, 1 / 20, true);
+        this.animations["left"]["runningUpFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 9),
+            Chad.SIZE,
+            32, 1 / 20, true);
+        this.animations["right"]["runningDownAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 10),
+            Chad.SIZE,
+            32, 1 / 20, true);
+        this.animations["left"]["runningDownAiming"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 11),
+            Chad.SIZE,
+            32, 1 / 20, true);
+        this.animations["right"]["runningDownFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 12),
+            Chad.SIZE,
+            32, 1 / 20, true);
+        this.animations["left"]["runningDownFiring"] = new Animator(
+            Chad.SPRITESHEET,
+            new Vector(0, Chad.SIZE.y * 13),
+            Chad.SIZE,
+            32, 1 / 20, true);
 
         this.animations["right"]["death"] = new Animator(
             Chad.SPRITESHEET,

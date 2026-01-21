@@ -206,9 +206,21 @@ class DialogBubble {
      */
     static get SPEAKERS() {
         return {
+            BLACKSMITH: new Animator('./sprites/blacksmith.png',
+                new Vector(16, 22),
+                new Vector(13, 21),
+                1, 1),
             CHAD: new Animator("./sprites/speaker_chad.png",
                 new Vector(0, 0),
                 new Vector(24, 17),
+                1, 1),
+            MAYOR: new Animator('./sprites/mayor.png',
+                new Vector(7, 12),
+                new Vector(16, 18),
+                1, 1),
+            MAMA_CHAD: new Animator(PapaChad.SPRITESHEET,
+                new Vector(PapaChad.SIZE.x, PapaChad.SIZE.y * 2),
+                new Vector(PapaChad.SIZE.x, 17),
                 1, 1),
             NONE: new Animator(Sun.SPRITESHEET,
                 new Vector(0, 0),
@@ -217,6 +229,14 @@ class DialogBubble {
             PAPA_CHAD: new Animator(PapaChad.SPRITESHEET,
                 new Vector(0, 0),
                 new Vector(PapaChad.SIZE.x, 17),
+                1, 1),
+            Miner: new Animator(Miner.SPRITESHEET,
+                new Vector(0, 0),
+                new Vector(30, 24),
+                1, 1),
+            WIZARD: new Animator("./sprites/wizard.png",
+                new Vector(11, 0),
+                new Vector(26, 43),
                 1, 1)
         };
     };

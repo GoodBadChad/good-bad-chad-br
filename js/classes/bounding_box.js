@@ -9,6 +9,9 @@ class BoundingBox {
      * @param {Vector} size The size of the bounding box.
      */
     constructor(pos, size) {
+        /** The position of the top left corner of the bounding box. */
+        this.pos = pos;
+        /** The size of the bounding box. */
         this.size = size;
         /** The x coordinate of the left boundary of the box. */
         this.left = pos.x;
